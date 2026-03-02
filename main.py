@@ -2,18 +2,8 @@ import os
 from flask import Flask, render_template, url_for
 from jinja2 import TemplateNotFound
 
-# IMPORTANTE:
-# Aqui estamos dizendo ao Flask que:
-# - Templates estão em "Modelos"
-# - Arquivos estáticos estão em "estática"
-app = Flask(
-    __name__,
-    template_folder="Modelos",
-    static_folder="estática",
-    static_url_path="/static"
-)
+app = Flask(__name__)
 
-# Catálogo inicial (vitrine)
 SERVICES = [
     {
         "slug": "ficha-tecnica",
@@ -41,14 +31,12 @@ SERVICES = [
 @app.get("/")
 def home():
     state_label = {"ok": "Disponível", "locked": "Bloqueado", "denied": "Sem permissão"}
-
     services = []
     for s in SERVICES:
-        s2 = dict(s)
-        s2["href"] = url_for("service_page", slug=s["slug"])
-        s2["state_label"] = state_label.get(s["state"], "—")
-        services.append(s2)
-
+        item = dict(s)
+        item["href"] = url_for("service_page", slug=s["slug"])
+        item["state_label"] = state_label.get(s["state"], "—")
+        services.append(item)
     return render_template("home.html", services=services)
 
 @app.get("/planos")
@@ -76,7 +64,7 @@ def service_page(slug):
 
 @app.errorhandler(404)
 def not_found(e):
-    # À prova de erro: se faltar 404.html, não quebra o site
+    # nunca quebra o site por falta de template
     try:
         return render_template("404.html"), 404
     except TemplateNotFound:
