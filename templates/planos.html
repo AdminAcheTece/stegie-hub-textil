@@ -1,1 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Planos | STEGIE{% endblock %}
 
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Planos</h2>
+      <div class="muted">Escolha um pacote para liberar serviços</div>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <h3>Essencial</h3>
+        <p class="muted">Para começar com padrão e organização.</p>
+        <ul class="list">
+          <li>Acesso por login</li>
+          <li>Serviços base</li>
+          <li>Usuários limitados</li>
+        </ul>
+        <div class="card-footer">
+          <span class="muted">Mensal</span>
+          <a class="btn btn-primary" href="#">Assinar</a>
+        </div>
+      </article>
+
+      <article class="card card-highlight">
+        <h3>Profissional</h3>
+        <p class="muted">Para operação completa e controle por função.</p>
+        <ul class="list">
+          <li>Mais serviços</li>
+          <li>Permissões</li>
+          <li>Gestão de equipe</li>
+        </ul>
+        <div class="card-footer">
+          <span class="muted">Mensal</span>
+          <a class="btn btn-primary" href="#">Assinar</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Enterprise</h3>
+        <p class="muted">Para escala e integrações.</p>
+        <ul class="list">
+          <li>Integrações</li>
+          <li>Suporte dedicado</li>
+          <li>Customizações</li>
+        </ul>
+        <div class="card-footer">
+          <span class="muted">Sob consulta</span>
+          <a class="btn btn-ghost" href="mailto:contato@stegie.com.br">Falar com a STEGIE</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+{% endblock %}
