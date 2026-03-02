@@ -416,3 +416,126 @@ input:focus{
   .grid{ grid-template-columns: 1fr; }
   .footer-inner{ flex-direction: column; }
 }
+
+/* =========================
+   MENU STEGIE - estilo cápsula preta (premium)
+   ========================= */
+
+.topnav-wrap{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 14px 0;
+  background: transparent; /* deixa o fundo do site aparecer */
+}
+
+.topnav-pill{
+  background: #0B0B0D;
+  border-radius: 999px;
+  padding: 12px 18px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+}
+
+/* Brand (logo + nome) */
+.topnav-brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: .5px;
+}
+
+.topnav-logo{
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.topnav-brandtext{
+  font-size: 1.15rem;
+}
+
+/* Links do centro */
+.topnav-links{
+  justify-self: center;
+  display: flex;
+  gap: 28px;
+}
+
+.topnav-links a{
+  color: rgba(255,255,255,.88);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.topnav-links a:hover{
+  color: #fff;
+}
+
+/* Botão da direita */
+.topnav-actions{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topnav-cta{
+  background: #fff;
+  color: #0B0B0D;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 10px 22px rgba(0,0,0,.16);
+}
+
+.topnav-cta:hover{
+  filter: brightness(.96);
+}
+
+/* Botão de menu no celular */
+.topnav-toggle{
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.22);
+  color: #fff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* Menu mobile (aparece no celular) */
+.topnav-mobile{
+  margin-top: 10px;
+  background: #0B0B0D;
+  border-radius: 18px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+}
+
+.topnav-mobile a{
+  color: rgba(255,255,255,.92);
+  font-weight: 800;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.topnav-mobile a:hover{
+  background: rgba(255,255,255,.08);
+  color: #fff;
+}
+
+/* Responsivo */
+@media (max-width: 900px){
+  .topnav-links{ display: none; }
+  .topnav-toggle{ display: inline-flex; }
+}
