@@ -1,5 +1,81 @@
 {% extends "base.html" %}
 {% block title %}Home | STEGIE{% endblock %}
+
 {% block content %}
-  <h1>STEGIE Hub Têxtil no ar ✅</h1>
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-card">
+      <div class="kicker">Plataforma • Serviços • Gestão</div>
+      <h1 class="h1">STEGIE Hub Têxtil</h1>
+      <p class="lead">
+        Uma plataforma de serviços e soluções têxteis. Escolha seu pacote, faça login e acesse
+        funcionalidades conforme o que sua empresa contratou.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/login">Entrar</a>
+        <a class="btn btn-ghost" href="#servicos">Ver serviços</a>
+        <a class="btn btn-ghost" href="/planos" id="planos">Planos</a>
+      </div>
+    </div>
+
+    <aside class="hero-side">
+      <p class="side-title">O que você ganha aqui</p>
+      <ul class="side-list">
+        <li>Acesso por pacote (assinatura)</li>
+        <li>Controle de usuários por cliente</li>
+        <li>Permissões por serviço/funcionalidade</li>
+        <li>Área administrativa para sua empresa</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<section class="section" id="servicos">
+  <div class="container">
+    <div class="section-title">
+      <h2>Serviços & Funcionalidades</h2>
+      <div class="muted">Clique para acessar (ou assinar)</div>
+    </div>
+
+    <div class="grid">
+      {% for s in services %}
+        <article class="card">
+          <h3>{{ s.name }}</h3>
+          <p>{{ s.description }}</p>
+
+          <div class="card-footer">
+            {% if s.state == "ok" %}
+              <span class="badge badge-ok">Disponível</span>
+              <a class="btn btn-primary" href="{{ s.href }}">Acessar</a>
+
+            {% elif s.state == "locked" %}
+              <span class="badge badge-lock">Bloqueado</span>
+              <a class="btn btn-ghost" href="/planos">Assinar</a>
+
+            {% else %}
+              <span class="badge badge-deny">Sem permissão</span>
+              <a class="btn btn-ghost" href="/solicitar-acesso">Solicitar</a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="card">
+      <h3>Comece pelo essencial</h3>
+      <p>
+        Defina sua conta, selecione um pacote e habilite usuários da sua equipe com acessos específicos.
+      </p>
+      <div class="card-footer">
+        <span class="muted">Pronto para evoluir por módulos.</span>
+        <a class="btn btn-primary" href="/cadastro">Criar minha conta</a>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
