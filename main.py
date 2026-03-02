@@ -1,7 +1,11 @@
 import os
-from app import create_app
+from flask import Flask
 
-app = create_app()
+app = Flask(__name__)
+
+@app.get("/")
+def home():
+    return "<h1>STEGIE no ar ✅</h1>"
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "10000"))
