@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "base.html" %}
 {% block title %}Home | STEGIE{% endblock %}
 
 {% block content %}
@@ -6,45 +6,25 @@
   <div class="container hero-inner">
     <div class="hero-card">
       <div class="kicker">Plataforma • Serviços • Gestão</div>
-      <h1 class="h1">A casa dos serviços STEGIE</h1>
+      <h1 class="h1">STEGIE Hub Têxtil</h1>
       <p class="lead">
-        Defina seu pacote, faça login e libere funcionalidades conforme sua empresa contrata.
-        Uma plataforma modular — você cresce por etapas, sem bagunça.
+        Defina seu pacote, faça login e acesse funcionalidades conforme sua empresa contratou.
       </p>
 
       <div class="hero-actions">
-        <a class="btn btn-primary" href="{{ url_for('main.login') }}">Entrar</a>
-        <a class="btn btn-ghost" href="{{ url_for('main.services') }}">Ver serviços</a>
-        <a class="btn btn-ghost" href="{{ url_for('main.plans') }}">Planos</a>
-      </div>
-
-      <div class="hero-metrics">
-        <div class="metric">
-          <div class="metric-k">Modular</div>
-          <div class="metric-v">Serviços por pacote</div>
-        </div>
-        <div class="metric">
-          <div class="metric-k">Acesso</div>
-          <div class="metric-v">Usuários por empresa</div>
-        </div>
-        <div class="metric">
-          <div class="metric-k">Controle</div>
-          <div class="metric-v">Permissões por função</div>
-        </div>
+        <a class="btn btn-primary" href="{{ url_for('login') }}">Entrar</a>
+        <a class="btn btn-ghost" href="{{ url_for('planos') }}">Ver planos</a>
+        <a class="btn btn-ghost" href="{{ url_for('servicos') }}">Ver serviços</a>
       </div>
     </div>
 
     <aside class="hero-side">
-      <p class="side-title">Comece com identidade</p>
+      <p class="side-title">Como funciona</p>
       <ul class="side-list">
-        <li>Fonte, cores e componentes padronizados</li>
-        <li>Cards, botões, formulários e tabelas consistentes</li>
-        <li>Páginas prontas para plugar autenticação depois</li>
+        <li>Você escolhe um pacote (plano)</li>
+        <li>Cria usuários para sua empresa</li>
+        <li>Libera acessos por serviço</li>
       </ul>
-      <div class="side-cta">
-        <a class="btn btn-primary" href="{{ url_for('main.register') }}">Criar conta</a>
-        <a class="btn btn-ghost" href="{{ url_for('main.support') }}">Falar com a STEGIE</a>
-      </div>
     </aside>
   </div>
 </section>
@@ -53,7 +33,7 @@
   <div class="container">
     <div class="section-title">
       <h2>Serviços em destaque</h2>
-      <div class="muted">A vitrine do que você entrega</div>
+      <div class="muted">Clique para acessar</div>
     </div>
 
     <div class="grid">
@@ -63,17 +43,17 @@
             <h3>{{ s.name }}</h3>
             <span class="badge badge-{{ s.state }}">{{ s.state_label }}</span>
           </div>
+
           <p>{{ s.description }}</p>
 
           <div class="card-footer">
             <span class="muted">{{ s.tag }}</span>
-
             {% if s.state == "ok" %}
               <a class="btn btn-primary" href="{{ s.href }}">Acessar</a>
-            {% elif s.state == "lock" %}
-              <a class="btn btn-ghost" href="{{ url_for('main.plans') }}">Assinar</a>
+            {% elif s.state == "locked" %}
+              <a class="btn btn-ghost" href="{{ url_for('planos') }}">Assinar</a>
             {% else %}
-              <a class="btn btn-ghost" href="{{ url_for('main.support') }}">Solicitar</a>
+              <a class="btn btn-ghost" href="{{ url_for('login') }}">Entrar</a>
             {% endif %}
           </div>
         </article>
