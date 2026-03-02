@@ -1,26 +1,37 @@
-{% extends "layouts/base.html" %}
-{% block title %}Entrar | STEGIE{% endblock %}
+{% extends "base.html" %}
+{% block title %}Cadastro | STEGIE{% endblock %}
+
 {% block content %}
 <section class="section">
   <div class="container">
     <div class="auth">
-      <div class="auth-card">
-        <h2>Entrar</h2>
-        <p class="muted">Acesse sua conta para visualizar os serviços liberados.</p>
+      <div class="auth-card card">
+        <h3>Criar conta</h3>
+        <p class="muted">Crie sua conta e depois você escolhe o pacote.</p>
 
         <form class="form" method="post">
           <label class="field">
+            <span>Empresa</span>
+            <input type="text" name="company" placeholder="Nome da empresa" required>
+          </label>
+
+          <label class="field">
+            <span>Seu nome</span>
+            <input type="text" name="name" placeholder="Seu nome" required>
+          </label>
+
+          <label class="field">
             <span>Email</span>
-            <input name="email" type="email" placeholder="seu@email.com" required>
+            <input type="email" name="email" placeholder="seu@email.com" required>
           </label>
 
           <label class="field">
             <span>Senha</span>
-            <input name="password" type="password" placeholder="••••••••" required>
+            <input type="password" name="password" placeholder="Crie uma senha" required>
           </label>
 
-          <button class="btn btn-primary" type="submit">Entrar</button>
-          <a class="btn btn-ghost" href="{{ url_for('main.register') }}">Criar conta</a>
+          <button class="btn btn-primary" type="submit">Criar conta</button>
+          <a class="btn btn-ghost" href="{{ url_for('login') }}">Já tenho conta</a>
         </form>
       </div>
     </div>
