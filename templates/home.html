@@ -2,6 +2,8 @@
 {% block title %}Home | STEGIE{% endblock %}
 
 {% block content %}
+
+<!-- HERO -->
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-card">
@@ -14,22 +16,110 @@
       <div class="hero-actions">
         <a class="btn btn-primary" href="{{ url_for('login') }}">Entrar</a>
         <a class="btn btn-ghost" href="{{ url_for('planos') }}">Ver planos</a>
-        <a class="btn btn-ghost" href="{{ url_for('servicos') }}">Ver serviços</a>
+        <a class="btn btn-ghost" href="#servicos-destaque">Ver serviços</a>
       </div>
     </div>
 
     <aside class="hero-side">
-      <p class="side-title">Como funciona</p>
+      <p class="side-title">Visão rápida</p>
       <ul class="side-list">
-        <li>Você escolhe um pacote (plano)</li>
-        <li>Cria usuários para sua empresa</li>
-        <li>Libera acessos por serviço</li>
+        <li>Serviços por pacote (assinatura)</li>
+        <li>Acesso por login</li>
+        <li>Usuários e permissões por empresa</li>
       </ul>
     </aside>
   </div>
 </section>
 
-<section class="section">
+<!-- ÂNCORA 1: O STEGIE -->
+<section id="o-stegie" class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>O STEGIE</h2>
+      <div class="muted">Identidade, padrão e escala</div>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <h3>Plataforma modular</h3>
+        <p>
+          Você ativa os serviços por pacote e evolui por etapas, sem bagunça.
+        </p>
+        <div class="card-footer">
+          <span class="muted">Estrutura sólida</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Foco em resultado</h3>
+        <p>
+          Organização, decisões mais rápidas e execução com clareza.
+        </p>
+        <div class="card-footer">
+          <span class="muted">Mais controle</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Identidade consistente</h3>
+        <p>
+          Páginas, componentes e padrões visuais alinhados com a marca STEGIE.
+        </p>
+        <div class="card-footer">
+          <span class="muted">Experiência premium</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ÂNCORA 2: COMO FUNCIONA -->
+<section id="como-funciona" class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Como Funciona</h2>
+      <div class="muted">3 passos para começar</div>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <h3>1) Escolha um plano</h3>
+        <p>
+          Defina o pacote ideal para sua empresa e quais serviços serão liberados.
+        </p>
+        <div class="card-footer">
+          <span class="muted">Pacotes</span>
+          <a class="btn btn-ghost" href="{{ url_for('planos') }}">Ver planos</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>2) Faça login</h3>
+        <p>
+          Acesse com sua conta. Cada empresa terá seus usuários e permissões.
+        </p>
+        <div class="card-footer">
+          <span class="muted">Conta</span>
+          <a class="btn btn-ghost" href="{{ url_for('login') }}">Entrar</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>3) Use os serviços liberados</h3>
+        <p>
+          Os botões e páginas mudam conforme o que está pago e permitido para o usuário.
+        </p>
+        <div class="card-footer">
+          <span class="muted">Acesso por módulo</span>
+          <a class="btn btn-ghost" href="#servicos-destaque">Ver serviços</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS EM DESTAQUE -->
+<section id="servicos-destaque" class="section">
   <div class="container">
     <div class="section-title">
       <h2>Serviços em destaque</h2>
@@ -48,6 +138,7 @@
 
           <div class="card-footer">
             <span class="muted">{{ s.tag }}</span>
+
             {% if s.state == "ok" %}
               <a class="btn btn-primary" href="{{ s.href }}">Acessar</a>
             {% elif s.state == "locked" %}
@@ -61,4 +152,25 @@
     </div>
   </div>
 </section>
+
+<!-- ÂNCORA 3: FALE CONOSCO -->
+<section id="fale-conosco" class="section">
+  <div class="container">
+    <div class="card">
+      <h3>Fale Conosco</h3>
+      <p class="muted">
+        Quer definir o pacote ideal e estruturar a plataforma por módulos? Fale com a STEGIE.
+      </p>
+
+      <div class="card-footer">
+        <span class="muted">contato@stegie.com.br</span>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="mailto:contato@stegie.com.br">Enviar e-mail</a>
+          <a class="btn btn-ghost" href="{{ url_for('planos') }}">Ver planos</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
