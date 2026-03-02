@@ -1,34 +1,32 @@
-<header class="topnav-wrap">
+<header class="topbar">
   <div class="container">
-    <div class="topnav-pill">
-      <!-- LOGO / MARCA (esquerda) -->
-      <a class="topnav-brand" href="{{ url_for('home') }}">
-        <img class="topnav-logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="STEGIE">
-        <span class="topnav-brandtext">STEGIE</span>
+    <div class="topbar-pill">
+      <!-- ESQUERDA: Logo + Nome -->
+      <a class="topbar-brand" href="{{ url_for('home') }}">
+        <img class="topbar-logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="STEGIE">
+        <span class="topbar-brandname">STEGIE</span>
       </a>
 
-      <!-- LINKS (centro) -->
-      <nav class="topnav-links" aria-label="Menu principal">
-        <a href="{{ url_for('home') }}#sobre">O STEGIE</a>
+      <!-- CENTRO: Links -->
+      <nav class="topbar-links" aria-label="Menu">
+        <a href="{{ url_for('home') }}#o-stegie">O STEGIE</a>
         <a href="{{ url_for('home') }}#como-funciona">Como Funciona</a>
-        <a href="{{ url_for('home') }}#contato">Fale Conosco</a>
+        <a href="{{ url_for('home') }}#fale-conosco">Fale Conosco</a>
       </nav>
 
-      <!-- BOTÃO (direita) -->
-      <div class="topnav-actions">
-        <a class="topnav-cta" href="{{ url_for('login') }}">Conta</a>
-
-        <!-- Botão mobile (aparece no celular) -->
-        <button class="topnav-toggle" type="button" data-nav-toggle aria-label="Abrir menu">☰</button>
+      <!-- DIREITA: Botão branco -->
+      <div class="topbar-actions">
+        <a class="topbar-cta" href="{{ url_for('login') }}">Conta</a>
+        <button class="topbar-toggle" type="button" data-nav-toggle aria-label="Abrir menu">☰</button>
       </div>
     </div>
 
-    <!-- MENU MOBILE (celular) -->
-    <div class="topnav-mobile" data-nav-mobile hidden>
-      <a href="{{ url_for('home') }}#sobre">O STEGIE</a>
+    <!-- MOBILE: (sem Home/Serviços/Planos/Entrar) -->
+    <div class="topbar-mobile" data-nav-mobile hidden>
+      <a href="{{ url_for('home') }}#o-stegie">O STEGIE</a>
       <a href="{{ url_for('home') }}#como-funciona">Como Funciona</a>
-      <a href="{{ url_for('home') }}#contato">Fale Conosco</a>
-      <a href="{{ url_for('login') }}">Conta</a>
+      <a href="{{ url_for('home') }}#fale-conosco">Fale Conosco</a>
+      <a class="topbar-mobile-cta" href="{{ url_for('login') }}">Conta</a>
     </div>
   </div>
 </header>
