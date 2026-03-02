@@ -1,13 +1,19 @@
-# main.py
 import os
-from flask import Flask, render_template
+from flask import Flask
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__, instance_relative_config=True)
 
-@app.get("/")
-def home():
-    return "<h1>STEGIE Hub Têxtil no ar ✅</h1>"
+    # Config básica
+    app.config.from_mapping(
+        SECRET_KEY=os.getenv("SECRET_KEY", "dev"),
+    )
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", "10000"))
-    app.run(host="0.0.0.0", port=port)
+    # Garante que a pasta instance exista
+    os.makedirs(app.instance_path, exist_ok=True)
+
+    # Rotas
+    from .routes import bp
+    app.register_blueprint(bp)
+
+    return app
