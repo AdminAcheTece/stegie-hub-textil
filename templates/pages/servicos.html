@@ -1,1 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Serviços | STEGIE{% endblock %}
 
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Serviços</h2>
+      <div class="muted">Catálogo</div>
+    </div>
+
+    <div class="grid">
+      {% for s in services %}
+      <article class="card">
+        <h3>{{ s.name }}</h3>
+        <p class="muted">{{ s.description }}</p>
+        <div class="card-footer">
+          <span class="muted">{{ s.tag }}</span>
+          <a class="btn btn-primary" href="{{ url_for('service_page', slug=s.slug) }}">Abrir</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
