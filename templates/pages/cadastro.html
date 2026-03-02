@@ -1,1 +1,29 @@
+{% extends "layouts/base.html" %}
+{% block title %}Entrar | STEGIE{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="auth">
+      <div class="auth-card">
+        <h2>Entrar</h2>
+        <p class="muted">Acesse sua conta para visualizar os serviços liberados.</p>
 
+        <form class="form" method="post">
+          <label class="field">
+            <span>Email</span>
+            <input name="email" type="email" placeholder="seu@email.com" required>
+          </label>
+
+          <label class="field">
+            <span>Senha</span>
+            <input name="password" type="password" placeholder="••••••••" required>
+          </label>
+
+          <button class="btn btn-primary" type="submit">Entrar</button>
+          <a class="btn btn-ghost" href="{{ url_for('main.register') }}">Criar conta</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
