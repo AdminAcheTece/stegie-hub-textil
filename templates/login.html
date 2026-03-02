@@ -1,1 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Entrar | STEGIE{% endblock %}
 
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="auth">
+      <div class="auth-card card">
+        <h3>Entrar</h3>
+        <p class="muted">Acesse sua conta.</p>
+
+        <form class="form" method="post">
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" placeholder="seu@email.com" required>
+          </label>
+
+          <label class="field">
+            <span>Senha</span>
+            <input type="password" name="password" placeholder="••••••••" required>
+          </label>
+
+          <button class="btn btn-primary" type="submit">Entrar</button>
+          <a class="btn btn-ghost" href="{{ url_for('cadastro') }}">Criar conta</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
