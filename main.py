@@ -1,9 +1,19 @@
 import os
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, url_for
+from jinja2 import TemplateNotFound
 
-app = Flask(__name__)
+# IMPORTANTE:
+# Aqui estamos dizendo ao Flask que:
+# - Templates estão em "Modelos"
+# - Arquivos estáticos estão em "estática"
+app = Flask(
+    __name__,
+    template_folder="Modelos",
+    static_folder="estática",
+    static_url_path="/static"
+)
 
-# Catálogo inicial de serviços (vitrine)
+# Catálogo inicial (vitrine)
 SERVICES = [
     {
         "slug": "ficha-tecnica",
@@ -28,11 +38,8 @@ SERVICES = [
     },
 ]
 
-
-# HOME (vitrine)
 @app.get("/")
 def home():
-    # só para exibir um rótulo bonito na página
     state_label = {"ok": "Disponível", "locked": "Bloqueado", "denied": "Sem permissão"}
 
     services = []
@@ -44,44 +51,36 @@ def home():
 
     return render_template("home.html", services=services)
 
-
-# PÁGINAS BÁSICAS
 @app.get("/planos")
 def planos():
     return render_template("planos.html")
-
 
 @app.get("/login")
 def login():
     return render_template("login.html")
 
-
 @app.get("/cadastro")
 def cadastro():
     return render_template("cadastro.html")
-
 
 @app.get("/servicos")
 def servicos():
     return render_template("servicos.html", services=SERVICES)
 
-
-# PÁGINA DE CADA SERVIÇO
 @app.get("/servicos/<slug>")
 def service_page(slug):
     service = next((s for s in SERVICES if s["slug"] == slug), None)
     if not service:
         return render_template("404.html"), 404
-
-    # por enquanto: só exibir estado e um texto
     return render_template("service.html", service=service)
 
-
-# ERRO 404 (página não encontrada)
 @app.errorhandler(404)
 def not_found(e):
-    return render_template("404.html"), 404
-
+    # À prova de erro: se faltar 404.html, não quebra o site
+    try:
+        return render_template("404.html"), 404
+    except TemplateNotFound:
+        return "404 - Página não encontrada", 404
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "10000"))
