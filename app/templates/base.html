@@ -7,30 +7,25 @@
   <title>{% block title %}STEGIE{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}Consultoria e Educação Têxtil para Malharias.{% endblock %}" />
 
-  {# Versão de assets para evitar cache agressivo (defina ASSET_VERSION no main.py, se quiser) #}
+  {# Bust de cache (defina ASSET_VERSION no Render/ENV ou no app.config) #}
   {% set asset_v = config.get('ASSET_VERSION', '1') %}
 
-  <!-- SEO/Compartilhamento (opcional, mas ajuda) -->
+  <!-- OG / Social -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="STEGIE" />
-  <meta property="og:title" content="{% block og_title %}{% block title %}STEGIE{% endblock %}{% endblock %}" />
-  <meta property="og:description" content="{% block og_description %}{% block meta_description %}Consultoria e Educação Têxtil para Malharias.{% endblock %}{% endblock %}" />
+  <meta property="og:title" content="{% block og_title %}{{ self.title()|striptags|trim }}{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}{{ self.meta_description()|striptags|trim }}{% endblock %}" />
   {% block og_image %}{% endblock %}
   {% block canonical %}{% endblock %}
-
-  <!-- Ícones (se existirem no seu /static/img) -->
-  <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico', v=asset_v) }}" />
-  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png', v=asset_v) }}" />
 
   <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- CSS (servido pelo endpoint static do Flask) -->
+  <!-- CSS (servido em /static/... pelo Flask) -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v=asset_v) }}">
-
-  {# Fallback (caso seu repo esteja com pasta CSS em maiúsculo). Pode remover quando padronizar tudo em minúsculo. #}
+  {# Fallback caso sua pasta esteja como CSS/ no repo (Linux é case-sensitive) #}
   <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css', v=asset_v) }}">
 
   {% block extra_head %}{% endblock %}
@@ -39,7 +34,6 @@
 <body class="{% block body_class %}{% endblock %}">
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
-  {# Navbar: tenta as duas variações (Linux/Render é case-sensitive). #}
   {% include "Parciais/navbar.html" ignore missing %}
   {% include "parciais/navbar.html" ignore missing %}
 
@@ -57,7 +51,6 @@
     {% block content %}{% endblock %}
   </main>
 
-  {# Footer: tenta as duas variações (Linux/Render é case-sensitive). #}
   {% include "Parciais/footer.html" ignore missing %}
   {% include "parciais/footer.html" ignore missing %}
 
@@ -82,10 +75,9 @@
     </div>
   </noscript>
 
-  <!-- JS (carregar UMA vez; defer para não travar renderização) -->
+  <!-- JS (carregar UMA vez) -->
   <script defer src="{{ url_for('static', filename='js/app.js', v=asset_v) }}"></script>
-
-  {# Fallback (caso seu repo esteja com pasta JS em maiúsculo). Pode remover quando padronizar. #}
+  {# Fallback caso sua pasta esteja como JS/ no repo #}
   <script defer src="{{ url_for('static', filename='JS/app.js', v=asset_v) }}"></script>
 
   {% block scripts %}{% endblock %}
