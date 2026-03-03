@@ -5,12 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stegie</title>
 
-  <!-- Fonte bem clean (próxima do “feeling” do Google) -->
+  <!-- Fonte clean (feeling “Google-like”) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}?v={{ config.get('ASSET_VERSION','1') }}">
+
+  <!-- Overrides somente para a home (preto/branco + fontes maiores) -->
+  <style>
+    /* Paleta preto/branco (sem verde) */
+    .home-clean{
+      --primary: #111;
+      --text: #111;
+      --muted: rgba(0,0,0,.68);
+      --border: rgba(0,0,0,.12);
+      --surface: rgba(255,255,255,.78);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    /* Tudo que “puxava pro verde” vira preto */
+    .home-pill-dot{ background: var(--primary) !important; }
+    .shortcut-ico svg{ color: var(--primary) !important; }
+    .avatar{ background:#111 !important; color:#fff !important; }
+
+    /* Fontes um pouco maiores (sem mexer no “Stegie”) */
+    .shortcut-label{ font-size: 14px !important; }
+    .menu-item{ font-size: 14.5px !important; }
+    .footer-links a{ font-size: 13.5px !important; }
+
+    /* Sprite de ícones nunca aparece */
+    .home-icons-sprite{
+      position:absolute !important;
+      width:0 !important;
+      height:0 !important;
+      overflow:hidden !important;
+      left:-9999px !important;
+      top:-9999px !important;
+    }
+  </style>
 </head>
 
 <body class="home-clean">
@@ -79,13 +112,13 @@
       <!-- Logo estilo Google: “Stegie” (S maiúsculo e resto minúsculo) -->
       <div class="home-brand" aria-label="Stegie">Stegie</div>
 
-      <!-- Barra central (estética / acesso rápido) -->
+      <!-- Barra central (frase do dia) -->
       <div class="home-pill" aria-label="Acesso rápido">
         <span class="home-pill-dot" aria-hidden="true"></span>
-        <span class="home-pill-text">Acesso rápido aos recursos da plataforma</span>
+        <span class="home-pill-text" id="dailyPhrase">Acesso rápido aos recursos da plataforma</span>
       </div>
 
-      <!-- Atalhos (somente os que você manteve) -->
+      <!-- Atalhos -->
       <nav class="home-shortcuts" aria-label="Atalhos">
         {% for s in shortcuts %}
           <a class="shortcut" href="{{ s.href }}" aria-label="{{ s.label }}">
@@ -99,7 +132,7 @@
     </section>
   </main>
 
-  <!-- Rodapé (como o Google: links “expostos” embaixo) -->
+  <!-- Rodapé (links expostos) -->
   <footer class="home-footer" aria-label="Rodapé">
     <div class="footer-row footer-country">Brasil</div>
     <div class="footer-row footer-links">
@@ -111,6 +144,7 @@
 
   <script>
     (function(){
+      // -------- Menu sanduíche --------
       const btn = document.getElementById('menuBtn');
       const menu = document.getElementById('homeMenu');
 
@@ -133,6 +167,36 @@
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeMenu();
       });
+
+      // -------- Frase do dia (15 frases, alterna diariamente) --------
+      const phrases = [
+        "Qualidade que vira padrão — todo dia.",
+        "Eficiência nasce de rotina bem feita.",
+        "Treinar gente é acelerar resultado.",
+        "Processo simples, controle forte.",
+        "Decisão rápida com critério claro.",
+        "Menos variação. Mais previsibilidade.",
+        "Tecnologia a favor do chão de fábrica.",
+        "Dados certos → ajustes certos.",
+        "Produtividade sem perder qualidade.",
+        "Fichas técnicas que guiam a operação.",
+        "Pessoas bem treinadas sustentam o sistema.",
+        "Qualidade é método, não sorte.",
+        "Padronize o essencial. Execute melhor.",
+        "Do problema ao plano: ação objetiva.",
+        "Controle diário, melhoria contínua."
+      ];
+
+      function dayOfYear(d){
+        const start = new Date(d.getFullYear(), 0, 0);
+        return Math.floor((d - start) / 86400000);
+      }
+
+      const el = document.getElementById("dailyPhrase");
+      if (el){
+        const idx = dayOfYear(new Date()) % phrases.length;
+        el.textContent = phrases[idx];
+      }
     })();
   </script>
 </body>
