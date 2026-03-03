@@ -1,0 +1,16 @@
+<section class="section" data-reveal>
+  <div class="container">
+    <h2>{{ method.title }}</h2>
+    {% if method.lead %}<p>{{ method.lead }}</p>{% endif %}
+
+    <div class="method" style="margin-top:18px;">
+      {% for step in method.steps %}
+        <div class="card method__step">
+          <div class="method__num">{{ loop.index }}</div>
+          <h3 style="margin-top:8px;">{{ step.h }}</h3>
+          <p>{{ step.p }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
