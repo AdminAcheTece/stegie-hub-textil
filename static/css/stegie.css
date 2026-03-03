@@ -591,3 +591,17 @@ a:hover{ opacity:.92; }
   left: -9999px;
   top: -9999px;
 }
+
+.home-clean{ margin:0; }
+.home-clean img, 
+.home-clean svg{ max-width: 100%; height: auto; }
+
+.home-clean .shortcut-ico{
+  width: 56px;
+  height: 56px;
+}
+
+.home-clean .shortcut-ico svg{
+  width: 24px;
+  height: 24px;
+}
