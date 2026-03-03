@@ -1,0 +1,15 @@
+<section class="section" data-reveal>
+  <div class="container">
+    <h2>{{ faq.title }}</h2>
+    {% if faq.subtitle %}<p>{{ faq.subtitle }}</p>{% endif %}
+
+    <div class="grid-2" style="margin-top:18px;">
+      {% for item in faq.items %}
+        <div class="card" style="padding:22px;">
+          <h3>{{ item.q }}</h3>
+          <p>{{ item.a }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
