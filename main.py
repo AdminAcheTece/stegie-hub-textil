@@ -45,6 +45,7 @@ if STATIC_DIR is None:
     )
 
 
+
 # -----------------------------
 # Flask app (ESTÁVEL para Render)
 # -----------------------------
@@ -61,6 +62,8 @@ app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 # Versão para bust de cache (opcional, mas útil com Render/CDN)
 app.config["ASSET_VERSION"] = os.environ.get("ASSET_VERSION", "1")
 
+print(f"[BOOT] TEMPLATE_DIRS={TEMPLATE_DIRS}")
+print(f"[BOOT] STATIC_DIR={STATIC_DIR}")
 
 # -----------------------------
 # Jinja loaders (fallback + “parciais opcionais”)
