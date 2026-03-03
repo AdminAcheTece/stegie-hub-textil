@@ -175,8 +175,18 @@ CASES = [
 # -----------------------------
 @app.route("/", endpoint="home")
 def home_page():
-    return render_template("home.html")
-
+    shortcuts = [
+        {"label": "Quem somos", "href": url_for("quem_somos"), "icon": "i-users"},
+        {"label": "Serviços", "href": url_for("servicos"), "icon": "i-tools"},
+        {"label": "Educação", "href": url_for("educacao"), "icon": "i-grid"},
+        {"label": "Fichas técnicas", "href": url_for("fichas_tecnicas"), "icon": "i-file"},
+        {"label": "Conteúdos", "href": url_for("conteudos"), "icon": "i-book"},
+        {"label": "Cases", "href": url_for("cases"), "icon": "i-star"},
+        {"label": "Contato", "href": url_for("contato"), "icon": "i-chat"},
+        {"label": "Política", "href": url_for("politica"), "icon": "i-shield"},
+        {"label": "Termos", "href": url_for("termos"), "icon": "i-shield"},
+    ]
+    return render_template("home_clean.html", shortcuts=shortcuts)
 
 # Opcional: mantém compatibilidade com links antigos /home
 @app.route("/home", endpoint="home_redirect")
