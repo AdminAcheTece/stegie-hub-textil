@@ -1,9 +1,71 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
+from jinja2 import ChoiceLoader, FileSystemLoader
 
-app = Flask(__name__, static_folder="estática", template_folder="Modelos")
+
+# -----------------------------
+# Paths (robustos para Linux/Render)
+# -----------------------------
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+# Onde seus templates realmente estão (pelo seu repo): app/templates/*.html
+CANDIDATE_TEMPLATE_DIRS = [
+    os.path.join(BASE_DIR, "app", "templates"),   # ✅ principal (seu caso)
+    os.path.join(BASE_DIR, "templates"),          # fallback
+    os.path.join(BASE_DIR, "Modelos"),            # fallback (se você ainda tiver)
+]
+TEMPLATE_DIRS = [d for d in CANDIDATE_TEMPLATE_DIRS if os.path.isdir(d)]
+
+# Seus estáticos (pelo seu repo): estática/CSS, estática/IMG, estática/js
+CANDIDATE_STATIC_DIRS = [
+    os.path.join(BASE_DIR, "estática"),           # ✅ principal (seu caso)
+    os.path.join(BASE_DIR, "estatica"),           # fallback sem acento
+    os.path.join(BASE_DIR, "static"),             # fallback padrão Flask
+]
+STATIC_DIR = next((d for d in CANDIDATE_STATIC_DIRS if os.path.isdir(d)), None)
+
+if not TEMPLATE_DIRS:
+    # Se isso acontecer, é porque os templates não estão no repo no caminho esperado.
+    # Mas preferi falhar cedo com mensagem clara.
+    raise RuntimeError(
+        "Nenhum diretório de templates encontrado. Verifique se existe 'app/templates' "
+        "ou 'templates' na raiz do projeto."
+    )
+
+if STATIC_DIR is None:
+    # Não é fatal para renderizar HTML, mas vai quebrar CSS/JS/IMG.
+    # Deixo avisado com erro claro.
+    raise RuntimeError(
+        "Nenhum diretório de arquivos estáticos encontrado. Verifique se existe 'estática/' "
+        "(com acento), 'estatica/' ou 'static/' na raiz do projeto."
+    )
+
+
+# -----------------------------
+# Flask app
+# -----------------------------
+# Usa o primeiro diretório válido como principal
+app = Flask(
+    __name__,
+    static_folder=STATIC_DIR,
+    static_url_path="/static",          # URL limpa (evita /est%C3%A1tica no navegador)
+    template_folder=TEMPLATE_DIRS[0],
+)
+
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 
+
+# Garante que o Jinja também procure nos outros diretórios de template (fallback)
+# Isso elimina TemplateNotFound mesmo se você mover pastas no futuro.
+app.jinja_loader = ChoiceLoader([
+    app.jinja_loader,
+    FileSystemLoader(TEMPLATE_DIRS),
+])
+
+
+# -----------------------------
+# Conteúdo (seu mock)
+# -----------------------------
 ARTIGOS = [
     {
         "slug": "tolerancias-em-malharia",
@@ -14,18 +76,9 @@ ARTIGOS = [
         "date": "2026-03-03",
         "subtitle": "Critérios claros, tolerâncias aplicáveis e a lógica certa para reduzir variação com previsibilidade.",
         "sections": [
-            {
-                "h": "O erro mais comum",
-                "p": "Tolerância não é “punição”. É faixa de controle para decisão rápida e repetível."
-            },
-            {
-                "h": "Como definir sem travar",
-                "p": "Comece pelo objetivo do produto, identifique variáveis críticas e estabeleça faixas realistas por lote."
-            },
-            {
-                "h": "Checklist prático",
-                "p": "Defina: o que medir, quando medir, como registrar e qual ação tomar quando sair do padrão."
-            },
+            {"h": "O erro mais comum", "p": "Tolerância não é “punição”. É faixa de controle para decisão rápida e repetível."},
+            {"h": "Como definir sem travar", "p": "Comece pelo objetivo do produto, identifique variáveis críticas e estabeleça faixas realistas por lote."},
+            {"h": "Checklist prático", "p": "Defina: o que medir, quando medir, como registrar e qual ação tomar quando sair do padrão."},
         ],
     },
     {
@@ -37,14 +90,8 @@ ARTIGOS = [
         "date": "2026-03-03",
         "subtitle": "Se você mede mas não decide, você não controla. Vamos fechar o ciclo.",
         "sections": [
-            {
-                "h": "Onde abre",
-                "p": "Variação nasce em variáveis críticas sem rotina de checagem e sem critério de ação."
-            },
-            {
-                "h": "Como fechar",
-                "p": "Ficha técnica + teste certo + rotina = previsibilidade de decisão e repetição do que funciona."
-            },
+            {"h": "Onde abre", "p": "Variação nasce em variáveis críticas sem rotina de checagem e sem critério de ação."},
+            {"h": "Como fechar", "p": "Ficha técnica + teste certo + rotina = previsibilidade de decisão e repetição do que funciona."},
         ],
     },
     {
@@ -56,14 +103,8 @@ ARTIGOS = [
         "date": "2026-03-03",
         "subtitle": "Quais testes importam por objetivo e como transformar resultado em ação.",
         "sections": [
-            {
-                "h": "Teste certo, hora certa",
-                "p": "Escolha testes por objetivo de produto e risco real do processo."
-            },
-            {
-                "h": "Interpretação",
-                "p": "Resultado sem critério de aceite não decide nada. Critério vem antes do teste."
-            },
+            {"h": "Teste certo, hora certa", "p": "Escolha testes por objetivo de produto e risco real do processo."},
+            {"h": "Interpretação", "p": "Resultado sem critério de aceite não decide nada. Critério vem antes do teste."},
         ],
     },
 ]
@@ -84,6 +125,9 @@ CASES = [
 ]
 
 
+# -----------------------------
+# Rotas
+# -----------------------------
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -121,8 +165,6 @@ def artigo(slug):
     art = next((a for a in ARTIGOS if a["slug"] == slug), None)
     if not art:
         abort(404)
-
-    # Próximos artigos (exclui o atual)
     more = [a for a in ARTIGOS if a["slug"] != slug][:3]
     return render_template("artigo.html", art=art, more=more)
 
@@ -137,8 +179,6 @@ def case(slug):
     c = next((x for x in CASES if x["slug"] == slug), None)
     if not c:
         abort(404)
-
-    # Outros cases (exclui o atual)
     more = [x for x in CASES if x["slug"] != slug][:3]
     return render_template("case.html", case=c, more=more)
 
@@ -146,7 +186,6 @@ def case(slug):
 @app.route("/contato", methods=["GET", "POST"])
 def contato():
     if request.method == "POST":
-        # Aqui você pode salvar no banco.db depois. Por enquanto, só confirma.
         flash("Recebido. Vou analisar seu contexto e retorno com os próximos passos.", "success")
         return redirect(url_for("contato"))
 
@@ -170,5 +209,15 @@ def not_found(_):
     return render_template("404.html"), 404
 
 
+# Healthcheck opcional (ajuda a testar rápido no Render)
+@app.route("/health")
+def health():
+    return "ok", 200
+
+
+# -----------------------------
+# Local run
+# -----------------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", "10000"))
+    app.run(host="0.0.0.0", port=port, debug=True)
