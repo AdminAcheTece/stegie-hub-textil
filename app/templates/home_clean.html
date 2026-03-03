@@ -6,7 +6,7 @@
   <title>STEGIE</title>
 
   <!-- Se seu Flask usa static_folder="estática", isso continua sendo /static/... -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}?v={{ config.get('ASSET_VERSION','1') }}">
 </head>
 
 <body class="home-clean">
