@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}STEGIE | Fichas Técnicas{% endblock %}
+{% block meta_description %}Fichas técnicas de malharia com critérios, tolerâncias, testes e aceite. Ficha que vira padrão de operação, qualidade e decisão.{% endblock %}
+
+{% block content %}
+
+{% set hero = {
+  "eyebrow": "Fichas Técnicas",
+  "h1": "Ficha técnica que vira padrão de operação, qualidade e decisão",
+  "text": "Uma ficha técnica boa reduz variação porque define o que importa: critérios, tolerâncias, testes e aceite. A STEGIE estrutura fichas aplicáveis — para uso real no processo.",
+  "bullets": [
+    "Tolerâncias praticáveis e auditáveis",
+    "Teste conectado à decisão",
+    "Checklist para rotina"
+  ],
+  "primary_label": "Estruturar minha ficha",
+  "primary_href": "/contato?assunto=ficha",
+  "secondary_label": "Encontre sua ficha (rápido)",
+  "secondary_href": "/contato?assunto=encontrar-ficha",
+  "microcopy": "Ficha técnica que funciona na prática — não só no papel."
+} %}
+{% include "Parciais/sections/hero.html" %}
+
+<section class="section section--tight" data-reveal>
+  <div class="container">
+    <div class="card" style="padding:28px;">
+      <h2>Por que a maioria das fichas não funciona</h2>
+      <ul style="margin:12px 0 0 18px; color:var(--muted); line-height:1.9;">
+        <li>Não define critérios de aceite</li>
+        <li>Não traz tolerâncias praticáveis</li>
+        <li>Não conecta teste com decisão</li>
+        <li>Não entra na rotina (ninguém usa)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" data-reveal>
+  <div class="container">
+    <h2>O que entra em uma ficha técnica STEGIE</h2>
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="card" style="padding:22px;">
+        <h3>Estrutura e critérios</h3>
+        <ul style="margin:10px 0 0 18px; color:var(--muted); line-height:1.9;">
+          <li>Identificação do produto e objetivo de uso</li>
+          <li>Estrutura e parâmetros críticos</li>
+          <li>Tolerâncias (o que pode variar e quanto)</li>
+          <li>Critérios de aceite e rejeição</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:22px;">
+        <h3>Teste e rotina</h3>
+        <ul style="margin:10px 0 0 18px; color:var(--muted); line-height:1.9;">
+          <li>Testes recomendados (quando e por quê)</li>
+          <li>Checklist operacional e de inspeção</li>
+          <li>Registro mínimo para rastreabilidade</li>
+          <li>Orientação de uso na rotina</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% set cards = {
+  "title": "Modelos de entrega",
+  "subtitle": "Escolha o ponto de partida.",
+  "grid_class": "grid-3",
+  "items": [
+    {"h":"Estruturação completa (do zero)","p":"Construção de ficha técnica completa, com critérios, tolerâncias e testes.","href":"/contato?assunto=ficha-completa","link":"Quero proposta >"},
+    {"h":"Revisão técnica (tornar aplicável)","p":"Corrigir ficha existente, fechar lacunas e tornar utilizável no processo.","href":"/contato?assunto=revisao-ficha","link":"Quero proposta >"},
+    {"h":"Padronização em lote (família)","p":"Padronizar fichas para uma família de malhas e consolidar critérios.","href":"/contato?assunto=padronizacao-lote","link":"Quero proposta >"}
+  ]
+} %}
+{% include "Parciais/sections/cards.html" %}
+
+{% set method = {
+  "title": "Processo de construção",
+  "lead": "A ficha nasce para ser aplicada: validada com o time e sustentada em rotina.",
+  "steps": [
+    {"h":"Diagnóstico do contexto","p":"Objetivo da malha, uso, risco do processo e pontos de variação."},
+    {"h":"Desenho da ficha técnica","p":"Estrutura, parâmetros críticos, tolerâncias, testes e critérios de aceite."},
+    {"h":"Validação com o time","p":"Ajustes para tornar praticável e garantir leitura comum entre áreas."},
+    {"h":"Implantação e rotina","p":"Checklist, registros mínimos, checagens e auditoria do padrão."}
+  ]
+} %}
+{% include "Parciais/sections/method.html" %}
+
+{% set faq = {
+  "title": "Perguntas frequentes",
+  "subtitle": null,
+  "items": [
+    {"q":"Quanto tempo leva?","a":"Depende do escopo e do volume de produtos. Eu começo por um modelo-base e depois escalo por família."},
+    {"q":"Vocês adaptam por tipo de malha?","a":"Sim. A ficha é construída para o objetivo do produto e o risco real do processo."},
+    {"q":"A ficha inclui tolerâncias e critérios?","a":"Sim. Sem tolerância e sem critério de aceite, não existe decisão técnica consistente."},
+    {"q":"Isso substitui laboratório/qualidade?","a":"Não. A ficha organiza critérios e decisões; o laboratório executa e valida dentro do sistema."},
+    {"q":"Como garantir uso na rotina?","a":"Checklist + treinamento + ritual de checagem. Documento sozinho não sustenta padrão."},
+    {"q":"Pode integrar com MES?","a":"Pode. A lógica de critérios e registros mínimos se encaixa bem com digitalização e rastreabilidade."}
+  ]
+} %}
+{% include "Parciais/sections/faq.html" %}
+
+{% set cta = {
+  "title": "Quer uma ficha técnica que funcione na prática?",
+  "text": "Critérios, tolerâncias, testes e rotina — tudo alinhado para decisão e padrão repetível.",
+  "button": "Estruturar minha ficha",
+  "href": "/contato?assunto=ficha"
+} %}
+{% include "Parciais/sections/cta.html" %}
+
+{% endblock %}
