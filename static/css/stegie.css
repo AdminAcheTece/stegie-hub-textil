@@ -933,3 +933,29 @@ a:hover{ opacity:.92; }
   object-fit: contain;
   display: block;
 }
+
+/* ====== FIX DEFINITIVO: logo não estoura ====== */
+
+/* Se existir regra global "img { width:100%; }", neutraliza só na home */
+.home-clean img{
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+/* Lockup central */
+.home-clean .brand-lockup{
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: min(520px, 86vw);       /* “largura do conjunto” (não deixa ficar gigante) */
+  margin: 0 auto;
+}
+
+/* A logo, de fato, com tamanho limitado */
+.home-clean .brand-lockup > img.brand-logo{
+  width: clamp(170px, 22vw, 320px) !important;  /* controla pela largura */
+  height: auto !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  display: block;
+}
