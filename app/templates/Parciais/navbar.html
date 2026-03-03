@@ -1,0 +1,29 @@
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="{{ url_for('home') }}" aria-label="STEGIE - Início">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <span class="brand-name">STEGIE</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-controls="siteNav" aria-expanded="false" data-nav-toggle>
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+    </button>
+
+    <nav class="nav" id="siteNav" data-nav>
+      <a class="nav-link" href="{{ url_for('quem_somos') }}">Quem somos</a>
+      <a class="nav-link" href="{{ url_for('servicos') }}">Serviços</a>
+      <a class="nav-link" href="{{ url_for('educacao') }}">Educação</a>
+      <a class="nav-link" href="{{ url_for('fichas_tecnicas') }}">Fichas técnicas</a>
+      <a class="nav-link" href="{{ url_for('conteudos') }}">Conteúdos</a>
+      <a class="nav-link" href="{{ url_for('cases') }}">Cases</a>
+      <a class="nav-link" href="{{ url_for('contato') }}">Contato</a>
+
+      <div class="nav-actions">
+        <a class="btn btn-ghost" href="{{ url_for('conteudos') }}">Ver artigos</a>
+        <a class="btn btn-primary" href="{{ url_for('contato') }}">Falar com a Stegie</a>
+      </div>
+    </nav>
+  </div>
+</header>
