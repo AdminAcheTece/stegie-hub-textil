@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}STEGIE | {{ case.title }}{% endblock %}
+{% block meta_description %}{{ case.excerpt }}{% endblock %}
+
+{% block content %}
+
+<section class="section section--tight" data-reveal>
+  <div class="container">
+    <div class="kicker">Case</div>
+    <h1 style="margin-top:10px;">{{ case.title }}</h1>
+    <p>{{ case.excerpt }}</p>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+      <a class="btn btn--primary" href="/contato">Agendar diagnóstico</a>
+      <a class="btn btn--ghost" href="/cases">Voltar para cases</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" data-reveal>
+  <div class="container">
+    <div class="grid-2">
+      {% for s in case.sections %}
+        <div class="card" style="padding:22px;">
+          <h3>{{ s.h }}</h3>
+          <p>{{ s.p }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if more %}
+<section class="section" data-reveal>
+  <div class="container">
+    <h2>Outros cases</h2>
+    <div class="grid-2" style="margin-top:18px;">
+      {% for c in more %}
+        <div class="card ed-card">
+          <h3>{{ c.title }}</h3>
+          <p>{{ c.excerpt }}</p>
+          <a class="ed-card__link" href="/cases/{{ c.slug }}">Ver case ></a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% set cta = {
+  "title": "Quer esse nível de previsibilidade?",
+  "text": "Critérios, ficha técnica e rotina para sustentar padrão no dia a dia.",
+  "button": "Agendar diagnóstico",
+  "href": "/contato"
+} %}
+{% include "Parciais/sections/cta.html" %}
+
+{% endblock %}
