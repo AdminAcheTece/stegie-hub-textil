@@ -52,11 +52,11 @@ if STATIC_DIR is None:
 # DESLIGA static automático do Flask e criaremos nossa rota /static manualmente
 app = Flask(
     __name__,
-    static_folder=None,
-    template_folder=TEMPLATE_DIRS[0],
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static"),
+    static_url_path="/static",
 )
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
-
 
 # -----------------------------
 # Jinja loaders (com fallback + “parciais opcionais”)
