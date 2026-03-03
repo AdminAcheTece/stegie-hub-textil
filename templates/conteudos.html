@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}STEGIE | Conteúdos{% endblock %}
+{% block meta_description %}Conteúdos técnicos para malharias: critérios, testes, ficha técnica e rotina para previsibilidade.{% endblock %}
+
+{% block content %}
+
+{% set hero = {
+  "eyebrow": "Conteúdos",
+  "h1": "Conteúdos técnicos para elevar o padrão da malharia",
+  "text": "Critérios, decisões e prática aplicada — para reduzir variação e melhorar previsibilidade.",
+  "bullets": null,
+  "primary_label": "Ver temas",
+  "primary_href": "#temas",
+  "secondary_label": null,
+  "secondary_href": null,
+  "microcopy": "Autoridade se constrói com método — e clareza."
+} %}
+{% include "Parciais/sections/hero.html" %}
+
+<section class="section section--tight" id="temas" data-reveal>
+  <div class="container">
+    <h2>Temas</h2>
+
+    <div class="chips">
+      <a class="chip {{ 'chip--active' if not tag else '' }}" href="/conteudos">Todos</a>
+      <a class="chip {{ 'chip--active' if tag=='Qualidade' else '' }}" href="/conteudos?tag=Qualidade">Qualidade</a>
+      <a class="chip {{ 'chip--active' if tag=='Processo' else '' }}" href="/conteudos?tag=Processo">Processo</a>
+      <a class="chip {{ 'chip--active' if tag=='Testes' else '' }}" href="/conteudos?tag=Testes">Testes</a>
+    </div>
+
+    {% if artigos and artigos|length > 0 %}
+      <div class="card" style="padding:22px; margin-top:18px;">
+        <div class="kicker">{{ artigos[0].tag }} • {{ artigos[0].reading_time }}</div>
+        <h3 style="margin-top:6px;">{{ artigos[0].title }}</h3>
+        <p>{{ artigos[0].excerpt }}</p>
+        <a class="btn btn--primary" href="/conteudos/{{ artigos[0].slug }}">Ler artigo</a>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px;">
+        {% for a in artigos[1:] %}
+          <div class="card ed-card">
+            <div class="kicker">{{ a.tag }} • {{ a.reading_time }}</div>
+            <h3 style="margin-top:6px;">{{ a.title }}</h3>
+            <p>{{ a.excerpt }}</p>
+            <a class="ed-card__link" href="/conteudos/{{ a.slug }}">Ler artigo ></a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="card" style="padding:22px; margin-top:18px;">
+        <h3>Nenhum conteúdo encontrado</h3>
+        <p>Tente outro tema ou volte para ver todos os artigos.</p>
+        <a class="btn btn--primary" href="/conteudos">Ver todos</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% set cta = {
+  "title": "Quer aplicar isso na sua malharia?",
+  "text": "Descreva seu cenário e eu devolvo um plano inicial claro e executável.",
+  "button": "Agendar diagnóstico",
+  "href": "/contato"
+} %}
+{% include "Parciais/sections/cta.html" %}
+
+{% endblock %}
