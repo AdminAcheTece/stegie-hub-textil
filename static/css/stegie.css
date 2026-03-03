@@ -917,3 +917,19 @@ a:hover{ opacity:.92; }
   display: block;
   image-rendering: auto;
 }
+
+/* Lockup (logo acima do wordmark) */
+.brand-lockup{
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+/* Limite de tamanho: proporcional ao “Stegie” e responsivo */
+.brand-logo{
+  height: clamp(44px, 5vw, 84px);     /* AJUSTE AQUI: tamanho vertical */
+  width: auto;
+  max-width: min(420px, 80vw);        /* evita estourar a tela */
+  object-fit: contain;
+  display: block;
+}
