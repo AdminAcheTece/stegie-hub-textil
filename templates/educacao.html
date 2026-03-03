@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}STEGIE | Educação Têxtil{% endblock %}
+{% block meta_description %}Treinamentos aplicados para malharias: operação, desenvolvimento, qualidade de fios e testes de qualidade da malha.{% endblock %}
+
+{% block content %}
+
+{% set hero = {
+  "eyebrow": "Educação Têxtil",
+  "h1": "Treinamento aplicado para elevar o nível técnico da malharia",
+  "text": "Treinamento bom não é o que informa. É o que muda rotina. As trilhas STEGIE conectam fundamentos, critérios e tomada de decisão — com aplicação imediata no processo.",
+  "bullets": [
+    "Critérios claros para decisão e aceite",
+    "Rotina técnica aplicada ao processo",
+    "Menos retrabalho por interpretação correta"
+  ],
+  "primary_label": "Ver cursos",
+  "primary_href": "#cursos",
+  "secondary_label": "Solicitar turma in-company",
+  "secondary_href": "/contato?assunto=incompany",
+  "microcopy": "Conteúdo técnico, direto e aplicável."
+} %}
+{% include "Parciais/sections/hero.html" %}
+
+<section class="section section--tight" data-reveal>
+  <div class="container">
+    <div class="card" style="padding:28px;">
+      <h2>O que muda depois do treinamento</h2>
+      <ul style="margin:12px 0 0 18px; color:var(--muted); line-height:1.9;">
+        <li>Critérios claros para decisão e aceite</li>
+        <li>Redução de variação por ajuste de variável crítica</li>
+        <li>Rotina de verificação (o que checar e quando checar)</li>
+        <li>Linguagem comum entre operação, qualidade e desenvolvimento</li>
+        <li>Menos retrabalho por interpretação técnica correta</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% set cards = {
+  "title": "Trilhas STEGIE",
+  "subtitle": "Organização premium para elevar nível técnico com consistência.",
+  "grid_class": "grid-3",
+  "items": [
+    {"h":"Operação e Rotina","p":"Para padronizar o dia a dia e reduzir oscilação.","href":"#cursos","link":"Ver cursos >"},
+    {"h":"Desenvolvimento e Produto","p":"Para construir malhas replicáveis e tecnicamente consistentes.","href":"#cursos","link":"Ver cursos >"},
+    {"h":"Qualidade e Critérios","p":"Para definir testes, tolerâncias e tomada de decisão.","href":"#cursos","link":"Ver cursos >"}
+  ]
+} %}
+{% include "Parciais/sections/cards.html" %}
+
+<section class="section" id="cursos" data-reveal>
+  <div class="container">
+    <h2>Cursos</h2>
+    <p>Escolha o curso ou solicite um desenho in-company para sua realidade.</p>
+
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="card ed-card">
+        <h3>Treinamento Operacional em Malharia</h3>
+        <p>Rotina, variáveis críticas e disciplina de execução para estabilidade de processo.</p>
+        <ul style="margin:0 0 0 18px; color:var(--muted); line-height:1.9;">
+          <li>Variáveis que mais abrem variação</li>
+          <li>Checkpoints de controle e checagem</li>
+          <li>Prevenção de defeitos recorrentes</li>
+          <li>Padrão operacional e registro mínimo</li>
+        </ul>
+        <a class="ed-card__link" href="/contato?assunto=treinamento&curso=Treinamento%20Operacional%20em%20Malharia">Quero este treinamento ></a>
+      </div>
+
+      <div class="card ed-card">
+        <h3>Desenvolvimento de Malha</h3>
+        <p>Do objetivo do produto à construção replicável: estrutura, parâmetros e critérios.</p>
+        <ul style="margin:0 0 0 18px; color:var(--muted); line-height:1.9;">
+          <li>Requisito → especificação técnica</li>
+          <li>Impacto das variáveis na malha</li>
+          <li>Critérios de avaliação e validação</li>
+          <li>Padronização do desenvolvimento</li>
+        </ul>
+        <a class="ed-card__link" href="/contato?assunto=treinamento&curso=Desenvolvimento%20de%20Malha">Quero este treinamento ></a>
+      </div>
+
+      <div class="card ed-card">
+        <h3>Padrões de Qualidade de Fios</h3>
+        <p>Como qualidade de fio se traduz em qualidade de malha — e como definir critérios.</p>
+        <ul style="margin:0 0 0 18px; color:var(--muted); line-height:1.9;">
+          <li>Variáveis de fio e seus efeitos</li>
+          <li>Critérios para recebimento e uso</li>
+          <li>Comunicação técnica com fornecedores</li>
+          <li>Prevenção antes do defeito na malha</li>
+        </ul>
+        <a class="ed-card__link" href="/contato?assunto=treinamento&curso=Padr%C3%B5es%20de%20Qualidade%20de%20Fios">Quero este treinamento ></a>
+      </div>
+
+      <div class="card ed-card">
+        <h3>Testes de Qualidade da Malha</h3>
+        <p>Teste certo, no momento certo — com interpretação e decisão objetiva.</p>
+        <ul style="margin:0 0 0 18px; color:var(--muted); line-height:1.9;">
+          <li>Quais testes importam por objetivo</li>
+          <li>Quando testar no fluxo</li>
+          <li>Interpretação e ação</li>
+          <li>Critérios de aceite e tolerâncias</li>
+        </ul>
+        <a class="ed-card__link" href="/contato?assunto=treinamento&curso=Testes%20de%20Qualidade%20da%20Malha">Quero este treinamento ></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% set cards = {
+  "title": "Formatos de entrega",
+  "subtitle": "Escolha o formato ideal para o seu time.",
+  "grid_class": "grid-3",
+  "items": [
+    {"h":"In-company (recomendado)","p":"Treinamento desenhado para seu processo, seus desafios e sua ficha técnica.","href":"/contato?assunto=incompany","link":"Solicitar proposta >"},
+    {"h":"Turma aberta","p":"Para profissionais que querem aprofundar base técnica com aplicação prática.","href":"/contato?assunto=turma-aberta","link":"Entrar na lista >"},
+    {"h":"Mentoria técnica (combinável)","p":"Para sustentar implementação após o treinamento.","href":"/contato?assunto=mentoria","link":"Quero mentoria >"}
+  ]
+} %}
+{% include "Parciais/sections/cards.html" %}
+
+<section class="section" data-reveal>
+  <div class="container">
+    <h2>Para quem é</h2>
+    <div class="card" style="padding:22px;">
+      <p>Para times que precisam decidir melhor e executar com padrão.</p>
+      <ul style="margin:0 0 0 18px; color:var(--muted); line-height:1.9;">
+        <li>Operação / produção</li>
+        <li>Desenvolvimento de produto</li>
+        <li>Qualidade / laboratório</li>
+        <li>Liderança industrial</li>
+        <li>Times que precisam falar a mesma língua técnica</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% set cta = {
+  "title": "Quer elevar o nível técnico do seu time?",
+  "text": "Me diga seu cenário (malharia, produto, variação e objetivo). Eu recomendo a trilha e o formato ideal.",
+  "button": "Solicitar turma in-company",
+  "href": "/contato?assunto=incompany"
+} %}
+{% include "Parciais/sections/cta.html" %}
+
+{% endblock %}
