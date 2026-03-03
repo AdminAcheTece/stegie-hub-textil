@@ -175,18 +175,27 @@ CASES = [
 # -----------------------------
 @app.route("/", endpoint="home")
 def home_page():
+    # Atalhos (ficam na grade)
     shortcuts = [
-        {"label": "Quem somos", "href": url_for("quem_somos"), "icon": "i-users"},
-        {"label": "Serviços", "href": url_for("servicos"), "icon": "i-tools"},
-        {"label": "Educação", "href": url_for("educacao"), "icon": "i-grid"},
+        {"label": "Serviços",        "href": url_for("servicos"),        "icon": "i-wrench"},
+        {"label": "Educação",        "href": url_for("educacao"),        "icon": "i-grad"},
         {"label": "Fichas técnicas", "href": url_for("fichas_tecnicas"), "icon": "i-file"},
-        {"label": "Conteúdos", "href": url_for("conteudos"), "icon": "i-book"},
-        {"label": "Cases", "href": url_for("cases"), "icon": "i-star"},
-        {"label": "Contato", "href": url_for("contato"), "icon": "i-chat"},
-        {"label": "Política", "href": url_for("politica"), "icon": "i-shield"},
-        {"label": "Termos", "href": url_for("termos"), "icon": "i-shield"},
+        {"label": "Conteúdos",       "href": url_for("conteudos"),       "icon": "i-book"},
+        {"label": "Cases",           "href": url_for("cases"),           "icon": "i-briefcase"},
     ]
-    return render_template("home_clean.html", shortcuts=shortcuts)
+
+    # Itens que saíram da grade (menu sanduíche + rodapé)
+    nav_links = [
+        {"label": "Quem somos", "href": url_for("quem_somos")},
+        {"label": "Contato",    "href": url_for("contato")},
+        {"label": "Política",   "href": url_for("politica")},
+        {"label": "Termos",     "href": url_for("termos")},
+    ]
+
+    # “Conta” vira avatar (placeholder); se você já tiver usuário logado, troque pelas iniciais reais
+    account = {"href": url_for("home"), "initials": "V"}  # ex: url_for("login") ou painel
+
+    return render_template("home_clean.html", shortcuts=shortcuts, nav_links=nav_links, account=account)
 
 # Opcional: mantém compatibilidade com links antigos /home
 @app.route("/home", endpoint="home_redirect")
