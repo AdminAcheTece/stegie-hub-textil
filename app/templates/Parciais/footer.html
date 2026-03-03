@@ -1,0 +1,51 @@
+<footer class="footer">
+  <section class="footer-cta">
+    <div class="container footer-cta__inner">
+      <div class="footer-cta__text">
+        <h3 class="footer-cta__title">Quer elevar a previsibilidade do seu processo?</h3>
+        <p class="footer-cta__lead">Consultoria técnica e educação aplicada para malharias — com rotina, critério e resultado.</p>
+      </div>
+      <div class="footer-cta__actions">
+        <a class="btn btn-primary" href="{{ url_for('contato') }}">Fale conosco</a>
+        <a class="btn btn-ghost" href="{{ url_for('servicos') }}">Ver serviços</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container footer-main">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <div class="footer-brand__mark" aria-hidden="true">S</div>
+        <div class="footer-brand__name">STEGIE</div>
+      </div>
+      <p class="footer-text">
+        Consultoria e Educação Têxtil para Malharias.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h4 class="footer-title">Links</h4>
+      <ul class="footer-links">
+        <li><a href="{{ url_for('home') }}">Início</a></li>
+        <li><a href="{{ url_for('quem_somos') }}">Quem somos</a></li>
+        <li><a href="{{ url_for('servicos') }}">Serviços</a></li>
+        <li><a href="{{ url_for('educacao') }}">Educação</a></li>
+        <li><a href="{{ url_for('conteudos') }}">Conteúdos</a></li>
+        <li><a href="{{ url_for('cases') }}">Cases</a></li>
+        <li><a href="{{ url_for('contato') }}">Contato</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4 class="footer-title">Legal</h4>
+      <ul class="footer-links">
+        <li><a href="{{ url_for('politica') }}">Política de Privacidade</a></li>
+        <li><a href="{{ url_for('termos') }}">Termos</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <small class="footer-copy">© STEGIE. Todos os direitos reservados.</small>
+  </div>
+</footer>
