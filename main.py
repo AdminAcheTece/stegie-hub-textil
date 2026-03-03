@@ -76,7 +76,7 @@ app = Flask(
 )
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 
-# Bust de cache
+# Bust de cache (usado no base.html via config.get('ASSET_VERSION'))
 app.config["ASSET_VERSION"] = os.environ.get("ASSET_VERSION", "1")
 
 # Logs de boot (diagnóstico definitivo)
@@ -84,12 +84,8 @@ print(f"[BOOT] BASE_DIR={BASE_DIR}")
 print(f"[BOOT] TEMPLATE_DIRS={TEMPLATE_DIRS}")
 print(f"[BOOT] STATIC_DIR={STATIC_DIR}")
 
-# Checagem real de arquivos que seu base.html usa
-for rel in (
-    "css/stegie.css",
-    "css/style.css",
-    "js/app.js",
-):
+# Checagem real de arquivos que seu site precisa
+for rel in ("css/stegie.css", "css/style.css", "js/app.js"):
     ok, full, size = _check_file(STATIC_DIR, rel)
     if ok:
         print(f"[BOOT] STATIC OK: {rel} -> {full} ({size} bytes)")
@@ -120,14 +116,14 @@ ARTIGOS = [
         "slug": "tolerancias-em-malharia",
         "tag": "Qualidade",
         "title": "Tolerâncias em malharia: como definir sem travar produtividade",
-        "excerpt": "Como construir tolerâncias praticáveis, conectadas a decisão e rotina — sem engessar o processo.",
+        "excerpt": "Como construir tolerâncias praticáveis, conectadas a decisão — sem engessar o processo.",
         "reading_time": "6 min",
         "date": "2026-03-03",
-        "subtitle": "Critérios claros, tolerâncias aplicáveis e a lógica certa para reduzir variação com previsibilidade.",
+        "subtitle": "Critérios claros e tolerâncias aplicáveis para reduzir variação com previsibilidade.",
         "sections": [
-            {"h": "O erro mais comum", "p": "Tolerância não é “punição”. É faixa de controle para decisão rápida e repetível."},
-            {"h": "Como definir sem travar", "p": "Comece pelo objetivo do produto, identifique variáveis críticas e estabeleça faixas realistas por lote."},
-            {"h": "Checklist prático", "p": "Defina: o que medir, quando medir, como registrar e qual ação tomar quando sair do padrão."},
+            {"h": "O erro mais comum", "p": "Tolerância não é punição. É faixa de controle para decisão rápida."},
+            {"h": "Como definir sem travar", "p": "Comece pelo objetivo do produto e feche variáveis críticas por lote."},
+            {"h": "Checklist prático", "p": "Defina: o que medir, quando medir, como registrar e qual ação tomar."},
         ],
     },
     {
@@ -137,10 +133,10 @@ ARTIGOS = [
         "excerpt": "Os pontos que mais geram variação e como fechar o sistema com padrão, ficha e rotina.",
         "reading_time": "7 min",
         "date": "2026-03-03",
-        "subtitle": "Se você mede mas não decide, você não controla. Vamos fechar o ciclo.",
+        "subtitle": "Se você mede mas não decide, você não controla.",
         "sections": [
-            {"h": "Onde abre", "p": "Variação nasce em variáveis críticas sem rotina de checagem e sem critério de ação."},
-            {"h": "Como fechar", "p": "Ficha técnica + teste certo + rotina = previsibilidade de decisão e repetição do que funciona."},
+            {"h": "Onde abre", "p": "Variáveis críticas sem rotina de checagem e sem critério de ação."},
+            {"h": "Como fechar", "p": "Ficha + teste certo + rotina = previsibilidade e repetição do que funciona."},
         ],
     },
     {
@@ -150,10 +146,10 @@ ARTIGOS = [
         "excerpt": "Teste bom é o que orienta decisão. O resto vira custo e ruído.",
         "reading_time": "8 min",
         "date": "2026-03-03",
-        "subtitle": "Quais testes importam por objetivo e como transformar resultado em ação.",
+        "subtitle": "Transforme resultado em decisão com critério antes do teste.",
         "sections": [
-            {"h": "Teste certo, hora certa", "p": "Escolha testes por objetivo de produto e risco real do processo."},
-            {"h": "Interpretação", "p": "Resultado sem critério de aceite não decide nada. Critério vem antes do teste."},
+            {"h": "Teste certo, hora certa", "p": "Escolha testes por objetivo e risco real do processo."},
+            {"h": "Interpretação", "p": "Resultado sem critério de aceite não decide nada."},
         ],
     },
 ]
@@ -168,49 +164,55 @@ CASES = [
             {"h": "Diagnóstico", "p": "Variáveis críticas sem padrão e ausência de critério de aceite."},
             {"h": "Intervenção", "p": "Ficha técnica aplicável, critérios de teste e rotina de verificação."},
             {"h": "Sustentação", "p": "Rituais e auditoria do padrão, ajustes finos e disciplina de registro."},
-            {"h": "Resultado", "p": "Processo mais previsível, menos ruído técnico e decisão mais rápida."},
+            {"h": "Resultado", "p": "Processo previsível, menos ruído técnico e decisão mais rápida."},
         ],
     }
 ]
 
 
 # -----------------------------
-# Rotas
+# Rotas (endpoints EXPLÍCITOS para evitar colisão)
 # -----------------------------
-@app.route("/")
-def home():
+@app.route("/", endpoint="home")
+def home_page():
     return render_template("home.html")
 
 
-@app.route("/quem-somos")
-def quem_somos():
+# Opcional: mantém compatibilidade com links antigos /home
+@app.route("/home", endpoint="home_redirect")
+def home_redirect():
+    return redirect(url_for("home"), code=301)
+
+
+@app.route("/quem-somos", endpoint="quem_somos")
+def quem_somos_page():
     return render_template("quem-somos.html")
 
 
-@app.route("/servicos")
-def servicos():
+@app.route("/servicos", endpoint="servicos")
+def servicos_page():
     return render_template("servicos.html")
 
 
-@app.route("/educacao")
-def educacao():
+@app.route("/educacao", endpoint="educacao")
+def educacao_page():
     return render_template("educacao.html")
 
 
-@app.route("/fichas-tecnicas")
-def fichas_tecnicas():
+@app.route("/fichas-tecnicas", endpoint="fichas_tecnicas")
+def fichas_tecnicas_page():
     return render_template("fichas-tecnicas.html")
 
 
-@app.route("/conteudos")
-def conteudos():
+@app.route("/conteudos", endpoint="conteudos")
+def conteudos_page():
     tag = request.args.get("tag")
     artigos = [a for a in ARTIGOS if (not tag or a["tag"] == tag)]
     return render_template("conteudos.html", artigos=artigos, tag=tag)
 
 
-@app.route("/conteudos/<slug>")
-def artigo(slug):
+@app.route("/conteudos/<slug>", endpoint="artigo")
+def artigo_page(slug):
     art = next((a for a in ARTIGOS if a["slug"] == slug), None)
     if not art:
         abort(404)
@@ -218,13 +220,13 @@ def artigo(slug):
     return render_template("artigo.html", art=art, more=more)
 
 
-@app.route("/cases")
-def cases():
+@app.route("/cases", endpoint="cases")
+def cases_page():
     return render_template("cases.html", cases=CASES)
 
 
-@app.route("/cases/<slug>")
-def case(slug):
+@app.route("/cases/<slug>", endpoint="case")
+def case_page(slug):
     c = next((x for x in CASES if x["slug"] == slug), None)
     if not c:
         abort(404)
@@ -232,8 +234,8 @@ def case(slug):
     return render_template("case.html", case=c, more=more)
 
 
-@app.route("/contato", methods=["GET", "POST"])
-def contato():
+@app.route("/contato", methods=["GET", "POST"], endpoint="contato")
+def contato_page():
     if request.method == "POST":
         flash("Recebido. Vou analisar seu contexto e retorno com os próximos passos.", "success")
         return redirect(url_for("contato"))
@@ -243,13 +245,13 @@ def contato():
     return render_template("contato.html", assunto=assunto, curso=curso)
 
 
-@app.route("/politica-de-privacidade")
-def politica():
+@app.route("/politica-de-privacidade", endpoint="politica")
+def politica_page():
     return render_template("politica-de-privacidade.html")
 
 
-@app.route("/termos")
-def termos():
+@app.route("/termos", endpoint="termos")
+def termos_page():
     return render_template("termos.html")
 
 
@@ -258,24 +260,10 @@ def not_found(_):
     return render_template("404.html"), 404
 
 
-@app.route("/health")
+@app.route("/health", endpoint="health")
 def health():
     return "ok", 200
 
-from flask import render_template, url_for
-
-@app.route("/")
-def home():
-    shortcuts = [
-        {"label": "Serviços", "href": url_for("servicos"), "icon": "i-tools"},
-        {"label": "Funcionalidades", "href": url_for("funcionalidades"), "icon": "i-grid"},
-        {"label": "Planos", "href": url_for("planos"), "icon": "i-credit"},
-        {"label": "Fale conosco", "href": url_for("fale_conosco"), "icon": "i-chat"},
-        {"label": "Quem somos", "href": url_for("quem_somos"), "icon": "i-users"},
-        {"label": "Termos & Políticas", "href": url_for("termos_politicas"), "icon": "i-shield"},
-        {"label": "Conta", "href": url_for("login"), "icon": "i-user"},
-    ]
-    return render_template("home_clean.html", shortcuts=shortcuts)
 
 # -----------------------------
 # Local run (somente dev)
