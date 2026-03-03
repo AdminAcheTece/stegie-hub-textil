@@ -862,3 +862,43 @@ a:hover{ opacity:.92; }
 @media (max-width: 520px){
   .home-shortcuts{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* =========================
+   AJUSTES: preto/branco + fontes maiores (HOME CLEAN)
+   ========================= */
+
+/* força paleta preta nessa página */
+.home-clean{
+  --primary: #111;           /* tudo que era verde vira preto */
+  --text: #111;
+  --muted: rgba(0,0,0,.68);
+  --border: rgba(0,0,0,.12);
+  --surface: rgba(255,255,255,.78);
+}
+
+/* pontinho e ícones em preto */
+.home-pill-dot{ background: var(--primary); }
+.shortcut-ico svg{ color: var(--primary); }
+
+/* avatar preto */
+.avatar{
+  background: #111;
+  color: #fff;
+}
+
+/* links maiores */
+.shortcut-label{
+  font-size: 14px;           /* antes 12px */
+}
+
+.menu-item{
+  font-size: 14.5px;         /* mais legível */
+}
+
+.footer-links a{
+  font-size: 13.5px;
+}
+
+/* opcional: “área clicável” mais confortável */
+.menu-item{ padding: 11px 12px; }
+.footer-links{ gap: 22px; }
