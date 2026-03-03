@@ -1,1 +1,111 @@
+{% extends "base.html" %}
+{% block title %}STEGIE | Agendar Diagnóstico{% endblock %}
+{% block meta_description %}Agende um diagnóstico técnico. Descreva seu cenário e receba um plano inicial claro e executável.{% endblock %}
 
+{% block content %}
+
+<section class="hero" data-reveal>
+  <div class="container hero__grid">
+    <div>
+      <div class="kicker">Contato</div>
+      <h1>Agendar diagnóstico</h1>
+      <p>Descreva seu cenário. Eu retorno com prioridades e um plano inicial executável.</p>
+
+      <div class="card" style="padding:18px; margin-top:16px;">
+        <p style="margin:0;"><strong>Objetivo:</strong> clareza técnica e sequência de execução — sem ruído.</p>
+      </div>
+    </div>
+
+    <div class="hero__media">
+      <div class="hero__glass"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight" data-reveal>
+  <div class="container">
+    <div class="grid-2" style="align-items:start;">
+      <div class="card" style="padding:22px;">
+        <h2 style="font-size:34px;">Formulário</h2>
+        <p class="muted">Conte seu contexto. Eu retorno com os próximos passos.</p>
+
+        <form method="post" action="/contato" style="display:grid; gap:12px; margin-top:12px;">
+          <input type="hidden" name="assunto" value="{{ assunto or '' }}">
+          <input type="hidden" name="curso" value="{{ curso or '' }}">
+
+          <div>
+            <label style="font-weight:800;">Nome</label>
+            <input class="input" name="nome" required>
+          </div>
+
+          <div>
+            <label style="font-weight:800;">Empresa / Malharia</label>
+            <input class="input" name="empresa" required>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label style="font-weight:800;">Cidade</label>
+              <input class="input" name="cidade">
+            </div>
+            <div>
+              <label style="font-weight:800;">Estado</label>
+              <input class="input" name="estado">
+            </div>
+          </div>
+
+          <div>
+            <label style="font-weight:800;">Seu desafio principal</label>
+            <select name="desafio" class="input" required>
+              <option value="">Selecione…</option>
+              <option>Qualidade oscilando</option>
+              <option>Variação de largura/gramatura</option>
+              <option>Fichas técnicas</option>
+              <option>Testes e critérios de aceite</option>
+              <option>Treinamento do time</option>
+              <option>Rotina e sustentação</option>
+              <option>Outro</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-weight:800;">WhatsApp / E-mail</label>
+            <input class="input" name="contato" required>
+          </div>
+
+          <div>
+            <label style="font-weight:800;">Mensagem (opcional)</label>
+            <textarea class="input" name="mensagem" rows="4" placeholder="Se quiser, descreva o cenário com mais detalhes."></textarea>
+          </div>
+
+          <button class="btn btn--primary" type="submit">Enviar e agendar</button>
+          <p class="muted" style="margin:0;">Objetivo, direto e técnico — sem enrolação.</p>
+        </form>
+      </div>
+
+      <div>
+        <div class="card" style="padding:22px;">
+          <h3>O que acontece depois</h3>
+          <ol style="margin:10px 0 0 18px; color:var(--muted); line-height:1.9;">
+            <li>Eu leio seu cenário</li>
+            <li>Retorno com perguntas-chave e prioridades</li>
+            <li>Definimos formato e sequência de execução</li>
+          </ol>
+        </div>
+
+        <div class="card" style="padding:22px; margin-top:14px;">
+          <h3>Atalhos úteis</h3>
+          <p>Se você veio de uma página específica, eu já recebo seu assunto pré-selecionado.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn btn--ghost" href="/contato?assunto=ficha">Fichas técnicas</a>
+            <a class="btn btn--ghost" href="/contato?assunto=incompany">In-company</a>
+            <a class="btn btn--ghost" href="/contato?assunto=agente-tecnico">Agente técnico</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
