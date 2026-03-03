@@ -7,23 +7,41 @@
   <title>{% block title %}STEGIE{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}Consultoria e Educação Têxtil para Malharias.{% endblock %}" />
 
+  {# Versão de assets para evitar cache agressivo (defina ASSET_VERSION no main.py, se quiser) #}
+  {% set asset_v = config.get('ASSET_VERSION', '1') %}
+
+  <!-- SEO/Compartilhamento (opcional, mas ajuda) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="STEGIE" />
+  <meta property="og:title" content="{% block og_title %}{% block title %}STEGIE{% endblock %}{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}{% block meta_description %}Consultoria e Educação Têxtil para Malharias.{% endblock %}{% endblock %}" />
+  {% block og_image %}{% endblock %}
+  {% block canonical %}{% endblock %}
+
+  <!-- Ícones (se existirem no seu /static/img) -->
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico', v=asset_v) }}" />
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png', v=asset_v) }}" />
+
   <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- CSS (servido em /static/... pelo main.py) -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/stegie.css') }}">
+  <!-- CSS (servido pelo endpoint static do Flask) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v=asset_v) }}">
+
+  {# Fallback (caso seu repo esteja com pasta CSS em maiúsculo). Pode remover quando padronizar tudo em minúsculo. #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css', v=asset_v) }}">
+
   {% block extra_head %}{% endblock %}
 </head>
 
-<body>
-  {# 
-    ATENÇÃO (Linux/Render): o nome da pasta/arquivo é case-sensitive.
-    Se a sua pasta no repo for "parciais", então use "parciais/navbar.html".
-    Se for "Parciais", mantenha como está. 
-  #}
-  {% include "Parciais/navbar.html" %}
+<body class="{% block body_class %}{% endblock %}">
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+
+  {# Navbar: tenta as duas variações (Linux/Render é case-sensitive). #}
+  {% include "Parciais/navbar.html" ignore missing %}
+  {% include "parciais/navbar.html" ignore missing %}
 
   <div class="flash-wrap container">
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -35,11 +53,13 @@
     {% endwith %}
   </div>
 
-  <main>
+  <main id="conteudo" role="main">
     {% block content %}{% endblock %}
   </main>
 
-  {% include "Parciais/footer.html" %}
+  {# Footer: tenta as duas variações (Linux/Render é case-sensitive). #}
+  {% include "Parciais/footer.html" ignore missing %}
+  {% include "parciais/footer.html" ignore missing %}
 
   <!-- Modal de vídeo (placeholder) -->
   <div class="modal" id="videoModal" aria-hidden="true">
@@ -49,15 +69,25 @@
       <div class="modal__body">
         <div class="modal__placeholder">
           <h3>Vídeo (2 min)</h3>
-          <p>Quando você tiver o link do YouTube, eu ajusto esse modal para abrir o vídeo automaticamente.</p>
+          <p>Quando você tiver o link do YouTube, ajusto este modal para abrir o vídeo automaticamente.</p>
           <p class="muted">Por enquanto, ele está como placeholder premium.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- JS (servido em /static/... pelo main.py) -->
-  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <noscript>
+    <div class="noscript container">
+      Para melhor experiência, habilite o JavaScript no navegador.
+    </div>
+  </noscript>
+
+  <!-- JS (carregar UMA vez; defer para não travar renderização) -->
+  <script defer src="{{ url_for('static', filename='js/app.js', v=asset_v) }}"></script>
+
+  {# Fallback (caso seu repo esteja com pasta JS em maiúsculo). Pode remover quando padronizar. #}
+  <script defer src="{{ url_for('static', filename='JS/app.js', v=asset_v) }}"></script>
+
   {% block scripts %}{% endblock %}
 </body>
 </html>
