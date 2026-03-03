@@ -34,23 +34,21 @@ def _check_file(base_dir: str, rel_path: str):
 
 # Templates (podem estar em app/templates, templates, Modelos, etc.)
 CANDIDATE_TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, "app", "templates"),   # ✅ comum
-    os.path.join(BASE_DIR, "app", "Modelos"),     # fallback
-    os.path.join(BASE_DIR, "templates"),          # fallback
-    os.path.join(BASE_DIR, "Modelos"),            # fallback
+    os.path.join(BASE_DIR, "app", "templates"),
+    os.path.join(BASE_DIR, "app", "Modelos"),
+    os.path.join(BASE_DIR, "templates"),
+    os.path.join(BASE_DIR, "Modelos"),
 ]
 TEMPLATE_DIRS = [d for d in CANDIDATE_TEMPLATE_DIRS if os.path.isdir(d)]
 
-# Estáticos (podem estar em app/estática, estática, app/static, static, etc.)
+# Estáticos (podem estar em app/static, static, app/estática, estática, etc.)
 CANDIDATE_STATIC_DIRS = [
-    # dentro de app/ (muito comum)
+    os.path.join(BASE_DIR, "app", "static"),
     os.path.join(BASE_DIR, "app", "estática"),
     os.path.join(BASE_DIR, "app", "estatica"),
-    os.path.join(BASE_DIR, "app", "static"),
-    # na raiz
+    os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, "estática"),
     os.path.join(BASE_DIR, "estatica"),
-    os.path.join(BASE_DIR, "static"),
 ]
 STATIC_DIR = _first_existing_dir(CANDIDATE_STATIC_DIRS)
 
@@ -62,16 +60,14 @@ if not TEMPLATE_DIRS:
 
 if STATIC_DIR is None:
     raise RuntimeError(
-        "Nenhum diretório de arquivos estáticos encontrado. Verifique se existe 'app/estática/', "
-        "'estática/' (com acento), 'estatica/' ou 'static/' no projeto."
+        "Nenhum diretório de arquivos estáticos encontrado. Verifique se existe 'app/static', "
+        "'static', 'app/estática', 'estática' (com acento) ou 'estatica'."
     )
 
 
 # -----------------------------
 # Flask app (ESTÁVEL para Render)
 # -----------------------------
-# Usa o static nativo do Flask apontando para a pasta real encontrada (STATIC_DIR)
-# e template_folder apontando para o primeiro diretório válido (TEMPLATE_DIRS[0]).
 app = Flask(
     __name__,
     template_folder=TEMPLATE_DIRS[0],
@@ -80,16 +76,20 @@ app = Flask(
 )
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 
-# Bust de cache (opcional; usado no base.html via config.get('ASSET_VERSION'))
+# Bust de cache
 app.config["ASSET_VERSION"] = os.environ.get("ASSET_VERSION", "1")
 
-# Logs de boot (ajudam MUITO a fechar diagnóstico no Render)
+# Logs de boot (diagnóstico definitivo)
 print(f"[BOOT] BASE_DIR={BASE_DIR}")
 print(f"[BOOT] TEMPLATE_DIRS={TEMPLATE_DIRS}")
 print(f"[BOOT] STATIC_DIR={STATIC_DIR}")
 
-# Verificação objetiva: existe CSS/JS onde o site espera?
-for rel in ("css/style.css", "CSS/style.css", "js/app.js", "JS/app.js"):
+# Checagem real de arquivos que seu base.html usa
+for rel in (
+    "css/stegie.css",
+    "css/style.css",
+    "js/app.js",
+):
     ok, full, size = _check_file(STATIC_DIR, rel)
     if ok:
         print(f"[BOOT] STATIC OK: {rel} -> {full} ({size} bytes)")
@@ -101,13 +101,11 @@ for rel in ("css/style.css", "CSS/style.css", "js/app.js", "JS/app.js"):
 # Jinja loaders (fallback + “parciais opcionais”)
 # -----------------------------
 def optional_partials_loader(name: str):
-    # Se faltar qualquer template dentro de Parciais/, não derruba o site.
     if name.startswith("Parciais/") or name.startswith("parciais/"):
         return ""
     return None
 
 
-# Ordem importa: procura primeiro nos TEMPLATE_DIRS (na ordem), depois aplica loader opcional
 app.jinja_loader = ChoiceLoader([
     FileSystemLoader(TEMPLATE_DIRS),
     FunctionLoader(optional_partials_loader),
