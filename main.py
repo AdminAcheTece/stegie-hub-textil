@@ -14,9 +14,18 @@ ARTIGOS = [
         "date": "2026-03-03",
         "subtitle": "Critérios claros, tolerâncias aplicáveis e a lógica certa para reduzir variação com previsibilidade.",
         "sections": [
-            {"h": "O erro mais comum", "p": "Tolerância não é “punição”. É faixa de controle para decisão rápida e repetível."},
-            {"h": "Como definir sem travar", "p": "Comece pelo objetivo do produto, identifique variáveis críticas e estabeleça faixas realistas por lote."},
-            {"h": "Checklist prático", "p": "Defina: o que medir, quando medir, como registrar e qual ação tomar quando sair do padrão."},
+            {
+                "h": "O erro mais comum",
+                "p": "Tolerância não é “punição”. É faixa de controle para decisão rápida e repetível."
+            },
+            {
+                "h": "Como definir sem travar",
+                "p": "Comece pelo objetivo do produto, identifique variáveis críticas e estabeleça faixas realistas por lote."
+            },
+            {
+                "h": "Checklist prático",
+                "p": "Defina: o que medir, quando medir, como registrar e qual ação tomar quando sair do padrão."
+            },
         ],
     },
     {
@@ -28,8 +37,14 @@ ARTIGOS = [
         "date": "2026-03-03",
         "subtitle": "Se você mede mas não decide, você não controla. Vamos fechar o ciclo.",
         "sections": [
-            {"h": "Onde abre", "p": "Variação nasce em variáveis críticas sem rotina de checagem e sem critério de ação."},
-            {"h": "Como fechar", "p": "Ficha técnica + teste certo + rotina = previsibilidade de decisão e repetição do que funciona."},
+            {
+                "h": "Onde abre",
+                "p": "Variação nasce em variáveis críticas sem rotina de checagem e sem critério de ação."
+            },
+            {
+                "h": "Como fechar",
+                "p": "Ficha técnica + teste certo + rotina = previsibilidade de decisão e repetição do que funciona."
+            },
         ],
     },
     {
@@ -41,8 +56,14 @@ ARTIGOS = [
         "date": "2026-03-03",
         "subtitle": "Quais testes importam por objetivo e como transformar resultado em ação.",
         "sections": [
-            {"h": "Teste certo, hora certa", "p": "Escolha testes por objetivo de produto e risco real do processo."},
-            {"h": "Interpretação", "p": "Resultado sem critério de aceite não decide nada. Critério vem antes do teste."},
+            {
+                "h": "Teste certo, hora certa",
+                "p": "Escolha testes por objetivo de produto e risco real do processo."
+            },
+            {
+                "h": "Interpretação",
+                "p": "Resultado sem critério de aceite não decide nada. Critério vem antes do teste."
+            },
         ],
     },
 ]
@@ -100,7 +121,10 @@ def artigo(slug):
     art = next((a for a in ARTIGOS if a["slug"] == slug), None)
     if not art:
         abort(404)
-    return render_template("artigo.html", art=art)
+
+    # Próximos artigos (exclui o atual)
+    more = [a for a in ARTIGOS if a["slug"] != slug][:3]
+    return render_template("artigo.html", art=art, more=more)
 
 
 @app.route("/cases")
@@ -113,7 +137,10 @@ def case(slug):
     c = next((x for x in CASES if x["slug"] == slug), None)
     if not c:
         abort(404)
-    return render_template("case.html", case=c)
+
+    # Outros cases (exclui o atual)
+    more = [x for x in CASES if x["slug"] != slug][:3]
+    return render_template("case.html", case=c, more=more)
 
 
 @app.route("/contato", methods=["GET", "POST"])
@@ -122,6 +149,7 @@ def contato():
         # Aqui você pode salvar no banco.db depois. Por enquanto, só confirma.
         flash("Recebido. Vou analisar seu contexto e retorno com os próximos passos.", "success")
         return redirect(url_for("contato"))
+
     assunto = request.args.get("assunto", "")
     curso = request.args.get("curso", "")
     return render_template("contato.html", assunto=assunto, curso=curso)
