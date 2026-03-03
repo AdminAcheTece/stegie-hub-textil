@@ -1,26 +1,124 @@
 {% extends "base.html" %}
-{% block title %}Serviços | STEGIE{% endblock %}
+{% block title %}STEGIE | Serviços{% endblock %}
+{% block meta_description %}Serviços STEGIE para malharias: consultoria, fichas técnicas, agente técnico e entregas para padrão e previsibilidade.{% endblock %}
 
 {% block content %}
-<section class="section">
-  <div class="container">
-    <div class="section-title">
-      <h2>Serviços</h2>
-      <div class="muted">Catálogo</div>
-    </div>
 
-    <div class="grid">
-      {% for s in services %}
-      <article class="card">
-        <h3>{{ s.name }}</h3>
-        <p class="muted">{{ s.description }}</p>
-        <div class="card-footer">
-          <span class="muted">{{ s.tag }}</span>
-          <a class="btn btn-primary" href="{{ url_for('service_page', slug=s.slug) }}">Abrir</a>
-        </div>
-      </article>
-      {% endfor %}
+{% set hero = {
+  "eyebrow": "Serviços",
+  "h1": "Padrão técnico para malharias que querem previsibilidade",
+  "text": "A STEGIE entrega consultoria e suporte técnico com foco em execução: critérios de qualidade, ficha técnica, treinamento e sustentação em rotina.",
+  "bullets": [
+    "Critérios claros para aceite e decisão",
+    "Ficha técnica aplicável ao processo",
+    "Rotina de sustentação (checagens e auditoria)"
+  ],
+  "primary_label": "Agendar diagnóstico",
+  "primary_href": "/contato",
+  "secondary_label": "Ver entregas e formatos",
+  "secondary_href": "#entregas",
+  "microcopy": "Plano inicial claro, com prioridades e sequência de execução."
+} %}
+{% include "Parciais/sections/hero.html" %}
+
+<section class="section section--tight" id="entregas" data-reveal>
+  <div class="container">
+    <div class="card" style="padding:28px;">
+      <h2>Entregas que viram padrão</h2>
+      <p>Mais do que diagnóstico, você recebe estrutura para sustentar: definição de critérios, documentação aplicável, treinamento e rotina de verificação. Padrão técnico só existe quando é repetível.</p>
+
+      <ul style="margin:12px 0 0 18px; color:var(--muted); line-height:1.9;">
+        <li>Critérios de qualidade e aceite</li>
+        <li>Ficha técnica aplicável (com tolerâncias e testes)</li>
+        <li>Sequência de execução (passo a passo)</li>
+        <li>Treinamento aplicado ao seu cenário</li>
+        <li>Rotina de sustentação (checagens, auditoria e ajuste fino)</li>
+      </ul>
     </div>
   </div>
 </section>
+
+{% set cards = {
+  "title": "Serviços STEGIE",
+  "subtitle": "Estruturas de entrega para malharias que precisam de padrão e sustentação — não só diagnóstico.",
+  "grid_class": "grid-2",
+  "items": [
+    {
+      "h":"Consultoria Têxtil para Malharia",
+      "p":"Diagnóstico técnico, padronização e sustentação para estabilizar processo e elevar qualidade com consistência.",
+      "href":"/contato?assunto=diagnostico",
+      "link":"Solicitar diagnóstico >"
+    },
+    {
+      "h":"Fichas Técnicas de Malharia",
+      "p":"Ficha técnica como padrão real: orienta operação, inspeção, aceite e decisão técnica.",
+      "href":"/contato?assunto=ficha",
+      "link":"Estruturar minha ficha >"
+    },
+    {
+      "h":"Agente Técnico Têxtil",
+      "p":"Suporte contínuo para reduzir ruído técnico, acelerar decisões e manter o padrão vivo.",
+      "href":"/contato?assunto=agente-tecnico",
+      "link":"Entender o modelo >"
+    },
+    {
+      "h":"Encontre sua Ficha Técnica",
+      "p":"Serviço direto para identificar, construir ou ajustar a ficha técnica ideal para o seu cenário.",
+      "href":"/contato?assunto=encontrar-ficha",
+      "link":"Quero minha ficha >"
+    },
+    {
+      "h":"Educação Têxtil",
+      "p":"Treinamento aplicado para transformar conhecimento técnico em comportamento operacional.",
+      "href":"/educacao",
+      "link":"Ver trilhas >"
+    }
+  ]
+} %}
+{% include "Parciais/sections/cards.html" %}
+
+{% set cards = {
+  "title": "Formatos de atuação",
+  "subtitle": "A escolha do formato depende do seu cenário e do nível de variação atual.",
+  "grid_class": "grid-3",
+  "items": [
+    {"h":"Projeto (início, meio e fim)","p":"Para padronizar um tema específico e deixar sustentação implantada.","href":"/contato?assunto=projeto","link":"Conversar sobre projeto >"},
+    {"h":"Sprint técnico (curto e objetivo)","p":"Para atacar um problema crítico com rapidez e critérios claros.","href":"/contato?assunto=sprint","link":"Conversar sobre sprint >"},
+    {"h":"Acompanhamento (Agente Técnico)","p":"Para manter padrão, evoluir processo e reduzir retrabalho no mês a mês.","href":"/contato?assunto=agente-tecnico","link":"Quero acompanhamento >"}
+  ]
+} %}
+{% include "Parciais/sections/cards.html" %}
+
+<section class="section" data-reveal>
+  <div class="container">
+    <h2>Como começamos</h2>
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="card" style="padding:22px;">
+        <h3>1) Você descreve seu cenário</h3>
+        <p>Qualidade, variação, ficha, testes, treinamento — o que está doendo agora.</p>
+      </div>
+      <div class="card" style="padding:22px;">
+        <h3>2) Eu faço o diagnóstico inicial</h3>
+        <p>Devolvo prioridades, perguntas-chave e uma lógica clara de execução.</p>
+      </div>
+      <div class="card" style="padding:22px;">
+        <h3>3) Definimos formato e sequência</h3>
+        <p>Projeto, sprint ou acompanhamento — e a ordem correta do trabalho.</p>
+      </div>
+      <div class="card" style="padding:22px;">
+        <h3>4) Implementamos padrão e sustentação</h3>
+        <p>Critérios, ficha técnica, treino e rotina para manter o resultado no tempo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% set cta = {
+  "title": "Quer previsibilidade na sua malharia?",
+  "text": "Vamos estruturar critérios, ficha técnica e rotina para estabilizar processo e elevar o padrão.",
+  "button": "Agendar diagnóstico",
+  "href": "/contato"
+} %}
+{% include "Parciais/sections/cta.html" %}
+
 {% endblock %}
