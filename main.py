@@ -7,7 +7,6 @@ from flask import (
     url_for,
     flash,
     abort,
-    send_from_directory,
 )
 from jinja2 import ChoiceLoader, FileSystemLoader, FunctionLoader
 
@@ -17,7 +16,7 @@ from jinja2 import ChoiceLoader, FileSystemLoader, FunctionLoader
 # -----------------------------
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-# Templates (seu repo está em app/templates)
+# Templates (seu repo pode estar em app/templates)
 CANDIDATE_TEMPLATE_DIRS = [
     os.path.join(BASE_DIR, "app", "templates"),   # ✅ principal
     os.path.join(BASE_DIR, "templates"),          # fallback
@@ -25,7 +24,7 @@ CANDIDATE_TEMPLATE_DIRS = [
 ]
 TEMPLATE_DIRS = [d for d in CANDIDATE_TEMPLATE_DIRS if os.path.isdir(d)]
 
-# Estáticos (seu repo: estática/CSS, estática/IMG, estática/js)
+# Estáticos (seu repo pode estar: estática/CSS, estática/IMG, estática/js)
 CANDIDATE_STATIC_DIRS = [
     os.path.join(BASE_DIR, "estática"),           # ✅ principal (com acento)
     os.path.join(BASE_DIR, "estatica"),           # fallback sem acento
@@ -35,8 +34,8 @@ STATIC_DIR = next((d for d in CANDIDATE_STATIC_DIRS if os.path.isdir(d)), None)
 
 if not TEMPLATE_DIRS:
     raise RuntimeError(
-        "Nenhum diretório de templates encontrado. Verifique se existe 'app/templates' "
-        "ou 'templates' na raiz do projeto."
+        "Nenhum diretório de templates encontrado. Verifique se existe 'app/templates', "
+        "'templates' ou 'Modelos' no projeto."
     )
 
 if STATIC_DIR is None:
@@ -47,19 +46,24 @@ if STATIC_DIR is None:
 
 
 # -----------------------------
-# Flask app
+# Flask app (ESTÁVEL para Render)
 # -----------------------------
-# DESLIGA static automático do Flask e criaremos nossa rota /static manualmente
+# Use o static nativo do Flask apontando para a pasta real encontrada (STATIC_DIR)
+# e o template_folder principal como o primeiro encontrado (TEMPLATE_DIRS[0]).
 app = Flask(
     __name__,
-    template_folder=os.path.join(BASE_DIR, "templates"),
-    static_folder=os.path.join(BASE_DIR, "static"),
+    template_folder=TEMPLATE_DIRS[0],
+    static_folder=STATIC_DIR,
     static_url_path="/static",
 )
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 
+# Versão para bust de cache (opcional, mas útil com Render/CDN)
+app.config["ASSET_VERSION"] = os.environ.get("ASSET_VERSION", "1")
+
+
 # -----------------------------
-# Jinja loaders (com fallback + “parciais opcionais”)
+# Jinja loaders (fallback + “parciais opcionais”)
 # -----------------------------
 def optional_partials_loader(name: str):
     # Se faltar qualquer template dentro de Parciais/, não derruba o site.
@@ -67,22 +71,10 @@ def optional_partials_loader(name: str):
         return ""
     return None
 
-
 app.jinja_loader = ChoiceLoader([
-    app.jinja_loader,                 # template_folder principal
-    FileSystemLoader(TEMPLATE_DIRS),   # fallback para outros dirs de template
-    FunctionLoader(optional_partials_loader),
+    FileSystemLoader(TEMPLATE_DIRS),         # procura em todos dirs existentes
+    FunctionLoader(optional_partials_loader) # parciais opcionais
 ])
-
-
-# -----------------------------
-# Static route DEFINITIVA (serve pasta 'estática/' em /static/)
-# -----------------------------
-@app.route("/static/<path:filename>", endpoint="static")
-def static_files(filename: str):
-    # Isso faz url_for('static', filename='CSS/stegie.css') funcionar
-    # e serve exatamente os arquivos que estão em STATIC_DIR.
-    return send_from_directory(STATIC_DIR, filename)
 
 
 # -----------------------------
@@ -237,7 +229,7 @@ def health():
 
 
 # -----------------------------
-# Local run
+# Local run (somente dev)
 # -----------------------------
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "10000"))
