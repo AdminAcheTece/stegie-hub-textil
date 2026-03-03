@@ -1,11 +1,34 @@
-// Menu mobile
+// -----------------------------
+// Menu mobile (suporta 2 padrões):
+// 1) id="navMobile" (toggle display)
+// 2) class=".nav" com botão .nav-toggle (toggle class is-open)
+// -----------------------------
 window.toggleMenu = function () {
-  const el = document.getElementById('navMobile');
-  if (!el) return;
-  el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+  const byId = document.getElementById('navMobile');
+  if (byId) {
+    byId.style.display = (byId.style.display === 'block') ? 'none' : 'block';
+    return;
+  }
+
+  const nav = document.querySelector('.nav');
+  if (!nav) return;
+  nav.classList.toggle('is-open');
 };
 
+// Se existir um botão com class nav-toggle, conecta automaticamente
+document.addEventListener('click', (e) => {
+  const t = e.target;
+  if (!t) return;
+
+  // Clica no botão (ou em algo dentro dele)
+  const toggleBtn = t.closest ? t.closest('.nav-toggle') : null;
+  if (toggleBtn) window.toggleMenu();
+});
+
+
+// -----------------------------
 // Modal
+// -----------------------------
 (function () {
   function setModal(open) {
     const modal = document.getElementById('videoModal');
@@ -18,8 +41,9 @@ window.toggleMenu = function () {
 
   document.addEventListener('click', (e) => {
     const t = e.target;
-    if (t && t.matches && t.matches('[data-open-video]')) setModal(true);
-    if (t && t.matches && t.matches('[data-close-modal]')) setModal(false);
+    if (!t || !t.matches) return;
+    if (t.matches('[data-open-video]')) setModal(true);
+    if (t.matches('[data-close-modal]')) setModal(false);
   });
 
   document.addEventListener('keydown', (e) => {
@@ -27,7 +51,10 @@ window.toggleMenu = function () {
   });
 })();
 
+
+// -----------------------------
 // Scroll reveal
+// -----------------------------
 (function () {
   const els = Array.from(document.querySelectorAll('[data-reveal]'));
   if (!els.length) return;
@@ -40,3 +67,5 @@ window.toggleMenu = function () {
 
   els.forEach(el => io.observe(el));
 })();
+
+console.log("Stegie app.js carregado");
