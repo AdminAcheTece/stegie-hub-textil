@@ -7,7 +7,6 @@
   <title>{% block title %}STEGIE{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}Consultoria e Educação Têxtil para Malharias.{% endblock %}" />
 
-  {# Bust de cache (defina ASSET_VERSION no Render/ENV ou no app.config) #}
   {% set asset_v = config.get('ASSET_VERSION', '1') %}
 
   <!-- OG / Social -->
@@ -23,10 +22,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- CSS (servido em /static/... pelo Flask) -->
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css', v=asset_v) }}">
+  {# Fallback opcional: se você criar/renomear para style.css no futuro #}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v=asset_v) }}">
-  {# Fallback caso sua pasta esteja como CSS/ no repo (Linux é case-sensitive) #}
-  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css', v=asset_v) }}">
 
   {% block extra_head %}{% endblock %}
 </head>
@@ -54,7 +53,7 @@
   {% include "Parciais/footer.html" ignore missing %}
   {% include "parciais/footer.html" ignore missing %}
 
-  <!-- Modal de vídeo (placeholder) -->
+  <!-- Modal de vídeo -->
   <div class="modal" id="videoModal" aria-hidden="true">
     <div class="modal__overlay" data-close-modal></div>
     <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Vídeo STEGIE">
@@ -75,10 +74,8 @@
     </div>
   </noscript>
 
-  <!-- JS (carregar UMA vez) -->
+  <!-- JS (uma vez só) -->
   <script defer src="{{ url_for('static', filename='js/app.js', v=asset_v) }}"></script>
-  {# Fallback caso sua pasta esteja como JS/ no repo #}
-  <script defer src="{{ url_for('static', filename='JS/app.js', v=asset_v) }}"></script>
 
   {% block scripts %}{% endblock %}
 </body>
