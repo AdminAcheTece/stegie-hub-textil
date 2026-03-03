@@ -262,6 +262,20 @@ def not_found(_):
 def health():
     return "ok", 200
 
+from flask import render_template, url_for
+
+@app.route("/")
+def home():
+    shortcuts = [
+        {"label": "Serviços", "href": url_for("servicos"), "icon": "i-tools"},
+        {"label": "Funcionalidades", "href": url_for("funcionalidades"), "icon": "i-grid"},
+        {"label": "Planos", "href": url_for("planos"), "icon": "i-credit"},
+        {"label": "Fale conosco", "href": url_for("fale_conosco"), "icon": "i-chat"},
+        {"label": "Quem somos", "href": url_for("quem_somos"), "icon": "i-users"},
+        {"label": "Termos & Políticas", "href": url_for("termos_politicas"), "icon": "i-shield"},
+        {"label": "Conta", "href": url_for("login"), "icon": "i-user"},
+    ]
+    return render_template("home_clean.html", shortcuts=shortcuts)
 
 # -----------------------------
 # Local run (somente dev)
