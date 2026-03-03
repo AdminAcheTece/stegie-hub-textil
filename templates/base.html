@@ -2,66 +2,55 @@
 <html lang="pt-br">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="STEGIE Hub Têxtil — plataforma de serviços." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>{% block title %}STEGIE Hub Têxtil{% endblock %}</title>
+  <title>{% block title %}STEGIE{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Consultoria e Educação Têxtil para Malharias.{% endblock %}" />
 
-  <!-- Fonte (pode trocar depois) -->
+  <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}">
-  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/stegie.css') }}">
+  {% block extra_head %}{% endblock %}
 </head>
 
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="{{ url_for('home') }}">
-        <span class="brand-mark">
-          <img src="{{ url_for('static', filename='img/logo.png') }}" alt="STEGIE" style="width:20px;height:20px;">
-        </span>
-        <span class="brand-name">STEGIE</span>
-        <span class="brand-sub">Hub Têxtil</span>
-      </a>
+  {% include "Parciais/navbar.html" %}
 
-      <nav class="nav" id="nav">
-        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-        <a class="nav-link" href="{{ url_for('servicos') }}">Serviços</a>
-        <a class="nav-link" href="{{ url_for('planos') }}">Planos</a>
-      </nav>
+  <div class="flash-wrap container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash--{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
 
-      <div class="header-actions">
-        <a class="btn btn-ghost" href="{{ url_for('login') }}">Entrar</a>
-        <a class="btn btn-primary" href="{{ url_for('cadastro') }}">Começar</a>
-        <button class="btn btn-ghost nav-toggle" type="button" data-nav-toggle aria-label="Abrir menu">☰</button>
-      </div>
-    </div>
-
-    <div class="container nav-mobile" data-nav-mobile hidden>
-      <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-      <a class="nav-link" href="{{ url_for('servicos') }}">Serviços</a>
-      <a class="nav-link" href="{{ url_for('planos') }}">Planos</a>
-      <a class="nav-link" href="{{ url_for('login') }}">Entrar</a>
-    </div>
-  </header>
-
-  <main class="page">
+  <main>
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>
-        <div class="footer-title">STEGIE Hub Têxtil</div>
-        <div class="muted">Tecnologia, processos e inteligência aplicada ao têxtil.</div>
-      </div>
-      <div class="footer-links">
-        <a class="nav-link" href="mailto:contato@stegie.com.br">contato@stegie.com.br</a>
+  {% include "Parciais/footer.html" %}
+
+  <!-- Modal de vídeo (placeholder) -->
+  <div class="modal" id="videoModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Vídeo STEGIE">
+      <button class="modal__close" data-close-modal aria-label="Fechar">×</button>
+      <div class="modal__body">
+        <div class="modal__placeholder">
+          <h3>Vídeo (2 min)</h3>
+          <p>Quando você tiver o link do YouTube, eu ajusto esse modal para abrir o vídeo automaticamente.</p>
+          <p class="muted">Por enquanto, ele está como placeholder premium.</p>
+        </div>
       </div>
     </div>
-  </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block scripts %}{% endblock %}
 </body>
 </html>
