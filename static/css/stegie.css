@@ -469,3 +469,115 @@ a:hover{ opacity:.92; }
   .footer-cta__inner{ flex-direction: column; align-items: flex-start; }
   .footer-main{ grid-template-columns: 1fr; }
 }
+
+/* ---------- Home clean (estilo “Google”) ---------- */
+.home-clean{
+  min-height: 100vh;
+  display: flex;
+  background: var(--bg);
+}
+
+.home-wrap{
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 48px 16px;
+}
+
+.home-center{
+  width: min(920px, 100%);
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+.home-brand{
+  font-family: Manrope, Inter, system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-size: clamp(48px, 7vw, 84px);
+  line-height: 1;
+  color: var(--text);
+}
+
+.home-pill{
+  width: min(640px, 100%);
+  height: 54px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+}
+
+.home-pill-dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--primary);
+  opacity: .9;
+}
+
+.home-pill-text{
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.home-shortcuts{
+  width: min(720px, 100%);
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.shortcut{
+  text-decoration: none;
+  color: var(--text);
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+  border-radius: 16px;
+}
+
+.shortcut:hover{
+  background: rgba(0,0,0,0.03);
+}
+
+.shortcut-ico{
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 18px rgba(18,18,18,.06);
+}
+
+.shortcut-ico svg{
+  width: 24px;
+  height: 24px;
+  color: var(--primary);
+}
+
+.shortcut-label{
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Responsivo */
+@media (max-width: 920px){
+  .home-shortcuts{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 520px){
+  .home-shortcuts{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
