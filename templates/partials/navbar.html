@@ -1,32 +1,30 @@
-<header class="topbar">
-  <div class="container">
-    <div class="topbar-pill">
-      <!-- ESQUERDA: Logo + Nome -->
-      <a class="topbar-brand" href="{{ url_for('home') }}">
-        <img class="topbar-logo" src="{{ url_for('static', filename='img/logo_stegie.png') }}" alt="STEGIE">
-        <span class="topbar-brandname">STEGIE</span>
-      </a>
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="/">
+      <img src="{{ url_for('static', filename='IMG/logo.svg') }}" alt="STEGIE" class="nav__logo">
+      <span class="nav__name">STEGIE</span>
+    </a>
 
-      <!-- CENTRO: Links -->
-      <nav class="topbar-links" aria-label="Menu">
-        <a href="{{ url_for('home') }}#o-stegie">O STEGIE</a>
-        <a href="{{ url_for('home') }}#como-funciona">Como Funciona</a>
-        <a href="{{ url_for('home') }}#fale-conosco">Fale Conosco</a>
-      </nav>
+    <nav class="nav__links">
+      <a href="/servicos">Serviços</a>
+      <a href="/educacao">Educação Têxtil</a>
+      <a href="/fichas-tecnicas">Fichas Técnicas</a>
+      <a href="/conteudos">Conteúdos</a>
+      <a href="/quem-somos">Quem Somos</a>
+      <a href="/contato" class="btn btn--primary">Agendar diagnóstico</a>
+    </nav>
 
-      <!-- DIREITA: Botão branco -->
-      <div class="topbar-actions">
-        <a class="topbar-cta" href="{{ url_for('login') }}">Conta</a>
-        <button class="topbar-toggle" type="button" data-nav-toggle aria-label="Abrir menu">☰</button>
-      </div>
-    </div>
+    <button class="nav__burger" aria-label="Abrir menu" onclick="window.toggleMenu?.()">
+      ☰
+    </button>
+  </div>
 
-    <!-- MOBILE: (sem Home/Serviços/Planos/Entrar) -->
-    <div class="topbar-mobile" data-nav-mobile hidden>
-      <a href="{{ url_for('home') }}#o-stegie">O STEGIE</a>
-      <a href="{{ url_for('home') }}#como-funciona">Como Funciona</a>
-      <a href="{{ url_for('home') }}#fale-conosco">Fale Conosco</a>
-      <a class="topbar-mobile-cta" href="{{ url_for('login') }}">Conta</a>
-    </div>
+  <div class="nav__mobile" id="navMobile">
+    <a href="/servicos">Serviços</a>
+    <a href="/educacao">Educação Têxtil</a>
+    <a href="/fichas-tecnicas">Fichas Técnicas</a>
+    <a href="/conteudos">Conteúdos</a>
+    <a href="/quem-somos">Quem Somos</a>
+    <a href="/contato" class="btn btn--primary">Agendar diagnóstico</a>
   </div>
 </header>
