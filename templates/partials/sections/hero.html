@@ -15,8 +15,13 @@
         {% if hero.primary_href and hero.primary_label %}
           <a class="btn btn--primary" href="{{ hero.primary_href }}">{{ hero.primary_label }}</a>
         {% endif %}
+
         {% if hero.secondary_label %}
-          <button class="btn btn--ghost" type="button" data-open-video>{{ hero.secondary_label }}</button>
+          {% if hero.secondary_href %}
+            <a class="btn btn--ghost" href="{{ hero.secondary_href }}">{{ hero.secondary_label }}</a>
+          {% else %}
+            <button class="btn btn--ghost" type="button" data-open-video>{{ hero.secondary_label }}</button>
+          {% endif %}
         {% endif %}
       </div>
 
