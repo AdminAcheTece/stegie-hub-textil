@@ -110,7 +110,16 @@
     <section class="home-center" aria-label="Home Stegie">
 
       <!-- Logo estilo Google: “Stegie” (S maiúsculo e resto minúsculo) -->
-      <div class="home-brand" aria-label="Stegie">Stegie</div>
+      <div class="brand-lockup" aria-label="Marca Stegie">
+        <img
+          class="brand-logo"
+          src="{{ url_for('static', filename='img/logo-stegie.png') }}"
+          alt="Stegie"
+          loading="eager"
+          decoding="async"
+        />
+        <div class="home-brand" aria-label="Stegie">Stegie</div>
+      </div>
 
       <!-- Barra central (frase do dia) -->
       <div class="home-pill" aria-label="Acesso rápido">
