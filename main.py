@@ -62,6 +62,18 @@ app.jinja_loader = ChoiceLoader([
     FileSystemLoader(TEMPLATE_DIRS),
 ])
 
+from jinja2 import FunctionLoader
+
+def optional_partials_loader(name: str):
+    # Só “perdoa” faltas dentro de Parciais/ (não afeta base.html/home.html)
+    if name.startswith("Parciais/") or name.startswith("parciais/"):
+        return ""
+    return None
+
+app.jinja_loader = ChoiceLoader([
+    app.jinja_loader,
+    FunctionLoader(optional_partials_loader),
+])
 
 # -----------------------------
 # Conteúdo (seu mock)
