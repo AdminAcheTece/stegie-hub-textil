@@ -456,6 +456,14 @@ a:hover{ opacity:.92; }
   gap: 8px;
 }
 
+/* hard reset do summary (evita “caixinhas brancas” do navegador) */
+.st-dd > summary{
+  background: transparent;
+  border: 0;
+  padding: 0; /* o padding vem do .st-fnav__item */
+}
+.st-dd > summary:focus{ outline: none; }
+
 /* =========================================================
    NAVBAR LEGADO (claro) — mantenho por segurança
    ========================================================= */
