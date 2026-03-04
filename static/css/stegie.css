@@ -638,7 +638,7 @@ a:hover{ opacity:.92; }
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: inherit; /* <<< igual ao /servicos */
 }
 
 /* Evita qualquer regra global de imagem “estourar” a logo */
@@ -756,32 +756,35 @@ a:hover{ opacity:.92; }
   gap: 18px;
 }
 
-/* Brand lockup: centralização perfeita */
+/* Brand lockup: centralização perfeita (mais próximo ainda) */
 .home-clean .brand-lockup{
   display: grid;
   justify-items: center;
   text-align: center;
-  gap: 6px !important; /* mais próximo do wordmark */
+  gap: 2px !important; /* <<< aproxima ao máximo sem colar */
 }
 
-/* Logo 30% maior (mantida) + centralizada */
+/* Logo: compensa “respiro” do PNG (se houver margem interna) */
 .home-clean .brand-logo{
   height: clamp(78px, 8.5vw, 156px) !important;
   width: auto !important;
   max-width: 420px !important;
   object-fit: contain !important;
   display: block !important;
-  margin: 0 auto !important; /* força central */
-  transform: translateX(0px) !important; /* ajuste fino caso PNG tenha respiro desigual */
+  margin: 0 auto !important;
+
+  /* <<< ajuste fino para “entrar” no respiro inferior do PNG */
+  transform: translateY(6px) !important;
 }
 
-/* Wordmark */
+/* Wordmark: reduz altura “fantasma” do texto */
 .home-brand{
   font-weight: 700;
   letter-spacing: -0.04em;
   font-size: clamp(46px, 7vw, 82px);
-  line-height: 1;
+  line-height: .92; /* <<< reduz espaço vertical */
   color: #111;
+  margin-top: -2px; /* <<< aproxima mais 1 passo */
 }
 
 /* Barra central */
@@ -809,13 +812,18 @@ a:hover{ opacity:.92; }
 }
 
 /* Frase central, itálico e com aspas */
+.home-pill{
+  justify-content: center; /* garante centralização sem o ponto */
+  gap: 0;
+}
+
 .home-pill-text{
   color: rgba(0,0,0,.60);
   font-weight: 600;
-  font-size: 14px;
-  font-style: italic;
-  text-align: center;
+  font-size: 17px; /* ~ +20% */
+  font-style: italic; /* opcional, deixa mais premium */
 }
+
 .home-pill-text::before{ content: "“"; }
 .home-pill-text::after{ content: "”"; }
 
