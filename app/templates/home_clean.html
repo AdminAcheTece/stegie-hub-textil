@@ -8,7 +8,7 @@
   <!-- Fonte clean (feeling “Google-like”) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Inter base + Manrope para o wordmark Stegie (mantém o que você já curtiu) -->
+  <!-- Inter base + Manrope (wordmark) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}?v={{ config.get('ASSET_VERSION','1') }}">
@@ -26,11 +26,6 @@
       color: #111;
     }
 
-    /* Tudo que “puxava pro verde” vira preto */
-    .home-pill-dot{ background: var(--primary) !important; }
-    .shortcut-ico svg{ color: var(--primary) !important; }
-    .avatar{ background:#111 !important; color:#fff !important; }
-
     /* Fontes um pouco maiores (sem mexer no “Stegie”) */
     .shortcut-label{ font-size: 14px !important; }
     .menu-item{ font-size: 14.5px !important; }
@@ -46,24 +41,58 @@
       top:-9999px !important;
     }
 
-    /* ===== AJUSTE PEDIDO =====
-       Subir um pouco o conteúdo central para caber a tagline abaixo */
-    .home-wrap{
-      padding-top: 80px !important;    /* era maior via CSS geral */
-      padding-bottom: 120px !important;/* mantém espaço pro rodapé fixo */
+    /* 1) Aumentar distância: logo/wordmark ↔ campo da frase */
+    .brand-lockup{
+      margin-bottom: 18px !important;
     }
-    .home-center{ gap: 14px !important; }
 
-    /* Tagline abaixo dos ícones */
+    /* 2) Remover o “ponto” do campo da frase (não renderiza e não reserva espaço) */
+    .home-pill-dot{ display:none !important; }
+
+    /* Reforça centralização do texto no pill */
+    .home-pill{
+      justify-content: center !important;
+      gap: 0 !important;
+      padding: 0 18px !important;
+    }
+
+    /* 3) Tagline 2x e em verde oliva (igual vibe Falconi) */
     .home-tagline{
-      margin-top: 8px;
+      margin-top: 10px;
       text-align: center;
-      font-size: 18px;
+      font-size: clamp(22px, 2.4vw, 36px); /* ~2x */
       font-weight: 500;
       letter-spacing: -0.01em;
-      line-height: 1.35;
-      color: #111;
+      line-height: 1.18;
+      color: var(--fnav-accent, #5b5a1b);
     }
+
+    /* 4) Menu (dropdown) preto com fonte branca */
+    .home-clean .menu{
+      background: #0b0b0b !important;
+      border-color: rgba(255,255,255,.18) !important;
+      box-shadow: 0 18px 40px rgba(0,0,0,.22) !important;
+    }
+    .home-clean .menu-item{
+      color: rgba(255,255,255,.92) !important;
+      font-weight: 500 !important;
+    }
+    .home-clean .menu-item:hover{
+      background: rgba(255,255,255,.08) !important;
+    }
+
+    /* Avatar mantém preto, mas texto já é branco */
+    .avatar{ background:#111 !important; color:#fff !important; }
+
+    /* Ícones em preto (sem verde) */
+    .shortcut-ico svg{ color: #111 !important; }
+
+    /* (mantém o “subir um pouco” do conteúdo para caber a tagline) */
+    .home-wrap{
+      padding-top: 80px !important;
+      padding-bottom: 120px !important;
+    }
+    .home-center{ gap: 14px !important; }
   </style>
 </head>
 
@@ -144,7 +173,6 @@
 
       <!-- Barra central (frase do dia) -->
       <div class="home-pill" aria-label="Acesso rápido">
-        <span class="home-pill-dot" aria-hidden="true"></span>
         <span class="home-pill-text" id="dailyPhrase">Acesso rápido aos recursos da plataforma</span>
       </div>
 
@@ -160,7 +188,7 @@
         {% endfor %}
       </nav>
 
-      <!-- ===== NOVA FRASE (TAGLINE) ABAIXO DA WORdMARK E DOS LINKS ===== -->
+      <!-- Tagline -->
       <div class="home-tagline" aria-label="Tagline">
         Stegie - Inteligência para performance em malharia.
       </div>
