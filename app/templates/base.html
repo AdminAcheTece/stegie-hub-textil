@@ -32,57 +32,51 @@
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
   <!-- =========================================================
-       BARRA SUPERIOR (ST-FNAV) - Mega menu estilo Falconi
-       Itens: Soluções | Conteúdos | Sobre
+       BARRA SUPERIOR (MEGA MENU estilo Falconi)
+       Topo preto fixo + painel branco abaixo (sem overlay escuro)
        ========================================================= -->
-  <header class="st-fnav" id="st-fnav">
-    <!-- IMPORTANTE:
-         seu CSS usa .st-fnav__inner / .st-fnav__brand / .st-fnav__word / etc.
-         Aqui estava com classes fnav-* (não casava com o CSS) e o mobile/menu ficava “quebrado”.
-         Abaixo está padronizado com st-fnav__*.
-    -->
+  <header class="st-fnav" id="stTopbar">
     <div class="st-fnav__inner">
       <!-- Brand -->
-      <a class="st-fnav__brand" href="{{ url_for('home') }}" aria-label="Voltar para a Home">
-        <!-- Ajuste o caminho do arquivo se necessário (IMG vs img) -->
+      <a class="st-brand st-fnav__brand" href="{{ url_for('home') }}" aria-label="Voltar para a Home">
         <img class="st-fnav__logo" src="{{ url_for('static', filename='IMG/logo-stegie-branca.png') }}?v={{ asset_v }}" alt="Stegie" />
-        <span class="st-fnav__word">Stegie</span>
+        <span class="st-brand__word st-fnav__word">Stegie</span>
       </a>
 
       <!-- Links (desktop) -->
-      <nav class="st-fnav__menu" aria-label="Menu principal">
-        <button class="st-fnav__item" type="button"
-                data-fnav-trigger="solucoes"
+      <nav class="st-fnav__nav st-fnav__menu" aria-label="Menu principal">
+        <button class="st-fnav__link st-fnav__item" type="button"
+                data-mega-trigger="solucoes"
                 aria-expanded="false"
-                aria-controls="fnav-panel-solucoes">
-          Soluções <span class="st-fnav__caret" aria-hidden="true"></span>
+                aria-controls="mega-solucoes">
+          Soluções <span class="st-fnav__chev st-fnav__caret" aria-hidden="true">▾</span>
         </button>
 
-        <button class="st-fnav__item" type="button"
-                data-fnav-trigger="conteudos"
+        <button class="st-fnav__link st-fnav__item" type="button"
+                data-mega-trigger="conteudos"
                 aria-expanded="false"
-                aria-controls="fnav-panel-conteudos">
-          Conteúdos <span class="st-fnav__caret" aria-hidden="true"></span>
+                aria-controls="mega-conteudos">
+          Conteúdos <span class="st-fnav__chev st-fnav__caret" aria-hidden="true">▾</span>
         </button>
 
-        <button class="st-fnav__item" type="button"
-                data-fnav-trigger="sobre"
+        <button class="st-fnav__link st-fnav__item" type="button"
+                data-mega-trigger="sobre"
                 aria-expanded="false"
-                aria-controls="fnav-panel-sobre">
-          Sobre <span class="st-fnav__caret" aria-hidden="true"></span>
+                aria-controls="mega-sobre">
+          Sobre <span class="st-fnav__chev st-fnav__caret" aria-hidden="true">▾</span>
         </button>
       </nav>
 
       <!-- Ações à direita -->
-      <div class="st-fnav__right">
-        <a class="st-fnav__icon" href="{{ url_for('contato') }}" aria-label="Fale conosco">
-          <!-- ícone simples (opcional); se não quiser, pode remover o svg -->
+      <div class="st-fnav__actions st-fnav__right">
+        <a class="st-iconbtn st-fnav__icon" href="{{ url_for('contato') }}" aria-label="Fale conosco">
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+                  fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
           </svg>
         </a>
 
-        <!-- Burger (mobile) – seu CSS controla a exibição -->
+        <!-- Burger (mobile) -->
         <button class="st-fnav__burger" type="button"
                 aria-label="Abrir menu"
                 aria-expanded="false"
@@ -92,97 +86,102 @@
       </div>
     </div>
 
+    <!-- (Opcional) faixa/acento abaixo do topo, se teu CSS usa -->
     <div class="st-fnav__accent" aria-hidden="true"></div>
 
-    <!-- Mobile menu (fica oculto por padrão; JS abre com .is-open e removendo hidden) -->
+    <!-- Mobile menu -->
     <div class="st-fnav__mobile" id="st-fnav-mobile" hidden>
       <a href="{{ url_for('servicos') }}">Soluções</a>
       <a href="{{ url_for('conteudos') }}">Conteúdos</a>
       <a href="{{ url_for('quem_somos') }}">Sobre</a>
       <a href="{{ url_for('contato') }}">Contato</a>
     </div>
-
-    <!-- Painéis (mega menu) -->
-    <div class="fnav-panels" aria-hidden="true">
-      <!-- SOLUÇÕES -->
-      <section class="fnav-panel" id="fnav-panel-solucoes" data-fnav-panel="solucoes">
-        <div class="fnav-panel-inner fnav-grid-2">
-          <a class="fnav-item" href="/consultoria-textil">
-            <div class="fnav-item-title">Consultoria Têxtil (Malharia)</div>
-            <div class="fnav-item-desc">Diagnóstico → plano de ação → rotina de sustentação.</div>
-          </a>
-
-          <a class="fnav-item" href="/educacao-textil">
-            <div class="fnav-item-title">Educação Têxtil</div>
-            <div class="fnav-item-desc">Trilhas: Operação • Desenvolvimento • Qualidade • Testes.</div>
-          </a>
-
-          <a class="fnav-item" href="/desenvolvimento-fichas-tecnicas">
-            <div class="fnav-item-title">Desenvolvimento de Fichas Técnicas</div>
-            <div class="fnav-item-desc">O que medir, como tolerar, como auditar — padrão real.</div>
-          </a>
-
-          <a class="fnav-item" href="/agente-tecnico-textil">
-            <div class="fnav-item-title">Agente Técnico Têxtil</div>
-            <div class="fnav-item-desc">Apoio técnico contínuo: decisão rápida, menos retrabalho.</div>
-          </a>
-
-          <a class="fnav-item" href="/encontre-sua-ficha-tecnica">
-            <div class="fnav-item-title">Encontre sua Ficha Técnica de Malharia</div>
-            <div class="fnav-item-desc">Direto ao ponto: localizar/estruturar a ficha ideal para seu contexto.</div>
-          </a>
-        </div>
-      </section>
-
-      <!-- CONTEÚDOS -->
-      <section class="fnav-panel" id="fnav-panel-conteudos" data-fnav-panel="conteudos">
-        <div class="fnav-panel-inner fnav-grid-3">
-          <div class="fnav-col">
-            <div class="fnav-col-title">Redes Sociais</div>
-            <a class="fnav-sub" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
-            <a class="fnav-sub" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
-          </div>
-
-          <div class="fnav-col">
-            <div class="fnav-col-title">Temas</div>
-            <a class="fnav-sub" href="/conteudos/temas/qualidade">Qualidade</a>
-            <a class="fnav-sub" href="/conteudos/temas/processos">Processos</a>
-            <a class="fnav-sub" href="/conteudos/temas/testes">Testes</a>
-            <a class="fnav-sub" href="/conteudos/temas/tecnologias">Tecnologias</a>
-          </div>
-
-          <div class="fnav-col">
-            <div class="fnav-col-title">Biblioteca de Conteúdos</div>
-            <a class="fnav-sub" href="/biblioteca/fibras">Fibras</a>
-            <a class="fnav-sub" href="/biblioteca/fios">Fios</a>
-            <a class="fnav-sub" href="/biblioteca/malharia">Malharia</a>
-            <a class="fnav-sub" href="/biblioteca/tecelagem-plana">Tecelagem Plana</a>
-            <a class="fnav-sub" href="/biblioteca/beneficiamento">Beneficiamento</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- SOBRE -->
-      <section class="fnav-panel" id="fnav-panel-sobre" data-fnav-panel="sobre">
-        <div class="fnav-panel-inner fnav-grid-2">
-          <a class="fnav-item fnav-item-simple" href="/quem-somos">
-            <div class="fnav-item-title">Quem somos</div>
-          </a>
-
-          <a class="fnav-item fnav-item-simple" href="/o-que-fazemos">
-            <div class="fnav-item-title">O que fazemos</div>
-          </a>
-
-          <a class="fnav-item fnav-item-simple" href="/fale-conosco">
-            <div class="fnav-item-title">Fale conosco</div>
-          </a>
-        </div>
-      </section>
-    </div>
-
-    <!-- Overlay (clique fora fecha) -->
-    <div class="fnav-overlay" data-fnav-overlay></div>
   </header>
+
+  <!-- =========================================================
+       MEGA MENUS (painéis brancos)
+       ========================================================= -->
+
+  <!-- SOLUÇÕES -->
+  <section class="st-mega" id="mega-solucoes" aria-label="Soluções">
+    <div class="st-mega__inner">
+      <div class="st-mega__col">
+        <a class="st-mega__item" href="/consultoria-textil">
+          Consultoria Têxtil (Malharia)
+        </a>
+        <a class="st-mega__item" href="/consultoria-textil">
+          Diagnóstico → plano de ação → rotina de sustentação.
+        </a>
+        <a class="st-mega__item" href="/educacao-textil">
+          Educação Têxtil
+        </a>
+        <a class="st-mega__item" href="/educacao-textil">
+          Trilhas: Operação • Desenvolvimento • Qualidade • Testes.
+        </a>
+        <a class="st-mega__item" href="/desenvolvimento-fichas-tecnicas">
+          Desenvolvimento de Fichas Técnicas
+        </a>
+      </div>
+
+      <div class="st-mega__col">
+        <a class="st-mega__item" href="/desenvolvimento-fichas-tecnicas">
+          O que medir, como tolerar, como auditar — padrão real.
+        </a>
+        <a class="st-mega__item" href="/agente-tecnico-textil">
+          Agente Técnico Têxtil
+        </a>
+        <a class="st-mega__item" href="/agente-tecnico-textil">
+          Apoio técnico contínuo: decisão rápida, menos retrabalho.
+        </a>
+        <a class="st-mega__item" href="/encontre-sua-ficha-tecnica">
+          Encontre sua Ficha Técnica de Malharia
+        </a>
+        <a class="st-mega__item" href="/encontre-sua-ficha-tecnica">
+          Direto ao ponto: localizar/estruturar a ficha ideal para seu contexto.
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEÚDOS -->
+  <section class="st-mega" id="mega-conteudos" aria-label="Conteúdos">
+    <div class="st-mega__inner">
+      <div class="st-mega__col">
+        <a class="st-mega__item" href="/biblioteca">Biblioteca de Conteúdos</a>
+        <a class="st-mega__item" href="/conteudos/temas/qualidade">Qualidade</a>
+        <a class="st-mega__item" href="/conteudos/temas/processos">Processos</a>
+        <a class="st-mega__item" href="/conteudos/temas/testes">Testes</a>
+        <a class="st-mega__item" href="/conteudos/temas/tecnologias">Tecnologias</a>
+      </div>
+
+      <div class="st-mega__col">
+        <a class="st-mega__item" href="/biblioteca/fibras">Fibras</a>
+        <a class="st-mega__item" href="/biblioteca/fios">Fios</a>
+        <a class="st-mega__item" href="/biblioteca/malharia">Malharia</a>
+        <a class="st-mega__item" href="/biblioteca/tecelagem-plana">Tecelagem Plana</a>
+        <a class="st-mega__item" href="/biblioteca/beneficiamento">Beneficiamento</a>
+        <div class="st-mega__spacer"></div>
+        <a class="st-mega__item" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a class="st-mega__item" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="st-mega" id="mega-sobre" aria-label="Sobre">
+    <div class="st-mega__inner">
+      <div class="st-mega__col">
+        <a class="st-mega__item" href="/quem-somos">Quem somos</a>
+        <a class="st-mega__item" href="/o-que-fazemos">O que fazemos</a>
+        <a class="st-mega__item" href="/fale-conosco">Fale conosco</a>
+      </div>
+
+      <div class="st-mega__col">
+        <a class="st-mega__item" href="/sustentabilidade">Desenvolvimento Sustentável</a>
+        <a class="st-mega__item" href="/trabalhe-conosco">Trabalhe Conosco</a>
+      </div>
+    </div>
+  </section>
 
   <div class="flash-wrap container">
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -222,13 +221,16 @@
   </noscript>
 
   <!-- JS -->
-  <script defer src="{{ url_for('static', filename='js/fnav.js') }}?v={{ asset_v }}"></script>
+  <!-- (1) Mega menu Falconi-style (novo) -->
+  <script defer src="{{ url_for('static', filename='js/st-mega.js') }}?v={{ asset_v }}"></script>
+
+  <!-- (2) Seu app.js (mantém o resto do site) -->
   <script defer src="{{ url_for('static', filename='js/app.js') }}?v={{ asset_v }}"></script>
 
-  <!-- Fix definitivo do burger/mobile (não depende do fnav.js) -->
+  <!-- Fix do burger/mobile -->
   <script>
     (function () {
-      const root = document.getElementById("st-fnav");
+      const root = document.getElementById("stTopbar");
       if (!root) return;
 
       const burger = root.querySelector(".st-fnav__burger");
