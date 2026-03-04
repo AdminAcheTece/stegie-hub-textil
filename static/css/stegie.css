@@ -1,6 +1,8 @@
 /* =========================================================
    STEGIE.CSS (LIMPO / CONSOLIDADO)
    Paleta: preto/branco + fundo claro
+   Regra de tipografia: leve/delicada (como referência Falconi)
+   EXCEÇÃO: wordmark "Stegie" (Manrope)
    + NAV estilo Falconi (st-fnav)
    ========================================================= */
 
@@ -38,25 +40,41 @@
    =========================== */
 *{ box-sizing:border-box; }
 html,body{ margin:0; padding:0; }
+
 body{
-  font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  /* Fonte base do site (leve/delicada) */
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 400;
   background: var(--bg);
   color: var(--text);
+
+  /* “delicadeza/nitidez” */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* âncoras (#entregas) não ficam escondidas pelo sticky header */
 [id]{ scroll-margin-top: 92px; }
 
 h1,h2,h3{
-  font-family: Manrope, Inter, system-ui, sans-serif;
+  /* Títulos também usam a fonte base (não Manrope) para manter padrão “delicado” */
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   letter-spacing: -0.02em;
   margin:0 0 12px 0;
+  font-weight: 600; /* firme sem ficar “grosso” */
 }
 h1{ font-size: clamp(40px, 4.6vw, 68px); line-height:1.05; }
 h2{ font-size: clamp(28px, 3vw, 44px); line-height:1.15; }
 h3{ font-size: clamp(20px, 2vw, 30px); line-height:1.2; }
 
-p{ color: var(--muted); font-size: 18px; line-height:1.7; margin: 0 0 16px 0; }
+p{
+  color: var(--muted);
+  font-size: 18px;
+  line-height:1.7;
+  margin: 0 0 16px 0;
+  font-weight: 400;
+}
 a{ color: inherit; text-decoration:none; }
 a:hover{ opacity:.92; }
 
@@ -85,7 +103,9 @@ a:hover{ opacity:.92; }
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: transparent;
-  font-weight: 700;
+
+  /* mais delicado */
+  font-weight: 600; /* antes 700 */
   cursor: pointer;
   transition: transform .12s ease, background .12s ease, border-color .12s ease, opacity .12s ease;
 }
@@ -107,6 +127,8 @@ a:hover{ opacity:.92; }
   border-radius: 14px;
   padding: 12px 12px;
   font-size: 16px;
+  font-family: inherit;
+  font-weight: 400;
 }
 .input:focus, select:focus, textarea:focus{
   outline: 3px solid var(--focus);
@@ -123,6 +145,7 @@ a:hover{ opacity:.92; }
   text-transform: uppercase;
   letter-spacing: .12em;
   margin-bottom: 14px;
+  font-weight: 500;
 }
 
 /* Skip link (acessibilidade) */
@@ -140,7 +163,6 @@ a:hover{ opacity:.92; }
 
 /* =========================================================
    NAVBAR — ESTILO FALCONI (st-fnav) | PREMIUM CLEAN
-   (use com Parciais/navbar.html usando: .st-fnav__logo + .st-fnav__word)
    ========================================================= */
 
 .st-fnav{
@@ -148,6 +170,9 @@ a:hover{ opacity:.92; }
   top: 0;
   z-index: 9999;
   background: var(--fnav-bg);
+
+  /* Logo branca: compensar respiro do PNG */
+  --st-brand-logo-h: 66px;
 }
 
 /* altura e espaçamento geral */
@@ -167,13 +192,8 @@ a:hover{ opacity:.92; }
   color: var(--fnav-fg);
   display: inline-flex;
   align-items: center;
-  gap: 12px; /* logo ao lado do nome */
+  gap: 12px;
   white-space: nowrap;
-}
-
-/* Logo branca: compensar respiro do PNG para bater com a altura VISUAL do wordmark */
-.st-fnav{
-  --st-brand-logo-h: 66px; /* <<< valor “cravado” para seu PNG (mesma altura visual do Stegie) */
 }
 
 .st-fnav__logo{
@@ -182,14 +202,14 @@ a:hover{ opacity:.92; }
   display: block;
 }
 
-/* (opcional) em telas menores, reduz um pouco pra manter proporção do header */
+/* (opcional) em telas menores, reduz um pouco */
 @media (max-width: 980px){
   .st-fnav{ --st-brand-logo-h: 58px; }
 }
 
-/* Wordmark: manter fonte da marca */
+/* Wordmark: manter fonte da marca (EXCEÇÃO) */
 .st-fnav__word{
-  font-family: Manrope, "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   font-weight: 800;
   font-size: 42px;
   letter-spacing: -0.8px;
@@ -200,20 +220,18 @@ a:hover{ opacity:.92; }
 .st-fnav__menu{
   display: flex;
   align-items: center;
-  gap: 26px;       /* mais “premium”, menos espaçado */
+  gap: 26px;
   flex: 1;
   margin-left: 10px;
 }
 
-/* Itens do menu: -30% e mais leve */
+/* Itens do menu: leves/delicados */
 .st-fnav__item{
   color: var(--fnav-fg);
   text-decoration: none;
-
-  /* fonte mais clean */
-  font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 600;       /* menos “grosseiro” */
-  font-size: 13px;        /* <<< -30% (18px -> 13px) */
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 500;       /* antes 600/700 */
+  font-size: 13px;
   letter-spacing: .12px;
 
   opacity: .98;
@@ -285,15 +303,15 @@ a:hover{ opacity:.92; }
   background: var(--fnav-line);
 }
 
-/* Idioma: acompanha redução e fica mais clean */
+/* Idioma: mais clean */
 .st-fnav__lang{
   border: 0;
   background: transparent;
   color: var(--fnav-fg);
   cursor: pointer;
 
-  font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 700;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600;
   font-size: 12px;
   letter-spacing: .2px;
 
@@ -345,8 +363,8 @@ a:hover{ opacity:.92; }
   color: var(--fnav-fg);
   text-decoration:none;
 
-  font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 650;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 500;
   font-size: 15px;
 
   border-radius: 12px;
@@ -389,7 +407,7 @@ a:hover{ opacity:.92; }
   display:grid;
   place-items:center;
   font-family: Manrope, Inter, sans-serif;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: -0.02em;
   color: #fff;
   background: var(--primary);
@@ -398,7 +416,7 @@ a:hover{ opacity:.92; }
 }
 .brand-name{
   font-family: Manrope, Inter, sans-serif;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: -0.02em;
 }
 .nav{
@@ -407,7 +425,8 @@ a:hover{ opacity:.92; }
   gap: 14px;
 }
 .nav-link{
-  font-weight: 800;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600; /* antes 800 */
   color: var(--text);
   padding: 10px 10px;
   border-radius: 12px;
@@ -449,7 +468,7 @@ a:hover{ opacity:.92; }
   align-items: center;
 }
 .hero__bullets{ margin: 16px 0 0 0; padding:0; list-style:none; }
-.hero__bullets li{ margin: 8px 0; color: var(--muted); }
+.hero__bullets li{ margin: 8px 0; color: var(--muted); font-weight: 400; }
 .hero__media{
   height: 420px;
   border-radius: var(--radius-lg);
@@ -488,7 +507,7 @@ a:hover{ opacity:.92; }
   transition: transform .18s ease, box-shadow .18s ease;
 }
 .ed-card:hover{ transform: translateY(-3px); box-shadow: 0 18px 44px rgba(18,18,18,.08); }
-.ed-card__link{ font-weight:800; color: var(--muted); }
+.ed-card__link{ font-weight: 600; color: var(--muted); }
 
 /* METHOD */
 .method{
@@ -497,7 +516,11 @@ a:hover{ opacity:.92; }
   gap: 14px;
 }
 .method__step{ padding: 18px; }
-.method__num{ font-family: Manrope; font-weight: 800; color: var(--primary); }
+.method__num{
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600; /* antes 800 */
+  color: var(--primary);
+}
 
 /* CHIPS */
 .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
@@ -506,7 +529,7 @@ a:hover{ opacity:.92; }
   border: 1px solid var(--border);
   border-radius: 999px;
   background: rgba(255,255,255,.6);
-  font-weight: 700;
+  font-weight: 500; /* antes 700 */
 }
 .chip--active{ border-color: var(--primary); color: var(--primary); }
 
@@ -518,7 +541,7 @@ a:hover{ opacity:.92; }
   border-radius: 14px;
   padding: 12px 14px;
   margin-bottom: 10px;
-  font-weight: 700;
+  font-weight: 600; /* antes 700 */
 }
 .flash--success{ border-color: rgba(0,0,0,.22); }
 
@@ -574,8 +597,8 @@ a:hover{ opacity:.92; }
 }
 .footer-cta__title{
   margin:0 0 8px 0;
-  font-family: Manrope, Inter, sans-serif;
-  font-weight: 900;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600; /* antes 900 */
   letter-spacing: -0.02em;
 }
 .footer-cta__lead{ margin:0; max-width: 64ch; }
@@ -600,19 +623,19 @@ a:hover{ opacity:.92; }
   display:grid;
   place-items:center;
   font-family: Manrope, Inter, sans-serif;
-  font-weight: 900;
+  font-weight: 800; /* antes 900 */
   color:#fff;
   background: var(--primary);
   box-shadow: 0 10px 22px rgba(18,18,18,.08);
 }
 .footer-brand__name{
   font-family: Manrope, Inter, sans-serif;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: -0.02em;
 }
 .footer-title{
-  font-family: Manrope, Inter, sans-serif;
-  font-weight: 900;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600; /* antes 900 */
   margin: 0 0 12px 0;
 }
 
@@ -625,7 +648,7 @@ a:hover{ opacity:.92; }
   display:block;
   padding: 8px 0;
   color: var(--text);
-  font-weight: 800;
+  font-weight: 500; /* antes 800 */
 }
 .footer-links a:hover{ opacity: .88; }
 
@@ -636,7 +659,7 @@ a:hover{ opacity:.92; }
   border-top: 1px solid var(--border);
   color: var(--muted);
 }
-.footer-copy{ font-weight: 700; }
+.footer-copy{ font-weight: 500; /* antes 700 */ }
 
 /* =========================================================
    HOME CLEAN (estilo Google) — CONSOLIDADO
@@ -647,7 +670,7 @@ a:hover{ opacity:.92; }
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: inherit; /* <<< igual ao /servicos */
+  font-family: inherit; /* igual ao site */
 }
 
 /* Evita qualquer regra global de imagem “estourar” a logo */
@@ -713,7 +736,7 @@ a:hover{ opacity:.92; }
   display: grid;
   place-items: center;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600; /* mais delicado */
   letter-spacing: .02em;
   box-shadow: 0 10px 22px rgba(0,0,0,.08);
 }
@@ -745,7 +768,7 @@ a:hover{ opacity:.92; }
   border-radius: 10px;
   text-decoration: none;
   color: #111;
-  font-weight: 600;
+  font-weight: 500;  /* mais delicado */
   font-size: 14.5px;
 }
 .menu-item:hover{ background: rgba(0,0,0,.04); }
@@ -765,15 +788,15 @@ a:hover{ opacity:.92; }
   gap: 18px;
 }
 
-/* Brand lockup: centralização perfeita (mais próximo ainda) */
+/* Brand lockup: centralização perfeita */
 .home-clean .brand-lockup{
   display: grid;
   justify-items: center;
   text-align: center;
-  gap: 2px !important; /* <<< aproxima ao máximo sem colar */
+  gap: 2px !important;
 }
 
-/* Logo: compensa “respiro” do PNG (se houver margem interna) */
+/* Logo */
 .home-clean .brand-logo{
   height: clamp(78px, 8.5vw, 156px) !important;
   width: auto !important;
@@ -781,19 +804,18 @@ a:hover{ opacity:.92; }
   object-fit: contain !important;
   display: block !important;
   margin: 0 auto !important;
-
-  /* <<< ajuste fino para “entrar” no respiro inferior do PNG */
   transform: translateY(6px) !important;
 }
 
-/* Wordmark: reduz altura “fantasma” do texto */
+/* Wordmark "Stegie" (EXCEÇÃO: mantém Manrope) */
 .home-brand{
-  font-weight: 700;
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 800;
   letter-spacing: -0.04em;
   font-size: clamp(46px, 7vw, 82px);
-  line-height: .92; /* <<< reduz espaço vertical */
+  line-height: .92;
   color: #111;
-  margin-top: -2px; /* <<< aproxima mais 1 passo */
+  margin-top: -2px;
 }
 
 /* Barra central */
@@ -806,9 +828,9 @@ a:hover{ opacity:.92; }
   box-shadow: 0 14px 28px rgba(0,0,0,.06);
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
   padding: 0 18px;
-  justify-content: center; /* centraliza conteúdo no campo */
+  position: relative; /* para o dot absoluto */
 }
 
 .home-pill-dot{
@@ -817,22 +839,19 @@ a:hover{ opacity:.92; }
   border-radius: 999px;
   background: #111;
   opacity: .9;
-  flex: 0 0 auto;
+  position: absolute;
+  left: 18px;
 }
 
-/* Frase central, itálico e com aspas */
-.home-pill{
-  justify-content: center; /* garante centralização sem o ponto */
-  gap: 0;
-}
-
+/* Frase: central, itálico, delicada, com aspas */
 .home-pill-text{
   color: rgba(0,0,0,.60);
-  font-weight: 600;
-  font-size: 17px; /* ~ +20% */
-  font-style: italic; /* opcional, deixa mais premium */
+  font-weight: 400;     /* mais fino */
+  font-size: 17px;
+  font-style: italic;
+  text-align: center;
+  letter-spacing: .1px;
 }
-
 .home-pill-text::before{ content: "“"; }
 .home-pill-text::after{ content: "”"; }
 
@@ -874,7 +893,7 @@ a:hover{ opacity:.92; }
 
 .shortcut-label{
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500; /* delicado */
   color: rgba(0,0,0,.62);
   text-align: center;
   line-height: 1.2;
@@ -903,12 +922,12 @@ a:hover{ opacity:.92; }
 
 .footer-country{
   color: rgba(0,0,0,.62);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 12px;
   padding-bottom: 8px;
 }
 
-/* >>> CORREÇÃO: escopo para não sobrescrever o footer do site */
+/* >>> escopo para não sobrescrever o footer do site */
 .home-footer .footer-links{
   display:flex;
   gap: 22px;
@@ -917,7 +936,7 @@ a:hover{ opacity:.92; }
 .home-footer .footer-links a{
   text-decoration: none;
   color: rgba(0,0,0,.62);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 13.5px;
   padding: 0;
 }
@@ -971,4 +990,239 @@ a:hover{ opacity:.92; }
 }
 @media (max-width: 520px){
   .home-shortcuts{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* =========================================================
+   ST-FNAV (Mega menu estilo Falconi)
+   ========================================================= */
+
+:root{
+  --fnav-h: 74px;
+  --fnav-bg: #0b0b0b;
+  --fnav-fg: #ffffff;
+  --fnav-accent: #8bdc00; /* ajuste fino do “verde Falconi” */
+  --fnav-panel-bg: #ffffff;
+  --fnav-panel-border: rgba(0,0,0,.08);
+  --fnav-shadow: 0 18px 50px rgba(0,0,0,.18);
+}
+
+.st-fnav{
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  background: var(--fnav-bg);
+  color: var(--fnav-fg);
+}
+
+.fnav-inner{
+  height: var(--fnav-h);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 0 18px;
+}
+
+.fnav-brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.fnav-wordmark{
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.fnav-links{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+
+.fnav-link{
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,.92);
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: .01em;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fnav-link:hover{
+  color: #fff;
+  background: rgba(255,255,255,.06);
+}
+
+.st-fnav[data-open="1"] .fnav-link.is-active{
+  color: var(--fnav-accent);
+}
+
+.fnav-caret{
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  margin-top: -2px;
+  opacity: .9;
+}
+
+.fnav-actions{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fnav-icon{
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.92);
+  text-decoration: none;
+  background: rgba(255,255,255,.06);
+}
+
+.fnav-icon:hover{
+  background: rgba(255,255,255,.10);
+  color: #fff;
+}
+
+/* Painéis */
+.fnav-panels{
+  position: relative;
+}
+
+.fnav-panel{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  transform: translateY(0);
+  background: var(--fnav-panel-bg);
+  border-top: 1px solid var(--fnav-panel-border);
+  box-shadow: var(--fnav-shadow);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.st-fnav[data-open="1"] .fnav-panel.is-open{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.fnav-panel-inner{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 26px 18px 30px;
+}
+
+.fnav-grid-2{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.fnav-grid-3{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.fnav-item{
+  display: block;
+  padding: 14px 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #111;
+  border: 1px solid rgba(0,0,0,.06);
+  background: #fff;
+}
+
+.fnav-item:hover{
+  border-color: rgba(0,0,0,.12);
+  transform: translateY(-1px);
+}
+
+.fnav-item-title{
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.fnav-item-desc{
+  margin-top: 6px;
+  color: rgba(0,0,0,.62);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.fnav-item-simple .fnav-item-desc{ display:none; }
+
+/* Colunas do Conteúdos */
+.fnav-col-title{
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+.fnav-sub{
+  display: block;
+  padding: 8px 0;
+  color: rgba(0,0,0,.78);
+  text-decoration: none;
+}
+
+.fnav-sub:hover{
+  color: #111;
+  text-decoration: underline;
+}
+
+/* Overlay */
+.fnav-overlay{
+  position: fixed;
+  inset: var(--fnav-h) 0 0 0;
+  background: rgba(0,0,0,.16);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.st-fnav[data-open="1"] .fnav-overlay{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Responsivo */
+@media (max-width: 860px){
+  .fnav-inner{
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+  }
+  .fnav-links{
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  .fnav-wordmark{ font-size: 28px; }
+  .fnav-grid-2{ grid-template-columns: 1fr; }
+  .fnav-grid-3{ grid-template-columns: 1fr; gap: 16px; }
 }
