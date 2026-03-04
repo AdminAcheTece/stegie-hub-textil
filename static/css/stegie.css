@@ -1470,3 +1470,19 @@ a:hover{ opacity:.92; }
   width: auto;
   object-fit: contain;
 }
+
+/* Faixa abaixo do topo: discreta e consistente */
+:root{
+  --stegie-olive: #7B7424; /* seu oliva premium */
+}
+
+/* Troca a faixa grossa/neon por uma linha elegante */
+.st-fnav__accent{
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(123,116,36,0),
+    rgba(123,116,36,.85),
+    rgba(123,116,36,0)
+  );
+}
