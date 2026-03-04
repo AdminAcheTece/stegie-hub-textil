@@ -729,11 +729,11 @@ a:hover{ opacity:.92; }
   gap: 12px;
 }
 
-/* LOGO (controle por ALTURA) */
+/* Logo 30% maior */
 .home-clean .brand-logo{
-  height: clamp(60px, 6.5vw, 120px) !important;
+  height: clamp(78px, 8.5vw, 156px) !important;
   width: auto !important;
-  max-width: 320px !important;
+  max-width: 420px !important;
   object-fit: contain !important;
   display: block !important;
 }
