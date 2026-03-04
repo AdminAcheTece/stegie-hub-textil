@@ -16,11 +16,12 @@
     <nav class="st-fnav__menu" aria-label="Navegação principal">
 
       <!-- Soluções (mega menu) -->
-      <details class="st-dd" role="list">
-        <summary class="st-fnav__item st-fnav__item--dd" aria-haspopup="true">
+      <details class="st-dd">
+        <summary class="st-fnav__item st-fnav__item--dd">
           Soluções <span class="st-fnav__caret" aria-hidden="true"></span>
         </summary>
 
+        <!-- IMPORTANTE: este painel precisa existir e ter esta classe -->
         <div class="st-dd__panel" role="dialog" aria-label="Menu Soluções">
           <div class="st-dd__panel-inner">
             <div class="st-dd__grid">
@@ -57,7 +58,7 @@
                 <h4 class="st-dd__title">Sustentação</h4>
                 <a class="st-dd__link" href="/contato?assunto=agente-tecnico">Agente Técnico (mensal)</a>
                 <a class="st-dd__link" href="/servicos#entregas">Rotina de checagem</a>
-                <a class="st-dd__link" href="/contato">Falar com a Stegie</a>
+                <a class="st-dd__link" href="/contato">Fale conosco</a>
               </div>
 
             </div>
@@ -93,7 +94,7 @@
             <div class="st-dd__simple">
               <a class="st-dd__link" href="/sobre">Quem somos</a>
               <a class="st-dd__link" href="/servicos">Serviços</a>
-              <a class="st-dd__link" href="/contato">Contato</a>
+              <a class="st-dd__link" href="/contato">Fale conosco</a>
             </div>
           </div>
         </div>
@@ -133,7 +134,7 @@
 
   <div class="st-fnav__accent" aria-hidden="true"></div>
 
-  <!-- Mobile menu (simples) -->
+  <!-- Mobile -->
   <div class="st-fnav__mobile" id="stFnavMobile" hidden>
     <a href="/servicos">Serviços</a>
     <a href="/educacao">Educação</a>
