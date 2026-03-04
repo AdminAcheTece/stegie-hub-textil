@@ -8,14 +8,47 @@
   "eyebrow": "Quem somos",
   "h1": "Autoridade técnica em malharia",
   "text": "A STEGIE transforma critérios técnicos em padrão prático: ficha técnica, testes, treinamento e rotina — para estabilizar processo e elevar qualidade com consistência.",
-  "bullets": null,
+  "bullets": none,
   "primary_label": "Agendar diagnóstico",
   "primary_href": "/contato",
   "secondary_label": "Assista: como eu atuo (2 min)",
-  "secondary_href": null,
+  "secondary_href": none,
   "microcopy": "Consultoria corporativa com foco em execução e sustentação."
 } %}
-{% include "Parciais/sections/hero.html" %}
+
+{# Split automático do último termo do h1 para animar (ex: "malharia") #}
+{% set _parts = hero.h1.rsplit(' ', 1) %}
+{% set h1_prefix = _parts[0] if _parts|length > 1 else hero.h1 %}
+{% set h1_last = _parts[1] if _parts|length > 1 else hero.h1 %}
+
+<section class="qs-hero" aria-label="Quem Somos">
+  <div class="container qs-inner">
+    <header class="qs-top">
+      <h1 class="qs-title">Quem Somos</h1>
+    </header>
+
+    <div class="qs-stage">
+      <div class="qs-line qs-line--small">{{ h1_prefix }}</div>
+
+      <div class="qs-line qs-line--big">
+        <span class="qs-word qs-word--accent js-split" data-split="chars">{{ h1_last }}</span>
+      </div>
+
+      <p class="qs-sub">{{ hero.text }}</p>
+
+      <div class="qs-actions">
+        <a class="btn btn-primary" href="{{ hero.primary_href }}">{{ hero.primary_label }}</a>
+        {% if hero.secondary_href %}
+          <a class="btn btn-ghost" href="{{ hero.secondary_href }}">{{ hero.secondary_label }}</a>
+        {% endif %}
+      </div>
+
+      {% if hero.microcopy %}
+        <div class="qs-micro">{{ hero.microcopy }}</div>
+      {% endif %}
+    </div>
+  </div>
+</section>
 
 <section class="section section--tight" data-reveal>
   <div class="container card" style="padding:28px;">
@@ -93,5 +126,132 @@
   "href": "/contato"
 } %}
 {% include "Parciais/sections/cta.html" %}
+
+<!-- Estilos locais do hero (mantém o resto do site intacto) -->
+<style>
+  :root{ --st-accent:#7B7424; }
+
+  .qs-hero{
+    background: var(--bg);
+    padding: clamp(28px, 4vw, 52px) 0 clamp(40px, 7vw, 96px);
+  }
+  .qs-top{ margin-bottom: clamp(18px, 3.5vw, 44px); }
+  .qs-title{
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--st-accent);
+    line-height: 1.05;
+    font-size: clamp(44px, 6vw, 86px);
+    margin: 0;
+  }
+
+  .qs-stage{
+    min-height: clamp(320px, 52vh, 520px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(14px, 2.2vw, 22px);
+  }
+
+  .qs-line--small{
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    font-size: clamp(26px, 4vw, 56px);
+    line-height: 1.08;
+  }
+
+  .qs-line--big{
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+
+  .qs-word--accent{
+    color: var(--st-accent);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    font-size: clamp(64px, 10vw, 170px);
+  }
+
+  .qs-sub{
+    max-width: 70ch;
+    color: var(--muted);
+    font-weight: 300;
+    font-size: clamp(16px, 1.6vw, 20px);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .qs-actions{
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .qs-micro{
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  /* animação “se formando” */
+  .qs-char{
+    display: inline-block;
+    transform: translateY(22px);
+    opacity: 0;
+    filter: blur(6px);
+    will-change: transform, opacity, filter;
+  }
+  .js-split.is-anim .qs-char{
+    animation: qs-rise 700ms cubic-bezier(.2,.8,.2,1) forwards;
+    animation-delay: calc(var(--i) * 28ms);
+  }
+  @keyframes qs-rise{
+    to{ transform: translateY(0); opacity: 1; filter: blur(0); }
+  }
+
+  @media (max-width: 640px){
+    .qs-stage{ min-height: auto; padding-top: 10px; }
+  }
+</style>
+
+<!-- JS do efeito (entra ao aparecer na tela) -->
+<script>
+(function(){
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targets = document.querySelectorAll('.js-split[data-split="chars"]');
+  if (!targets.length || prefersReduced) return;
+
+  function splitChars(el){
+    const text = el.textContent.replace(/\s+/g,' ').trim();
+    el.textContent = '';
+    const frag = document.createDocumentFragment();
+    [...text].forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.className = 'qs-char';
+      span.style.setProperty('--i', i);
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      frag.appendChild(span);
+    });
+    el.appendChild(frag);
+  }
+
+  targets.forEach(splitChars);
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        e.target.classList.add('is-anim');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.35 });
+
+  targets.forEach(el => io.observe(el));
+})();
+</script>
 
 {% endblock %}
