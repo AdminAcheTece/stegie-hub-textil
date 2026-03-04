@@ -8,11 +8,12 @@
   <!-- Fonte clean (feeling “Google-like”) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Inter base + Manrope para o wordmark Stegie (mantém o que você já curtiu) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}?v={{ config.get('ASSET_VERSION','1') }}">
 
-  <!-- Overrides somente para a home (preto/branco + fontes maiores) -->
+  <!-- Overrides somente para a home (preto/branco + ajustes pontuais) -->
   <style>
     /* Paleta preto/branco (sem verde) */
     .home-clean{
@@ -22,6 +23,7 @@
       --border: rgba(0,0,0,.12);
       --surface: rgba(255,255,255,.78);
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: #111;
     }
 
     /* Tudo que “puxava pro verde” vira preto */
@@ -42,6 +44,25 @@
       overflow:hidden !important;
       left:-9999px !important;
       top:-9999px !important;
+    }
+
+    /* ===== AJUSTE PEDIDO =====
+       Subir um pouco o conteúdo central para caber a tagline abaixo */
+    .home-wrap{
+      padding-top: 80px !important;    /* era maior via CSS geral */
+      padding-bottom: 120px !important;/* mantém espaço pro rodapé fixo */
+    }
+    .home-center{ gap: 14px !important; }
+
+    /* Tagline abaixo dos ícones */
+    .home-tagline{
+      margin-top: 8px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.35;
+      color: #111;
     }
   </style>
 </head>
@@ -109,7 +130,7 @@
   <main class="home-wrap">
     <section class="home-center" aria-label="Home Stegie">
 
-      <!-- Logo estilo Google: “Stegie” (S maiúsculo e resto minúsculo) -->
+      <!-- Marca -->
       <div class="brand-lockup" aria-label="Marca Stegie">
         <img
           class="brand-logo"
@@ -122,7 +143,8 @@
       </div>
 
       <!-- Barra central (frase do dia) -->
-      <div class="home-pill" aria-label="Acesso rápido">        
+      <div class="home-pill" aria-label="Acesso rápido">
+        <span class="home-pill-dot" aria-hidden="true"></span>
         <span class="home-pill-text" id="dailyPhrase">Acesso rápido aos recursos da plataforma</span>
       </div>
 
@@ -137,11 +159,17 @@
           </a>
         {% endfor %}
       </nav>
+
+      <!-- ===== NOVA FRASE (TAGLINE) ABAIXO DA WORdMARK E DOS LINKS ===== -->
+      <div class="home-tagline" aria-label="Tagline">
+        Stegie - Inteligência para performance em malharia.
+      </div>
+
     </section>
   </main>
 
   <!-- Rodapé (links expostos) -->
-  <footer class="home-footer" aria-label="Rodapé">    
+  <footer class="home-footer" aria-label="Rodapé">
     <div class="footer-row footer-links">
       {% for l in nav_links %}
         <a href="{{ l.href }}">{{ l.label }}</a>
