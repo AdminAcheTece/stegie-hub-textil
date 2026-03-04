@@ -171,23 +171,20 @@ a:hover{ opacity:.92; }
   white-space: nowrap;
 }
 
-/* Logo branca na barra preta: mesma altura VISUAL do wordmark (sem aumentar o wordmark) */
+/* Logo branca: compensar respiro do PNG para bater com a altura VISUAL do wordmark */
 .st-fnav{
-  --fnav-logo-box: 42px;     /* caixa base (mantém alinhamento) */
-  --fnav-logo-scale: 1.55;   /* compensa o respiro do PNG (ajuste fino) */
+  --st-brand-logo-h: 66px; /* <<< valor “cravado” para seu PNG (mesma altura visual do Stegie) */
 }
 
 .st-fnav__logo{
-  height: var(--fnav-logo-box);
+  height: var(--st-brand-logo-h);
   width: auto;
   display: block;
+}
 
-  /* Compensa margens internas do PNG */
-  transform: scale(var(--fnav-logo-scale));
-  transform-origin: left center;
-
-  /* opcional: micro-ajuste vertical se precisar */
-  /* margin-top: 1px; */
+/* (opcional) em telas menores, reduz um pouco pra manter proporção do header */
+@media (max-width: 980px){
+  .st-fnav{ --st-brand-logo-h: 58px; }
 }
 
 /* Wordmark: manter fonte da marca */
