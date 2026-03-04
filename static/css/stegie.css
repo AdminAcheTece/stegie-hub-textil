@@ -1,8 +1,12 @@
 /* =========================================================
    STEGIE.CSS (LIMPO / CONSOLIDADO)
    Paleta: preto/branco + fundo claro
+   + NAV estilo Falconi (st-fnav)
    ========================================================= */
 
+/* ===========================
+   TOKENS
+   =========================== */
 :root{
   --bg:#F7F6F3;
   --surface:#FFFFFF;
@@ -19,8 +23,19 @@
   --shadow: 0 10px 30px rgba(18,18,18,.06);
 
   --focus: rgba(0,0,0,.18);
+
+  /* NAV estilo Falconi */
+  --fnav-bg:#0b0b0b;
+  --fnav-fg:#ffffff;
+  --fnav-muted: rgba(255,255,255,.78);
+  --fnav-line: rgba(255,255,255,.25);
+  --fnav-accent:#5b5a1b; /* oliva/dourado (ajuste fino) */
+  --fnav-max: 1440px;
 }
 
+/* ===========================
+   RESET / BASE
+   =========================== */
 *{ box-sizing:border-box; }
 html,body{ margin:0; padding:0; }
 body{
@@ -28,6 +43,9 @@ body{
   background: var(--bg);
   color: var(--text);
 }
+
+/* âncoras (#entregas) não ficam escondidas pelo sticky header */
+[id]{ scroll-margin-top: 92px; }
 
 h1,h2,h3{
   font-family: Manrope, Inter, system-ui, sans-serif;
@@ -107,8 +125,198 @@ a:hover{ opacity:.92; }
   margin-bottom: 14px;
 }
 
+/* Skip link (acessibilidade) */
+.skip-link{
+  position:absolute;
+  left:-9999px;
+  top:12px;
+  background:#fff;
+  border:1px solid var(--border);
+  padding:10px 12px;
+  border-radius: 12px;
+  z-index: 99999;
+}
+.skip-link:focus{ left: 12px; }
+
 /* =========================================================
-   TOPBAR / NAVBAR
+   NAVBAR — ESTILO FALCONI (st-fnav)
+   (use com o novo Parciais/navbar.html)
+   ========================================================= */
+.st-fnav{
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: var(--fnav-bg);
+}
+
+.st-fnav__inner{
+  max-width: var(--fnav-max);
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.st-fnav__brand{
+  text-decoration: none;
+  color: var(--fnav-fg);
+  display: inline-flex;
+  align-items: center;
+}
+
+.st-fnav__word{
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 800;
+  font-size: 42px;         /* wordmark grande (tipo Falconi) */
+  letter-spacing: -0.8px;
+  line-height: 1;
+}
+
+.st-fnav__menu{
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  flex: 1;
+  margin-left: 10px;
+}
+
+.st-fnav__item{
+  color: var(--fnav-fg);
+  text-decoration: none;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: .2px;
+  opacity: .98;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 2px;
+  position: relative;
+}
+
+.st-fnav__item::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom: 6px;
+  height:2px;
+  width:0%;
+  background: var(--fnav-accent);
+  transition: width .18s ease;
+}
+.st-fnav__item:hover::after{ width:100%; }
+
+.st-fnav__caret{
+  width:0;height:0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--fnav-muted);
+  transform: translateY(1px);
+}
+
+.st-fnav__right{
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.st-fnav__icon{
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--fnav-fg);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 0;
+  text-decoration: none;
+}
+.st-fnav__icon:hover{ background: rgba(255,255,255,.06); }
+
+.st-fnav__icon svg{
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.st-fnav__vdiv{
+  width: 1px;
+  height: 26px;
+  background: var(--fnav-line);
+}
+
+.st-fnav__lang{
+  border: 0;
+  background: transparent;
+  color: var(--fnav-fg);
+  cursor: pointer;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: .3px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.st-fnav__lang:hover{ background: rgba(255,255,255,.06); }
+
+.st-fnav__accent{
+  height: 8px;
+  background: var(--fnav-accent);
+}
+
+/* Burger (mobile) */
+.st-fnav__burger{
+  display:none;
+  width: 44px;
+  height: 44px;
+  border:0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 12px;
+}
+.st-fnav__burger:hover{ background: rgba(255,255,255,.06); }
+
+.st-fnav__burger span{
+  display:block;
+  height:2px;
+  background: var(--fnav-fg);
+  opacity:.92;
+  border-radius: 2px;
+}
+.st-fnav__burger span + span{ margin-top: 7px; }
+
+/* Mobile menu */
+.st-fnav__mobile{
+  background: var(--fnav-bg);
+  border-top: 1px solid rgba(255,255,255,.10);
+  padding: 12px 24px 18px;
+}
+.st-fnav__mobile a{
+  display:block;
+  padding: 12px 10px;
+  color: var(--fnav-fg);
+  text-decoration:none;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 12px;
+}
+.st-fnav__mobile a:hover{ background: rgba(255,255,255,.06); }
+
+/* =========================================================
+   NAVBAR LEGADO (claro) — mantenho por segurança
+   (pode remover quando todas as páginas usarem st-fnav)
    ========================================================= */
 .topbar{
   position: sticky;
@@ -125,7 +333,6 @@ a:hover{ opacity:.92; }
   gap: 16px;
   padding: 14px 0;
 }
-
 .brand{
   display:flex;
   align-items:center;
@@ -151,13 +358,11 @@ a:hover{ opacity:.92; }
   font-weight: 900;
   letter-spacing: -0.02em;
 }
-
 .nav{
   display:flex;
   align-items:center;
   gap: 14px;
 }
-
 .nav-link{
   font-weight: 800;
   color: var(--text);
@@ -166,14 +371,12 @@ a:hover{ opacity:.92; }
   transition: background .12s ease;
 }
 .nav-link:hover{ background: rgba(255,255,255,.7); }
-
 .nav-actions{
   display:flex;
   align-items:center;
   gap: 10px;
   margin-left: 8px;
 }
-
 .nav-toggle{
   display:none;
   border: 1px solid var(--border);
@@ -369,6 +572,7 @@ a:hover{ opacity:.92; }
   font-weight: 900;
   margin: 0 0 12px 0;
 }
+
 .footer-links{
   list-style:none;
   margin:0;
@@ -392,47 +596,9 @@ a:hover{ opacity:.92; }
 .footer-copy{ font-weight: 700; }
 
 /* =========================================================
-   RESPONSIVO GERAL
-   ========================================================= */
-@media (max-width: 980px){
-  .container{ width: min(1240px, calc(100% - 32px)); }
-
-  .hero__grid{ grid-template-columns: 1fr; }
-  .grid-3{ grid-template-columns: 1fr; }
-  .grid-2{ grid-template-columns: 1fr; }
-  .method{ grid-template-columns: 1fr; }
-
-  /* Navbar: vira menu mobile */
-  .nav-toggle{ display:inline-flex; }
-  .nav{
-    position: fixed;
-    left: 16px;
-    right: 16px;
-    top: 70px;
-    display:none;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: rgba(255,255,255,.92);
-    box-shadow: 0 24px 80px rgba(18,18,18,.14);
-    backdrop-filter: blur(12px);
-  }
-  .nav.is-open{ display:flex; }
-
-  .nav-actions{ margin-left: 0; flex-direction: column; }
-  .nav-link{ padding: 12px 12px; }
-
-  /* Footer */
-  .footer-cta__inner{ flex-direction: column; align-items: flex-start; }
-  .footer-main{ grid-template-columns: 1fr; }
-}
-
-/* =========================================================
    HOME CLEAN (estilo Google) — CONSOLIDADO
+   (corrigido: escopo do footer-links para não quebrar o footer do site)
    ========================================================= */
-
 .home-clean{
   margin: 0;
   min-height: 100vh;
@@ -546,7 +712,7 @@ a:hover{ opacity:.92; }
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 96px 16px 120px; /* espaço pro topo e rodapé fixos */
+  padding: 96px 16px 120px;
 }
 
 .home-center{
@@ -563,11 +729,11 @@ a:hover{ opacity:.92; }
   gap: 12px;
 }
 
-/* LOGO 5x MENOR (controle por ALTURA) */
+/* LOGO (controle por ALTURA) */
 .home-clean .brand-logo{
-  height: clamp(60px, 6.5vw, 120px) !important;  /* <<< AQUI aumenta de verdade */
+  height: clamp(60px, 6.5vw, 120px) !important;
   width: auto !important;
-  max-width: 320px !important;                   /* controla para não estourar */
+  max-width: 320px !important;
   object-fit: contain !important;
   display: block !important;
 }
@@ -653,7 +819,7 @@ a:hover{ opacity:.92; }
   line-height: 1.2;
 }
 
-/* Rodapé fixo (estilo Google) */
+/* Rodapé fixo (home) */
 .home-footer{
   position: fixed;
   left: 0;
@@ -681,18 +847,62 @@ a:hover{ opacity:.92; }
   padding-bottom: 8px;
 }
 
-.footer-links{
+/* >>> CORREÇÃO: escopo para não sobrescrever o footer do site */
+.home-footer .footer-links{
+  display:flex;
   gap: 22px;
   flex-wrap: wrap;
 }
-
-.footer-links a{
+.home-footer .footer-links a{
   text-decoration: none;
   color: rgba(0,0,0,.62);
   font-weight: 600;
   font-size: 13.5px;
+  padding: 0;
 }
-.footer-links a:hover{ text-decoration: underline; }
+.home-footer .footer-links a:hover{ text-decoration: underline; }
+
+/* =========================================================
+   RESPONSIVO GERAL
+   ========================================================= */
+@media (max-width: 980px){
+  .container{ width: min(1240px, calc(100% - 32px)); }
+
+  .hero__grid{ grid-template-columns: 1fr; }
+  .grid-3{ grid-template-columns: 1fr; }
+  .grid-2{ grid-template-columns: 1fr; }
+  .method{ grid-template-columns: 1fr; }
+
+  /* LEGADO: Navbar claro */
+  .nav-toggle{ display:inline-flex; }
+  .nav{
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    top: 70px;
+    display:none;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,.92);
+    box-shadow: 0 24px 80px rgba(18,18,18,.14);
+    backdrop-filter: blur(12px);
+  }
+  .nav.is-open{ display:flex; }
+  .nav-actions{ margin-left: 0; flex-direction: column; }
+  .nav-link{ padding: 12px 12px; }
+
+  /* NAV Falconi */
+  .st-fnav__menu{ display:none; }
+  .st-fnav__burger{ display:inline-flex; align-items:center; justify-content:center; }
+  .st-fnav__word{ font-size: 36px; }
+
+  /* Footer */
+  .footer-cta__inner{ flex-direction: column; align-items: flex-start; }
+  .footer-main{ grid-template-columns: 1fr; }
+}
 
 /* Responsivo (home) */
 @media (max-width: 900px){
@@ -700,196 +910,4 @@ a:hover{ opacity:.92; }
 }
 @media (max-width: 520px){
   .home-shortcuts{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-/* ===========================
-   TOPBAR estilo Falconi
-   =========================== */
-
-:root{
-  --st-topbar-bg: #0b0b0b;
-  --st-topbar-fg: #ffffff;
-  --st-topbar-muted: rgba(255,255,255,.78);
-  --st-topbar-accent: #5b5a1b; /* oliva/dourado (ajuste fino se quiser) */
-}
-
-/* evita que âncoras (#entregas) fiquem “escondidas” atrás do sticky header */
-[id] { scroll-margin-top: 92px; }
-
-.st-topbar{
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: var(--st-topbar-bg);
-}
-
-.st-topbar__inner{
-  height: 72px;
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-
-.st-brand{
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-}
-
-.st-brand__logo{
-  height: 34px;  /* <<< aqui você controla o tamanho final da logo */
-  width: auto;
-  display: block;
-}
-
-.st-nav{
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  flex: 1;
-  margin-left: 8px;
-}
-
-.st-nav__link{
-  color: var(--st-topbar-fg);
-  text-decoration: none;
-  font: 600 14px/1.1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  letter-spacing: .2px;
-  opacity: .96;
-  position: relative;
-  padding: 10px 2px;
-}
-
-.st-nav__link:hover{ opacity: 1; }
-
-.st-nav__link::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom: 6px;
-  height:2px;
-  width:0%;
-  background: var(--st-topbar-accent);
-  transition: width .18s ease;
-}
-
-.st-nav__link:hover::after{ width:100%; }
-
-.st-nav__link--dd{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-
-.st-caret{
-  width:0;
-  height:0;
-  border-left:4px solid transparent;
-  border-right:4px solid transparent;
-  border-top:5px solid var(--st-topbar-muted);
-  transform: translateY(1px);
-}
-
-.st-actions{
-  display:inline-flex;
-  align-items:center;
-  gap: 14px;
-}
-
-.st-iconbtn{
-  width:34px;
-  height:34px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border:0;
-  background:transparent;
-  color: var(--st-topbar-fg);
-  cursor:pointer;
-  padding:0;
-  text-decoration:none;
-  border-radius: 10px;
-}
-
-.st-iconbtn:hover{ background: rgba(255,255,255,.06); }
-
-.st-iconbtn svg{
-  width:18px;
-  height:18px;
-  fill: var(--st-topbar-fg);
-  opacity:.92;
-}
-
-.st-divider{
-  width:1px;
-  height:22px;
-  background: rgba(255,255,255,.25);
-  margin: 0 4px;
-}
-
-.st-lang{
-  border:0;
-  background:transparent;
-  color: var(--st-topbar-fg);
-  font: 700 13px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  letter-spacing: .3px;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding: 10px 10px;
-  border-radius: 10px;
-}
-
-.st-lang:hover{ background: rgba(255,255,255,.06); }
-
-.st-burger{
-  display:none;
-  width:40px;
-  height:40px;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.st-burger:hover{ background: rgba(255,255,255,.06); }
-
-.st-burger span{
-  display:block;
-  height:2px;
-  background: var(--st-topbar-fg);
-  opacity:.9;
-  border-radius:2px;
-}
-
-.st-burger span + span{ margin-top: 6px; }
-
-.st-topbar__accent{
-  height: 8px;
-  background: var(--st-topbar-accent);
-}
-
-/* menu mobile */
-.st-mmenu{
-  background: var(--st-topbar-bg);
-  border-top: 1px solid rgba(255,255,255,.10);
-  padding: 10px 18px 16px;
-}
-
-.st-mmenu a{
-  display:block;
-  padding: 12px 8px;
-  color: var(--st-topbar-fg);
-  text-decoration:none;
-  font: 600 14px/1.2 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  border-radius: 10px;
-}
-
-.st-mmenu a:hover{ background: rgba(255,255,255,.06); }
-
-@media (max-width: 920px){
-  .st-nav{ display:none; }
-  .st-burger{ display:inline-flex; align-items:center; justify-content:center; }
 }
