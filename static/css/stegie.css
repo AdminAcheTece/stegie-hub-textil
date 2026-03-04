@@ -171,11 +171,23 @@ a:hover{ opacity:.92; }
   white-space: nowrap;
 }
 
-/* Logo ao lado do wordmark */
+/* Logo branca na barra preta: mesma altura VISUAL do wordmark (sem aumentar o wordmark) */
+.st-fnav{
+  --fnav-logo-box: 42px;     /* caixa base (mantém alinhamento) */
+  --fnav-logo-scale: 1.55;   /* compensa o respiro do PNG (ajuste fino) */
+}
+
 .st-fnav__logo{
-  height: 34px;   /* ajuste fino: 30–36px */
+  height: var(--fnav-logo-box);
   width: auto;
   display: block;
+
+  /* Compensa margens internas do PNG */
+  transform: scale(var(--fnav-logo-scale));
+  transform-origin: left center;
+
+  /* opcional: micro-ajuste vertical se precisar */
+  /* margin-top: 1px; */
 }
 
 /* Wordmark: manter fonte da marca */
