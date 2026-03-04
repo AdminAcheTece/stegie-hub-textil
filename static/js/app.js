@@ -69,3 +69,18 @@ document.addEventListener('click', (e) => {
 })();
 
 console.log("Stegie app.js carregado");
+
+// ===========================
+// TOPBAR: toggle menu mobile
+// ===========================
+(function () {
+  const burger = document.querySelector(".st-burger");
+  const menu = document.getElementById("stMobileMenu");
+  if (!burger || !menu) return;
+
+  burger.addEventListener("click", () => {
+    const isOpen = burger.getAttribute("aria-expanded") === "true";
+    burger.setAttribute("aria-expanded", String(!isOpen));
+    menu.hidden = isOpen;
+  });
+})();
