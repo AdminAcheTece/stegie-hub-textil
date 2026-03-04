@@ -985,3 +985,29 @@ a:hover{ opacity:.92; }
 @media (max-width: 520px){
   .home-shortcuts{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* ===== FIX DEFINITIVO: menu mobile não aparece no desktop ===== */
+.st-fnav__mobile[hidden]{ display: none !important; }
+
+/* No desktop, burger some e menu desktop aparece */
+@media (min-width: 981px){
+  .st-fnav__burger{ display:none !important; }
+  .st-fnav__menu{ display:flex !important; }
+  .st-fnav__mobile{ display:none !important; }
+}
+
+/* No mobile, burger aparece e menu desktop some */
+@media (max-width: 980px){
+  .st-fnav__burger{ display:inline-flex !important; }
+  .st-fnav__menu{ display:none !important; }
+}
+
+/* Remove “cara de botão” se algum item for <button> por engano */
+.st-fnav button.st-fnav__item{
+  border:0 !important;
+  background:transparent !important;
+  color:inherit !important;
+  font:inherit !important;
+  padding:10px 2px !important;
+  cursor:pointer !important;
+}
