@@ -200,25 +200,21 @@
          ========================================================= -->
     <footer class="st-footer" role="contentinfo">
       <div class="container st-footer__wrap">
+  
         <!-- LEFT -->
         <div class="st-footer__left">
           <div class="st-footer__cols">
+  
             <!-- Marca -->
             <div class="st-footer__brand">
               <a class="st-footer__brandlink" href="{{ url_for('home') }}" aria-label="Voltar para o início">
                 <img
                   class="st-footer__logo"
-                  src="{{ url_for('static', filename='IMG/logo-stegie.png') }}?v={{ asset_v }}"
+                  src="{{ url_for('static', filename='IMG/logo-stegie-branca.png') }}?v={{ asset_v }}"
                   alt="Stegie"
                   loading="lazy"
                   decoding="async"
-                  style="height:28px;width:auto"  <!-- trava tamanho mesmo se o CSS falhar -->
-                  onerror="
-                    if(!this.dataset.try2){this.dataset.try2='1'; this.src='{{ url_for('static', filename='IMG/logo-stegie.PNG') }}?v={{ asset_v }}';}
-                    else if(!this.dataset.try3){this.dataset.try3='1'; this.src='{{ url_for('static', filename='img/logo-stegie.png') }}?v={{ asset_v }}';}
-                    else if(!this.dataset.try4){this.dataset.try4='1'; this.src='{{ url_for('static', filename='img/logo-stegie.PNG') }}?v={{ asset_v }}';}
-                    else { this.style.display='none'; }
-                  "
+                  onerror="if(!this.dataset.try2){this.dataset.try2='1'; this.src='{{ url_for('static', filename='IMG/logo-stegie-branca.PNG') }}?v={{ asset_v }}';}else{this.style.display='none';}"
                 />
                 <span class="st-footer__wordmark">Stegie</span>
               </a>
@@ -226,7 +222,7 @@
               <p class="st-footer__tagline">Consultoria e Educação Têxtil para Malharias.</p>
             </div>
   
-            <!-- Coluna 1 -->
+            <!-- Coluna 1 (como Falconi: lista curta) -->
             <nav class="st-footer__col" aria-label="Institucional">
               <a href="/quem-somos">Quem somos</a>
               <a href="/o-que-fazemos">O que fazemos</a>
@@ -239,6 +235,7 @@
               <a href="/termos">Termos</a>
               <a href="/fale-conosco">Fale conosco</a>
             </nav>
+  
           </div>
   
           <div class="st-footer__hr" aria-hidden="true"></div>
@@ -246,7 +243,7 @@
           <div class="st-footer__socialrow">
             <span class="st-footer__sociallabel">Acompanhe nossas redes</span>
   
-            <div class="st-footer__socialicons">
+            <div class="st-footer__socialicons" aria-label="Redes sociais">
               <a class="st-socialbtn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M10 15.5v-7l6 3.5-6 3.5z" fill="currentColor"/>
@@ -270,13 +267,13 @@
           <div class="st-news">
             <div class="st-news__title">Assine nossa newsletter</div>
   
-            <form class="st-news__form" onsubmit="return false;">
-              <input class="st-news__input" type="text" name="nome" placeholder="Nome" autocomplete="given-name">
-              <input class="st-news__input" type="text" name="sobrenome" placeholder="Sobrenome" autocomplete="family-name">
-              <input class="st-news__input" type="email" name="email" placeholder="E-mail profissional" autocomplete="email">
+            <form class="st-news__form" onsubmit="return false;" novalidate>
+              <input class="st-news__input" type="text" name="nome" placeholder="Nome" autocomplete="given-name" aria-label="Nome">
+              <input class="st-news__input" type="text" name="sobrenome" placeholder="Sobrenome" autocomplete="family-name" aria-label="Sobrenome">
+              <input class="st-news__input" type="email" name="email" placeholder="E-mail profissional" autocomplete="email" aria-label="E-mail profissional">
   
               <label class="st-news__consent">
-                <input class="st-news__check" type="checkbox">
+                <input class="st-news__check" type="checkbox" aria-label="Concordo em receber comunicações">
                 <span>Concordo em receber comunicações da Stegie. Para mais informações, consulte nossa <a href="/politica-de-privacidade">Política de Privacidade</a>.</span>
               </label>
   
@@ -284,12 +281,13 @@
             </form>
           </div>
         </aside>
+  
       </div>
   
       <div class="st-footer__bottom">
         <div class="container">© STEGIE. Todos os direitos reservados.</div>
       </div>
-    </footer>
+    </footer>  
 
   <!-- Modal de vídeo -->
   <div class="modal" id="videoModal" aria-hidden="true">
