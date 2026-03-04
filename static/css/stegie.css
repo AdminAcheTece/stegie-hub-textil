@@ -701,3 +701,195 @@ a:hover{ opacity:.92; }
 @media (max-width: 520px){
   .home-shortcuts{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* ===========================
+   TOPBAR estilo Falconi
+   =========================== */
+
+:root{
+  --st-topbar-bg: #0b0b0b;
+  --st-topbar-fg: #ffffff;
+  --st-topbar-muted: rgba(255,255,255,.78);
+  --st-topbar-accent: #5b5a1b; /* oliva/dourado (ajuste fino se quiser) */
+}
+
+/* evita que âncoras (#entregas) fiquem “escondidas” atrás do sticky header */
+[id] { scroll-margin-top: 92px; }
+
+.st-topbar{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--st-topbar-bg);
+}
+
+.st-topbar__inner{
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.st-brand{
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.st-brand__logo{
+  height: 34px;  /* <<< aqui você controla o tamanho final da logo */
+  width: auto;
+  display: block;
+}
+
+.st-nav{
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex: 1;
+  margin-left: 8px;
+}
+
+.st-nav__link{
+  color: var(--st-topbar-fg);
+  text-decoration: none;
+  font: 600 14px/1.1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing: .2px;
+  opacity: .96;
+  position: relative;
+  padding: 10px 2px;
+}
+
+.st-nav__link:hover{ opacity: 1; }
+
+.st-nav__link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom: 6px;
+  height:2px;
+  width:0%;
+  background: var(--st-topbar-accent);
+  transition: width .18s ease;
+}
+
+.st-nav__link:hover::after{ width:100%; }
+
+.st-nav__link--dd{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+
+.st-caret{
+  width:0;
+  height:0;
+  border-left:4px solid transparent;
+  border-right:4px solid transparent;
+  border-top:5px solid var(--st-topbar-muted);
+  transform: translateY(1px);
+}
+
+.st-actions{
+  display:inline-flex;
+  align-items:center;
+  gap: 14px;
+}
+
+.st-iconbtn{
+  width:34px;
+  height:34px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  background:transparent;
+  color: var(--st-topbar-fg);
+  cursor:pointer;
+  padding:0;
+  text-decoration:none;
+  border-radius: 10px;
+}
+
+.st-iconbtn:hover{ background: rgba(255,255,255,.06); }
+
+.st-iconbtn svg{
+  width:18px;
+  height:18px;
+  fill: var(--st-topbar-fg);
+  opacity:.92;
+}
+
+.st-divider{
+  width:1px;
+  height:22px;
+  background: rgba(255,255,255,.25);
+  margin: 0 4px;
+}
+
+.st-lang{
+  border:0;
+  background:transparent;
+  color: var(--st-topbar-fg);
+  font: 700 13px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing: .3px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 10px 10px;
+  border-radius: 10px;
+}
+
+.st-lang:hover{ background: rgba(255,255,255,.06); }
+
+.st-burger{
+  display:none;
+  width:40px;
+  height:40px;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.st-burger:hover{ background: rgba(255,255,255,.06); }
+
+.st-burger span{
+  display:block;
+  height:2px;
+  background: var(--st-topbar-fg);
+  opacity:.9;
+  border-radius:2px;
+}
+
+.st-burger span + span{ margin-top: 6px; }
+
+.st-topbar__accent{
+  height: 8px;
+  background: var(--st-topbar-accent);
+}
+
+/* menu mobile */
+.st-mmenu{
+  background: var(--st-topbar-bg);
+  border-top: 1px solid rgba(255,255,255,.10);
+  padding: 10px 18px 16px;
+}
+
+.st-mmenu a{
+  display:block;
+  padding: 12px 8px;
+  color: var(--st-topbar-fg);
+  text-decoration:none;
+  font: 600 14px/1.2 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  border-radius: 10px;
+}
+
+.st-mmenu a:hover{ background: rgba(255,255,255,.06); }
+
+@media (max-width: 920px){
+  .st-nav{ display:none; }
+  .st-burger{ display:inline-flex; align-items:center; justify-content:center; }
+}
