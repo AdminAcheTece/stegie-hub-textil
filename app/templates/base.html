@@ -17,13 +17,13 @@
   {% block og_image %}{% endblock %}
   {% block canonical %}{% endblock %}
 
-  <!-- Fontes -->
+  <!-- Fontes (REGRA: Inter delicado no site / Manrope só no wordmark) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css', v=asset_v) }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}?v={{ asset_v }}">
 
   {% block extra_head %}{% endblock %}
 </head>
@@ -34,48 +34,72 @@
   <!-- =========================================================
        BARRA SUPERIOR (ST-FNAV) - Mega menu estilo Falconi
        Itens: Soluções | Conteúdos | Sobre
-       (Sem Segmentos)
        ========================================================= -->
   <header class="st-fnav" id="st-fnav">
-    <div class="fnav-inner">
+    <!-- IMPORTANTE:
+         seu CSS usa .st-fnav__inner / .st-fnav__brand / .st-fnav__word / etc.
+         Aqui estava com classes fnav-* (não casava com o CSS) e o mobile/menu ficava “quebrado”.
+         Abaixo está padronizado com st-fnav__*.
+    -->
+    <div class="st-fnav__inner">
       <!-- Brand -->
-      <a class="fnav-brand" href="/" aria-label="Voltar para a Home">
+      <a class="st-fnav__brand" href="{{ url_for('home') }}" aria-label="Voltar para a Home">
         <!-- Ajuste o caminho do arquivo se necessário (IMG vs img) -->
-        <img class="fnav-logo" src="{{ url_for('static', filename='IMG/logo-stegie-branca.png', v=asset_v) }}" alt="Stegie" />
-        <span class="fnav-wordmark">Stegie</span>
+        <img class="st-fnav__logo" src="{{ url_for('static', filename='IMG/logo-stegie-branca.png') }}?v={{ asset_v }}" alt="Stegie" />
+        <span class="st-fnav__word">Stegie</span>
       </a>
 
-      <!-- Links -->
-      <nav class="fnav-links" aria-label="Menu principal">
-        <!-- Soluções -->
-        <button class="fnav-link" type="button"
+      <!-- Links (desktop) -->
+      <nav class="st-fnav__menu" aria-label="Menu principal">
+        <button class="st-fnav__item" type="button"
                 data-fnav-trigger="solucoes"
                 aria-expanded="false"
                 aria-controls="fnav-panel-solucoes">
-          Soluções <span class="fnav-caret" aria-hidden="true"></span>
+          Soluções <span class="st-fnav__caret" aria-hidden="true"></span>
         </button>
 
-        <!-- Conteúdos -->
-        <button class="fnav-link" type="button"
+        <button class="st-fnav__item" type="button"
                 data-fnav-trigger="conteudos"
                 aria-expanded="false"
                 aria-controls="fnav-panel-conteudos">
-          Conteúdos <span class="fnav-caret" aria-hidden="true"></span>
+          Conteúdos <span class="st-fnav__caret" aria-hidden="true"></span>
         </button>
 
-        <!-- Sobre -->
-        <button class="fnav-link" type="button"
+        <button class="st-fnav__item" type="button"
                 data-fnav-trigger="sobre"
                 aria-expanded="false"
                 aria-controls="fnav-panel-sobre">
-          Sobre <span class="fnav-caret" aria-hidden="true"></span>
+          Sobre <span class="st-fnav__caret" aria-hidden="true"></span>
         </button>
       </nav>
 
-      <!-- Ações à direita (mantive minimalista) -->
-      <div class="fnav-actions">
-        <a class="fnav-cta" href="/fale-conosco">Fale conosco</a>
+      <!-- Ações à direita -->
+      <div class="st-fnav__right">
+        <a class="st-fnav__icon" href="{{ url_for('contato') }}" aria-label="Fale conosco">
+          <!-- ícone simples (opcional); se não quiser, pode remover o svg -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <!-- Burger (mobile) – seu CSS controla a exibição -->
+        <button class="st-fnav__burger" type="button"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+                aria-controls="st-fnav-mobile">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+    </div>
+
+    <div class="st-fnav__accent" aria-hidden="true"></div>
+
+    <!-- Mobile menu (fica oculto por padrão; JS abre com .is-open e removendo hidden) -->
+    <div class="st-fnav__mobile" id="st-fnav-mobile" hidden>
+      <a href="{{ url_for('servicos') }}">Soluções</a>
+      <a href="{{ url_for('conteudos') }}">Conteúdos</a>
+      <a href="{{ url_for('quem_somos') }}">Sobre</a>
+      <a href="{{ url_for('contato') }}">Contato</a>
     </div>
 
     <!-- Painéis (mega menu) -->
@@ -115,7 +139,6 @@
         <div class="fnav-panel-inner fnav-grid-3">
           <div class="fnav-col">
             <div class="fnav-col-title">Redes Sociais</div>
-            <!-- Troque pelos seus links -->
             <a class="fnav-sub" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
             <a class="fnav-sub" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
           </div>
@@ -199,11 +222,46 @@
   </noscript>
 
   <!-- JS -->
-  <!-- Mega menu (st-fnav) -->
-  <script defer src="{{ url_for('static', filename='js/fnav.js', v=asset_v) }}"></script>
+  <script defer src="{{ url_for('static', filename='js/fnav.js') }}?v={{ asset_v }}"></script>
+  <script defer src="{{ url_for('static', filename='js/app.js') }}?v={{ asset_v }}"></script>
 
-  <!-- Seu JS atual -->
-  <script defer src="{{ url_for('static', filename='js/app.js', v=asset_v) }}"></script>
+  <!-- Fix definitivo do burger/mobile (não depende do fnav.js) -->
+  <script>
+    (function () {
+      const root = document.getElementById("st-fnav");
+      if (!root) return;
+
+      const burger = root.querySelector(".st-fnav__burger");
+      const mobile = document.getElementById("st-fnav-mobile");
+      if (!burger || !mobile) return;
+
+      function closeMenu() {
+        burger.setAttribute("aria-expanded", "false");
+        mobile.hidden = true;
+        mobile.classList.remove("is-open");
+      }
+
+      function openMenu() {
+        burger.setAttribute("aria-expanded", "true");
+        mobile.hidden = false;
+        mobile.classList.add("is-open");
+      }
+
+      burger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = burger.getAttribute("aria-expanded") === "true";
+        isOpen ? closeMenu() : openMenu();
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!mobile.contains(e.target) && e.target !== burger) closeMenu();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
+      });
+    })();
+  </script>
 
   {% block scripts %}{% endblock %}
 </body>
