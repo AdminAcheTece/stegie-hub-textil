@@ -20,9 +20,9 @@
   <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- CSS (seu arquivo real é stegie.css) -->
+  <!-- CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css', v=asset_v) }}">
 
   {% block extra_head %}{% endblock %}
@@ -32,7 +32,6 @@
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
   {% include "Parciais/navbar.html" ignore missing %}
-  {% include "parciais/navbar.html" ignore missing %}
 
   <div class="flash-wrap container">
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -49,7 +48,6 @@
   </main>
 
   {% include "Parciais/footer.html" ignore missing %}
-  {% include "parciais/footer.html" ignore missing %}
 
   <!-- Modal de vídeo -->
   <div class="modal" id="videoModal" aria-hidden="true">
