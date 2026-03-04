@@ -195,105 +195,101 @@
     {% block content %}{% endblock %}
   </main>
 
-  <!-- =========================================================
-       FOOTER (Falconi-like: links + redes + newsletter)
-       ========================================================= -->
-  <footer class="st-footer" role="contentinfo">
-    <div class="container st-footer__grid">
-      <!-- LEFT: logo + links + redes -->
-      <div class="st-footer__left">
-        <div class="st-footer__top">
-          <!-- Marca -->
-          <div class="st-footer__brand">
-            <a class="st-footer__brandlink" href="{{ url_for('home') }}" aria-label="Voltar para o início">
-              <img
-                class="st-footer__logo"
-                src="{{ url_for('static', filename='IMG/logo-stegie.png') }}?v={{ asset_v }}"
-                alt="Stegie"
-                loading="lazy"
-                decoding="async"
-                onerror="
-                  if(!this.dataset.try2){this.dataset.try2='1'; this.src='{{ url_for('static', filename='IMG/logo-stegie.PNG') }}?v={{ asset_v }}';}
-                  else if(!this.dataset.try3){this.dataset.try3='1'; this.src='{{ url_for('static', filename='img/logo-stegie.png') }}?v={{ asset_v }}';}
-                  else if(!this.dataset.try4){this.dataset.try4='1'; this.src='{{ url_for('static', filename='img/logo-stegie.PNG') }}?v={{ asset_v }}';}
-                  else { this.style.display='none'; }
-                "
-              />
-              <span class="st-footer__wordmark">Stegie</span>
-            </a>
-            <p class="st-footer__tagline">Consultoria e Educação Têxtil para Malharias.</p>
+    <!-- =========================================================
+         FOOTER (Falconi-like: links + redes + newsletter)
+         ========================================================= -->
+    <footer class="st-footer" role="contentinfo">
+      <div class="container st-footer__wrap">
+        <!-- LEFT -->
+        <div class="st-footer__left">
+          <div class="st-footer__cols">
+            <!-- Marca -->
+            <div class="st-footer__brand">
+              <a class="st-footer__brandlink" href="{{ url_for('home') }}" aria-label="Voltar para o início">
+                <img
+                  class="st-footer__logo"
+                  src="{{ url_for('static', filename='IMG/logo-stegie.png') }}?v={{ asset_v }}"
+                  alt="Stegie"
+                  loading="lazy"
+                  decoding="async"
+                  style="height:28px;width:auto"  <!-- trava tamanho mesmo se o CSS falhar -->
+                  onerror="
+                    if(!this.dataset.try2){this.dataset.try2='1'; this.src='{{ url_for('static', filename='IMG/logo-stegie.PNG') }}?v={{ asset_v }}';}
+                    else if(!this.dataset.try3){this.dataset.try3='1'; this.src='{{ url_for('static', filename='img/logo-stegie.png') }}?v={{ asset_v }}';}
+                    else if(!this.dataset.try4){this.dataset.try4='1'; this.src='{{ url_for('static', filename='img/logo-stegie.PNG') }}?v={{ asset_v }}';}
+                    else { this.style.display='none'; }
+                  "
+                />
+                <span class="st-footer__wordmark">Stegie</span>
+              </a>
+  
+              <p class="st-footer__tagline">Consultoria e Educação Têxtil para Malharias.</p>
+            </div>
+  
+            <!-- Coluna 1 -->
+            <nav class="st-footer__col" aria-label="Institucional">
+              <a href="/quem-somos">Quem somos</a>
+              <a href="/o-que-fazemos">O que fazemos</a>
+              <a href="/contato">Contato</a>
+            </nav>
+  
+            <!-- Coluna 2 -->
+            <nav class="st-footer__col" aria-label="Legal">
+              <a href="/politica-de-privacidade">Política de Privacidade</a>
+              <a href="/termos">Termos</a>
+              <a href="/fale-conosco">Fale conosco</a>
+            </nav>
           </div>
-
-          <!-- Coluna 1 -->
-          <nav class="st-footer__col" aria-label="Institucional">
-            <ul class="st-footer__list">
-              <li><a href="/quem-somos">Quem somos</a></li>
-              <li><a href="/o-que-fazemos">O que fazemos</a></li>
-              <li><a href="/contato">Contato</a></li>
-            </ul>
-          </nav>
-
-          <!-- Coluna 2 -->
-          <nav class="st-footer__col" aria-label="Legal e Políticas">
-            <ul class="st-footer__list">
-              <li><a href="/politica-de-privacidade">Política de Privacidade</a></li>
-              <li><a href="/termos">Termos</a></li>
-              <li><a href="/fale-conosco">Fale conosco</a></li>
-            </ul>
-          </nav>
-        </div>
-
-        <div class="st-footer__divider" aria-hidden="true"></div>
-
-        <!-- Redes (como Falconi) -->
-        <div class="st-footer__social">
-          <span class="st-footer__sociallabel">Acompanhe nossas redes</span>
-
-          <div class="st-footer__socialicons" aria-label="Redes sociais">
-            <a class="st-socialbtn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M10 15.5v-7l6 3.5-6 3.5z" fill="currentColor"/>
-                <path d="M21 7.5a3 3 0 0 0-2.1-2.1C17.2 5 12 5 12 5s-5.2 0-6.9.4A3 3 0 0 0 3 7.5 31 31 0 0 0 3 12a31 31 0 0 0 .1 4.5 3 3 0 0 0 2.1 2.1c1.7.4 6.8.4 6.8.4s5.2 0 6.9-.4a3 3 0 0 0 2.1-2.1A31 31 0 0 0 21 12a31 31 0 0 0 0-4.5z"
-                      fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-              </svg>
-            </a>
-
-            <a class="st-socialbtn" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M6.5 9.5V18M6.5 6.5h.01M10 18v-5a3 3 0 0 1 6 0v5M10 13.2V18"
-                      fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-              </svg>
-            </a>
+  
+          <div class="st-footer__hr" aria-hidden="true"></div>
+  
+          <div class="st-footer__socialrow">
+            <span class="st-footer__sociallabel">Acompanhe nossas redes</span>
+  
+            <div class="st-footer__socialicons">
+              <a class="st-socialbtn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M10 15.5v-7l6 3.5-6 3.5z" fill="currentColor"/>
+                  <path d="M21 7.5a3 3 0 0 0-2.1-2.1C17.2 5 12 5 12 5s-5.2 0-6.9.4A3 3 0 0 0 3 7.5 31 31 0 0 0 3 12a31 31 0 0 0 .1 4.5 3 3 0 0 0 2.1 2.1c1.7.4 6.8.4 6.8.4s5.2 0 6.9-.4a3 3 0 0 0 2.1-2.1A31 31 0 0 0 21 12a31 31 0 0 0 0-4.5z"
+                        fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                </svg>
+              </a>
+  
+              <a class="st-socialbtn" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6.5 9.5V18M6.5 6.5h.01M10 18v-5a3 3 0 0 1 6 0v5M10 13.2V18"
+                        fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
+  
+        <!-- RIGHT (Newsletter) -->
+        <aside class="st-footer__right" aria-label="Newsletter">
+          <div class="st-news">
+            <div class="st-news__title">Assine nossa newsletter</div>
+  
+            <form class="st-news__form" onsubmit="return false;">
+              <input class="st-news__input" type="text" name="nome" placeholder="Nome" autocomplete="given-name">
+              <input class="st-news__input" type="text" name="sobrenome" placeholder="Sobrenome" autocomplete="family-name">
+              <input class="st-news__input" type="email" name="email" placeholder="E-mail profissional" autocomplete="email">
+  
+              <label class="st-news__consent">
+                <input class="st-news__check" type="checkbox">
+                <span>Concordo em receber comunicações da Stegie. Para mais informações, consulte nossa <a href="/politica-de-privacidade">Política de Privacidade</a>.</span>
+              </label>
+  
+              <button class="st-news__btn" type="submit">Enviar</button>
+            </form>
+          </div>
+        </aside>
       </div>
-
-      <!-- RIGHT: Newsletter -->
-      <aside class="st-footer__right" aria-label="Newsletter">
-        <div class="st-news">
-          <h4 class="st-news__title">Assine nossa newsletter</h4>
-
-          <!-- UI pronto (sem backend): não quebra o site -->
-          <form class="st-news__form" onsubmit="return false;">
-            <input class="st-news__input" type="text" name="nome" placeholder="Nome" autocomplete="given-name" aria-label="Nome" />
-            <input class="st-news__input" type="text" name="sobrenome" placeholder="Sobrenome" autocomplete="family-name" aria-label="Sobrenome" />
-            <input class="st-news__input" type="email" name="email" placeholder="E-mail profissional" autocomplete="email" aria-label="E-mail profissional" />
-
-            <label class="st-news__consent">
-              <input type="checkbox" />
-              <span>Concordo em receber comunicações da Stegie. Para mais informações, consulte nossa <a href="/politica-de-privacidade">Política de Privacidade</a>.</span>
-            </label>
-
-            <button class="st-news__btn" type="submit">Enviar</button>
-          </form>
-        </div>
-      </aside>
-    </div>
-
-    <div class="container st-footer__bottom">
-      <span>© STEGIE. Todos os direitos reservados.</span>
-    </div>
-  </footer>
+  
+      <div class="st-footer__bottom">
+        <div class="container">© STEGIE. Todos os direitos reservados.</div>
+      </div>
+    </footer>
 
   <!-- Modal de vídeo -->
   <div class="modal" id="videoModal" aria-hidden="true">
