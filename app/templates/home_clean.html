@@ -122,6 +122,14 @@
     .home-clean .shortcut:hover .shortcut-ico svg{
       color: #7B7424 !important;
     }
+
+    /* Compatibilidade: caso algum símbolo use fill */
+    .home-clean .shortcut-ico svg [fill]:not([fill="none"]){
+      fill: #7B7424 !important;
+    }
+    .home-clean .shortcut-ico svg [stroke]{
+      stroke: #7B7424 !important;
+    }
   </style>
 </head>
 
