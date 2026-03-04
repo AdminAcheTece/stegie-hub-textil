@@ -1,17 +1,24 @@
+/* =========================================================
+   STEGIE.CSS (LIMPO / CONSOLIDADO)
+   Paleta: preto/branco + fundo claro
+   ========================================================= */
+
 :root{
   --bg:#F7F6F3;
   --surface:#FFFFFF;
   --text:#121212;
   --muted:#5A5A5A;
   --border:#E6E1D8;
-  --primary:#3F5E4A;
-  --primaryHover:#34503E;
+
+  /* Preto como cor principal do site */
+  --primary:#111111;
+  --primaryHover:#000000;
 
   --radius-lg:24px;
   --radius-md:16px;
   --shadow: 0 10px 30px rgba(18,18,18,.06);
 
-  --focus: rgba(63,94,74,.28);
+  --focus: rgba(0,0,0,.18);
 }
 
 *{ box-sizing:border-box; }
@@ -83,7 +90,10 @@ a:hover{ opacity:.92; }
   padding: 12px 12px;
   font-size: 16px;
 }
-.input:focus, select:focus, textarea:focus{ outline: 3px solid var(--focus); border-color: rgba(63,94,74,.55); }
+.input:focus, select:focus, textarea:focus{
+  outline: 3px solid var(--focus);
+  border-color: rgba(0,0,0,.35);
+}
 
 .grid-3{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .grid-2{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
@@ -97,9 +107,9 @@ a:hover{ opacity:.92; }
   margin-bottom: 14px;
 }
 
-/* -------------------------------------------------
-   TOPBAR / NAVBAR (NOVO) - compatível com Parciais/navbar.html
--------------------------------------------------- */
+/* =========================================================
+   TOPBAR / NAVBAR
+   ========================================================= */
 .topbar{
   position: sticky;
   top: 0;
@@ -153,7 +163,7 @@ a:hover{ opacity:.92; }
   color: var(--text);
   padding: 10px 10px;
   border-radius: 12px;
-  transition: background .12s ease, border-color .12s ease;
+  transition: background .12s ease;
 }
 .nav-link:hover{ background: rgba(255,255,255,.7); }
 
@@ -182,31 +192,9 @@ a:hover{ opacity:.92; }
 }
 .nav-toggle__bar + .nav-toggle__bar{ margin-top: 4px; }
 
-/* Compatibilidade com o CSS antigo (se alguma página ainda usa .nav__*) */
-.nav__inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding: 14px 0;
-}
-.nav__brand{ display:flex; align-items:center; gap:10px; }
-.nav__logo{ height: 28px; width:auto; }
-.nav__name{ font-family: Manrope; font-weight: 800; letter-spacing:-.02em; }
-.nav__links{ display:flex; align-items:center; gap: 16px; }
-.nav__links a{ font-weight:700; color: var(--text); }
-.nav__burger{ display:none; border: 1px solid var(--border); background: var(--surface); border-radius: 12px; padding: 8px 10px; }
-
-.nav__mobile{
-  display:none;
-  border-top: 1px solid var(--border);
-  background: var(--bg);
-  padding: 12px 24px;
-}
-.nav__mobile a{ display:block; padding: 10px 0; font-weight:700; }
-
-/* -------------------------------------------------
+/* =========================================================
    HERO
--------------------------------------------------- */
+   ========================================================= */
 .hero{ padding: 84px 0 48px 0; }
 .hero__grid{
   display:grid;
@@ -219,9 +207,10 @@ a:hover{ opacity:.92; }
 .hero__media{
   height: 420px;
   border-radius: var(--radius-lg);
-  background: radial-gradient(circle at 30% 30%, rgba(63,94,74,.25), transparent 45%),
-              radial-gradient(circle at 70% 40%, rgba(15,42,61,.18), transparent 50%),
-              #ffffff;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(0,0,0,.06), transparent 45%),
+    radial-gradient(circle at 70% 40%, rgba(0,0,0,.05), transparent 50%),
+    #ffffff;
   border: 1px solid var(--border);
   position: relative;
   overflow:hidden;
@@ -285,7 +274,7 @@ a:hover{ opacity:.92; }
   margin-bottom: 10px;
   font-weight: 700;
 }
-.flash--success{ border-color: rgba(63,94,74,.35); }
+.flash--success{ border-color: rgba(0,0,0,.22); }
 
 /* MODAL */
 .modal{ display:none; position:fixed; inset:0; z-index:100; }
@@ -315,9 +304,9 @@ a:hover{ opacity:.92; }
 .modal__body{ padding: 26px; }
 .modal__placeholder{ padding: 18px; border: 1px dashed var(--border); border-radius: 18px; }
 
-/* -------------------------------------------------
-   FOOTER (NOVO) - compatível com Parciais/footer.html
--------------------------------------------------- */
+/* =========================================================
+   FOOTER (PADRÃO DO SITE)
+   ========================================================= */
 .footer{
   border-top: 1px solid var(--border);
   background: rgba(255,255,255,.55);
@@ -327,8 +316,8 @@ a:hover{ opacity:.92; }
   padding: 34px 0;
   border-bottom: 1px solid var(--border);
   background:
-    radial-gradient(circle at 18% 40%, rgba(63,94,74,.14), transparent 42%),
-    radial-gradient(circle at 76% 30%, rgba(15,42,61,.10), transparent 48%),
+    radial-gradient(circle at 18% 40%, rgba(0,0,0,.06), transparent 42%),
+    radial-gradient(circle at 76% 30%, rgba(0,0,0,.05), transparent 48%),
     rgba(255,255,255,.42);
 }
 .footer-cta__inner{
@@ -402,39 +391,9 @@ a:hover{ opacity:.92; }
 }
 .footer-copy{ font-weight: 700; }
 
-/* Compatibilidade com CSS antigo do footer (se alguma página ainda usa .footer__*) */
-.footer__grid{
-  display:grid;
-  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
-  gap: 18px;
-}
-.footer__brand{ font-family: Manrope; font-weight: 800; margin-bottom: 10px; }
-.footer__title{ font-weight: 800; margin-bottom: 10px; }
-.footer a{ display:block; margin: 8px 0; color: var(--text); font-weight:700; }
-.footer__form{ display:flex; gap: 10px; margin: 10px 0; }
-.footer__legal{
-  display:flex;
-  gap: 10px;
-  align-items:center;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-  margin-top: 18px;
-  flex-wrap: wrap;
-  color: var(--muted);
-}
-
-/* REVEAL (scroll) */
-[data-reveal]{
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity .38s ease, transform .38s ease;
-}
-[data-reveal].is-visible{
-  opacity: 1;
-  transform: none;
-}
-
-/* Responsive */
+/* =========================================================
+   RESPONSIVO GERAL
+   ========================================================= */
 @media (max-width: 980px){
   .container{ width: min(1240px, calc(100% - 32px)); }
 
@@ -470,162 +429,32 @@ a:hover{ opacity:.92; }
   .footer-main{ grid-template-columns: 1fr; }
 }
 
-/* ---------- Home clean (estilo “Google”) ---------- */
-.home-clean{
-  min-height: 100vh;
-  display: flex;
-  background: var(--bg);
-}
-
-.home-wrap{
-  width: 100%;
-  display: grid;
-  place-items: center;
-  padding: 48px 16px;
-}
-
-.home-center{
-  width: min(920px, 100%);
-  display: grid;
-  justify-items: center;
-  gap: 18px;
-}
-
-.home-brand{
-  font-family: Manrope, Inter, system-ui, sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  font-size: clamp(48px, 7vw, 84px);
-  line-height: 1;
-  color: var(--text);
-}
-
-.home-pill{
-  width: min(640px, 100%);
-  height: 54px;
-  border-radius: 999px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 18px;
-}
-
-.home-pill-dot{
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: var(--primary);
-  opacity: .9;
-}
-
-.home-pill-text{
-  color: var(--muted);
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.home-shortcuts{
-  width: min(720px, 100%);
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 8px;
-}
-
-.shortcut{
-  text-decoration: none;
-  color: var(--text);
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  padding: 10px 8px;
-  border-radius: 16px;
-}
-
-.shortcut:hover{
-  background: rgba(0,0,0,0.03);
-}
-
-.shortcut-ico{
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 8px 18px rgba(18,18,18,.06);
-}
-
-.shortcut-ico svg{
-  width: 24px;
-  height: 24px;
-  color: var(--primary);
-}
-
-.shortcut-label{
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--muted);
-  text-align: center;
-  line-height: 1.2;
-}
-
-/* Responsivo */
-@media (max-width: 920px){
-  .home-shortcuts{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-@media (max-width: 520px){
-  .home-shortcuts{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-/* Esconde o SVG sprite (definições de ícones) pra não renderizar na tela */
-.home-icons-sprite{
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  left: -9999px;
-  top: -9999px;
-}
-
-.home-clean{ margin:0; }
-.home-clean img, 
-.home-clean svg{ max-width: 100%; height: auto; }
-
-.home-clean .shortcut-ico{
-  width: 56px;
-  height: 56px;
-}
-
-.home-clean .shortcut-ico svg{
-  width: 24px;
-  height: 24px;
-}
-
-/* =========================
-   HOME CLEAN (Google-like)
-   ========================= */
+/* =========================================================
+   HOME CLEAN (estilo Google) — CONSOLIDADO
+   ========================================================= */
 
 .home-clean{
   margin: 0;
   min-height: 100vh;
-  background: var(--bg, #f6f3ee);
-  color: var(--text, #111);
+  background: var(--bg);
+  color: var(--text);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* esconde o sprite (evita “SVG gigante” na tela) */
+/* Evita qualquer regra global de imagem “estourar” a logo */
+.home-clean img{
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+/* Sprite de ícones nunca aparece */
 .home-icons-sprite{
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  left: -9999px;
-  top: -9999px;
+  position:absolute;
+  width:0;
+  height:0;
+  overflow:hidden;
+  left:-9999px;
+  top:-9999px;
 }
 
 /* Topo fixo (menu + avatar) */
@@ -654,24 +483,23 @@ a:hover{ opacity:.92; }
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  border: 1px solid var(--border, rgba(0,0,0,.12));
-  background: var(--surface, rgba(255,255,255,.65));
+  border: 1px solid rgba(0,0,0,.12);
+  background: rgba(255,255,255,.65);
   display: grid;
   place-items: center;
   cursor: pointer;
 }
-
 .icon-btn svg{
   width: 20px;
   height: 20px;
-  color: var(--text, #111);
+  color: #111;
 }
 
 .avatar{
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  background: var(--primary, #2f5d47);
+  background: #111;
   color: #fff;
   display: grid;
   place-items: center;
@@ -688,8 +516,8 @@ a:hover{ opacity:.92; }
   right: 0;
   min-width: 220px;
   border-radius: 14px;
-  border: 1px solid var(--border, rgba(0,0,0,.12));
-  background: var(--surface, rgba(255,255,255,.92));
+  border: 1px solid rgba(0,0,0,.12);
+  background: rgba(255,255,255,.92);
   box-shadow: 0 18px 40px rgba(0,0,0,.12);
   padding: 8px;
   opacity: 0;
@@ -697,25 +525,21 @@ a:hover{ opacity:.92; }
   transform: translateY(-6px);
   transition: .16s ease;
 }
-
 .menu.is-open{
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
-
 .menu-item{
   display: block;
-  padding: 10px 12px;
+  padding: 11px 12px;
   border-radius: 10px;
   text-decoration: none;
-  color: var(--text, #111);
+  color: #111;
   font-weight: 600;
+  font-size: 14.5px;
 }
-
-.menu-item:hover{
-  background: rgba(0,0,0,.04);
-}
+.menu-item:hover{ background: rgba(0,0,0,.04); }
 
 /* Conteúdo central */
 .home-wrap{
@@ -732,6 +556,23 @@ a:hover{ opacity:.92; }
   gap: 18px;
 }
 
+/* Lockup (logo + wordmark) */
+.brand-lockup{
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+/* LOGO 5x MENOR (controle por ALTURA) */
+.home-clean .brand-logo{
+  height: clamp(18px, 2.8vw, 34px) !important; /* <<< aqui está a redução forte */
+  width: auto !important;
+  max-width: 140px !important;
+  object-fit: contain !important;
+  display: block;
+}
+
+/* Wordmark */
 .home-brand{
   font-weight: 700;
   letter-spacing: -0.04em;
@@ -740,12 +581,13 @@ a:hover{ opacity:.92; }
   color: #111;
 }
 
+/* Barra central */
 .home-pill{
   width: min(720px, 100%);
   height: 52px;
   border-radius: 999px;
-  background: var(--surface, rgba(255,255,255,.70));
-  border: 1px solid var(--border, rgba(0,0,0,.12));
+  background: rgba(255,255,255,.70);
+  border: 1px solid rgba(0,0,0,.12);
   box-shadow: 0 14px 28px rgba(0,0,0,.06);
   display: flex;
   align-items: center;
@@ -757,7 +599,7 @@ a:hover{ opacity:.92; }
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: var(--primary, #2f5d47);
+  background: #111;
   opacity: .9;
 }
 
@@ -767,7 +609,7 @@ a:hover{ opacity:.92; }
   font-size: 14px;
 }
 
-/* Grade de atalhos (menos itens → mais “respiro”) */
+/* Grade de atalhos */
 .home-shortcuts{
   width: min(720px, 100%);
   display: grid;
@@ -778,35 +620,33 @@ a:hover{ opacity:.92; }
 
 .shortcut{
   text-decoration: none;
-  color: var(--text, #111);
+  color: #111;
   display: grid;
   justify-items: center;
   gap: 10px;
   padding: 10px 8px;
   border-radius: 16px;
 }
-
 .shortcut:hover{ background: rgba(0,0,0,0.03); }
 
 .shortcut-ico{
   width: 56px;
   height: 56px;
   border-radius: 16px;
-  border: 1px solid var(--border, rgba(0,0,0,.12));
+  border: 1px solid rgba(0,0,0,.12);
   background: rgba(255,255,255,.72);
   display: grid;
   place-items: center;
   box-shadow: 0 10px 22px rgba(0,0,0,.06);
 }
-
 .shortcut-ico svg{
   width: 24px;
   height: 24px;
-  color: var(--primary, #2f5d47);
+  color: #111;
 }
 
 .shortcut-label{
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: rgba(0,0,0,.62);
   text-align: center;
@@ -820,7 +660,7 @@ a:hover{ opacity:.92; }
   right: 0;
   bottom: 0;
   background: rgba(255,255,255,.70);
-  border-top: 1px solid var(--border, rgba(0,0,0,.10));
+  border-top: 1px solid rgba(0,0,0,.10);
   backdrop-filter: blur(10px);
   padding: 10px 16px;
   z-index: 40;
@@ -842,7 +682,7 @@ a:hover{ opacity:.92; }
 }
 
 .footer-links{
-  gap: 18px;
+  gap: 22px;
   flex-wrap: wrap;
 }
 
@@ -850,112 +690,14 @@ a:hover{ opacity:.92; }
   text-decoration: none;
   color: rgba(0,0,0,.62);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 13.5px;
 }
-
 .footer-links a:hover{ text-decoration: underline; }
 
-/* Responsivo */
+/* Responsivo (home) */
 @media (max-width: 900px){
   .home-shortcuts{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 520px){
   .home-shortcuts{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-/* =========================
-   AJUSTES: preto/branco + fontes maiores (HOME CLEAN)
-   ========================= */
-
-/* força paleta preta nessa página */
-.home-clean{
-  --primary: #111;           /* tudo que era verde vira preto */
-  --text: #111;
-  --muted: rgba(0,0,0,.68);
-  --border: rgba(0,0,0,.12);
-  --surface: rgba(255,255,255,.78);
-}
-
-/* pontinho e ícones em preto */
-.home-pill-dot{ background: var(--primary); }
-.shortcut-ico svg{ color: var(--primary); }
-
-/* avatar preto */
-.avatar{
-  background: #111;
-  color: #fff;
-}
-
-/* links maiores */
-.shortcut-label{
-  font-size: 14px;           /* antes 12px */
-}
-
-.menu-item{
-  font-size: 14.5px;         /* mais legível */
-}
-
-.footer-links a{
-  font-size: 13.5px;
-}
-
-/* opcional: “área clicável” mais confortável */
-.menu-item{ padding: 11px 12px; }
-.footer-links{ gap: 22px; }
-
-/* Lockup: logo acima do wordmark */
-.brand-lockup{
-  display: grid;
-  justify-items: center;
-  gap: 10px;                 /* espaço entre logo e “Stegie” */
-}
-
-/* Logo proporcional ao wordmark (responsivo) */
-.brand-logo{
-  height: clamp(44px, 6.2vw, 78px);  /* ajusta com a tela */
-  width: auto;
-  display: block;
-  image-rendering: auto;
-}
-
-/* Lockup (logo acima do wordmark) */
-.brand-lockup{
-  display: grid;
-  justify-items: center;
-  gap: 12px;
-}
-
-/* Limite de tamanho: proporcional ao “Stegie” e responsivo */
-.brand-logo{
-  height: clamp(44px, 5vw, 84px);     /* AJUSTE AQUI: tamanho vertical */
-  width: auto;
-  max-width: min(420px, 80vw);        /* evita estourar a tela */
-  object-fit: contain;
-  display: block;
-}
-
-/* ====== FIX DEFINITIVO: logo não estoura ====== */
-
-/* Se existir regra global "img { width:100%; }", neutraliza só na home */
-.home-clean img{
-  width: auto !important;
-  max-width: 100% !important;
-}
-
-/* Lockup central */
-.home-clean .brand-lockup{
-  display: grid;
-  justify-items: center;
-  gap: 12px;
-  width: min(520px, 86vw);       /* “largura do conjunto” (não deixa ficar gigante) */
-  margin: 0 auto;
-}
-
-/* A logo, de fato, com tamanho limitado */
-.home-clean .brand-lockup > img.brand-logo{
-  width: clamp(170px, 22vw, 320px) !important;  /* controla pela largura */
-  height: auto !important;
-  max-width: 100% !important;
-  object-fit: contain !important;
-  display: block;
 }
