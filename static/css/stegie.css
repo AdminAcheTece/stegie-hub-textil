@@ -1478,7 +1478,7 @@ a:hover{ opacity:.92; }
 
 /* Troca a faixa grossa/neon por uma linha elegante */
 .st-fnav__accent{
-  height: 3px;
+  height: 6px;
   background: linear-gradient(
     90deg,
     rgba(123,116,36,0),
