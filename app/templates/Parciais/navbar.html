@@ -1,10 +1,11 @@
-<header class="st-fnav" role="banner">
+<!-- Parciais/navbar.html -->
+<nav class="st-fnav" aria-label="Navegação principal">
   <div class="st-fnav__inner">
-    <!-- Marca -->
-    <a class="st-fnav__brand" href="/">
+    <a class="st-fnav__brand" href="{{ url_for('home') }}" aria-label="Ir para a home">
+      {# Logo opcional no header (recomendado ser branco) #}
       <img
         class="st-fnav__logo"
-        src="{{ url_for('static', filename='img/logo-stegie-branca.png', v=asset_v) }}"
+        src="{{ url_for('static', filename='img/logo-stegie-branca.png') }}"
         alt="Stegie"
         loading="eager"
         decoding="async"
@@ -12,121 +13,23 @@
       <span class="st-fnav__word">Stegie</span>
     </a>
 
-    <!-- Menu (desktop) -->
-    <nav class="st-fnav__menu" aria-label="Navegação principal">
+    <!-- Menu desktop -->
+    <div class="st-fnav__menu" role="menubar" aria-label="Menu">
+      <a class="st-fnav__item" role="menuitem" href="{{ url_for('servicos') }}">Soluções</a>
+      <a class="st-fnav__item" role="menuitem" href="{{ url_for('conteudos') }}">Conteúdos</a>
+      <a class="st-fnav__item" role="menuitem" href="{{ url_for('quem_somos') }}">Sobre</a>
+    </div>
 
-      <!-- Soluções (mega menu) -->
-      <details class="st-dd">
-        <summary class="st-fnav__item st-fnav__item--dd">
-          Soluções <span class="st-fnav__caret" aria-hidden="true"></span>
-        </summary>
-
-        <!-- IMPORTANTE: este painel precisa existir e ter esta classe -->
-        <div class="st-dd__panel" role="dialog" aria-label="Menu Soluções">
-          <div class="st-dd__panel-inner">
-            <div class="st-dd__grid">
-
-              <div class="st-dd__col">
-                <h4 class="st-dd__title">Qualidade</h4>
-                <a class="st-dd__link" href="/servicos">Critérios de aceite</a>
-                <a class="st-dd__link" href="/servicos#entregas">Tolerâncias e padrão</a>
-                <a class="st-dd__link" href="/contato?assunto=qualidade">Diagnóstico de qualidade</a>
-              </div>
-
-              <div class="st-dd__col">
-                <h4 class="st-dd__title">Processo</h4>
-                <a class="st-dd__link" href="/servicos">Padronização operacional</a>
-                <a class="st-dd__link" href="/contato?assunto=sprint">Sprint técnico</a>
-                <a class="st-dd__link" href="/contato?assunto=projeto">Projeto (início, meio e fim)</a>
-              </div>
-
-              <div class="st-dd__col">
-                <h4 class="st-dd__title">Ficha Técnica</h4>
-                <a class="st-dd__link" href="/contato?assunto=ficha">Estruturar ficha aplicável</a>
-                <a class="st-dd__link" href="/contato?assunto=encontrar-ficha">Encontrar minha ficha</a>
-                <a class="st-dd__link" href="/servicos#entregas">Checklist + auditoria</a>
-              </div>
-
-              <div class="st-dd__col">
-                <h4 class="st-dd__title">Pessoas</h4>
-                <a class="st-dd__link" href="/educacao">Treinamento aplicado</a>
-                <a class="st-dd__link" href="/educacao">Trilhas e rotina</a>
-                <a class="st-dd__link" href="/contato?assunto=treinamento">Treinar equipe</a>
-              </div>
-
-              <div class="st-dd__col">
-                <h4 class="st-dd__title">Sustentação</h4>
-                <a class="st-dd__link" href="/contato?assunto=agente-tecnico">Agente Técnico (mensal)</a>
-                <a class="st-dd__link" href="/servicos#entregas">Rotina de checagem</a>
-                <a class="st-dd__link" href="/contato">Fale conosco</a>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <!-- Conteúdos (dropdown simples) -->
-      <details class="st-dd st-dd--simple">
-        <summary class="st-fnav__item st-fnav__item--dd">
-          Conteúdos <span class="st-fnav__caret" aria-hidden="true"></span>
-        </summary>
-
-        <div class="st-dd__panel st-dd__panel--simple" role="dialog" aria-label="Menu Conteúdos">
-          <div class="st-dd__panel-inner">
-            <div class="st-dd__simple">
-              <a class="st-dd__link" href="/conteudo">Artigos</a>
-              <a class="st-dd__link" href="/conteudo#guias">Guias</a>
-              <a class="st-dd__link" href="/conteudo#cases">Cases</a>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <!-- Sobre (dropdown simples) -->
-      <details class="st-dd st-dd--simple">
-        <summary class="st-fnav__item st-fnav__item--dd">
-          Sobre <span class="st-fnav__caret" aria-hidden="true"></span>
-        </summary>
-
-        <div class="st-dd__panel st-dd__panel--simple" role="dialog" aria-label="Menu Sobre">
-          <div class="st-dd__panel-inner">
-            <div class="st-dd__simple">
-              <a class="st-dd__link" href="/sobre">Quem somos</a>
-              <a class="st-dd__link" href="/servicos">Serviços</a>
-              <a class="st-dd__link" href="/contato">Fale conosco</a>
-            </div>
-          </div>
-        </div>
-      </details>
-
-    </nav>
-
-    <!-- Direita -->
+    <!-- Lado direito -->
     <div class="st-fnav__right">
-      <button class="st-fnav__icon" type="button" aria-label="Buscar">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M10.5 3a7.5 7.5 0 1 1 0 15a7.5 7.5 0 0 1 0-15Z" stroke-width="2"/>
-          <path d="M16.2 16.2L21 21" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
-
-      <span class="st-fnav__vdiv" aria-hidden="true"></span>
-
-      <a class="st-fnav__icon" href="/contato" aria-label="Fale conosco">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M6.7 10.8a14.6 14.6 0 0 0 6.5 6.5l2.1-2.1c.3-.3.8-.4 1.2-.3c1 .3 2 .5 3 .5c.6 0 1 .4 1 1V21c0 .6-.4 1-1 1C10.3 22 2 13.7 2 3c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1c0 1 .2 2 .5 3c.1.4 0 .9-.3 1.2l-2.1 2.1Z"
-                stroke-width="2" stroke-linejoin="round"/>
-        </svg>
-      </a>
-
-      <span class="st-fnav__vdiv" aria-hidden="true"></span>
-
-      <button class="st-fnav__lang" type="button" aria-haspopup="listbox" aria-expanded="false">
-        PT <span class="st-fnav__caret" aria-hidden="true"></span>
-      </button>
-
-      <button class="st-fnav__burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="stFnavMobile">
+      <button
+        class="st-fnav__burger"
+        id="fnavBurger"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="fnavMobile"
+      >
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -134,12 +37,11 @@
 
   <div class="st-fnav__accent" aria-hidden="true"></div>
 
-  <!-- Mobile -->
-  <div class="st-fnav__mobile" id="stFnavMobile" hidden>
-    <a href="/servicos">Serviços</a>
-    <a href="/educacao">Educação</a>
-    <a href="/conteudo">Conteúdos</a>
-    <a href="/sobre">Quem somos</a>
-    <a href="/contato">Fale conosco</a>
+  <!-- Menu mobile (fica ESCONDIDO por padrão via atributo hidden) -->
+  <div class="st-fnav__mobile" id="fnavMobile" hidden>
+    <a href="{{ url_for('servicos') }}">Soluções</a>
+    <a href="{{ url_for('conteudos') }}">Conteúdos</a>
+    <a href="{{ url_for('quem_somos') }}">Sobre</a>
+    <a href="{{ url_for('contato') }}">Contato</a>
   </div>
-</header>
+</nav>
