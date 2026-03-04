@@ -32,11 +32,11 @@
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
   <!-- =========================================================
-       TOPBAR (Falconi-like)
-       ========================================================= -->
+     TOPBAR (Falconi-like)
+     ========================================================= -->
   <header class="st-fnav" id="stTopbar">
     <div class="st-fnav__inner">
-
+  
       <!-- Brand: LOGO + WORDMARK -->
       <a class="st-fnav__brand" href="{{ url_for('home') }}" aria-label="Voltar para a Home">
         <img
@@ -45,10 +45,16 @@
           alt="Stegie"
           loading="eager"
           decoding="async"
+          onerror="
+            if(!this.dataset.try2){this.dataset.try2='1'; this.src='{{ url_for('static', filename='IMG/logo-stegie-branca.PNG') }}?v={{ asset_v }}';}
+            else if(!this.dataset.try3){this.dataset.try3='1'; this.src='{{ url_for('static', filename='img/logo-stegie-branca.png') }}?v={{ asset_v }}';}
+            else if(!this.dataset.try4){this.dataset.try4='1'; this.src='{{ url_for('static', filename='img/logo-stegie-branca.PNG') }}?v={{ asset_v }}';}
+            else { this.style.display='none'; }
+          "
         />
         <span class="st-fnav__word">Stegie</span>
       </a>
-
+  
       <!-- Menu principal (desktop) -->
       <nav class="st-fnav__nav" aria-label="Menu principal">
         <button class="st-fnav__link" type="button"
@@ -57,14 +63,14 @@
                 aria-controls="mega-solucoes">
           Soluções <span class="st-fnav__chev" aria-hidden="true">▾</span>
         </button>
-
+  
         <button class="st-fnav__link" type="button"
                 data-mega-trigger="conteudos"
                 aria-expanded="false"
                 aria-controls="mega-conteudos">
           Conteúdos <span class="st-fnav__chev" aria-hidden="true">▾</span>
         </button>
-
+  
         <button class="st-fnav__link" type="button"
                 data-mega-trigger="sobre"
                 aria-expanded="false"
@@ -72,7 +78,7 @@
           Sobre <span class="st-fnav__chev" aria-hidden="true">▾</span>
         </button>
       </nav>
-
+  
       <!-- Ações à direita -->
       <div class="st-fnav__actions">
         <a class="st-iconbtn" href="{{ url_for('contato') }}" aria-label="Fale conosco">
@@ -81,7 +87,7 @@
                   fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
           </svg>
         </a>
-
+  
         <!-- Burger (mobile) -->
         <button class="st-fnav__burger" type="button"
                 aria-label="Abrir menu"
@@ -91,48 +97,50 @@
         </button>
       </div>
     </div>
-
-    <!-- faixa fina abaixo (seu “detalhe” de linha) -->
+  
+    <!-- linha/acento abaixo do topo -->
     <div class="st-fnav__accent" aria-hidden="true"></div>
-
+  
     <!-- Mobile menu -->
     <div class="st-fnav__mobile" id="st-fnav-mobile" hidden>
-      <a href="{{ url_for('servicos') }}">Soluções</a>
-      <a href="{{ url_for('conteudos') }}">Conteúdos</a>
-      <a href="{{ url_for('quem_somos') }}">Sobre</a>
-      <a href="{{ url_for('contato') }}">Contato</a>
+      <a href="/consultoria-textil">Consultoria Têxtil (Malharia)</a>
+      <a href="/educacao-textil">Educação Têxtil</a>
+      <a href="/desenvolvimento-de-malhas">Desenvolvimento de Malhas</a>
+      <a href="/agente-tecnico-textil">Agente Técnico Têxtil com IA</a>
+      <a href="/fichas-tecnicas">Fichas Técnicas de Malharia</a>
+      <hr style="opacity:.25; margin:12px 0;">
+      <a href="/quem-somos">Quem somos</a>
+      <a href="/o-que-fazemos">O que fazemos</a>
+      <a href="/fale-conosco">Fale conosco</a>
     </div>
   </header>
-
+  
   <!-- =========================================================
        MEGA MENUS (painel branco estilo Falconi)
        ========================================================= -->
-
+  
   <!-- SOLUÇÕES -->
   <section class="st-mega" id="mega-solucoes" aria-label="Soluções">
     <div class="st-mega__inner st-mega__cols-3">
       <div class="st-mega__col">
-        <div class="st-mega__title">Consultoria</div>
+        <div class="st-mega__title">Serviços</div>
         <a class="st-mega__item" href="/consultoria-textil">Consultoria Têxtil (Malharia)</a>
-        <a class="st-mega__item" href="/consultoria-textil">Diagnóstico → plano de ação → rotina de sustentação</a>
-      </div>
-
-      <div class="st-mega__col">
-        <div class="st-mega__title">Educação</div>
         <a class="st-mega__item" href="/educacao-textil">Educação Têxtil</a>
-        <a class="st-mega__item" href="/educacao-textil">Trilhas: Operação • Desenvolvimento • Qualidade • Testes</a>
+        <a class="st-mega__item" href="/desenvolvimento-de-malhas">Desenvolvimento de Malhas</a>
       </div>
-
+  
       <div class="st-mega__col">
-        <div class="st-mega__title">Ferramentas</div>
-        <a class="st-mega__item" href="/desenvolvimento-fichas-tecnicas">Desenvolvimento de Fichas Técnicas</a>
-        <a class="st-mega__item" href="/desenvolvimento-fichas-tecnicas">O que medir, como tolerar, como auditar — padrão real</a>
-        <a class="st-mega__item" href="/agente-tecnico-textil">Agente Técnico Têxtil</a>
-        <a class="st-mega__item" href="/encontre-sua-ficha-tecnica">Encontre sua Ficha Técnica de Malharia</a>
+        <div class="st-mega__title">Tecnologia</div>
+        <a class="st-mega__item" href="/agente-tecnico-textil">Agente Técnico Têxtil com IA</a>
+      </div>
+  
+      <div class="st-mega__col">
+        <div class="st-mega__title">Documentação</div>
+        <a class="st-mega__item" href="/fichas-tecnicas">Fichas Técnicas de Malharia</a>
       </div>
     </div>
   </section>
-
+  
   <!-- CONTEÚDOS -->
   <section class="st-mega" id="mega-conteudos" aria-label="Conteúdos">
     <div class="st-mega__inner st-mega__cols-3">
@@ -141,17 +149,17 @@
         <a class="st-mega__item" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
         <a class="st-mega__item" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
       </div>
-
+  
       <div class="st-mega__col">
-        <div class="st-mega__title">Temas</div>
+        <div class="st-mega__title">Temas Técnicos</div>
         <a class="st-mega__item" href="/conteudos/temas/qualidade">Qualidade</a>
         <a class="st-mega__item" href="/conteudos/temas/processos">Processos</a>
         <a class="st-mega__item" href="/conteudos/temas/testes">Testes</a>
         <a class="st-mega__item" href="/conteudos/temas/tecnologias">Tecnologias</a>
       </div>
-
+  
       <div class="st-mega__col">
-        <div class="st-mega__title">Biblioteca</div>
+        <div class="st-mega__title">Biblioteca de Conteúdos</div>
         <a class="st-mega__item" href="/biblioteca/fibras">Fibras</a>
         <a class="st-mega__item" href="/biblioteca/fios">Fios</a>
         <a class="st-mega__item" href="/biblioteca/malharia">Malharia</a>
@@ -160,21 +168,15 @@
       </div>
     </div>
   </section>
-
+  
   <!-- SOBRE -->
   <section class="st-mega" id="mega-sobre" aria-label="Sobre">
-    <div class="st-mega__inner st-mega__cols-2">
+    <div class="st-mega__inner st-mega__cols-1">
       <div class="st-mega__col">
         <div class="st-mega__title">Institucional</div>
         <a class="st-mega__item" href="/quem-somos">Quem somos</a>
         <a class="st-mega__item" href="/o-que-fazemos">O que fazemos</a>
         <a class="st-mega__item" href="/fale-conosco">Fale conosco</a>
-      </div>
-
-      <div class="st-mega__col">
-        <div class="st-mega__title">Outros</div>
-        <a class="st-mega__item" href="/sustentabilidade">Desenvolvimento Sustentável</a>
-        <a class="st-mega__item" href="/trabalhe-conosco">Trabalhe Conosco</a>
       </div>
     </div>
   </section>
