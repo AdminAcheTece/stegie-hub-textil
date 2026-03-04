@@ -118,3 +118,45 @@ console.log("Stegie app.js carregado");
     if (e.key === "Escape") closeAll();
   });
 })();
+
+// ===========================
+// NAVBAR: mobile + fechar dropdown fora/ESC + só 1 aberto
+// ===========================
+(function () {
+  const burger = document.querySelector(".st-fnav__burger");
+  const mobileMenu = document.getElementById("stFnavMobile");
+
+  if (burger && mobileMenu) {
+    burger.addEventListener("click", () => {
+      const isOpen = burger.getAttribute("aria-expanded") === "true";
+      burger.setAttribute("aria-expanded", String(!isOpen));
+      mobileMenu.hidden = isOpen;
+    });
+  }
+
+  const dropdowns = Array.from(document.querySelectorAll(".st-dd"));
+
+  function closeAll(except = null) {
+    dropdowns.forEach(d => {
+      if (d !== except) d.removeAttribute("open");
+    });
+  }
+
+  // só 1 dropdown aberto por vez
+  dropdowns.forEach(d => {
+    d.addEventListener("toggle", () => {
+      if (d.open) closeAll(d);
+    });
+  });
+
+  // fecha ao clicar fora
+  document.addEventListener("click", (e) => {
+    const inside = dropdowns.some(d => d.contains(e.target));
+    if (!inside) closeAll();
+  });
+
+  // fecha no ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAll();
+  });
+})();
