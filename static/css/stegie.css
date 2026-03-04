@@ -1507,3 +1507,18 @@ a:hover{ opacity:.92; }
 @media (max-width: 980px){
   :root{ --st-wordmark-size: 34px; }
 }
+
+/* Mega menu: remover sublinhado/linhas dos links (manter só troca de cor no hover) */
+.st-mega__item,
+.st-mega__item:visited,
+.st-mega__item:hover,
+.st-mega__item:active,
+.st-mega__item:focus{
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+/* Hover: somente troca de cor (sem linha) */
+.st-mega__item:hover{
+  color: #1a1a1a !important;  /* pode ajustar para o tom que você já está usando */
+}
