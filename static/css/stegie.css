@@ -722,11 +722,9 @@ a:hover{ opacity:.92; }
   gap: 18px;
 }
 
-/* Lockup (logo + wordmark) */
-.brand-lockup{
-  display: grid;
-  justify-items: center;
-  gap: 12px;
+/* Menos distância entre logo e wordmark */
+.home-clean .brand-lockup{
+  gap: 6px !important;   /* antes estava ~12px */
 }
 
 /* Logo 30% maior */
