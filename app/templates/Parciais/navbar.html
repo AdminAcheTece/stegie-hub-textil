@@ -1,27 +1,64 @@
-<header class="topbar">
-  <div class="container topbar-inner">
-    <a class="brand" href="{{ url_for('home') }}" aria-label="Ir para a Home">
-      <span class="brand-mark">S</span>
-      <span class="brand-name">STEGIE</span>
+<header class="st-fnav" role="banner">
+  <div class="st-fnav__inner">
+    <!-- Marca (estilo wordmark) -->
+    <a class="st-fnav__brand" href="/">
+      <span class="st-fnav__word">Stegie</span>
     </a>
 
-    <button class="nav-toggle" type="button" aria-label="Abrir menu" onclick="toggleMenu()">
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-    </button>
-
-    <nav class="nav" role="navigation" aria-label="Navegação principal">
-      <a class="nav-link" href="{{ url_for('quem_somos') }}">Quem somos</a>
-      <a class="nav-link" href="{{ url_for('servicos') }}">Serviços</a>
-      <a class="nav-link" href="{{ url_for('educacao') }}">Educação</a>
-      <a class="nav-link" href="{{ url_for('fichas_tecnicas') }}">Fichas técnicas</a>
-      <a class="nav-link" href="{{ url_for('conteudos') }}">Conteúdos</a>
-      <a class="nav-link" href="{{ url_for('cases') }}">Cases</a>
-
-      <div class="nav-actions">
-        <a class="btn btn--primary" href="{{ url_for('contato') }}">Contato</a>
-      </div>
+    <!-- Menu -->
+    <nav class="st-fnav__menu" aria-label="Navegação principal">
+      <a class="st-fnav__item st-fnav__item--dd" href="/solucoes">
+        Soluções <span class="st-fnav__caret" aria-hidden="true"></span>
+      </a>
+      <a class="st-fnav__item st-fnav__item--dd" href="/segmentos">
+        Segmentos <span class="st-fnav__caret" aria-hidden="true"></span>
+      </a>
+      <a class="st-fnav__item st-fnav__item--dd" href="/conteudo">
+        Conteúdo <span class="st-fnav__caret" aria-hidden="true"></span>
+      </a>
+      <a class="st-fnav__item st-fnav__item--dd" href="/sobre">
+        Sobre <span class="st-fnav__caret" aria-hidden="true"></span>
+      </a>
     </nav>
+
+    <!-- Direita (ícones + idioma) -->
+    <div class="st-fnav__right">
+      <button class="st-fnav__icon" type="button" aria-label="Buscar">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M10.5 3a7.5 7.5 0 1 1 0 15a7.5 7.5 0 0 1 0-15Z" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M16.2 16.2L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <span class="st-fnav__vdiv" aria-hidden="true"></span>
+
+      <a class="st-fnav__icon" href="/contato" aria-label="Contato">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6.7 10.8a14.6 14.6 0 0 0 6.5 6.5l2.1-2.1c.3-.3.8-.4 1.2-.3c1 .3 2 .5 3 .5c.6 0 1 .4 1 1V21c0 .6-.4 1-1 1C10.3 22 2 13.7 2 3c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1c0 1 .2 2 .5 3c.1.4 0 .9-.3 1.2l-2.1 2.1Z"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <span class="st-fnav__vdiv" aria-hidden="true"></span>
+
+      <button class="st-fnav__lang" type="button" aria-haspopup="listbox" aria-expanded="false">
+        PT <span class="st-fnav__caret" aria-hidden="true"></span>
+      </button>
+
+      <button class="st-fnav__burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="stFnavMobile">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="st-fnav__accent" aria-hidden="true"></div>
+
+  <!-- Mobile -->
+  <div class="st-fnav__mobile" id="stFnavMobile" hidden>
+    <a href="/solucoes">Soluções</a>
+    <a href="/segmentos">Segmentos</a>
+    <a href="/conteudo">Conteúdo</a>
+    <a href="/sobre">Sobre</a>
+    <a href="/contato">Contato</a>
   </div>
 </header>
