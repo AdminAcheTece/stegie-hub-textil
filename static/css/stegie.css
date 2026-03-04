@@ -39,7 +39,7 @@
 *{ box-sizing:border-box; }
 html,body{ margin:0; padding:0; }
 body{
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
@@ -139,9 +139,10 @@ a:hover{ opacity:.92; }
 .skip-link:focus{ left: 12px; }
 
 /* =========================================================
-   NAVBAR — ESTILO FALCONI (st-fnav)
-   (use com o novo Parciais/navbar.html)
+   NAVBAR — ESTILO FALCONI (st-fnav) | PREMIUM CLEAN
+   (use com Parciais/navbar.html usando: .st-fnav__logo + .st-fnav__word)
    ========================================================= */
+
 .st-fnav{
   position: sticky;
   top: 0;
@@ -149,6 +150,7 @@ a:hover{ opacity:.92; }
   background: var(--fnav-bg);
 }
 
+/* altura e espaçamento geral */
 .st-fnav__inner{
   max-width: var(--fnav-max);
   margin: 0 auto;
@@ -156,47 +158,64 @@ a:hover{ opacity:.92; }
   height: 74px;
   display: flex;
   align-items: center;
-  gap: 34px;
+  gap: 28px; /* um pouco mais compacto */
 }
 
+/* Marca (logo + wordmark) */
 .st-fnav__brand{
   text-decoration: none;
   color: var(--fnav-fg);
   display: inline-flex;
   align-items: center;
+  gap: 12px; /* logo ao lado do nome */
+  white-space: nowrap;
 }
 
+/* Logo ao lado do wordmark */
+.st-fnav__logo{
+  height: 34px;   /* ajuste fino: 30–36px */
+  width: auto;
+  display: block;
+}
+
+/* Wordmark: manter fonte da marca */
 .st-fnav__word{
-  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: Manrope, "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   font-weight: 800;
-  font-size: 42px;         /* wordmark grande (tipo Falconi) */
+  font-size: 42px;
   letter-spacing: -0.8px;
   line-height: 1;
 }
 
+/* Menu */
 .st-fnav__menu{
   display: flex;
   align-items: center;
-  gap: 34px;
+  gap: 26px;       /* mais “premium”, menos espaçado */
   flex: 1;
   margin-left: 10px;
 }
 
+/* Itens do menu: -30% e mais leve */
 .st-fnav__item{
   color: var(--fnav-fg);
   text-decoration: none;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: .2px;
+
+  /* fonte mais clean */
+  font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600;       /* menos “grosseiro” */
+  font-size: 13px;        /* <<< -30% (18px -> 13px) */
+  letter-spacing: .12px;
+
   opacity: .98;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   padding: 10px 2px;
   position: relative;
 }
 
+/* underline oliva */
 .st-fnav__item::after{
   content:"";
   position:absolute;
@@ -209,20 +228,24 @@ a:hover{ opacity:.92; }
 }
 .st-fnav__item:hover::after{ width:100%; }
 
+/* Caret */
 .st-fnav__caret{
-  width:0;height:0;
+  width:0;
+  height:0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 6px solid var(--fnav-muted);
   transform: translateY(1px);
 }
 
+/* Lado direito */
 .st-fnav__right{
   display: inline-flex;
   align-items: center;
   gap: 14px;
 }
 
+/* Botões/ícones */
 .st-fnav__icon{
   width: 40px;
   height: 40px;
@@ -246,21 +269,25 @@ a:hover{ opacity:.92; }
   fill: none;
 }
 
+/* Separador vertical */
 .st-fnav__vdiv{
   width: 1px;
   height: 26px;
   background: var(--fnav-line);
 }
 
+/* Idioma: acompanha redução e fica mais clean */
 .st-fnav__lang{
   border: 0;
   background: transparent;
   color: var(--fnav-fg);
   cursor: pointer;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 800;
-  font-size: 14px;
-  letter-spacing: .3px;
+
+  font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .2px;
+
   padding: 10px 10px;
   border-radius: 10px;
   display: inline-flex;
@@ -269,6 +296,7 @@ a:hover{ opacity:.92; }
 }
 .st-fnav__lang:hover{ background: rgba(255,255,255,.06); }
 
+/* Faixa oliva */
 .st-fnav__accent{
   height: 8px;
   background: var(--fnav-accent);
@@ -307,16 +335,22 @@ a:hover{ opacity:.92; }
   padding: 12px 10px;
   color: var(--fnav-fg);
   text-decoration:none;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 700;
-  font-size: 16px;
+
+  font-family: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 650;
+  font-size: 15px;
+
   border-radius: 12px;
 }
 .st-fnav__mobile a:hover{ background: rgba(255,255,255,.06); }
 
+/* Responsivo (mantém como você já tinha no CSS geral) */
+@media (max-width: 980px){
+  .st-fnav__word{ font-size: 36px; }
+}
+
 /* =========================================================
    NAVBAR LEGADO (claro) — mantenho por segurança
-   (pode remover quando todas as páginas usarem st-fnav)
    ========================================================= */
 .topbar{
   position: sticky;
@@ -722,18 +756,23 @@ a:hover{ opacity:.92; }
   gap: 18px;
 }
 
-/* Menos distância entre logo e wordmark */
+/* Brand lockup: centralização perfeita */
 .home-clean .brand-lockup{
-  gap: 6px !important;   /* antes estava ~12px */
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 6px !important; /* mais próximo do wordmark */
 }
 
-/* Logo 30% maior */
+/* Logo 30% maior (mantida) + centralizada */
 .home-clean .brand-logo{
   height: clamp(78px, 8.5vw, 156px) !important;
   width: auto !important;
   max-width: 420px !important;
   object-fit: contain !important;
   display: block !important;
+  margin: 0 auto !important; /* força central */
+  transform: translateX(0px) !important; /* ajuste fino caso PNG tenha respiro desigual */
 }
 
 /* Wordmark */
@@ -757,6 +796,7 @@ a:hover{ opacity:.92; }
   align-items: center;
   gap: 12px;
   padding: 0 18px;
+  justify-content: center; /* centraliza conteúdo no campo */
 }
 
 .home-pill-dot{
@@ -765,13 +805,19 @@ a:hover{ opacity:.92; }
   border-radius: 999px;
   background: #111;
   opacity: .9;
+  flex: 0 0 auto;
 }
 
+/* Frase central, itálico e com aspas */
 .home-pill-text{
   color: rgba(0,0,0,.60);
   font-weight: 600;
   font-size: 14px;
+  font-style: italic;
+  text-align: center;
 }
+.home-pill-text::before{ content: "“"; }
+.home-pill-text::after{ content: "”"; }
 
 /* Grade de atalhos */
 .home-shortcuts{
