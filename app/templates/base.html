@@ -36,7 +36,7 @@
      ========================================================= -->
   <header class="st-fnav" id="stTopbar">
     <div class="st-fnav__inner">
-  
+
       <!-- Brand: LOGO + WORDMARK -->
       <a class="st-fnav__brand" href="{{ url_for('home') }}" aria-label="Voltar para a Home">
         <img
@@ -54,7 +54,7 @@
         />
         <span class="st-fnav__word">Stegie</span>
       </a>
-  
+
       <!-- Menu principal (desktop) -->
       <nav class="st-fnav__nav" aria-label="Menu principal">
         <button class="st-fnav__link" type="button"
@@ -63,14 +63,14 @@
                 aria-controls="mega-solucoes">
           Soluções <span class="st-fnav__chev" aria-hidden="true">▾</span>
         </button>
-  
+
         <button class="st-fnav__link" type="button"
                 data-mega-trigger="conteudos"
                 aria-expanded="false"
                 aria-controls="mega-conteudos">
           Conteúdos <span class="st-fnav__chev" aria-hidden="true">▾</span>
         </button>
-  
+
         <button class="st-fnav__link" type="button"
                 data-mega-trigger="sobre"
                 aria-expanded="false"
@@ -78,7 +78,7 @@
           Sobre <span class="st-fnav__chev" aria-hidden="true">▾</span>
         </button>
       </nav>
-  
+
       <!-- Ações à direita -->
       <div class="st-fnav__actions">
         <a class="st-iconbtn" href="{{ url_for('contato') }}" aria-label="Fale conosco">
@@ -87,7 +87,7 @@
                   fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
           </svg>
         </a>
-  
+
         <!-- Burger (mobile) -->
         <button class="st-fnav__burger" type="button"
                 aria-label="Abrir menu"
@@ -97,10 +97,10 @@
         </button>
       </div>
     </div>
-  
+
     <!-- linha/acento abaixo do topo -->
     <div class="st-fnav__accent" aria-hidden="true"></div>
-  
+
     <!-- Mobile menu -->
     <div class="st-fnav__mobile" id="st-fnav-mobile" hidden>
       <a href="/consultoria-textil">Consultoria Têxtil (Malharia)</a>
@@ -114,11 +114,11 @@
       <a href="/fale-conosco">Fale conosco</a>
     </div>
   </header>
-  
+
   <!-- =========================================================
        MEGA MENUS (painel branco estilo Falconi)
        ========================================================= -->
-  
+
   <!-- SOLUÇÕES -->
   <section class="st-mega" id="mega-solucoes" aria-label="Soluções">
     <div class="st-mega__inner st-mega__cols-3">
@@ -128,19 +128,19 @@
         <a class="st-mega__item" href="/educacao-textil">Educação Têxtil</a>
         <a class="st-mega__item" href="/desenvolvimento-de-malhas">Desenvolvimento de Malhas</a>
       </div>
-  
+
       <div class="st-mega__col">
         <div class="st-mega__title">Tecnologia</div>
         <a class="st-mega__item" href="/agente-tecnico-textil">Agente Técnico Têxtil com IA</a>
       </div>
-  
+
       <div class="st-mega__col">
         <div class="st-mega__title">Documentação</div>
         <a class="st-mega__item" href="/fichas-tecnicas">Fichas Técnicas de Malharia</a>
       </div>
     </div>
   </section>
-  
+
   <!-- CONTEÚDOS -->
   <section class="st-mega" id="mega-conteudos" aria-label="Conteúdos">
     <div class="st-mega__inner st-mega__cols-3">
@@ -149,7 +149,7 @@
         <a class="st-mega__item" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
         <a class="st-mega__item" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
       </div>
-  
+
       <div class="st-mega__col">
         <div class="st-mega__title">Temas Técnicos</div>
         <a class="st-mega__item" href="/conteudos/temas/qualidade">Qualidade</a>
@@ -157,7 +157,7 @@
         <a class="st-mega__item" href="/conteudos/temas/testes">Testes</a>
         <a class="st-mega__item" href="/conteudos/temas/tecnologias">Tecnologias</a>
       </div>
-  
+
       <div class="st-mega__col">
         <div class="st-mega__title">Biblioteca de Conteúdos</div>
         <a class="st-mega__item" href="/biblioteca/fibras">Fibras</a>
@@ -168,7 +168,7 @@
       </div>
     </div>
   </section>
-  
+
   <!-- SOBRE -->
   <section class="st-mega" id="mega-sobre" aria-label="Sobre">
     <div class="st-mega__inner st-mega__cols-1">
@@ -195,7 +195,64 @@
     {% block content %}{% endblock %}
   </main>
 
+  {# Mantém o include antigo como fallback (não quebra nada) #}
   {% include "Parciais/footer.html" ignore missing %}
+
+  <!-- =========================================================
+       FOOTER (Falconi-like, compacto)
+       ========================================================= -->
+  <footer class="st-footer" role="contentinfo">
+    <div class="container st-footer__top">
+      <!-- Brand -->
+      <div class="st-footer__brand">
+        <a class="st-footer__brandlink" href="{{ url_for('home') }}" aria-label="Voltar para o início">
+          <img
+            class="st-footer__logo"
+            src="{{ url_for('static', filename='IMG/logo-stegie.png') }}?v={{ asset_v }}"
+            alt="Stegie"
+            loading="lazy"
+            decoding="async"
+            onerror="
+              if(!this.dataset.try2){this.dataset.try2='1'; this.src='{{ url_for('static', filename='IMG/logo-stegie.PNG') }}?v={{ asset_v }}';}
+              else if(!this.dataset.try3){this.dataset.try3='1'; this.src='{{ url_for('static', filename='img/logo-stegie.png') }}?v={{ asset_v }}';}
+              else if(!this.dataset.try4){this.dataset.try4='1'; this.src='{{ url_for('static', filename='img/logo-stegie.PNG') }}?v={{ asset_v }}';}
+              else { this.style.display='none'; }
+            "
+          />
+          <span class="st-footer__wordmark">Stegie</span>
+        </a>
+
+        <p class="st-footer__tagline">Consultoria e Educação Têxtil para Malharias.</p>
+      </div>
+
+      <!-- Links -->
+      <nav class="st-footer__col" aria-label="Links">
+        <h4 class="st-footer__h">Links</h4>
+        <ul class="st-footer__list">
+          <li><a href="/">Início</a></li>
+          <li><a href="/quem-somos">Quem somos</a></li>
+          <li><a href="/servicos">Serviços</a></li>
+          <li><a href="/educacao">Educação</a></li>
+          <li><a href="/conteudos">Conteúdos</a></li>
+          <li><a href="/cases">Cases</a></li>
+          <li><a href="/contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <!-- Legal -->
+      <nav class="st-footer__col" aria-label="Legal">
+        <h4 class="st-footer__h">Legal</h4>
+        <ul class="st-footer__list">
+          <li><a href="/politica-de-privacidade">Política de Privacidade</a></li>
+          <li><a href="/termos">Termos</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="container st-footer__bottom">
+      <span>© STEGIE. Todos os direitos reservados.</span>
+    </div>
+  </footer>
 
   <!-- Modal de vídeo -->
   <div class="modal" id="videoModal" aria-hidden="true">
