@@ -31,7 +31,135 @@
 <body class="{% block body_class %}{% endblock %}">
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
-  {% include "Parciais/navbar.html" ignore missing %}
+  <!-- =========================================================
+       BARRA SUPERIOR (ST-FNAV) - Mega menu estilo Falconi
+       Itens: Soluções | Conteúdos | Sobre
+       (Sem Segmentos)
+       ========================================================= -->
+  <header class="st-fnav" id="st-fnav">
+    <div class="fnav-inner">
+      <!-- Brand -->
+      <a class="fnav-brand" href="/" aria-label="Voltar para a Home">
+        <!-- Ajuste o caminho do arquivo se necessário (IMG vs img) -->
+        <img class="fnav-logo" src="{{ url_for('static', filename='IMG/logo-stegie-branca.png', v=asset_v) }}" alt="Stegie" />
+        <span class="fnav-wordmark">Stegie</span>
+      </a>
+
+      <!-- Links -->
+      <nav class="fnav-links" aria-label="Menu principal">
+        <!-- Soluções -->
+        <button class="fnav-link" type="button"
+                data-fnav-trigger="solucoes"
+                aria-expanded="false"
+                aria-controls="fnav-panel-solucoes">
+          Soluções <span class="fnav-caret" aria-hidden="true"></span>
+        </button>
+
+        <!-- Conteúdos -->
+        <button class="fnav-link" type="button"
+                data-fnav-trigger="conteudos"
+                aria-expanded="false"
+                aria-controls="fnav-panel-conteudos">
+          Conteúdos <span class="fnav-caret" aria-hidden="true"></span>
+        </button>
+
+        <!-- Sobre -->
+        <button class="fnav-link" type="button"
+                data-fnav-trigger="sobre"
+                aria-expanded="false"
+                aria-controls="fnav-panel-sobre">
+          Sobre <span class="fnav-caret" aria-hidden="true"></span>
+        </button>
+      </nav>
+
+      <!-- Ações à direita (mantive minimalista) -->
+      <div class="fnav-actions">
+        <a class="fnav-cta" href="/fale-conosco">Fale conosco</a>
+      </div>
+    </div>
+
+    <!-- Painéis (mega menu) -->
+    <div class="fnav-panels" aria-hidden="true">
+      <!-- SOLUÇÕES -->
+      <section class="fnav-panel" id="fnav-panel-solucoes" data-fnav-panel="solucoes">
+        <div class="fnav-panel-inner fnav-grid-2">
+          <a class="fnav-item" href="/consultoria-textil">
+            <div class="fnav-item-title">Consultoria Têxtil (Malharia)</div>
+            <div class="fnav-item-desc">Diagnóstico → plano de ação → rotina de sustentação.</div>
+          </a>
+
+          <a class="fnav-item" href="/educacao-textil">
+            <div class="fnav-item-title">Educação Têxtil</div>
+            <div class="fnav-item-desc">Trilhas: Operação • Desenvolvimento • Qualidade • Testes.</div>
+          </a>
+
+          <a class="fnav-item" href="/desenvolvimento-fichas-tecnicas">
+            <div class="fnav-item-title">Desenvolvimento de Fichas Técnicas</div>
+            <div class="fnav-item-desc">O que medir, como tolerar, como auditar — padrão real.</div>
+          </a>
+
+          <a class="fnav-item" href="/agente-tecnico-textil">
+            <div class="fnav-item-title">Agente Técnico Têxtil</div>
+            <div class="fnav-item-desc">Apoio técnico contínuo: decisão rápida, menos retrabalho.</div>
+          </a>
+
+          <a class="fnav-item" href="/encontre-sua-ficha-tecnica">
+            <div class="fnav-item-title">Encontre sua Ficha Técnica de Malharia</div>
+            <div class="fnav-item-desc">Direto ao ponto: localizar/estruturar a ficha ideal para seu contexto.</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- CONTEÚDOS -->
+      <section class="fnav-panel" id="fnav-panel-conteudos" data-fnav-panel="conteudos">
+        <div class="fnav-panel-inner fnav-grid-3">
+          <div class="fnav-col">
+            <div class="fnav-col-title">Redes Sociais</div>
+            <!-- Troque pelos seus links -->
+            <a class="fnav-sub" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+            <a class="fnav-sub" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+
+          <div class="fnav-col">
+            <div class="fnav-col-title">Temas</div>
+            <a class="fnav-sub" href="/conteudos/temas/qualidade">Qualidade</a>
+            <a class="fnav-sub" href="/conteudos/temas/processos">Processos</a>
+            <a class="fnav-sub" href="/conteudos/temas/testes">Testes</a>
+            <a class="fnav-sub" href="/conteudos/temas/tecnologias">Tecnologias</a>
+          </div>
+
+          <div class="fnav-col">
+            <div class="fnav-col-title">Biblioteca de Conteúdos</div>
+            <a class="fnav-sub" href="/biblioteca/fibras">Fibras</a>
+            <a class="fnav-sub" href="/biblioteca/fios">Fios</a>
+            <a class="fnav-sub" href="/biblioteca/malharia">Malharia</a>
+            <a class="fnav-sub" href="/biblioteca/tecelagem-plana">Tecelagem Plana</a>
+            <a class="fnav-sub" href="/biblioteca/beneficiamento">Beneficiamento</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SOBRE -->
+      <section class="fnav-panel" id="fnav-panel-sobre" data-fnav-panel="sobre">
+        <div class="fnav-panel-inner fnav-grid-2">
+          <a class="fnav-item fnav-item-simple" href="/quem-somos">
+            <div class="fnav-item-title">Quem somos</div>
+          </a>
+
+          <a class="fnav-item fnav-item-simple" href="/o-que-fazemos">
+            <div class="fnav-item-title">O que fazemos</div>
+          </a>
+
+          <a class="fnav-item fnav-item-simple" href="/fale-conosco">
+            <div class="fnav-item-title">Fale conosco</div>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Overlay (clique fora fecha) -->
+    <div class="fnav-overlay" data-fnav-overlay></div>
+  </header>
 
   <div class="flash-wrap container">
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -71,6 +199,10 @@
   </noscript>
 
   <!-- JS -->
+  <!-- Mega menu (st-fnav) -->
+  <script defer src="{{ url_for('static', filename='js/fnav.js', v=asset_v) }}"></script>
+
+  <!-- Seu JS atual -->
   <script defer src="{{ url_for('static', filename='js/app.js', v=asset_v) }}"></script>
 
   {% block scripts %}{% endblock %}
