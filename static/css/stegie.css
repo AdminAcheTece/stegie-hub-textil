@@ -565,7 +565,7 @@ a:hover{ opacity:.92; }
 
 /* LOGO 5x MENOR (controle por ALTURA) */
 .home-clean .brand-logo{
-  height: clamp(18px, 2.8vw, 34px) !important; /* <<< aqui está a redução forte */
+  height: clamp(18px, 2.8vw, 68px) !important; /* <<< aqui está a redução forte */
   width: auto !important;
   max-width: 140px !important;
   object-fit: contain !important;
