@@ -1011,3 +1011,172 @@ a:hover{ opacity:.92; }
   padding:10px 2px !important;
   cursor:pointer !important;
 }
+
+/* ===========================
+   NAV “FALCONI STYLE” (mega menu branco)
+   =========================== */
+
+:root{
+  --fnav-h: 78px;
+  --mega-bg: #fff;
+  --mega-text: #121212;
+  --mega-muted: #5A5A5A;
+  --mega-border: #E6E1D8;
+  --mega-shadow: 0 18px 44px rgba(0,0,0,.10);
+
+  /* cor de destaque do item ativo (use teu oliva/lime se quiser) */
+  --mega-accent: #B6F34D;
+}
+
+.st-fnav{
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  height: var(--fnav-h);
+  background: #0f0f0f;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.st-fnav__inner{
+  height: 100%;
+  width: min(1200px, calc(100% - 48px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.st-brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.st-brand__word{
+  font-size: 44px;        /* teu “Stegie” grande */
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: #fff;
+  line-height: 1;
+}
+
+.st-fnav__nav{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 16px;
+}
+
+.st-fnav__link{
+  background: transparent;
+  border: 0;
+  color: rgba(255,255,255,.86);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 520;
+  padding: 14px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.st-fnav__link:hover{ color: #fff; }
+
+.st-fnav__link.is-open{
+  color: var(--mega-accent);
+}
+
+.st-fnav__chev{
+  display: inline-block;
+  margin-left: 6px;
+  transform: translateY(-1px);
+  opacity: .9;
+}
+
+.st-fnav__actions{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.st-iconbtn{
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+.st-iconbtn:hover{
+  border-color: rgba(255,255,255,.28);
+}
+
+.st-iconbtn__dot{
+  width: 14px; height: 14px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.85);
+}
+
+/* Painel branco abaixo do topo (SEM overlay escuro) */
+.st-mega{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--fnav-h);
+  background: var(--mega-bg);
+  border-bottom: 1px solid var(--mega-border);
+  box-shadow: var(--mega-shadow);
+  z-index: 9998;
+
+  display: none; /* fechado */
+}
+
+.st-mega.is-open{ display: block; }
+
+.st-mega__inner{
+  width: min(1200px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 28px 0 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 80px;
+}
+
+.st-mega__col + .st-mega__col{
+  border-left: 1px solid #EDEDED;
+  padding-left: 80px;
+}
+
+.st-mega__item{
+  display: block;
+  padding: 10px 0;
+  color: var(--mega-text);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 460;
+}
+
+.st-mega__item:hover{
+  text-decoration: underline;
+}
+
+.st-mega__spacer{ height: 16px; }
+
+/* Responsivo */
+@media (max-width: 960px){
+  .st-brand__word{ font-size: 34px; }
+  .st-mega__inner{
+    grid-template-columns: 1fr;
+    row-gap: 14px;
+  }
+  .st-mega__col + .st-mega__col{
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid #EDEDED;
+    padding-top: 14px;
+  }
+}
