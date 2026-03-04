@@ -105,6 +105,23 @@
       /* OLIVA FECHADO (igual “Atuação global”) */
       color: #7B7424 !important;
     }
+
+    /* ÍCONES: cor oliva + 10% maior (sem mexer no card) */
+    .home-clean .shortcut-ico svg{
+      color: #7B7424 !important;     /* oliva fechado (igual Falconi) */
+      width: 26px !important;        /* antes ~24px */
+      height: 26px !important;       /* antes ~24px */
+    }
+    
+    /* Opcional: deixa o traço com aparência ainda mais “premium” */
+    .home-clean .shortcut-ico svg *{
+      stroke-width: 1.9;             /* se achar “grosso”, volte para 1.8 */
+    }
+    
+    /* Garante que o hover não altere a cor */
+    .home-clean .shortcut:hover .shortcut-ico svg{
+      color: #7B7424 !important;
+    }
   </style>
 </head>
 
