@@ -565,11 +565,11 @@ a:hover{ opacity:.92; }
 
 /* LOGO 5x MENOR (controle por ALTURA) */
 .home-clean .brand-logo{
-  height: clamp(18px, 2.8vw, 204px) !important; /* <<< aqui está a redução forte */
+  height: clamp(60px, 6.5vw, 120px) !important;  /* <<< AQUI aumenta de verdade */
   width: auto !important;
-  max-width: 140px !important;
+  max-width: 320px !important;                   /* controla para não estourar */
   object-fit: contain !important;
-  display: block;
+  display: block !important;
 }
 
 /* Wordmark */
