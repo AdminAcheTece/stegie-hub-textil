@@ -17,7 +17,7 @@
   {% block og_image %}{% endblock %}
   {% block canonical %}{% endblock %}
 
-  <!-- Fontes (REGRA: Inter delicado no site / Manrope só no wordmark) -->
+  <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
@@ -32,44 +32,50 @@
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
   <!-- =========================================================
-       BARRA SUPERIOR (MEGA MENU estilo Falconi)
-       Topo preto fixo + painel branco abaixo (sem overlay escuro)
+       TOPBAR (Falconi-like)
        ========================================================= -->
   <header class="st-fnav" id="stTopbar">
     <div class="st-fnav__inner">
-      <!-- Brand -->
-      <a class="st-brand st-fnav__brand" href="{{ url_for('home') }}" aria-label="Voltar para a Home">
-        <img class="st-fnav__logo" src="{{ url_for('static', filename='IMG/logo-stegie-branca.png') }}?v={{ asset_v }}" alt="Stegie" />
-        <span class="st-brand__word st-fnav__word">Stegie</span>
+
+      <!-- Brand: LOGO + WORDMARK -->
+      <a class="st-fnav__brand" href="{{ url_for('home') }}" aria-label="Voltar para a Home">
+        <img
+          class="st-fnav__logo"
+          src="{{ url_for('static', filename='IMG/logo-stegie-branca.png') }}?v={{ asset_v }}"
+          alt="Stegie"
+          loading="eager"
+          decoding="async"
+        />
+        <span class="st-fnav__word">Stegie</span>
       </a>
 
-      <!-- Links (desktop) -->
-      <nav class="st-fnav__nav st-fnav__menu" aria-label="Menu principal">
-        <button class="st-fnav__link st-fnav__item" type="button"
+      <!-- Menu principal (desktop) -->
+      <nav class="st-fnav__nav" aria-label="Menu principal">
+        <button class="st-fnav__link" type="button"
                 data-mega-trigger="solucoes"
                 aria-expanded="false"
                 aria-controls="mega-solucoes">
-          Soluções <span class="st-fnav__chev st-fnav__caret" aria-hidden="true">▾</span>
+          Soluções <span class="st-fnav__chev" aria-hidden="true">▾</span>
         </button>
 
-        <button class="st-fnav__link st-fnav__item" type="button"
+        <button class="st-fnav__link" type="button"
                 data-mega-trigger="conteudos"
                 aria-expanded="false"
                 aria-controls="mega-conteudos">
-          Conteúdos <span class="st-fnav__chev st-fnav__caret" aria-hidden="true">▾</span>
+          Conteúdos <span class="st-fnav__chev" aria-hidden="true">▾</span>
         </button>
 
-        <button class="st-fnav__link st-fnav__item" type="button"
+        <button class="st-fnav__link" type="button"
                 data-mega-trigger="sobre"
                 aria-expanded="false"
                 aria-controls="mega-sobre">
-          Sobre <span class="st-fnav__chev st-fnav__caret" aria-hidden="true">▾</span>
+          Sobre <span class="st-fnav__chev" aria-hidden="true">▾</span>
         </button>
       </nav>
 
       <!-- Ações à direita -->
-      <div class="st-fnav__actions st-fnav__right">
-        <a class="st-iconbtn st-fnav__icon" href="{{ url_for('contato') }}" aria-label="Fale conosco">
+      <div class="st-fnav__actions">
+        <a class="st-iconbtn" href="{{ url_for('contato') }}" aria-label="Fale conosco">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
                   fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
@@ -86,7 +92,7 @@
       </div>
     </div>
 
-    <!-- (Opcional) faixa/acento abaixo do topo, se teu CSS usa -->
+    <!-- faixa fina abaixo (seu “detalhe” de linha) -->
     <div class="st-fnav__accent" aria-hidden="true"></div>
 
     <!-- Mobile menu -->
@@ -99,55 +105,45 @@
   </header>
 
   <!-- =========================================================
-       MEGA MENUS (painéis brancos)
+       MEGA MENUS (painel branco estilo Falconi)
        ========================================================= -->
 
   <!-- SOLUÇÕES -->
   <section class="st-mega" id="mega-solucoes" aria-label="Soluções">
-    <div class="st-mega__inner">
+    <div class="st-mega__inner st-mega__cols-3">
       <div class="st-mega__col">
-        <a class="st-mega__item" href="/consultoria-textil">
-          Consultoria Têxtil (Malharia)
-        </a>
-        <a class="st-mega__item" href="/consultoria-textil">
-          Diagnóstico → plano de ação → rotina de sustentação.
-        </a>
-        <a class="st-mega__item" href="/educacao-textil">
-          Educação Têxtil
-        </a>
-        <a class="st-mega__item" href="/educacao-textil">
-          Trilhas: Operação • Desenvolvimento • Qualidade • Testes.
-        </a>
-        <a class="st-mega__item" href="/desenvolvimento-fichas-tecnicas">
-          Desenvolvimento de Fichas Técnicas
-        </a>
+        <div class="st-mega__title">Consultoria</div>
+        <a class="st-mega__item" href="/consultoria-textil">Consultoria Têxtil (Malharia)</a>
+        <a class="st-mega__item" href="/consultoria-textil">Diagnóstico → plano de ação → rotina de sustentação</a>
       </div>
 
       <div class="st-mega__col">
-        <a class="st-mega__item" href="/desenvolvimento-fichas-tecnicas">
-          O que medir, como tolerar, como auditar — padrão real.
-        </a>
-        <a class="st-mega__item" href="/agente-tecnico-textil">
-          Agente Técnico Têxtil
-        </a>
-        <a class="st-mega__item" href="/agente-tecnico-textil">
-          Apoio técnico contínuo: decisão rápida, menos retrabalho.
-        </a>
-        <a class="st-mega__item" href="/encontre-sua-ficha-tecnica">
-          Encontre sua Ficha Técnica de Malharia
-        </a>
-        <a class="st-mega__item" href="/encontre-sua-ficha-tecnica">
-          Direto ao ponto: localizar/estruturar a ficha ideal para seu contexto.
-        </a>
+        <div class="st-mega__title">Educação</div>
+        <a class="st-mega__item" href="/educacao-textil">Educação Têxtil</a>
+        <a class="st-mega__item" href="/educacao-textil">Trilhas: Operação • Desenvolvimento • Qualidade • Testes</a>
+      </div>
+
+      <div class="st-mega__col">
+        <div class="st-mega__title">Ferramentas</div>
+        <a class="st-mega__item" href="/desenvolvimento-fichas-tecnicas">Desenvolvimento de Fichas Técnicas</a>
+        <a class="st-mega__item" href="/desenvolvimento-fichas-tecnicas">O que medir, como tolerar, como auditar — padrão real</a>
+        <a class="st-mega__item" href="/agente-tecnico-textil">Agente Técnico Têxtil</a>
+        <a class="st-mega__item" href="/encontre-sua-ficha-tecnica">Encontre sua Ficha Técnica de Malharia</a>
       </div>
     </div>
   </section>
 
   <!-- CONTEÚDOS -->
   <section class="st-mega" id="mega-conteudos" aria-label="Conteúdos">
-    <div class="st-mega__inner">
+    <div class="st-mega__inner st-mega__cols-3">
       <div class="st-mega__col">
-        <a class="st-mega__item" href="/biblioteca">Biblioteca de Conteúdos</a>
+        <div class="st-mega__title">Redes Sociais</div>
+        <a class="st-mega__item" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a class="st-mega__item" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+
+      <div class="st-mega__col">
+        <div class="st-mega__title">Temas</div>
         <a class="st-mega__item" href="/conteudos/temas/qualidade">Qualidade</a>
         <a class="st-mega__item" href="/conteudos/temas/processos">Processos</a>
         <a class="st-mega__item" href="/conteudos/temas/testes">Testes</a>
@@ -155,28 +151,28 @@
       </div>
 
       <div class="st-mega__col">
+        <div class="st-mega__title">Biblioteca</div>
         <a class="st-mega__item" href="/biblioteca/fibras">Fibras</a>
         <a class="st-mega__item" href="/biblioteca/fios">Fios</a>
         <a class="st-mega__item" href="/biblioteca/malharia">Malharia</a>
         <a class="st-mega__item" href="/biblioteca/tecelagem-plana">Tecelagem Plana</a>
         <a class="st-mega__item" href="/biblioteca/beneficiamento">Beneficiamento</a>
-        <div class="st-mega__spacer"></div>
-        <a class="st-mega__item" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
-        <a class="st-mega__item" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
   </section>
 
   <!-- SOBRE -->
   <section class="st-mega" id="mega-sobre" aria-label="Sobre">
-    <div class="st-mega__inner">
+    <div class="st-mega__inner st-mega__cols-2">
       <div class="st-mega__col">
+        <div class="st-mega__title">Institucional</div>
         <a class="st-mega__item" href="/quem-somos">Quem somos</a>
         <a class="st-mega__item" href="/o-que-fazemos">O que fazemos</a>
         <a class="st-mega__item" href="/fale-conosco">Fale conosco</a>
       </div>
 
       <div class="st-mega__col">
+        <div class="st-mega__title">Outros</div>
         <a class="st-mega__item" href="/sustentabilidade">Desenvolvimento Sustentável</a>
         <a class="st-mega__item" href="/trabalhe-conosco">Trabalhe Conosco</a>
       </div>
@@ -221,10 +217,7 @@
   </noscript>
 
   <!-- JS -->
-  <!-- (1) Mega menu Falconi-style (novo) -->
   <script defer src="{{ url_for('static', filename='js/st-mega.js') }}?v={{ asset_v }}"></script>
-
-  <!-- (2) Seu app.js (mantém o resto do site) -->
   <script defer src="{{ url_for('static', filename='js/app.js') }}?v={{ asset_v }}"></script>
 
   <!-- Fix do burger/mobile -->
