@@ -172,7 +172,7 @@ a:hover{ opacity:.92; }
   background: var(--fnav-bg);
 
   /* Logo branca: compensar respiro do PNG */
-  --st-brand-logo-h: 66px;
+  --st-brand-logo-h: 90px;
 }
 
 /* altura e espaçamento geral */
@@ -1485,4 +1485,25 @@ a:hover{ opacity:.92; }
     rgba(123,116,36,.85),
     rgba(123,116,36,0)
   );
+}
+
+/* ===== Logo do MESMO arquivo, na MESMA altura visual da wordmark ===== */
+:root{
+  --st-wordmark-size: 40px;  /* se sua wordmark estiver em 40px, deixe assim */
+  --st-logo-scale: 1.57;     /* compensação da margem transparente do PNG */
+}
+
+.st-fnav__word{
+  font-size: var(--st-wordmark-size);
+}
+
+.st-fnav__logo{
+  height: calc(var(--st-wordmark-size) * var(--st-logo-scale));
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+@media (max-width: 980px){
+  :root{ --st-wordmark-size: 34px; }
 }
