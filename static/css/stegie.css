@@ -1634,3 +1634,100 @@ a:hover{ opacity:.92; }
   .qs-stage{ min-height: auto; padding-top: 18px; }
   .qs-line--big{ gap: 10px; }
 }
+
+/* =========================
+   FOOTER (Falconi-like, compacto)
+   ========================= */
+
+.st-footer{
+  background: var(--bg);
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+
+.st-footer__top{
+  display: grid;
+  grid-template-columns: 1.35fr .85fr .85fr;
+  gap: 22px;
+  padding: 22px 0 14px; /* bem compacto */
+  align-items: start;
+}
+
+.st-footer__brandlink{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.st-footer__logo{
+  height: 26px;              /* tamanho “Falconi-like” */
+  width: auto;
+  display: block;
+}
+
+.st-footer__wordmark{
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: .02em;
+  color: var(--text);
+  font-size: 16px;           /* discreto e elegante */
+  line-height: 1;
+}
+
+.st-footer__tagline{
+  margin: 10px 0 0;
+  color: rgba(0,0,0,.62);
+  font-size: 14px;
+  line-height: 1.45;
+  max-width: 36ch;
+}
+
+.st-footer__h{
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(0,0,0,.72);
+  letter-spacing: .02em;
+}
+
+.st-footer__list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;                 /* compacto */
+}
+
+.st-footer__list a{
+  color: rgba(0,0,0,.62);
+  text-decoration: none;     /* sem sublinhado */
+  border-bottom: 0 !important;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.st-footer__list a:hover{
+  color: var(--text);
+}
+
+.st-footer__bottom{
+  padding: 12px 0 16px;      /* faixa final bem baixa */
+  border-top: 1px solid rgba(0,0,0,.08);
+  color: rgba(0,0,0,.55);
+  font-size: 13px;
+}
+
+/* Responsivo */
+@media (max-width: 920px){
+  .st-footer__top{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px){
+  .st-footer__top{
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .st-footer__tagline{ max-width: 52ch; }
+}
