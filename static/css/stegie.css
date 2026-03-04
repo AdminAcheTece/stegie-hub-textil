@@ -1439,3 +1439,34 @@ a:hover{ opacity:.92; }
     padding-top: 18px;
   }
 }
+
+/* ===== PATCH FINAL (cole no fim do stegie.css) ===== */
+
+/* Top menu: hover igual Falconi (verde) */
+.st-fnav__link:hover{
+  color: var(--fnav-accent);
+}
+.st-fnav__link:hover .st-fnav__chev{
+  color: var(--fnav-accent);
+}
+
+/* Mega menu: cada link em uma linha (igual Falconi) */
+.st-mega__item{
+  display: block;          /* <-- isso resolve “Instagram LinkedIn” na mesma linha */
+  width: fit-content;
+}
+
+/* “Sobre” com 1 coluna sem borda/separador extra */
+.st-mega__cols-1{ grid-template-columns: 1fr; }
+.st-mega__cols-1 .st-mega__col{
+  border-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Logo: garante que não “quebre” o layout quando carrega */
+.st-fnav__logo{
+  display: block;
+  height: 30px;
+  width: auto;
+  object-fit: contain;
+}
