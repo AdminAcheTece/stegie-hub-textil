@@ -41,9 +41,11 @@
       <a href="{{ url_for('home') }}" class="st-fnav__brand" aria-label="Stegie">
         <img
           class="st-fnav__logo"
-          src="{{ url_for('static', filename='IMG/logo-stegie.png') }}?v={{ asset_v }}"
+          src="{{ url_for('static', filename='IMG/logo-stegie-branca.png') }}?v={{ asset_v }}"
           alt="Stegie"
-        />
+          loading="eager"
+          decoding="async"
+        >
         <span class="st-fnav__word">Stegie</span>
       </a>
 
@@ -199,14 +201,14 @@
 
           <!-- Marca -->
           <div class="st-footer__brand">
-            <a class="st-footer__brandlink" href="{{ url_for('home') }}" aria-label="Voltar para o início">
+            <a href="{{ url_for('home') }}" class="st-footer__brandlink" aria-label="Stegie">
               <img
                 class="st-footer__logo"
                 src="{{ url_for('static', filename='IMG/logo-stegie.png') }}?v={{ asset_v }}"
                 alt="Stegie"
                 loading="lazy"
                 decoding="async"
-              />
+              >
               <span class="st-footer__wordmark">Stegie</span>
             </a>
 
