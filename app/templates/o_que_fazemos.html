@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+{% block title %}O que fazemos | STEGIE{% endblock %}
+{% block meta_description %}Consultoria, educação têxtil, desenvolvimento de malhas e inteligência de processo para malharias com foco em performance, qualidade e resultado.{% endblock %}
+
+{% block content %}
+
+<section class="oqf-hero">
+  <div class="container oqf-hero-grid">
+    <div class="oqf-hero-copy">
+      <div class="oqf-kicker">O que fazemos</div>
+
+      <h1 class="oqf-title">
+        Transformamos malharias com
+        <span class="oqf-rotator" aria-live="polite">
+          <span class="oqf-rotator-word is-active">performance</span>
+          <span class="oqf-rotator-word">controle</span>
+          <span class="oqf-rotator-word">qualidade</span>
+          <span class="oqf-rotator-word">resultado</span>
+        </span>
+      </h1>
+
+      <p class="oqf-lead">
+        Atuamos da estratégia à operação, conectando conhecimento têxtil,
+        método, treinamento e tecnologia para elevar a eficiência,
+        reduzir perdas e tornar a rotina da malharia mais previsível.
+      </p>
+
+      <div class="oqf-hero-actions">
+        <a href="{{ url_for('fale_conosco') }}" class="btn btn-primary">Falar com a Stegie</a>
+        <a href="#frentes-atuacao" class="btn btn-ghost">Explorar atuações</a>
+      </div>
+    </div>
+
+    <div class="oqf-hero-media">
+      <div class="oqf-media-card">
+        <img src="{{ url_for('static', filename='IMG/oquefazemos-hero.jpg') }}"
+             alt="Ambiente industrial têxtil com foco em operação, análise e performance">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="oqf-intro">
+  <div class="container oqf-intro-grid">
+    <div class="oqf-intro-left">
+      <span class="oqf-section-label">Atuação especializada</span>
+      <h2 class="oqf-section-title">Soluções para quem precisa de clareza técnica e execução prática</h2>
+    </div>
+    <div class="oqf-intro-right">
+      <p>
+        A Stegie atua em desafios técnicos, operacionais e gerenciais da indústria de malharia,
+        com foco especial em performance produtiva, qualidade, treinamento de equipes,
+        desenvolvimento de malhas e estruturação de rotinas com suporte de dados.
+      </p>
+      <p>
+        Nosso trabalho une leitura profunda do processo, atuação próxima da realidade da fábrica
+        e construção de soluções aplicáveis nos níveis estratégico, tático e operacional.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="oqf-services" id="frentes-atuacao">
+  <div class="container">
+    <div class="oqf-heading">
+      <span class="oqf-section-label">Frentes de atuação</span>
+      <h2 class="oqf-section-title">Onde geramos mais impacto</h2>
+    </div>
+
+    <div class="oqf-services-grid">
+      <article class="oqf-service-card">
+        <div class="oqf-service-image">
+          <img src="{{ url_for('static', filename='IMG/servico-consultoria.jpg') }}"
+               alt="Consultoria técnica em malharia">
+        </div>
+        <div class="oqf-service-body">
+          <h3>Consultoria Têxtil</h3>
+          <p>
+            Diagnóstico técnico, análise de perdas, investigação de causas, revisão de processos,
+            apoio à gestão da qualidade, produtividade e estabilidade operacional da malharia.
+          </p>
+        </div>
+      </article>
+
+      <article class="oqf-service-card">
+        <div class="oqf-service-image">
+          <img src="{{ url_for('static', filename='IMG/servico-educacao.jpg') }}"
+               alt="Treinamento e educação têxtil">
+        </div>
+        <div class="oqf-service-body">
+          <h3>Educação e Treinamento</h3>
+          <p>
+            Formação técnica para líderes, operadores, auxiliares, tecelões e equipes de apoio,
+            com linguagem prática, trilhas estruturadas e foco em aplicação real no processo.
+          </p>
+        </div>
+      </article>
+
+      <article class="oqf-service-card">
+        <div class="oqf-service-image">
+          <img src="{{ url_for('static', filename='IMG/servico-desenvolvimento.jpg') }}"
+               alt="Desenvolvimento de malhas e fichas técnicas">
+        </div>
+        <div class="oqf-service-body">
+          <h3>Desenvolvimento de Malhas</h3>
+          <p>
+            Apoio técnico para construção de artigos, interpretação de dados, parâmetros de processo,
+            ficha técnica e tomada de decisão mais segura no desenvolvimento.
+          </p>
+        </div>
+      </article>
+
+      <article class="oqf-service-card">
+        <div class="oqf-service-image">
+          <img src="{{ url_for('static', filename='IMG/servico-mes.jpg') }}"
+               alt="Monitoramento de processo e MES para malharia">
+        </div>
+        <div class="oqf-service-body">
+          <h3>Inteligência de Processo e MES</h3>
+          <p>
+            Estruturação de indicadores, monitoramento de operação, leitura de dados,
+            rastreabilidade e rotinas de gestão para ampliar controle e velocidade de resposta.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="oqf-differentials">
+  <div class="container">
+    <div class="oqf-heading oqf-heading-center">
+      <span class="oqf-section-label">O que nos torna únicos</span>
+      <h2 class="oqf-section-title">Conhecimento técnico que entra no processo e gera evolução consistente</h2>
+      <p class="oqf-section-text">
+        Trabalhamos próximos da operação, conectando análise, prática e transferência de conhecimento
+        para que os ganhos não dependam apenas de intervenção externa.
+      </p>
+    </div>
+
+    <div class="oqf-pillars">
+      <article class="oqf-pillar">
+        <div class="oqf-pillar-icon">01</div>
+        <h3>Fazer e ensinar</h3>
+        <p>
+          Atuamos na rotina real da malharia e, ao mesmo tempo, capacitamos a equipe
+          para sustentar o avanço com autonomia.
+        </p>
+      </article>
+
+      <article class="oqf-pillar">
+        <div class="oqf-pillar-icon">02</div>
+        <h3>Visão ponta a ponta</h3>
+        <p>
+          Observamos desde matéria-prima, preparação e tecimento até qualidade,
+          desenvolvimento, revisão e tomada de decisão.
+        </p>
+      </article>
+
+      <article class="oqf-pillar">
+        <div class="oqf-pillar-icon">03</div>
+        <h3>Resultado com método</h3>
+        <p>
+          Organizamos prioridades, definimos critérios, criamos rotina de acompanhamento
+          e transformamos percepção em gestão objetiva.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="oqf-tech">
+  <div class="container oqf-tech-grid">
+    <div class="oqf-tech-copy">
+      <span class="oqf-section-label">Tecnologia como aliada</span>
+      <h2 class="oqf-section-title">Dados, monitoramento e inteligência para decisões mais rápidas</h2>
+      <p>
+        Em processos cada vez mais exigentes, a tecnologia precisa servir à operação.
+        Por isso, conectamos conhecimento têxtil com sistemas, indicadores e rotinas de leitura,
+        transformando dados em decisão prática.
+      </p>
+      <p>
+        Apoiamos iniciativas ligadas a MES, IoT, leitura de eficiência, apontamentos,
+        perdas, qualidade, rastreabilidade e análise de desempenho por artigo, máquina ou processo.
+      </p>
+
+      <div class="oqf-tech-tags">
+        <span>MES</span>
+        <span>IoT</span>
+        <span>Indicadores</span>
+        <span>Rastreabilidade</span>
+        <span>Eficiência</span>
+        <span>Qualidade</span>
+      </div>
+    </div>
+
+    <div class="oqf-tech-media">
+      <div class="oqf-media-card oqf-media-card-tall">
+        <img src="{{ url_for('static', filename='IMG/oquefazemos-tecnologia.jpg') }}"
+             alt="Painel, indicadores e inteligência aplicada à malharia">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="oqf-results">
+  <div class="container">
+    <div class="oqf-heading">
+      <span class="oqf-section-label">Resultados na prática</span>
+      <h2 class="oqf-section-title">Entregas que fortalecem a operação e a gestão</h2>
+      <p class="oqf-section-text">
+        Cada projeto pode ter profundidade diferente, mas a direção é a mesma:
+        reduzir variabilidade, aumentar previsibilidade e elevar a maturidade técnica da malharia.
+      </p>
+    </div>
+
+    <div class="oqf-results-grid">
+      <article class="oqf-result-card">
+        <h3>Redução de perdas e segunda qualidade</h3>
+        <p>
+          Priorização de causas, padronização de critérios, checklist de processo e acompanhamento técnico.
+        </p>
+      </article>
+
+      <article class="oqf-result-card">
+        <h3>Mais estabilidade operacional</h3>
+        <p>
+          Melhoria de rotina, inspeções direcionadas, leitura de ocorrências e maior previsibilidade da produção.
+        </p>
+      </article>
+
+      <article class="oqf-result-card">
+        <h3>Equipes mais preparadas</h3>
+        <p>
+          Treinamentos aplicados à realidade da fábrica, com conteúdo claro e foco em execução correta.
+        </p>
+      </article>
+
+      <article class="oqf-result-card">
+        <h3>Gestão mais visual e objetiva</h3>
+        <p>
+          Indicadores, relatórios, critérios técnicos e decisões mais rápidas baseadas em evidências.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="oqf-cta">
+  <div class="container oqf-cta-box">
+    <div class="oqf-cta-copy">
+      <span class="oqf-section-label">Vamos conversar</span>
+      <h2>Qual é o desafio da sua malharia hoje?</h2>
+      <p>
+        Conte com a Stegie para estruturar soluções técnicas, treinar pessoas,
+        fortalecer processos e buscar resultados mais consistentes.
+      </p>
+    </div>
+    <div class="oqf-cta-action">
+      <a href="{{ url_for('fale_conosco') }}" class="btn btn-primary">Entrar em contato</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const words = document.querySelectorAll(".oqf-rotator-word");
+  if (!words.length) return;
+
+  let index = 0;
+
+  setInterval(() => {
+    words[index].classList.remove("is-active");
+    index = (index + 1) % words.length;
+    words[index].classList.add("is-active");
+  }, 1800);
+});
+</script>
+{% endblock %}
