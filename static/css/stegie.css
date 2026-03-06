@@ -307,22 +307,23 @@ textarea:focus{
 }
 
 .st-fnav__logo{
-  display:block;
-  width:auto;
-  height: 30px;
-  max-height: 30px;
-  object-fit: contain;
-  object-position: center;
-  flex:0 0 auto;
+  display:block !important;
+  width:auto !important;
+  height: calc(var(--st-wordmark-size) * var(--st-logo-visual-scale)) !important;
+  max-height: calc(var(--st-wordmark-size) * var(--st-logo-visual-scale)) !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  flex: 0 0 auto !important;
+  transform: translateY(1px) !important;
 }
 
 .st-fnav__word{
   display:inline-block;
   font-family:Manrope, Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   font-weight:800;
-  font-size:var(--st-wordmark-size);
+  font-size: var(--st-wordmark-size) !important;
   letter-spacing:-0.02em;
-  line-height:1;
+  line-height: 1 !important;
   color:var(--fnav-text-strong);
 }
 
@@ -1748,6 +1749,7 @@ body .st-footer__bottom{
   :root{
     --fnav-h:70px;
     --st-wordmark-size:34px;
+    --st-logo-visual-scale: 1.68; /* compensação da margem transparente do PNG */ 
   }
 
   .container{
