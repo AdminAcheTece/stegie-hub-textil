@@ -1190,23 +1190,22 @@ body .st-socialbtn{
   align-items:center !important;
   justify-content:center !important;
   flex: 0 0 50px !important;
+  padding: 0 !important;
+  line-height: 1 !important;
   opacity: 1 !important;
-  padding:0 !important;
-  line-height:1 !important;
-  transition: transform .14s ease, border-color .14s ease, color .14s ease, background .14s ease !important;
+  transition: transform .14s ease, border-color .14s ease, background .14s ease !important;
 }
 
 body .st-socialbtn:hover{
   transform: translateY(-1px);
   border-color: rgba(123,116,36,.95) !important;
-  color: var(--st-accent) !important;
   background: rgba(123,116,36,.04) !important;
 }
 
 body .st-socialbtn svg{
   width: 20px !important;
   height: 20px !important;
-  display:block !important;
+  display: block !important;
   fill: currentColor !important;
   stroke: none !important;
 }
