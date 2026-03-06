@@ -1618,7 +1618,7 @@ a:hover{ opacity:.92; }
 /* quando entra na tela */
 .js-split.is-anim .qs-char{
   animation: qs-rise 1100ms cubic-bezier(.2,.8,.2,1) forwards;  /* mais lento */
-  animation-delay: calc(var(--i) * 55ms);                       /* mais espaçado */
+  animation-delay: calc(var(--i) * 70ms);                       /* mais espaçado */
 }
 
 @keyframes qs-rise{
