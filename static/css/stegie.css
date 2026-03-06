@@ -1617,8 +1617,8 @@ a:hover{ opacity:.92; }
 
 /* quando entra na tela */
 .js-split.is-anim .qs-char{
-  animation: qs-rise 700ms cubic-bezier(.2,.8,.2,1) forwards;
-  animation-delay: calc(var(--i) * 28ms);
+  animation: qs-rise 1100ms cubic-bezier(.2,.8,.2,1) forwards;  /* mais lento */
+  animation-delay: calc(var(--i) * 55ms);                       /* mais espaçado */
 }
 
 @keyframes qs-rise{
@@ -1835,3 +1835,83 @@ body .st-footer__bottom{
   body .st-footer__hr{ margin: 18px 0 14px !important; }
 }
 
+/* =========================
+   Quem Somos: espaçamento mais compacto
+   ========================= */
+.page-quem-somos .qs-hero{
+  padding: clamp(18px, 2.8vw, 34px) 0 clamp(26px, 4.5vw, 60px);
+}
+
+.page-quem-somos .section{
+  padding: clamp(18px, 2.6vw, 34px) 0; /* antes estava “alto demais” */
+}
+
+.page-quem-somos .section--tight{
+  padding: clamp(14px, 2.2vw, 26px) 0;
+}
+
+/* reduz “respiro” extra em grids/cards nessa página */
+.page-quem-somos .grid-2{ margin-top: 12px !important; }
+.page-quem-somos .card{ margin-top: 0 !important; }
+
+/* Marca do footer igual topbar (logo + wordmark lado a lado) */
+.st-footer__brand{ min-width: 0; }
+.st-footer__brandlink{ display:inline-flex; align-items:center; gap:12px; }
+.st-footer__logo{ height:28px; width:auto; display:block; }
+.st-footer__wordmark{
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-weight:800;
+  font-size:18px;
+  color:#111;
+}
+
+/* Tagline menor e em uma linha no desktop */
+.st-footer__tagline{
+  font-size:13px;
+  line-height:1.35;
+  white-space: nowrap;        /* mantém 1 linha */
+  overflow: hidden;
+  text-overflow: ellipsis;    /* segurança: não estoura */
+  max-width: 520px;
+}
+
+/* No mobile, deixa quebrar normal */
+@media (max-width: 640px){
+  .st-footer__tagline{
+    white-space: normal;
+    max-width: 36ch;
+  }
+}
+
+/* Evita scroll lateral no footer */
+.st-footer{ overflow-x: hidden; }
+.st-footer__wrap{ min-width: 0; }
+
+/* Coluna da newsletter responsiva (não estoura) */
+.st-footer__wrap{
+  grid-template-columns: 1fr minmax(280px, 360px);
+}
+
+/* Card ocupa 100% da coluna */
+.st-footer__right, .st-news{ width: 100%; max-width: 360px; }
+.st-news{ box-sizing: border-box; }
+
+/* Avatar redondo com foto */
+.st-avatar{
+  width:72px;
+  height:72px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.7);
+  overflow:hidden;
+  flex: 0 0 72px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.st-avatar img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+}
