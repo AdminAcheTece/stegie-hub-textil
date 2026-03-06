@@ -1177,7 +1177,7 @@ body .st-socialbtn{
   width: 42px !important;
   height: 42px !important;
   border-radius: 999px !important;
-  border: 1.6px solid rgba(123,116,36,.78) !important;
+  border: 1.4px solid rgba(123,116,36,.78) !important;
   color: var(--st-accent) !important;
   background: transparent !important;
   display:inline-flex !important;
@@ -1196,11 +1196,11 @@ body .st-socialbtn:hover{
 }
 
 body .st-socialbtn svg{
-  width: 19px !important;
-  height: 19px !important;
+  width: 18px !important;
+  height: 18px !important;
   stroke: currentColor !important;
   fill: none !important;
-  stroke-width: 2.1 !important;
+  stroke-width: 1.9 !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
   vector-effect: non-scaling-stroke !important;
