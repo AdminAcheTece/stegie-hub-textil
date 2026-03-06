@@ -1884,3 +1884,61 @@ body .st-footer__bottom{
     grid-template-columns:repeat(2, minmax(0, 1fr));
   }
 }
+
+/* =========================================
+   PATCH FINAL — TOPBAR PRETA / MENU BRANCO
+   ========================================= */
+
+.st-fnav{
+  background: #000 !important;
+}
+
+.st-fnav__brand,
+.st-fnav__word{
+  color: #fff !important;
+}
+
+.st-fnav__nav,
+.st-fnav__menu{
+  color: #fff !important;
+}
+
+.st-fnav__link,
+.st-fnav__item,
+.st-fnav__link:visited,
+.st-fnav__item:visited{
+  color: rgba(255,255,255,.92) !important;
+}
+
+.st-fnav__link:hover,
+.st-fnav__item:hover{
+  color: #fff !important;
+}
+
+.st-fnav__link.is-open,
+.st-fnav__item.is-open{
+  color: var(--st-accent) !important;
+}
+
+.st-fnav__chev,
+.st-fnav__caret{
+  color: currentColor !important;
+  border-top-color: currentColor !important;
+}
+
+.st-fnav__actions,
+.st-fnav__right,
+.st-iconbtn,
+.st-fnav__icon{
+  color: #fff !important;
+}
+
+.st-fnav__logo{
+  display: block !important;
+  width: auto !important;
+  height: 30px !important;
+  max-height: 30px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  flex: 0 0 auto !important;
+}
