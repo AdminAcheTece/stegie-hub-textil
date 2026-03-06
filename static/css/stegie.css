@@ -47,6 +47,10 @@
   --st-logo-h-mobile:28px;
 }
 
+  --olive-accent:#8E8420;
+  --olive-accent-hover:#A4F330;
+}
+
 /* ===========================
    RESET / BASE
    =========================== */
@@ -2045,14 +2049,34 @@ body .st-footer__bottom{
 .oqf-tech,
 .oqf-results,
 .oqf-cta{
-  padding: 96px 0;
+  padding: 68px 0;
 }
 
 .oqf-hero{
-  padding-top: 118px;
+  padding-top: 96px;
+  padding-bottom: 54px;
   background:
     radial-gradient(circle at top left, rgba(0,0,0,.04), transparent 34%),
     linear-gradient(180deg, #F7F6F3 0%, #F8F7F4 100%);
+}
+
+.oqf-intro{
+  padding-top: 46px;
+  padding-bottom: 54px;
+  border-top:1px solid #E8E3DA;
+}
+
+.oqf-services,
+.oqf-differentials,
+.oqf-tech,
+.oqf-results{
+  padding-top: 58px;
+  padding-bottom: 58px;
+}
+
+.oqf-cta{
+  padding-top: 38px;
+  padding-bottom: 84px;
 }
 
 .oqf-hero-grid,
@@ -2072,17 +2096,17 @@ body .st-footer__bottom{
   font-size:.78rem;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:#6B6B6B;
+  color:#6E6E6E;
   margin-bottom:20px;
 }
 
 .oqf-title{
   margin:0;
-  max-width: 12ch;
+  max-width: 11ch;
   font-weight:300;
-  letter-spacing:-0.045em;
-  line-height:.98;
-  font-size: clamp(2.8rem, 6vw, 5.8rem);
+  letter-spacing:-0.055em;
+  line-height:.96;
+  font-size: clamp(3rem, 6vw, 6.1rem);
   color:#111;
 }
 
@@ -2090,11 +2114,23 @@ body .st-footer__bottom{
 .oqf-intro-right p,
 .oqf-section-text,
 .oqf-tech-copy p,
-.oqf-cta-copy p{
+.oqf-cta-copy p,
+.oqf-unique-copy p{
   font-size:1.06rem;
   line-height:1.8;
   color:#4E4E4E;
   max-width: 62ch;
+}
+
+.oqf-intro-right p strong,
+.oqf-section-text strong,
+.oqf-tech-copy p strong,
+.oqf-cta-copy p strong,
+.oqf-result-card p strong,
+.oqf-service-body p strong,
+.oqf-unique-copy p strong{
+  font-weight:700;
+  color:#111;
 }
 
 .oqf-hero-actions{
@@ -2149,35 +2185,41 @@ body .st-footer__bottom{
   min-height: 620px;
 }
 
-.oqf-intro{
-  border-top:1px solid #E8E3DA;
-}
-
 .oqf-section-title{
   margin:0;
-  font-size: clamp(2rem, 3.4vw, 3.3rem);
-  line-height:1.08;
-  letter-spacing:-0.04em;
+  font-size: clamp(2.2rem, 3.6vw, 3.9rem);
+  line-height:1.02;
+  letter-spacing:-0.05em;
   font-weight:300;
   color:#111;
-  max-width: 14ch;
+  max-width: 13ch;
+}
+
+.oqf-intro .oqf-section-title,
+.oqf-differentials .oqf-section-title,
+.oqf-tech .oqf-section-title,
+.oqf-results .oqf-section-title{
+  color: var(--olive-accent);
 }
 
 .oqf-heading{
-  margin-bottom:42px;
+  margin-bottom:28px;
 }
 
 .oqf-heading-center{
   text-align:center;
   max-width: 980px;
-  margin:0 auto 42px;
+  margin:0 auto 28px;
 }
 
 .oqf-heading-center .oqf-section-title,
 .oqf-heading-center .oqf-section-text{
   margin-left:auto;
   margin-right:auto;
-  max-width: 18ch;
+}
+
+.oqf-heading-center .oqf-section-title{
+  max-width: 16ch;
 }
 
 .oqf-heading-center .oqf-section-text{
@@ -2188,7 +2230,7 @@ body .st-footer__bottom{
 .oqf-services-grid{
   display:grid;
   grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:28px;
+  gap:22px;
 }
 
 .oqf-service-card{
@@ -2256,19 +2298,19 @@ body .st-footer__bottom{
 }
 
 .oqf-differentials .oqf-section-title{
-  color:#fff;
+  color:var(--olive-accent);
   max-width: 16ch;
 }
 
 .oqf-differentials .oqf-section-text{
-  color:rgba(255,255,255,.72);
+  color:rgba(255,255,255,.78);
 }
 
 .oqf-pillars{
   display:grid;
   grid-template-columns:repeat(3, minmax(0, 1fr));
-  gap:22px;
-  margin-top:36px;
+  gap:18px;
+  margin-top:24px;
 }
 
 .oqf-pillar{
@@ -2301,6 +2343,18 @@ body .st-footer__bottom{
   color:rgba(255,255,255,.75);
 }
 
+.oqf-unique-copy{
+  max-width: 1180px;
+  margin: 26px auto 0;
+}
+
+.oqf-unique-copy p{
+  font-size:1.04rem;
+  line-height:1.78;
+  color:#222;
+  margin:0 0 16px;
+}
+
 .oqf-tech-tags{
   display:flex;
   flex-wrap:wrap;
@@ -2322,7 +2376,7 @@ body .st-footer__bottom{
 .oqf-results-grid{
   display:grid;
   grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:20px;
+  gap:16px;
 }
 
 .oqf-result-card{
@@ -2335,11 +2389,6 @@ body .st-footer__bottom{
 
 .oqf-result-card h3{
   font-size:1.32rem;
-}
-
-.oqf-cta{
-  padding-top: 36px;
-  padding-bottom: 110px;
 }
 
 .oqf-cta-box{
@@ -2364,6 +2413,49 @@ body .st-footer__bottom{
 .oqf-cta-copy p{
   color:rgba(255,255,255,.72);
   margin:0;
+}
+
+/* Botões no padrão visual da referência */
+.oqf-hero .btn-primary,
+.oqf-tech .btn-primary,
+.oqf-cta .btn-primary{
+  background: var(--olive-accent);
+  color: #fff;
+  border: 1px solid var(--olive-accent);
+  border-radius: 999px;
+  padding: 16px 34px;
+  font-weight: 700;
+  transition: background-color .25s ease, border-color .25s ease, color .25s ease, transform .2s ease;
+  box-shadow: none;
+}
+
+.oqf-hero .btn-primary:hover,
+.oqf-tech .btn-primary:hover,
+.oqf-cta .btn-primary:hover{
+  background: var(--olive-accent-hover);
+  border-color: var(--olive-accent-hover);
+  color: #111;
+  transform: translateY(-1px);
+}
+
+.oqf-hero .btn-ghost,
+.oqf-tech .btn-ghost,
+.oqf-cta .btn-ghost{
+  background: transparent;
+  color: #111;
+  border: 1px solid #D9D2C6;
+  border-radius: 999px;
+  padding: 16px 34px;
+  font-weight: 600;
+  transition: all .25s ease;
+}
+
+.oqf-hero .btn-ghost:hover,
+.oqf-tech .btn-ghost:hover,
+.oqf-cta .btn-ghost:hover{
+  background: #111;
+  color: #fff;
+  border-color: #111;
 }
 
 @media (max-width: 1100px){
@@ -2400,11 +2492,12 @@ body .st-footer__bottom{
   .oqf-tech,
   .oqf-results,
   .oqf-cta{
-    padding:72px 0;
+    padding:52px 0;
   }
 
   .oqf-hero{
-    padding-top: 94px;
+    padding-top: 82px;
+    padding-bottom: 40px;
   }
 
   .oqf-title{
@@ -2416,7 +2509,8 @@ body .st-footer__bottom{
   .oqf-intro-right p,
   .oqf-section-text,
   .oqf-tech-copy p,
-  .oqf-cta-copy p{
+  .oqf-cta-copy p,
+  .oqf-unique-copy p{
     font-size:1rem;
     line-height:1.72;
   }
