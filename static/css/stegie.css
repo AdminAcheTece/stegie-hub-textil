@@ -1171,19 +1171,36 @@ body .st-footer__socialicons{
 }
 
 body .st-socialbtn{
-  width:36px;
-  height:36px;
-  border-radius:999px;
-  border:1px solid rgba(123,116,36,.75);
-  color:var(--st-accent);
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 999px !important;
+  border: 1.6px solid rgba(123,116,36,.78) !important;
+  color: var(--st-accent) !important;
+  background: transparent !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex: 0 0 42px !important;
+  opacity: 1 !important;
+  transition: transform .14s ease, border-color .14s ease, color .14s ease, background .14s ease !important;
+}
+
+body .st-socialbtn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(123,116,36,.95) !important;
+  color: var(--st-accent) !important;
+  background: rgba(123,116,36,.04) !important;
 }
 
 body .st-socialbtn svg{
-  width:18px;
-  height:18px;
+  width: 19px !important;
+  height: 19px !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 2.1 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  vector-effect: non-scaling-stroke !important;
 }
 
 .st-footer__right,
