@@ -309,9 +309,10 @@ textarea:focus{
 .st-fnav__logo{
   display:block;
   width:auto;
-  height:var(--st-logo-h);
-  max-height:var(--st-logo-h);
-  object-fit:contain;
+  height: 30px;
+  max-height: 30px;
+  object-fit: contain;
+  object-position: center;
   flex:0 0 auto;
 }
 
@@ -1110,9 +1111,11 @@ body .st-footer__brandlink{
 }
 
 body .st-footer__logo{
-  height:28px;
-  width:auto;
-  display:block;
+  height: 24px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  object-position: center;
 }
 
 body .st-footer__wordmark{
@@ -1678,7 +1681,8 @@ body .st-footer__bottom{
 .st-avatar img{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit: cover;
+  object-position: center 30%;
   display:block;
 }
 
