@@ -1168,23 +1168,30 @@ body .st-footer__sociallabel{
   font-size:16px;
 }
 
+/* =========================================
+   REDES SOCIAIS — ÍCONES LIMPOS E NÍTIDOS
+   ========================================= */
+
 body .st-footer__socialicons{
-  display:inline-flex;
-  gap:10px;
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:12px !important;
 }
 
 body .st-socialbtn{
-  width: 42px !important;
-  height: 42px !important;
+  width: 50px !important;
+  height: 50px !important;
   border-radius: 999px !important;
-  border: 1.4px solid rgba(123,116,36,.78) !important;
+  border: 1.5px solid rgba(123,116,36,.78) !important;
   color: var(--st-accent) !important;
   background: transparent !important;
   display:inline-flex !important;
   align-items:center !important;
   justify-content:center !important;
-  flex: 0 0 42px !important;
+  flex: 0 0 50px !important;
   opacity: 1 !important;
+  padding:0 !important;
+  line-height:1 !important;
   transition: transform .14s ease, border-color .14s ease, color .14s ease, background .14s ease !important;
 }
 
@@ -1196,14 +1203,11 @@ body .st-socialbtn:hover{
 }
 
 body .st-socialbtn svg{
-  width: 18px !important;
-  height: 18px !important;
-  stroke: currentColor !important;
-  fill: none !important;
-  stroke-width: 1.9 !important;
-  stroke-linecap: round !important;
-  stroke-linejoin: round !important;
-  vector-effect: non-scaling-stroke !important;
+  width: 20px !important;
+  height: 20px !important;
+  display:block !important;
+  fill: currentColor !important;
+  stroke: none !important;
 }
 
 .st-footer__right,
@@ -1941,4 +1945,90 @@ body .st-footer__bottom{
   object-fit: contain !important;
   object-position: center !important;
   flex: 0 0 auto !important;
+}
+
+/* =========================================
+   TOPBAR FINAL — FORÇA VISUAL CORRETO
+   ========================================= */
+
+.st-fnav{
+  background:#000 !important;
+  border-bottom:1px solid rgba(255,255,255,.08) !important;
+}
+
+.st-fnav__brand,
+.st-fnav__brand:visited,
+.st-fnav__word{
+  color:#fff !important;
+}
+
+.st-fnav__nav,
+.st-fnav__menu{
+  color:#fff !important;
+}
+
+.st-fnav__link,
+.st-fnav__link:visited,
+.st-fnav__item,
+.st-fnav__item:visited{
+  color:rgba(255,255,255,.94) !important;
+  background:transparent !important;
+}
+
+.st-fnav__link:hover,
+.st-fnav__item:hover{
+  color:#fff !important;
+}
+
+.st-fnav__link.is-open,
+.st-fnav__item.is-open{
+  color:#B7D300 !important;
+}
+
+.st-fnav__link::after,
+.st-fnav__item::after{
+  background:transparent !important;
+}
+
+.st-fnav__link:hover::after,
+.st-fnav__item:hover::after{
+  background:rgba(183,211,0,.55) !important;
+}
+
+.st-fnav__link.is-open::after,
+.st-fnav__item.is-open::after{
+  background:#B7D300 !important;
+}
+
+.st-fnav__chev,
+.st-fnav__caret{
+  color:currentColor !important;
+  border-top-color:currentColor !important;
+}
+
+.st-fnav__actions,
+.st-fnav__right,
+.st-iconbtn,
+.st-fnav__icon{
+  color:#fff !important;
+}
+
+.st-fnav__logo{
+  display:block !important;
+  width:auto !important;
+  height:30px !important;
+  max-height:30px !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  flex:0 0 auto !important;
+}
+
+.st-fnav__accent{
+  height:6px !important;
+  background:linear-gradient(
+    90deg,
+    rgba(123,116,36,0),
+    rgba(123,116,36,.88),
+    rgba(123,116,36,0)
+  ) !important;
 }
