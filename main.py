@@ -283,6 +283,9 @@ def not_found(_):
 def health():
     return "ok", 200
 
+@app.route("/o-que-fazemos")
+def o_que_fazemos():
+    return render_template("o_que_fazemos.html")
 
 # -----------------------------
 # Local run (somente dev)
