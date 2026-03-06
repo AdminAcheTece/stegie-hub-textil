@@ -70,14 +70,19 @@
           
           <!-- Avatar com foto -->
           <div class="st-avatar">
-            <img src="{{ url_for('static', filename='IMG/vandre.jpg') }}" alt="Vandré" loading="lazy" />
+            <img
+              src="{{ url_for('static', filename='IMG/vandre.jpg') }}?v={{ asset_v }}"
+              alt="Vandré"
+              loading="lazy"
+              decoding="async"
+              onerror="
+                if(!this.dataset.try2){this.dataset.try2='1'; this.src='{{ url_for('static', filename='IMG/vandre.JPG') }}?v={{ asset_v }}';}
+                else if(!this.dataset.try3){this.dataset.try3='1'; this.src='{{ url_for('static', filename='img/vandre.jpg') }}?v={{ asset_v }}';}
+                else if(!this.dataset.try4){this.dataset.try4='1'; this.src='{{ url_for('static', filename='img/vandre.JPG') }}?v={{ asset_v }}';}
+                else { this.style.display='none'; }
+              "
+            />
           </div>
-
-          <div>
-            <h3 style="margin:0;">Vandré</h3>
-            <p style="margin:6px 0 0 0;">Fundador • Especialista Têxtil • Educador Têxtil</p>
-          </div>
-        </div>
 
         <p style="margin-top:14px;">Meu trabalho é organizar o sistema técnico da malharia: critérios, testes, ficha técnica e treinamento. O objetivo é simples: aumentar previsibilidade e criar um padrão que se sustenta com rotina.</p>
 
