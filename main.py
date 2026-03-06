@@ -79,12 +79,12 @@ app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 # Bust de cache (usado no base.html via config.get('ASSET_VERSION'))
 app.config["ASSET_VERSION"] = os.environ.get("ASSET_VERSION", "1")
 
-# Logs de boot (diagnóstico definitivo)
+# Logs de boot
 print(f"[BOOT] BASE_DIR={BASE_DIR}")
 print(f"[BOOT] TEMPLATE_DIRS={TEMPLATE_DIRS}")
 print(f"[BOOT] STATIC_DIR={STATIC_DIR}")
 
-# Checagem real de arquivos que seu site precisa
+# Checagem de arquivos estáticos essenciais
 for rel in ("css/stegie.css", "css/style.css", "js/app.js"):
     ok, full, size = _check_file(STATIC_DIR, rel)
     if ok:
@@ -171,33 +171,35 @@ CASES = [
 
 
 # -----------------------------
-# Rotas (endpoints EXPLÍCITOS para evitar colisão)
+# Rotas
 # -----------------------------
 @app.route("/", endpoint="home")
 def home_page():
-    # Atalhos (ficam na grade)
     shortcuts = [
-        {"label": "Serviços",        "href": url_for("servicos"),        "icon": "i-wrench"},
-        {"label": "Educação",        "href": url_for("educacao"),        "icon": "i-grad"},
+        {"label": "Serviços", "href": url_for("servicos"), "icon": "i-wrench"},
+        {"label": "Educação", "href": url_for("educacao"), "icon": "i-grad"},
         {"label": "Fichas técnicas", "href": url_for("fichas_tecnicas"), "icon": "i-file"},
-        {"label": "Conteúdos",       "href": url_for("conteudos"),       "icon": "i-book"},
-        {"label": "Cases",           "href": url_for("cases"),           "icon": "i-briefcase"},
+        {"label": "Conteúdos", "href": url_for("conteudos"), "icon": "i-book"},
+        {"label": "Cases", "href": url_for("cases"), "icon": "i-briefcase"},
     ]
 
-    # Itens que saíram da grade (menu sanduíche + rodapé)
     nav_links = [
         {"label": "Quem somos", "href": url_for("quem_somos")},
-        {"label": "Contato",    "href": url_for("contato")},
-        {"label": "Política",   "href": url_for("politica")},
-        {"label": "Termos",     "href": url_for("termos")},
+        {"label": "Contato", "href": url_for("contato")},
+        {"label": "Política", "href": url_for("politica")},
+        {"label": "Termos", "href": url_for("termos")},
     ]
 
-    # “Conta” vira avatar (placeholder); se você já tiver usuário logado, troque pelas iniciais reais
-    account = {"href": url_for("home"), "initials": "V"}  # ex: url_for("login") ou painel
+    account = {"href": url_for("home"), "initials": "V"}
 
-    return render_template("home_clean.html", shortcuts=shortcuts, nav_links=nav_links, account=account)
+    return render_template(
+        "home_clean.html",
+        shortcuts=shortcuts,
+        nav_links=nav_links,
+        account=account,
+    )
 
-# Opcional: mantém compatibilidade com links antigos /home
+
 @app.route("/home", endpoint="home_redirect")
 def home_redirect():
     return redirect(url_for("home"), code=301)
@@ -206,6 +208,11 @@ def home_redirect():
 @app.route("/quem-somos", endpoint="quem_somos")
 def quem_somos_page():
     return render_template("quem-somos.html")
+
+
+@app.route("/o-que-fazemos", endpoint="o_que_fazemos")
+def o_que_fazemos_page():
+    return render_template("o_que_fazemos.html")
 
 
 @app.route("/servicos", endpoint="servicos")
@@ -283,9 +290,6 @@ def not_found(_):
 def health():
     return "ok", 200
 
-@app.route("/o-que-fazemos")
-def o_que_fazemos():
-    return render_template("o_que_fazemos.html")
 
 # -----------------------------
 # Local run (somente dev)
