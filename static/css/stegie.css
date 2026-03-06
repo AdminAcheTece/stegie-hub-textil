@@ -1973,3 +1973,35 @@ body .st-footer__bottom{
   font-size: 18px !important;
   color:#111 !important;
 }
+
+/* =========================================
+   PATCH FINAL — LOGO STEGIE NO TOPO
+   força uso da logomarca "S" ao lado da wordmark
+   ========================================= */
+
+.st-fnav__brand{
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+
+.st-fnav__logo{
+  display: block !important;
+  width: auto !important;
+  height: 34px !important;
+  max-height: 34px !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+
+.st-fnav__word{
+  display: inline-block !important;
+  line-height: 1 !important;
+}
+
+@media (max-width: 980px){
+  .st-fnav__logo{
+    height: 28px !important;
+    max-height: 28px !important;
+  }
+}
