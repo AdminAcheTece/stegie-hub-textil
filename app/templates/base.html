@@ -45,6 +45,12 @@
           alt="Stegie"
           loading="eager"
           decoding="async"
+          onerror="
+            if(!this.dataset.try2){this.dataset.try2='1'; this.src='{{ url_for('static', filename='IMG/logo-stegie.png') }}?v={{ asset_v }}';}
+            else if(!this.dataset.try3){this.dataset.try3='1'; this.src='{{ url_for('static', filename='img/logo-stegie-branca.png') }}?v={{ asset_v }}';}
+            else if(!this.dataset.try4){this.dataset.try4='1'; this.src='{{ url_for('static', filename='img/logo-stegie.png') }}?v={{ asset_v }}';}
+            else { this.style.display='none'; }
+          "
         >
         <span class="st-fnav__word">Stegie</span>
       </a>
@@ -209,6 +215,12 @@
                 alt="Stegie"
                 loading="lazy"
                 decoding="async"
+                onerror="
+                  if(!this.dataset.try2){this.dataset.try2='1'; this.src='{{ url_for('static', filename='IMG/logo-stegie-branca.png') }}?v={{ asset_v }}';}
+                  else if(!this.dataset.try3){this.dataset.try3='1'; this.src='{{ url_for('static', filename='img/logo-stegie.png') }}?v={{ asset_v }}';}
+                  else if(!this.dataset.try4){this.dataset.try4='1'; this.src='{{ url_for('static', filename='img/logo-stegie-branca.png') }}?v={{ asset_v }}';}
+                  else { this.style.display='none'; }
+                "
               >
               <span class="st-footer__wordmark">Stegie</span>
             </a>
@@ -239,32 +251,26 @@
 
           <div class="st-footer__socialicons" aria-label="Redes sociais">
 
-              <a class="st-socialbtn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M21.58 7.19a2.76 2.76 0 0 0-1.94-1.95C17.95 4.8 12 4.8 12 4.8s-5.95 0-7.64.44A2.76 2.76 0 0 0 2.42 7.2C2 8.89 2 12 2 12s0 3.11.42 4.81a2.76 2.76 0 0 0 1.94 1.95c1.69.44 7.64.44 7.64.44s5.95 0 7.64-.44a2.76 2.76 0 0 0 1.94-1.95C22 15.11 22 12 22 12s0-3.11-.42-4.81Z"></path>
-                  <path d="M10 15.25 15.2 12 10 8.75Z"></path>
-                </svg>
-              </a>
-            
-              <a class="st-socialbtn" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M8 10v8"></path>
-                  <path d="M12 18v-4.5a2.5 2.5 0 0 1 5 0V18"></path>
-                  <path d="M12 10v1.2"></path>
-                  <circle cx="8" cy="6.5" r="1.25"></circle>
-                  <path d="M16.8 10A3.2 3.2 0 0 0 12 12.2"></path>
-                </svg>
-              </a>
-            
-              <a class="st-socialbtn" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="4" y="4" width="16" height="16" rx="4.5" ry="4.5"></rect>
-                  <circle cx="12" cy="12" r="3.6"></circle>
-                  <circle cx="17.2" cy="6.8" r="1"></circle>
-                </svg>
-              </a>
-            
-            </div>
+            <a class="st-socialbtn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M21.8 8.4a2.8 2.8 0 0 0-2-2c-1.7-.4-7.8-.4-7.8-.4s-6 0-7.8.4a2.8 2.8 0 0 0-2 2C1.8 10.1 1.8 12 1.8 12s0 1.9.4 3.6a2.8 2.8 0 0 0 2 2c1.7.4 7.8.4 7.8.4s6 0 7.8-.4a2.8 2.8 0 0 0 2-2c.4-1.7.4-3.6.4-3.6s0-1.9-.4-3.6Z"/>
+                <path fill="#F7F6F3" d="M10 15.2V8.8L15.4 12 10 15.2Z"/>
+              </svg>
+            </a>
+          
+            <a class="st-socialbtn" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M6.3 8.2a1.9 1.9 0 1 1 0-3.8 1.9 1.9 0 0 1 0 3.8Zm-1.6 2.1h3.2V20H4.7v-9.7Zm5.1 0h3.1v1.3h.1c.4-.8 1.5-1.6 3-1.6 3.2 0 3.8 2.1 3.8 4.8V20h-3.2v-4.6c0-1.1 0-2.5-1.5-2.5s-1.7 1.2-1.7 2.4V20H9.8v-9.7Z"/>
+              </svg>
+            </a>
+          
+            <a class="st-socialbtn" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M7.2 3h9.6A4.2 4.2 0 0 1 21 7.2v9.6a4.2 4.2 0 0 1-4.2 4.2H7.2A4.2 4.2 0 0 1 3 16.8V7.2A4.2 4.2 0 0 1 7.2 3Zm0 1.7a2.5 2.5 0 0 0-2.5 2.5v9.6a2.5 2.5 0 0 0 2.5 2.5h9.6a2.5 2.5 0 0 0 2.5-2.5V7.2a2.5 2.5 0 0 0-2.5-2.5H7.2Zm4.8 2.6A4.7 4.7 0 1 1 7.3 12 4.7 4.7 0 0 1 12 7.3Zm0 1.7A3 3 0 1 0 15 12a3 3 0 0 0-3-3Zm5-3.1a1.1 1.1 0 1 1-1.1 1.1A1.1 1.1 0 0 1 17 5.9Z"/>
+              </svg>
+            </a>
+          
+          </div>
         </div>
       </div>
 
