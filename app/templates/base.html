@@ -32,8 +32,8 @@
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
   <!-- =========================================================
-     TOPBAR (Falconi-like)
-     ========================================================= -->
+       TOPBAR
+       ========================================================= -->
   <header class="st-fnav" id="stTopbar">
     <div class="st-fnav__inner">
 
@@ -41,7 +41,7 @@
       <a href="{{ url_for('home') }}" class="st-fnav__brand" aria-label="Stegie">
         <img
           class="st-fnav__logo"
-          src="{{ url_for('static', filename='IMG/logo-stegie-branca.png') }}?v={{ asset_v }}"
+          src="{{ url_for('static', filename='IMG/logo-stegie.png') }}?v={{ asset_v }}"
           alt="Stegie"
           loading="eager"
           decoding="async"
@@ -105,12 +105,12 @@
       <hr style="opacity:.25; margin:12px 0;">
       <a href="/quem-somos">Quem somos</a>
       <a href="/o-que-fazemos">O que fazemos</a>
-      <a href="/fale-conosco">Fale conosco</a>
+      <a href="{{ url_for('contato') }}">Fale conosco</a>
     </div>
   </header>
 
   <!-- =========================================================
-       MEGA MENUS (painel branco estilo Falconi)
+       MEGA MENUS
        ========================================================= -->
 
   <!-- SOLUÇÕES -->
@@ -142,6 +142,7 @@
         <div class="st-mega__title">Redes Sociais</div>
         <a class="st-mega__item" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
         <a class="st-mega__item" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="st-mega__item" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
       </div>
 
       <div class="st-mega__col">
@@ -170,7 +171,7 @@
         <div class="st-mega__title">Institucional</div>
         <a class="st-mega__item" href="/quem-somos">Quem somos</a>
         <a class="st-mega__item" href="/o-que-fazemos">O que fazemos</a>
-        <a class="st-mega__item" href="/fale-conosco">Fale conosco</a>
+        <a class="st-mega__item" href="{{ url_for('contato') }}">Fale conosco</a>
       </div>
     </div>
   </section>
@@ -190,7 +191,7 @@
   </main>
 
   <!-- =========================================================
-       FOOTER (Falconi-like: links + redes + newsletter)
+       FOOTER
        ========================================================= -->
   <footer class="st-footer" role="contentinfo">
     <div class="container st-footer__wrap">
@@ -215,18 +216,18 @@
             <p class="st-footer__tagline">Consultoria e Educação Têxtil para Malharias.</p>
           </div>
 
-          <!-- Coluna 1 (como Falconi: lista curta) -->
+          <!-- Coluna 1 -->
           <nav class="st-footer__col" aria-label="Institucional">
             <a href="/quem-somos">Quem somos</a>
             <a href="/o-que-fazemos">O que fazemos</a>
-            <a href="/contato">Contato</a>
+            <a href="{{ url_for('contato') }}">Contato</a>
           </nav>
 
           <!-- Coluna 2 -->
           <nav class="st-footer__col" aria-label="Legal">
             <a href="/politica-de-privacidade">Política de Privacidade</a>
             <a href="/termos">Termos</a>
-            <a href="/fale-conosco">Fale conosco</a>
+            <a href="{{ url_for('contato') }}">Fale conosco</a>
           </nav>
 
         </div>
@@ -236,33 +237,34 @@
         <div class="st-footer__socialrow">
           <span class="st-footer__sociallabel">Acompanhe nossas redes</span>
 
-          <!-- ✅ ÍCONES CORRIGIDOS + INSTAGRAM ADICIONADO -->
           <div class="st-footer__socialicons" aria-label="Redes sociais">
 
-            <!-- YouTube (fill) -->
+            <!-- YouTube -->
             <a class="st-socialbtn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
               <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="currentColor" d="M21.6 7.7a3 3 0 0 0-2.1-2.1C17.7 5.2 12 5.2 12 5.2s-5.7 0-7.5.4A3 3 0 0 0 2.4 7.7 31 31 0 0 0 2 12a31 31 0 0 0 .4 4.3 3 3 0 0 0 2.1 2.1c1.8.4 7.5.4 7.5.4s5.7 0 7.5-.4a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22 12a31 31 0 0 0-.4-4.3z"/>
-                <path fill="#fff" d="M10 15.4V8.6L16 12l-6 3.4z"/>
+                <path d="M22 12s0-3.5-.45-5.19a2.87 2.87 0 0 0-2.02-2.02C17.84 4.34 12 4.34 12 4.34s-5.84 0-7.53.45A2.87 2.87 0 0 0 2.45 6.8C2 8.5 2 12 2 12s0 3.5.45 5.19a2.87 2.87 0 0 0 2.02 2.02c1.69.45 7.53.45 7.53.45s5.84 0 7.53-.45a2.87 2.87 0 0 0 2.02-2.02C22 15.5 22 12 22 12Z"></path>
+                <path d="m10 15 5-3-5-3z"></path>
               </svg>
             </a>
-          
-            <!-- LinkedIn (fill) -->
+
+            <!-- LinkedIn -->
             <a class="st-socialbtn" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
               <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.67H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.36 4.26 5.43v6.31zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM3.56 20.45h3.56V9H3.56v11.45z"/>
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-12h4v2"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
               </svg>
             </a>
-          
-            <!-- Instagram (fill) -->
+
+            <!-- Instagram -->
             <a class="st-socialbtn" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
               <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="currentColor" d="M7.5 2.8h9A4.7 4.7 0 0 1 21.2 7.5v9a4.7 4.7 0 0 1-4.7 4.7h-9A4.7 4.7 0 0 1 2.8 16.5v-9A4.7 4.7 0 0 1 7.5 2.8zm9 1.8h-9A2.9 2.9 0 0 0 4.6 7.5v9a2.9 2.9 0 0 0 2.9 2.9h9a2.9 2.9 0 0 0 2.9-2.9v-9a2.9 2.9 0 0 0-2.9-2.9z"/>
-                <path fill="currentColor" d="M12 7.6a4.4 4.4 0 1 1 0 8.8 4.4 4.4 0 0 1 0-8.8zm0 1.8a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2z"/>
-                <circle fill="currentColor" cx="17.3" cy="6.8" r="1.1"/>
+                <rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="1"></circle>
               </svg>
             </a>
-          
+
           </div>
         </div>
       </div>
