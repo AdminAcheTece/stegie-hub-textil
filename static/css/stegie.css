@@ -2992,3 +2992,70 @@ a.btn-ghost:hover{
   background: #eee;
   margin: 12px 0;
 }
+
+/* =========================================================
+   MOBILE TOPBAR ICONS — ícones brancos, sem moldura (patch final)
+   Cole no FINAL do stegie.css
+   ========================================================= */
+
+/* 1) “Somente ícone” (sem caixa, sem borda, sem fundo) */
+.st-fnav__icononly{
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  color: #fff !important;            /* herança pro SVG */
+}
+
+/* força SVG ficar branco */
+.st-fnav__icononly svg{
+  width: 26px;
+  height: 26px;
+  display: block;
+  color: #fff !important;
+}
+.st-fnav__icononly svg *{
+  stroke: currentColor !important;   /* garante traço branco */
+}
+
+/* 2) Burger: sem caixa/moldura, só 3 linhas brancas */
+.st-fnav__burger{
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.st-fnav__burger span{
+  width: 22px;
+  height: 2px;
+  background: #fff !important;
+  border-radius: 2px;
+  display: block;
+}
+
+/* 3) (Opcional) hover/tap: leve feedback sem “moldura” */
+.st-fnav__icononly:active,
+.st-fnav__burger:active{
+  opacity: .78;
+}
+
+/* Remove qualquer outline/box-shadow que esteja criando “moldura” */
+.st-fnav__burger,
+.st-fnav__icononly{
+  box-shadow: none !important;
+  outline: none !important;
+}
