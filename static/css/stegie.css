@@ -3091,7 +3091,7 @@ a.btn-ghost:hover{
     align-items: center;
     justify-content: center;
 
-    gap: 2px !important;                 /* <<<<< distância Falconi (bem próxima) */
+    gap: 4px !important;                 /* <<<<< distância Falconi (bem próxima) */
     box-shadow: none !important;
     outline: none !important;
   }
