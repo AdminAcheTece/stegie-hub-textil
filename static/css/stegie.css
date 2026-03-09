@@ -2151,8 +2151,7 @@ body .st-footer__bottom{
   align-items:center;
 }
 
-.oqf-intro-grid,
-.oqf-tech-grid{
+.oqf-intro-grid{
   display:grid;
   grid-template-columns: 1.08fr .92fr;
   gap: 52px;
@@ -2248,27 +2247,6 @@ body .st-footer__bottom{
   object-fit:cover;
 }
 
-.oqf-tech-media{
-  display:flex;
-  align-items:stretch;
-}
-
-.oqf-tech-media-card{
-  width:100%;
-  min-height: 420px;
-  height: 100%;
-  max-height: 520px;
-  display:flex;
-}
-
-.oqf-tech-media-card img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center center;
-  display:block;
-}
-
 .oqf-hero-media-card{
   min-height: 380px;
   max-height: 520px;
@@ -2319,6 +2297,10 @@ body .st-footer__bottom{
   max-width: 70ch;
   margin-top:18px;
 }
+
+/* =========================================================
+   FRENTES DE ATUAÇÃO
+   ========================================================= */
 
 .oqf-services-grid{
   display:grid;
@@ -2389,6 +2371,10 @@ body .st-footer__bottom{
   line-height:1.72;
   font-size:.98rem;
 }
+
+/* =========================================================
+   BLOCO ESCURO / DIFERENCIAIS
+   ========================================================= */
 
 .oqf-differentials{
   background:#111;
@@ -2462,6 +2448,63 @@ body .st-footer__bottom{
   font-weight:700;
 }
 
+/* =========================================================
+   TECNOLOGIA
+   ========================================================= */
+
+.oqf-tech-top{
+  display:grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(320px, .98fr);
+  gap:42px;
+  align-items:start;
+}
+
+.oqf-tech-headline .oqf-section-title{
+  max-width: 8.4ch;
+  margin:0;
+  color: var(--olive-accent);
+  font-size: clamp(2.7rem, 5vw, 4.7rem);
+  line-height:.96;
+  letter-spacing:-0.055em;
+  font-weight:300;
+}
+
+.oqf-tech-visual{
+  display:flex;
+  align-items:flex-start;
+}
+
+.oqf-tech-media-card{
+  width:100%;
+  min-height: 290px;
+  max-height: 360px;
+  display:flex;
+}
+
+.oqf-tech-media-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  display:block;
+}
+
+.oqf-tech-bottom{
+  margin-top:32px;
+}
+
+.oqf-tech-copy{
+  max-width: 980px;
+}
+
+.oqf-tech-copy p{
+  max-width: 980px;
+}
+
+.oqf-tech-actions{
+  margin-top:20px;
+}
+
 .oqf-tech-tags{
   display:flex;
   flex-wrap:wrap;
@@ -2480,6 +2523,10 @@ body .st-footer__bottom{
   font-size:.92rem;
 }
 
+/* =========================================================
+   RESULTADOS
+   ========================================================= */
+
 .oqf-results-grid{
   display:grid;
   grid-template-columns:repeat(2, minmax(0, 1fr));
@@ -2497,6 +2544,10 @@ body .st-footer__bottom{
 .oqf-result-card h3{
   font-size:1.32rem;
 }
+
+/* =========================================================
+   CTA FINAL
+   ========================================================= */
 
 .oqf-cta-box{
   background:#111;
@@ -2522,7 +2573,10 @@ body .st-footer__bottom{
   margin:0;
 }
 
-/* Botões globais no padrão desejado */
+/* =========================================================
+   BOTÕES GLOBAIS
+   ========================================================= */
+
 .btn,
 a.btn{
   display:inline-flex;
@@ -2569,6 +2623,10 @@ a.btn-ghost:hover{
   transform: translateY(-1px);
 }
 
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+
 @media (max-width: 1100px){
   .oqf-banner{
     min-height: 280px;
@@ -2582,7 +2640,6 @@ a.btn-ghost:hover{
 
   .oqf-hero-grid,
   .oqf-intro-grid,
-  .oqf-tech-grid,
   .oqf-cta-box{
     grid-template-columns:1fr;
   }
@@ -2608,10 +2665,23 @@ a.btn-ghost:hover{
     max-width:none;
   }
 
+  .oqf-tech-top{
+    grid-template-columns:1fr;
+    gap:24px;
+  }
+
+  .oqf-tech-headline .oqf-section-title{
+    max-width:none;
+  }
+
   .oqf-tech-media-card{
-    min-height: 360px;
+    min-height: 300px;
     max-height: none;
-  }  
+  }
+
+  .oqf-tech-bottom{
+    margin-top:24px;
+  }
 }
 
 @media (max-width: 768px){
@@ -2696,8 +2766,30 @@ a.btn-ghost:hover{
     font-size:1.08rem;
   }
 
+  .oqf-tech-top{
+    gap:18px;
+  }
+
+  .oqf-tech-headline .oqf-section-title{
+    font-size: clamp(2.1rem, 10vw, 3.4rem);
+    line-height:1;
+  }
+
   .oqf-tech-media-card{
-    min-height: 260px;
+    min-height: 220px;
     max-height: none;
-  } 
+  }
+
+  .oqf-tech-bottom{
+    margin-top:18px;
+  }
+
+  .oqf-tech-tags{
+    gap:8px;
+  }
+
+  .oqf-tech-tags span{
+    font-size:.84rem;
+    padding:8px 12px;
+  }
 }
