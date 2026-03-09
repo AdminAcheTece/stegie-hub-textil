@@ -2454,31 +2454,37 @@ body .st-footer__bottom{
 
 .oqf-tech-top{
   display:grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(320px, .98fr);
-  gap:42px;
+  grid-template-columns: minmax(0, 1.22fr) minmax(420px, .98fr);
+  gap:34px;
   align-items:start;
 }
 
+.oqf-tech-headline{
+  min-width:0;
+}
+
 .oqf-tech-headline .oqf-section-title{
-  max-width: 8.4ch;
+  max-width: 10.8ch;
   margin:0;
   color: var(--olive-accent);
-  font-size: clamp(2.7rem, 5vw, 4.7rem);
-  line-height:.96;
-  letter-spacing:-0.055em;
+  font-size: clamp(3rem, 4.5vw, 4.9rem);
+  line-height:.94;
+  letter-spacing:-0.06em;
   font-weight:300;
 }
 
 .oqf-tech-visual{
   display:flex;
   align-items:flex-start;
+  justify-content:flex-end;
 }
 
 .oqf-tech-media-card{
   width:100%;
-  min-height: 290px;
-  max-height: 360px;
+  min-height: 250px;
+  max-height: 340px;
   display:flex;
+  border-radius:24px;
 }
 
 .oqf-tech-media-card img{
@@ -2490,19 +2496,21 @@ body .st-footer__bottom{
 }
 
 .oqf-tech-bottom{
-  margin-top:32px;
+  margin-top:28px;
 }
 
 .oqf-tech-copy{
-  max-width: 980px;
+  max-width:none;
+  width:100%;
 }
 
 .oqf-tech-copy p{
-  max-width: 980px;
+  max-width:none;
+  width:100%;
 }
 
 .oqf-tech-actions{
-  margin-top:20px;
+  margin-top:18px;
 }
 
 .oqf-tech-tags{
@@ -2667,11 +2675,15 @@ a.btn-ghost:hover{
 
   .oqf-tech-top{
     grid-template-columns:1fr;
-    gap:24px;
+    gap:22px;
   }
 
   .oqf-tech-headline .oqf-section-title{
-    max-width:none;
+    max-width: 11ch;
+  }
+
+  .oqf-tech-visual{
+    justify-content:flex-start;
   }
 
   .oqf-tech-media-card{
@@ -2680,7 +2692,7 @@ a.btn-ghost:hover{
   }
 
   .oqf-tech-bottom{
-    margin-top:24px;
+    margin-top:22px;
   }
 }
 
@@ -2767,21 +2779,29 @@ a.btn-ghost:hover{
   }
 
   .oqf-tech-top{
-    gap:18px;
+    gap:16px;
   }
 
   .oqf-tech-headline .oqf-section-title{
-    font-size: clamp(2.1rem, 10vw, 3.4rem);
-    line-height:1;
+    max-width:none;
+    font-size: clamp(2.15rem, 10vw, 3.35rem);
+    line-height:.98;
+    letter-spacing:-0.05em;
   }
 
   .oqf-tech-media-card{
     min-height: 220px;
     max-height: none;
+    border-radius:20px;
   }
 
   .oqf-tech-bottom{
-    margin-top:18px;
+    margin-top:16px;
+  }
+
+  .oqf-tech-copy p{
+    font-size:1rem;
+    line-height:1.72;
   }
 
   .oqf-tech-tags{
