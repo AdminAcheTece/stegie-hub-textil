@@ -2464,12 +2464,12 @@ body .st-footer__bottom{
 }
 
 .oqf-tech-headline .oqf-section-title{
-  max-width: 10.8ch;
+  max-width: 12.8ch;
   margin:0;
   color: var(--olive-accent);
-  font-size: clamp(3rem, 4.5vw, 4.9rem);
-  line-height:.94;
-  letter-spacing:-0.06em;
+  font-size: clamp(3rem, 4.35vw, 4.85rem);
+  line-height:.90;
+  letter-spacing:-0.065em;
   font-weight:300;
 }
 
@@ -2679,7 +2679,7 @@ a.btn-ghost:hover{
   }
 
   .oqf-tech-headline .oqf-section-title{
-    max-width: 11ch;
+    max-width: 12.5ch;
   }
 
   .oqf-tech-visual{
@@ -2785,8 +2785,8 @@ a.btn-ghost:hover{
   .oqf-tech-headline .oqf-section-title{
     max-width:none;
     font-size: clamp(2.15rem, 10vw, 3.35rem);
-    line-height:.98;
-    letter-spacing:-0.05em;
+    line-height:.96;
+    letter-spacing:-0.055em;
   }
 
   .oqf-tech-media-card{
