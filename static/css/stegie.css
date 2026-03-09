@@ -2813,3 +2813,182 @@ a.btn-ghost:hover{
     padding:8px 12px;
   }
 }
+
+/* =========================================================
+   MOBILE NAV (Falconi-like) — cole no FINAL do stegie.css
+   ========================================================= */
+
+@media (max-width: 980px){
+  /* 1) No mobile, some o menu desktop (Soluções/Conteúdos/Sobre em linha) */
+  .st-fnav__nav{ display:none !important; }
+
+  /* 2) Deixa ações bem à direita (ícone contato + burger) */
+  .st-fnav__actions{
+    margin-left: auto;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+  }
+
+  /* ícone "Fale conosco" (mais ao centro, antes do sanduíche) */
+  .st-fnav__contact{
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+  }
+
+  /* 3) Burger com cara “Falconi” */
+  .st-fnav__burger{
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: transparent;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap: 6px;
+  }
+  .st-fnav__burger span{
+    display:block;
+    width: 18px;
+    height: 2px;
+    background: rgba(255,255,255,.92);
+    border-radius: 3px;
+  }
+}
+
+/* 4) No mobile, não faz sentido abrir mega menu desktop */
+@media (max-width: 980px){
+  .st-mega{ display:none !important; }
+}
+
+/* =========================================================
+   Painel do menu mobile (2 colunas)
+   ========================================================= */
+.st-mnav[hidden]{ display:none !important; }
+
+.st-mnav{
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+}
+
+.st-mnav__overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+}
+
+.st-mnav__panel{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(92vw, 520px);
+  background: #fff;
+  box-shadow: 0 18px 60px rgba(0,0,0,.22);
+  display:flex;
+  flex-direction:column;
+
+  transform: translateX(10px);
+  opacity: 0;
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+.st-mnav.is-open .st-mnav__panel{
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.st-mnav__top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.st-mnav__topTitle{
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fnav-accent);
+}
+
+.st-mnav__close{
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(183,211,0,.55);
+  background: transparent;
+  font-size: 24px;
+  line-height: 1;
+  color: rgba(0,0,0,.55);
+}
+
+.st-mnav__body{
+  display:grid;
+  grid-template-columns: 36% 64%;
+  height: 100%;
+}
+
+/* Coluna esquerda (menus principais) */
+.st-mnav__tabs{
+  padding: 14px 0;
+  border-right: 1px solid #eee;
+  background: #fff;
+}
+
+.st-mnav__tab{
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(0,0,0,.45);
+}
+
+.st-mnav__tab.is-active{
+  color: var(--fnav-accent);
+}
+
+/* Coluna direita (submenus) */
+.st-mnav__content{
+  padding: 14px 16px;
+  overflow: auto;
+}
+
+.st-mnav__pane{ display:none; }
+.st-mnav__pane.is-active{ display:block; }
+
+.st-mnav__groupTitle{
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0,0,0,.55);
+  margin: 10px 0 8px;
+}
+
+.st-mnav__link{
+  display:block;
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #121212;
+  text-decoration: none !important; /* garante sem sublinhado */
+}
+
+.st-mnav__link:hover{
+  color: rgba(0,0,0,.65);
+}
+
+.st-mnav__sep{
+  height: 1px;
+  background: #eee;
+  margin: 12px 0;
+}
