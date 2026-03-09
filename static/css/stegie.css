@@ -3059,3 +3059,19 @@ a.btn-ghost:hover{
   box-shadow: none !important;
   outline: none !important;
 }
+
+/* Burger (mobile): linhas mais próximas, estilo Falconi */
+.st-fnav__burger{
+  gap: 3px !important;          /* antes estava ~6px */
+}
+
+.st-fnav__burger span{
+  width: 22px;                   /* mantém o comprimento */
+  height: 2px;                   /* espessura Falconi */
+  border-radius: 2px;
+}
+
+/* opcional: deixa o conjunto mais “compacto” verticalmente */
+.st-fnav__burger{
+  height: 44px;                  /* mantém clique confortável */
+}
