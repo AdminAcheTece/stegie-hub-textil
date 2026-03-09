@@ -2041,6 +2041,7 @@ body .st-footer__bottom{
    O QUE FAZEMOS
    ========================================================= */
 
+.oqf-banner,
 .oqf-hero,
 .oqf-intro,
 .oqf-services,
@@ -2048,20 +2049,79 @@ body .st-footer__bottom{
 .oqf-tech,
 .oqf-results,
 .oqf-cta{
-  padding: 68px 0;
+  padding: 64px 0;
 }
 
-.oqf-hero{
-  padding-top: 96px;
-  padding-bottom: 54px;
+/* =========================================================
+   TOPO / BANNER O QUE FAZEMOS
+   ========================================================= */
+
+.oqf-banner{
+  position: relative;
+  margin-top: 0;
+  padding-top: 118px;
+  padding-bottom: 118px;
+  min-height: 460px;
+  overflow: hidden;
+  border-bottom-left-radius: 42px;
+  border-bottom-right-radius: 42px;
   background:
-    radial-gradient(circle at top left, rgba(0,0,0,.04), transparent 34%),
+    linear-gradient(0deg, rgba(14,18,10,.38), rgba(14,18,10,.38)),
+    url("/static/img/oquefazemos-banner-topo.png") center center / cover no-repeat;
+}
+
+.oqf-banner-overlay{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg, rgba(8,10,8,.62) 0%, rgba(16,22,10,.38) 38%, rgba(18,24,10,.18) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.12) 0%, rgba(0,0,0,.18) 100%);
+  pointer-events:none;
+}
+
+.oqf-banner-inner{
+  position:relative;
+  z-index:2;
+}
+
+.oqf-banner-copy{
+  max-width: 980px;
+}
+
+.oqf-banner-title{
+  margin:0 0 20px;
+  color:#fff;
+  font-size: clamp(2.3rem, 4vw, 3.9rem);
+  line-height:1;
+  letter-spacing:-0.045em;
+  font-weight:700;
+  text-transform:uppercase;
+}
+
+.oqf-banner-text{
+  margin:0;
+  max-width: 1080px;
+  color:#fff;
+  font-size: clamp(1.08rem, 1.6vw, 1.55rem);
+  line-height:1.52;
+  font-weight:400;
+}
+
+/* =========================================================
+   HERO PRINCIPAL ABAIXO DO BANNER
+   ========================================================= */
+
+.oqf-hero{
+  padding-top: 34px;
+  padding-bottom: 46px;
+  background:
+    radial-gradient(circle at top left, rgba(0,0,0,.03), transparent 34%),
     linear-gradient(180deg, #F7F6F3 0%, #F8F7F4 100%);
 }
 
 .oqf-intro{
-  padding-top: 46px;
-  padding-bottom: 54px;
+  padding-top: 34px;
+  padding-bottom: 50px;
   border-top:1px solid #E8E3DA;
 }
 
@@ -2069,13 +2129,13 @@ body .st-footer__bottom{
 .oqf-differentials,
 .oqf-tech,
 .oqf-results{
-  padding-top: 58px;
-  padding-bottom: 58px;
+  padding-top: 54px;
+  padding-bottom: 54px;
 }
 
 .oqf-cta{
-  padding-top: 38px;
-  padding-bottom: 84px;
+  padding-top: 34px;
+  padding-bottom: 80px;
 }
 
 .oqf-hero-grid,
@@ -2096,7 +2156,7 @@ body .st-footer__bottom{
   letter-spacing:.18em;
   text-transform:uppercase;
   color:#6E6E6E;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
 .oqf-title{
@@ -2136,7 +2196,7 @@ body .st-footer__bottom{
   display:flex;
   flex-wrap:wrap;
   gap:14px;
-  margin-top:34px;
+  margin-top:30px;
 }
 
 .oqf-rotator{
@@ -2414,50 +2474,64 @@ body .st-footer__bottom{
   margin:0;
 }
 
-/* Botões no padrão visual da referência */
-.oqf-hero .btn-primary,
-.oqf-tech .btn-primary,
-.oqf-cta .btn-primary{
+/* Botões globais no padrão desejado */
+.btn,
+a.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height:54px;
+  padding:16px 34px;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:700;
+  transition: background-color .25s ease, border-color .25s ease, color .25s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.btn-primary,
+a.btn-primary{
   background: var(--olive-accent);
   color: #fff;
   border: 1px solid var(--olive-accent);
-  border-radius: 999px;
-  padding: 16px 34px;
-  font-weight: 700;
-  transition: background-color .25s ease, border-color .25s ease, color .25s ease, transform .2s ease;
-  box-shadow: none;
+  box-shadow:none;
 }
 
-.oqf-hero .btn-primary:hover,
-.oqf-tech .btn-primary:hover,
-.oqf-cta .btn-primary:hover{
-  background: var(--olive-accent-hover);
-  border-color: var(--olive-accent-hover);
-  color: #111;
+.btn-primary:hover,
+a.btn-primary:hover{
+  background:#111;
+  color: var(--olive-accent-hover);
+  border-color:#111;
   transform: translateY(-1px);
 }
 
-.oqf-hero .btn-ghost,
-.oqf-tech .btn-ghost,
-.oqf-cta .btn-ghost{
+.btn-ghost,
+a.btn-ghost{
   background: transparent;
   color: #111;
   border: 1px solid #D9D2C6;
-  border-radius: 999px;
-  padding: 16px 34px;
-  font-weight: 600;
-  transition: all .25s ease;
+  box-shadow:none;
 }
 
-.oqf-hero .btn-ghost:hover,
-.oqf-tech .btn-ghost:hover,
-.oqf-cta .btn-ghost:hover{
-  background: #111;
-  color: #fff;
-  border-color: #111;
+.btn-ghost:hover,
+a.btn-ghost:hover{
+  background: var(--olive-accent);
+  color:#fff;
+  border-color: var(--olive-accent);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 1100px){
+  .oqf-banner{
+    min-height: 390px;
+    padding-top: 102px;
+    padding-bottom: 92px;
+  }
+
+  .oqf-banner-copy{
+    max-width: 100%;
+  }
+
   .oqf-hero-grid,
   .oqf-intro-grid,
   .oqf-tech-grid,
@@ -2484,6 +2558,25 @@ body .st-footer__bottom{
 }
 
 @media (max-width: 768px){
+  .oqf-banner{
+    min-height: 320px;
+    padding-top: 88px;
+    padding-bottom: 72px;
+    border-bottom-left-radius: 26px;
+    border-bottom-right-radius: 26px;
+    background-position: center center;
+  }
+
+  .oqf-banner-title{
+    font-size: clamp(1.9rem, 8vw, 2.8rem);
+    margin-bottom: 14px;
+  }
+
+  .oqf-banner-text{
+    font-size: 1rem;
+    line-height:1.55;
+  }
+
   .oqf-hero,
   .oqf-intro,
   .oqf-services,
@@ -2495,7 +2588,7 @@ body .st-footer__bottom{
   }
 
   .oqf-hero{
-    padding-top: 82px;
+    padding-top: 28px;
     padding-bottom: 40px;
   }
 
