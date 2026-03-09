@@ -2059,14 +2059,15 @@ body .st-footer__bottom{
 .oqf-banner{
   position: relative;
   margin-top: 0;
-  padding-top: 118px;
-  padding-bottom: 118px;
-  min-height: 460px;
+  margin-bottom: 0;
+  padding-top: 88px;
+  padding-bottom: 74px;
+  min-height: 320px;
   overflow: hidden;
-  border-bottom-left-radius: 42px;
-  border-bottom-right-radius: 42px;
+  border-bottom-left-radius: 34px;
+  border-bottom-right-radius: 34px;
   background:
-    linear-gradient(0deg, rgba(14,18,10,.38), rgba(14,18,10,.38)),
+    linear-gradient(0deg, rgba(14,18,10,.42), rgba(14,18,10,.42)),
     url("/static/img/oquefazemos-banner-topo.png") center center / cover no-repeat;
 }
 
@@ -2074,8 +2075,8 @@ body .st-footer__bottom{
   position:absolute;
   inset:0;
   background:
-    linear-gradient(90deg, rgba(8,10,8,.62) 0%, rgba(16,22,10,.38) 38%, rgba(18,24,10,.18) 100%),
-    linear-gradient(180deg, rgba(0,0,0,.12) 0%, rgba(0,0,0,.18) 100%);
+    linear-gradient(90deg, rgba(8,10,8,.58) 0%, rgba(16,22,10,.28) 42%, rgba(18,24,10,.12) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.16) 100%);
   pointer-events:none;
 }
 
@@ -2085,13 +2086,13 @@ body .st-footer__bottom{
 }
 
 .oqf-banner-copy{
-  max-width: 980px;
+  max-width: 920px;
 }
 
 .oqf-banner-title{
-  margin:0 0 20px;
+  margin:0 0 16px;
   color:#fff;
-  font-size: clamp(2.3rem, 4vw, 3.9rem);
+  font-size: clamp(2rem, 3.3vw, 3.3rem);
   line-height:1;
   letter-spacing:-0.045em;
   font-weight:700;
@@ -2100,10 +2101,10 @@ body .st-footer__bottom{
 
 .oqf-banner-text{
   margin:0;
-  max-width: 1080px;
+  max-width: 980px;
   color:#fff;
-  font-size: clamp(1.08rem, 1.6vw, 1.55rem);
-  line-height:1.52;
+  font-size: clamp(1rem, 1.35vw, 1.3rem);
+  line-height:1.5;
   font-weight:400;
 }
 
@@ -2112,11 +2113,16 @@ body .st-footer__bottom{
    ========================================================= */
 
 .oqf-hero{
-  padding-top: 34px;
-  padding-bottom: 46px;
+  padding-top: 26px;
+  padding-bottom: 38px;
+  margin-top: 0;
   background:
     radial-gradient(circle at top left, rgba(0,0,0,.03), transparent 34%),
     linear-gradient(180deg, #F7F6F3 0%, #F8F7F4 100%);
+}
+
+.oqf-banner + .oqf-hero{
+  margin-top: 0;
 }
 
 .oqf-intro{
@@ -2138,7 +2144,13 @@ body .st-footer__bottom{
   padding-bottom: 80px;
 }
 
-.oqf-hero-grid,
+.oqf-hero-grid{
+  display:grid;
+  grid-template-columns: 1fr .92fr;
+  gap: 42px;
+  align-items:center;
+}
+
 .oqf-intro-grid,
 .oqf-tech-grid{
   display:grid;
@@ -2161,11 +2173,11 @@ body .st-footer__bottom{
 
 .oqf-title{
   margin:0;
-  max-width: 11ch;
+  max-width: 9.8ch;
   font-weight:300;
   letter-spacing:-0.055em;
-  line-height:.96;
-  font-size: clamp(3rem, 6vw, 6.1rem);
+  line-height:.94;
+  font-size: clamp(3rem, 5.2vw, 5.6rem);
   color:#111;
 }
 
@@ -2196,7 +2208,7 @@ body .st-footer__bottom{
   display:flex;
   flex-wrap:wrap;
   gap:14px;
-  margin-top:30px;
+  margin-top:26px;
 }
 
 .oqf-rotator{
@@ -2236,8 +2248,9 @@ body .st-footer__bottom{
   object-fit:cover;
 }
 
-.oqf-hero-media .oqf-media-card{
-  min-height: 620px;
+.oqf-hero-media-card{
+  min-height: 380px;
+  max-height: 520px;
 }
 
 .oqf-media-card-tall{
@@ -2523,9 +2536,9 @@ a.btn-ghost:hover{
 
 @media (max-width: 1100px){
   .oqf-banner{
-    min-height: 390px;
-    padding-top: 102px;
-    padding-bottom: 92px;
+    min-height: 280px;
+    padding-top: 78px;
+    padding-bottom: 64px;
   }
 
   .oqf-banner-copy{
@@ -2539,9 +2552,10 @@ a.btn-ghost:hover{
     grid-template-columns:1fr;
   }
 
-  .oqf-hero-media .oqf-media-card,
+  .oqf-hero-media-card,
   .oqf-media-card-tall{
-    min-height: 420px;
+    min-height: 360px;
+    max-height: none;
   }
 
   .oqf-pillars,
@@ -2559,22 +2573,22 @@ a.btn-ghost:hover{
 
 @media (max-width: 768px){
   .oqf-banner{
-    min-height: 320px;
-    padding-top: 88px;
-    padding-bottom: 72px;
-    border-bottom-left-radius: 26px;
-    border-bottom-right-radius: 26px;
+    min-height: 230px;
+    padding-top: 72px;
+    padding-bottom: 50px;
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
     background-position: center center;
   }
 
   .oqf-banner-title{
-    font-size: clamp(1.9rem, 8vw, 2.8rem);
-    margin-bottom: 14px;
+    font-size: clamp(1.7rem, 8vw, 2.4rem);
+    margin-bottom: 12px;
   }
 
   .oqf-banner-text{
-    font-size: 1rem;
-    line-height:1.55;
+    font-size: .98rem;
+    line-height:1.52;
   }
 
   .oqf-hero,
@@ -2584,17 +2598,25 @@ a.btn-ghost:hover{
   .oqf-tech,
   .oqf-results,
   .oqf-cta{
-    padding:52px 0;
+    padding:48px 0;
   }
 
   .oqf-hero{
-    padding-top: 28px;
-    padding-bottom: 40px;
+    padding-top: 22px;
+    padding-bottom: 30px;
   }
 
   .oqf-title{
-    font-size: clamp(2.2rem, 11vw, 3.8rem);
-    line-height:1.02;
+    font-size: clamp(2.25rem, 11vw, 3.9rem);
+    line-height:1.01;
+  }
+
+  .oqf-hero-actions{
+    margin-top:22px;
+  }
+
+  .oqf-hero-media-card{
+    min-height: 280px;
   }
 
   .oqf-lead,
