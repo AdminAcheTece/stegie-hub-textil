@@ -182,15 +182,15 @@
     </div>
   </section>
 
-  <div class="flash-wrap container">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-wrap container">
         {% for category, message in messages %}
           <div class="flash flash--{{ category }}">{{ message }}</div>
         {% endfor %}
-      {% endif %}
-    {% endwith %}
-  </div>
+      </div>
+    {% endif %}
+  {% endwith %}
 
   <main id="conteudo" role="main">
     {% block content %}{% endblock %}
