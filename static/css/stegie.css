@@ -15,6 +15,9 @@
   --muted:#5A5A5A;
   --border:#E6E1D8;
 
+  --olive-accent:#8E8420;
+  --olive-accent-hover:#A4F330; 
+   
   --primary:#111111;
   --primaryHover:#000000;
 
@@ -45,10 +48,6 @@
   --st-wordmark-size:40px;
   --st-logo-h:34px;
   --st-logo-h-mobile:28px;
-}
-
-  --olive-accent:#8E8420;
-  --olive-accent-hover:#A4F330;
 }
 
 /* ===========================
