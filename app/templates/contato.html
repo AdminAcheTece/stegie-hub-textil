@@ -1,111 +1,382 @@
 {% extends "base.html" %}
-{% block title %}STEGIE | Agendar Diagnóstico{% endblock %}
-{% block meta_description %}Agende um diagnóstico técnico. Descreva seu cenário e receba um plano inicial claro e executável.{% endblock %}
+{% block title %}STEGIE | Fale Conosco{% endblock %}
+{% block meta_description %}Entre em contato com a STEGIE para consultoria, parceria, carreira ou outros assuntos.{% endblock %}
 
 {% block content %}
 
-<section class="hero" data-reveal>
-  <div class="container hero__grid">
-    <div>
-      <div class="kicker">Contato</div>
-      <h1>Agendar diagnóstico</h1>
-      <p>Descreva seu cenário. Eu retorno com prioridades e um plano inicial executável.</p>
+<section class="st-contact-page">
+  <div class="st-contact-wrap">
 
-      <div class="card" style="padding:18px; margin-top:16px;">
-        <p style="margin:0;"><strong>Objetivo:</strong> clareza técnica e sequência de execução — sem ruído.</p>
-      </div>
+    <header class="st-contact-header" data-reveal>
+      <h1>Fale Conosco</h1>
+    </header>
+
+    <div class="st-contact-tabs" data-reveal>
+      <button type="button" class="st-contact-tab" data-tab="Consultoria">Consultoria</button>
+      <button type="button" class="st-contact-tab" data-tab="Parceria">Parceria</button>
+      <button type="button" class="st-contact-tab" data-tab="Carreira">Carreira</button>
+      <button type="button" class="st-contact-tab is-active" data-tab="Outros Assuntos">Outros Assuntos</button>
     </div>
 
-    <div class="hero__media">
-      <div class="hero__glass"></div>
-    </div>
-  </div>
-</section>
+    <div class="st-contact-copy" id="stContactCopy" data-reveal></div>
 
-<section class="section section--tight" data-reveal>
-  <div class="container">
-    <div class="grid-2" style="align-items:start;">
-      <div class="card" style="padding:22px;">
-        <h2 style="font-size:34px;">Formulário</h2>
-        <p class="muted">Conte seu contexto. Eu retorno com os próximos passos.</p>
+    <form class="st-contact-form" method="post" action="/contato" data-reveal>
+      <input type="hidden" name="assunto" id="stContactAssunto" value="Outros Assuntos">
+      <input type="hidden" name="curso" value="{{ curso or '' }}">
+      <input type="hidden" name="categoria" id="stContactCategoria" value="Outros Assuntos">
 
-        <form method="post" action="/contato" style="display:grid; gap:12px; margin-top:12px;">
-          <input type="hidden" name="assunto" value="{{ assunto or '' }}">
-          <input type="hidden" name="curso" value="{{ curso or '' }}">
-
-          <div>
-            <label style="font-weight:800;">Nome</label>
-            <input class="input" name="nome" required>
-          </div>
-
-          <div>
-            <label style="font-weight:800;">Empresa / Malharia</label>
-            <input class="input" name="empresa" required>
-          </div>
-
-          <div class="grid-2">
-            <div>
-              <label style="font-weight:800;">Cidade</label>
-              <input class="input" name="cidade">
-            </div>
-            <div>
-              <label style="font-weight:800;">Estado</label>
-              <input class="input" name="estado">
-            </div>
-          </div>
-
-          <div>
-            <label style="font-weight:800;">Seu desafio principal</label>
-            <select name="desafio" class="input" required>
-              <option value="">Selecione…</option>
-              <option>Qualidade oscilando</option>
-              <option>Variação de largura/gramatura</option>
-              <option>Fichas técnicas</option>
-              <option>Testes e critérios de aceite</option>
-              <option>Treinamento do time</option>
-              <option>Rotina e sustentação</option>
-              <option>Outro</option>
-            </select>
-          </div>
-
-          <div>
-            <label style="font-weight:800;">WhatsApp / E-mail</label>
-            <input class="input" name="contato" required>
-          </div>
-
-          <div>
-            <label style="font-weight:800;">Mensagem (opcional)</label>
-            <textarea class="input" name="mensagem" rows="4" placeholder="Se quiser, descreva o cenário com mais detalhes."></textarea>
-          </div>
-
-          <button class="btn btn--primary" type="submit">Enviar e agendar</button>
-          <p class="muted" style="margin:0;">Objetivo, direto e técnico — sem enrolação.</p>
-        </form>
-      </div>
-
-      <div>
-        <div class="card" style="padding:22px;">
-          <h3>O que acontece depois</h3>
-          <ol style="margin:10px 0 0 18px; color:var(--muted); line-height:1.9;">
-            <li>Eu leio seu cenário</li>
-            <li>Retorno com perguntas-chave e prioridades</li>
-            <li>Definimos formato e sequência de execução</li>
-          </ol>
+      <div class="st-contact-grid">
+        <div class="st-field">
+          <label for="nome">Nome Completo*</label>
+          <input id="nome" name="nome" type="text" required>
         </div>
 
-        <div class="card" style="padding:22px; margin-top:14px;">
-          <h3>Atalhos úteis</h3>
-          <p>Se você veio de uma página específica, eu já recebo seu assunto pré-selecionado.</p>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <a class="btn btn--ghost" href="/contato?assunto=ficha">Fichas técnicas</a>
-            <a class="btn btn--ghost" href="/contato?assunto=incompany">In-company</a>
-            <a class="btn btn--ghost" href="/contato?assunto=agente-tecnico">Agente técnico</a>
-          </div>
+        <div class="st-field">
+          <label for="email">E-mail Profissional*</label>
+          <input id="email" name="email" type="email" required>
+        </div>
+
+        <div class="st-field">
+          <label for="telefone">Telefone</label>
+          <input id="telefone" name="telefone" type="text" inputmode="tel">
+        </div>
+
+        <div class="st-field">
+          <label for="empresa">Empresa / Malharia</label>
+          <input id="empresa" name="empresa" type="text">
+        </div>
+
+        <div class="st-field st-field--full">
+          <label for="mensagem" class="sr-only">Como podemos ajudá-lo?</label>
+          <textarea id="mensagem" name="mensagem" rows="3" placeholder="Como podemos ajudá-lo?"></textarea>
         </div>
       </div>
 
-    </div>
+      <div class="st-contact-submit">
+        <button type="submit" class="st-contact-btn">Enviar</button>
+      </div>
+
+      <p class="st-contact-privacy">
+        Os dados acima solicitados serão utilizados para lhe contatar sobre produtos e serviços da Stegie e lhe fornecer uma experiência personalizada. Você poderá cancelar sua inscrição a qualquer momento no rodapé de cada comunicação. Para mais detalhes sobre o uso de seus dados, consulte nossa
+        <a href="/politica-de-privacidade">Política de Privacidade</a>.
+      </p>
+    </form>
+
   </div>
 </section>
+
+<style>
+  .st-contact-page{
+    --st-bg:#f2f2f0;
+    --st-text:#0f0f0f;
+    --st-muted:#727272;
+    --st-olive:#a8a36d;
+    --st-lime:#b8f246;
+    --st-black:#000000;
+    --st-white:#ffffff;
+
+    background:var(--st-bg);
+    padding:72px 0 34px;
+  }
+
+  .st-contact-wrap{
+    width:min(100%, 1180px);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  .st-contact-header{
+    text-align:center;
+    margin-bottom:38px;
+  }
+
+  .st-contact-header h1{
+    margin:0;
+    color:var(--st-text);
+    font-size:clamp(34px, 4.2vw, 58px);
+    line-height:1.06;
+    font-weight:400;
+    letter-spacing:-0.03em;
+  }
+
+  .st-contact-tabs{
+    width:min(100%, 900px);
+    margin:0 auto 34px;
+    border:1.4px solid var(--st-olive);
+    border-radius:999px;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    overflow:hidden;
+    background:transparent;
+  }
+
+  .st-contact-tab{
+    appearance:none;
+    border:none;
+    background:transparent;
+    color:var(--st-text);
+    min-height:60px;
+    padding:0 18px;
+    font-size:16px;
+    font-weight:400;
+    letter-spacing:-0.01em;
+    cursor:pointer;
+    transition:background .22s ease, color .22s ease, transform .22s ease;
+  }
+
+  .st-contact-tab:hover{
+    background:rgba(0,0,0,.04);
+  }
+
+  .st-contact-tab.is-active{
+    background:var(--st-black);
+    color:var(--st-lime);
+  }
+
+  .st-contact-copy{
+    width:min(100%, 900px);
+    margin:0 auto 24px;
+    min-height:0;
+    color:var(--st-text);
+    font-size:16px;
+    line-height:1.65;
+    text-align:left;
+  }
+
+  .st-contact-copy:empty{
+    display:none;
+  }
+
+  .st-contact-copy p{
+    margin:0;
+  }
+
+  .st-contact-form{
+    margin-top:6px;
+  }
+
+  .st-contact-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:34px 44px;
+  }
+
+  .st-field{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .st-field label{
+    color:var(--st-text);
+    font-size:15px;
+    line-height:1.25;
+    font-weight:400;
+    margin:0 0 12px;
+  }
+
+  .st-field input,
+  .st-field textarea{
+    width:100%;
+    border:none;
+    border-bottom:1px solid rgba(168,163,109,.55);
+    background:transparent;
+    color:var(--st-text);
+    font:inherit;
+    padding:10px 2px 12px;
+    border-radius:0;
+    outline:none;
+    box-shadow:none;
+    transition:border-color .2s ease;
+  }
+
+  .st-field input:focus,
+  .st-field textarea:focus{
+    border-bottom-color:var(--st-text);
+  }
+
+  .st-field textarea{
+    resize:vertical;
+    min-height:72px;
+  }
+
+  .st-field textarea::placeholder,
+  .st-field input::placeholder{
+    color:var(--st-muted);
+    opacity:1;
+  }
+
+  .st-field--full{
+    grid-column:1 / -1;
+    margin-top:4px;
+  }
+
+  .st-contact-submit{
+    display:flex;
+    justify-content:center;
+    margin-top:52px;
+  }
+
+  .st-contact-btn{
+    appearance:none;
+    border:none;
+    background:var(--st-olive);
+    color:var(--st-white);
+    min-width:210px;
+    height:44px;
+    padding:0 28px;
+    border-radius:999px;
+    font-size:15px;
+    font-weight:500;
+    cursor:pointer;
+    transition:transform .2s ease, opacity .2s ease, filter .2s ease;
+  }
+
+  .st-contact-btn:hover{
+    filter:brightness(.96);
+    transform:translateY(-1px);
+  }
+
+  .st-contact-privacy{
+    max-width:1220px;
+    margin:42px auto 0;
+    text-align:center;
+    color:var(--st-text);
+    font-size:15px;
+    line-height:1.9;
+  }
+
+  .st-contact-privacy a{
+    color:#7f7f7f;
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease, color .2s ease;
+  }
+
+  .st-contact-privacy a:hover{
+    color:var(--st-text);
+    border-bottom-color:var(--st-text);
+  }
+
+  .sr-only{
+    position:absolute !important;
+    width:1px !important;
+    height:1px !important;
+    padding:0 !important;
+    margin:-1px !important;
+    overflow:hidden !important;
+    clip:rect(0,0,0,0) !important;
+    white-space:nowrap !important;
+    border:0 !important;
+  }
+
+  @media (max-width: 900px){
+    .st-contact-page{
+      padding:56px 0 28px;
+    }
+
+    .st-contact-wrap{
+      padding:0 22px;
+    }
+
+    .st-contact-tabs{
+      grid-template-columns:1fr 1fr;
+      border-radius:28px;
+    }
+
+    .st-contact-tab{
+      min-height:56px;
+      font-size:15px;
+      padding:0 14px;
+    }
+
+    .st-contact-grid{
+      grid-template-columns:1fr;
+      gap:26px;
+    }
+
+    .st-field--full{
+      grid-column:auto;
+    }
+
+    .st-contact-submit{
+      margin-top:40px;
+    }
+
+    .st-contact-btn{
+      width:100%;
+      max-width:320px;
+    }
+
+    .st-contact-privacy{
+      font-size:14px;
+      line-height:1.8;
+      margin-top:34px;
+    }
+  }
+
+  @media (max-width: 560px){
+    .st-contact-header{
+      margin-bottom:28px;
+    }
+
+    .st-contact-header h1{
+      font-size:clamp(30px, 9vw, 40px);
+    }
+
+    .st-contact-tabs{
+      grid-template-columns:1fr;
+      border-radius:24px;
+    }
+
+    .st-contact-tab{
+      min-height:52px;
+    }
+
+    .st-contact-copy{
+      margin-bottom:18px;
+      font-size:15px;
+    }
+
+    .st-contact-grid{
+      gap:22px;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const tabs = document.querySelectorAll('.st-contact-tab');
+    const assuntoInput = document.getElementById('stContactAssunto');
+    const categoriaInput = document.getElementById('stContactCategoria');
+    const copyBox = document.getElementById('stContactCopy');
+
+    const texts = {
+      "Consultoria": "Gostaria de receber uma proposta comercial? Receba o contato de um dos nossos especialistas e saiba como podemos lhe ajudar. Abaixo, conte-nos um pouco mais sobre você e o seu desafio.",
+      "Parceria": "Se você deseja estabelecer uma parceria com a Stegie, envie-nos as informações abaixo para avaliarmos a melhor forma de conexão.",
+      "Carreira": "Se você deseja fazer parte da Stegie em oportunidades futuras, envie-nos as informações abaixo.",
+      "Outros Assuntos": ""
+    };
+
+    function activateTab(tabName) {
+      tabs.forEach((tab) => {
+        const isActive = tab.dataset.tab === tabName;
+        tab.classList.toggle('is-active', isActive);
+        tab.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+
+      assuntoInput.value = tabName;
+      categoriaInput.value = tabName;
+      copyBox.innerHTML = texts[tabName] ? `<p>${texts[tabName]}</p>` : '';
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', function () {
+        activateTab(this.dataset.tab);
+      });
+    });
+
+    activateTab('Outros Assuntos');
+  })();
+</script>
 
 {% endblock %}
