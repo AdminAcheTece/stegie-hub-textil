@@ -3969,3 +3969,78 @@ a.btn-ghost:hover{
     line-height: .99;
   }
 }
+
+/* =========================================================
+   AJUSTE DEFINITIVO DO TÍTULO DOS SLIDES NO MOBILE
+   Distribui melhor a frase na largura da tela
+   Cole no FINAL do seu <style>
+   ========================================================= */
+
+@media (max-width: 768px){
+
+  /* o bloco de texto passa a usar mais largura da tela */
+  .svh-copy{
+    max-width: 94%;
+    width: 94%;
+    padding-top: 10px;
+  }
+
+  /* título menor, mais largo e com menos quebra */
+  .svh-title{
+    max-width: none;
+    width: 100%;
+    font-size: clamp(1.22rem, 5.7vw, 1.72rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  /* MUITO IMPORTANTE:
+     no mobile, a parte destacada não deve ficar como bloco separado */
+  .svh-title .accent{
+    display: inline;
+  }
+
+  /* se houver quebra manual em algum título, escondemos no mobile */
+  .svh-title br{
+    display: none;
+  }
+
+  /* cada slide recebe um pequeno ajuste fino */
+  .svh-track > .svh-slide:nth-child(1) .svh-title{
+    font-size: clamp(1.18rem, 5.5vw, 1.62rem);
+  }
+
+  .svh-track > .svh-slide:nth-child(2) .svh-title{
+    font-size: clamp(1.20rem, 5.6vw, 1.66rem);
+  }
+
+  .svh-track > .svh-slide:nth-child(3) .svh-title{
+    font-size: clamp(1.12rem, 5.2vw, 1.50rem);
+  }
+}
+
+@media (max-width: 420px){
+
+  .svh-copy{
+    max-width: 95%;
+    width: 95%;
+  }
+
+  .svh-title{
+    font-size: clamp(1.14rem, 5.2vw, 1.48rem);
+    line-height: 1.03;
+  }
+
+  .svh-track > .svh-slide:nth-child(1) .svh-title{
+    font-size: clamp(1.10rem, 5.0vw, 1.42rem);
+  }
+
+  .svh-track > .svh-slide:nth-child(2) .svh-title{
+    font-size: clamp(1.12rem, 5.1vw, 1.44rem);
+  }
+
+  .svh-track > .svh-slide:nth-child(3) .svh-title{
+    font-size: clamp(1.04rem, 4.8vw, 1.34rem);
+  }
+}
