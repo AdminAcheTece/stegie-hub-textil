@@ -4137,3 +4137,60 @@ a.btn-ghost:hover{
     font-size:1.22rem;
   }
 }
+
+/* =========================================
+   SERVIÇOS — HERO MOBILE
+   Ajuste fiel ao modelo enviado
+   ========================================= */
+@media (max-width: 768px){
+
+  .servicos-hero__slide,
+  .servicos-hero .swiper-slide,
+  .servicos-slider .swiper-slide{
+    position: relative;
+    overflow: hidden;
+  }
+
+  .servicos-hero__content{
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 150px; /* ajuste fino se quiser subir/descer alguns px */
+    z-index: 3;
+
+    width: auto;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .servicos-hero__title{
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    font-family: inherit;
+    font-size: clamp(2rem, 7.2vw, 2.45rem);
+    line-height: .94;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .servicos-hero__title .line{
+    display: block;
+    white-space: nowrap; /* impede quebrar em várias linhas */
+  }
+
+  .servicos-hero__title .line--white{
+    color: #ffffff;
+  }
+
+  .servicos-hero__title .line--accent{
+    color: var(--olive-accent, #a08f16);
+  }
+
+  .servicos-hero__cta{
+    margin-top: 18px;
+  }
+}
