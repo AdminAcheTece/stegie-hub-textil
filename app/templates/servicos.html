@@ -1,273 +1,1273 @@
 {% extends "base.html" %}
 {% block title %}STEGIE | Serviços{% endblock %}
-{% block meta_description %}Serviços STEGIE para malharias: consultoria, educação e desenvolvimento técnico em formatos presenciais e híbridos.{% endblock %}
+{% block meta_description %}Consultoria, educação e desenvolvimento técnico para malharias. Atuação presencial e híbrida com foco em padrão, processo, capacitação e previsibilidade.{% endblock %}
 
 {% block content %}
 
-{# 
-  Ajuste estes 3 links quando as páginas específicas estiverem prontas.
-  Por enquanto, deixei seguro para não quebrar rota.
-#}
 {% set consultoria_href = "/contato?assunto=consultoria" %}
 {% set educacao_href = "/educacao" %}
 {% set desenvolvimento_href = "/contato?assunto=desenvolvimento" %}
 
-<section class="hero">
-  <div class="container hero__grid">
-    <div>
-      <div class="kicker">Consultoria • Educação • Desenvolvimento</div>
-      <h1>Serviços STEGIE</h1>
-      <p>
-        Atuação presencial e híbrida para malharias que querem organizar processo,
-        capacitar pessoas e desenvolver padrões técnicos com aplicação prática.
-      </p>
+<style>
+  /* =========================================================
+     SERVIÇOS PREMIUM | STEGIE
+     ========================================================= */
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:20px; max-width:920px;">
-        <a href="#consultoria" class="card" style="padding:18px 20px; text-decoration:none; color:inherit;">
-          <div class="kicker" style="margin-bottom:8px;">Serviço 01</div>
-          <strong style="display:block; font-size:1.05rem;">Consultoria</strong>
-          <span style="display:block; margin-top:6px; color:var(--muted); line-height:1.6;">
-            Diagnóstico, critério técnico e sustentação de processo.
-          </span>
-        </a>
+  .svc-page{
+    --svc-bg:#f7f6f3;
+    --svc-surface:#ffffff;
+    --svc-text:#111111;
+    --svc-muted:#5c5c5c;
+    --svc-border:#ded8ca;
+    --svc-olive:#8a7b18;
+    --svc-olive-deep:#5f5510;
+    --svc-lime:#b7e04a;
+    --svc-black:#050505;
+    --svc-shadow:0 24px 80px rgba(17,17,17,.10);
+    --svc-radius-xl:38px;
+    --svc-radius-lg:28px;
+    --svc-radius-md:20px;
+  }
 
-        <a href="#educacao" class="card" style="padding:18px 20px; text-decoration:none; color:inherit;">
-          <div class="kicker" style="margin-bottom:8px;">Serviço 02</div>
-          <strong style="display:block; font-size:1.05rem;">Educação</strong>
-          <span style="display:block; margin-top:6px; color:var(--muted); line-height:1.6;">
-            Formação aplicada para equipes, lideranças e operação.
-          </span>
-        </a>
+  .svc-page .section{
+    position:relative;
+  }
 
-        <a href="#desenvolvimento" class="card" style="padding:18px 20px; text-decoration:none; color:inherit;">
-          <div class="kicker" style="margin-bottom:8px;">Serviço 03</div>
-          <strong style="display:block; font-size:1.05rem;">Desenvolvimento</strong>
-          <span style="display:block; margin-top:6px; color:var(--muted); line-height:1.6;">
-            Estruturas, materiais e soluções técnicas para o seu cenário.
-          </span>
-        </a>
-      </div>
+  /* HERO SLIDER */
+  .svc-hero{
+    padding: 10px 0 18px;
+  }
 
-      <ul class="hero__bullets">
-        <li>Consultoria para atacar desvios, estruturar critérios e orientar a tomada de decisão.</li>
-        <li>Educação aplicada para transformar conhecimento técnico em rotina e execução.</li>
-        <li>Desenvolvimento de materiais e soluções que organizam a operação e sustentam evolução.</li>
-      </ul>
+  .svc-hero__shell{
+    position:relative;
+    overflow:hidden;
+    border-radius: 0 0 44px 44px;
+    background:#0c0c0c;
+    min-height: 560px;
+    box-shadow: var(--svc-shadow);
+  }
 
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;">
-        <a class="btn btn--primary btn-primary" href="{{ url_for('contato') }}">Falar sobre meu cenário</a>
-        <a class="btn btn--ghost btn-ghost" href="#servicos-principais">Explorar os serviços</a>
+  .svc-hero__track{
+    position:relative;
+    min-height: 560px;
+  }
+
+  .svc-hero__slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition: opacity .65s ease, visibility .65s ease, transform .65s ease;
+    transform:scale(1.02);
+    display:flex;
+    align-items:stretch;
+  }
+
+  .svc-hero__slide.is-active{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:scale(1);
+  }
+
+  .svc-hero__bg{
+    position:absolute;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    filter:saturate(96%);
+  }
+
+  .svc-hero__overlay{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.68) 0%, rgba(0,0,0,.54) 34%, rgba(0,0,0,.18) 68%, rgba(0,0,0,.10) 100%),
+      linear-gradient(180deg, rgba(138,123,24,.32) 0%, rgba(95,85,16,.28) 100%);
+  }
+
+  .svc-hero__inner{
+    position:relative;
+    z-index:2;
+    width:100%;
+    display:grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(340px, .9fr);
+    gap:32px;
+    align-items:center;
+    min-height:560px;
+    padding:72px 54px 88px;
+  }
+
+  .svc-hero__content{
+    max-width:760px;
+    color:#fff;
+  }
+
+  .svc-hero__kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 16px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.06);
+    backdrop-filter: blur(8px);
+    border-radius:999px;
+    font-size:.88rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.88);
+    margin-bottom:20px;
+  }
+
+  .svc-hero__title{
+    margin:0;
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    line-height:.98;
+    letter-spacing:-0.04em;
+    color:#fff;
+  }
+
+  .svc-hero__title .olive{
+    color:#d7cf8a;
+  }
+
+  .svc-hero__text{
+    margin:22px 0 0;
+    font-size: clamp(1.12rem, 1.6vw, 1.55rem);
+    line-height:1.5;
+    color:rgba(255,255,255,.92);
+    max-width:760px;
+  }
+
+  .svc-hero__chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin:24px 0 0;
+  }
+
+  .svc-hero__chip{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:42px;
+    padding:10px 16px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-size:.96rem;
+  }
+
+  .svc-hero__actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:28px;
+  }
+
+  .svc-hero__btn-primary{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:58px;
+    padding:0 26px;
+    border-radius:999px;
+    background:var(--svc-olive);
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    font-size:1.02rem;
+    transition:transform .22s ease, box-shadow .22s ease, background .22s ease;
+    box-shadow: 0 12px 28px rgba(138,123,24,.28);
+  }
+
+  .svc-hero__btn-primary:hover{
+    background:var(--svc-olive-deep);
+    transform:translateY(-2px);
+  }
+
+  .svc-hero__btn-ghost{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:58px;
+    padding:0 26px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.20);
+    background:rgba(255,255,255,.06);
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    font-size:1rem;
+    backdrop-filter: blur(6px);
+    transition:transform .22s ease, background .22s ease, border-color .22s ease;
+  }
+
+  .svc-hero__btn-ghost:hover{
+    background:rgba(255,255,255,.12);
+    border-color:rgba(255,255,255,.32);
+    transform:translateY(-2px);
+  }
+
+  .svc-hero__panel{
+    justify-self:end;
+    width:min(100%, 490px);
+    padding:28px;
+    border-radius:34px;
+    background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.14);
+    backdrop-filter: blur(10px);
+    color:#fff;
+    box-shadow: 0 20px 60px rgba(0,0,0,.18);
+  }
+
+  .svc-hero__panel-label{
+    display:block;
+    font-size:.82rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.76);
+    margin-bottom:14px;
+  }
+
+  .svc-hero__panel-quote{
+    margin:0;
+    font-size:1.44rem;
+    line-height:1.38;
+    letter-spacing:-0.02em;
+    color:#fff;
+  }
+
+  .svc-hero__panel-list{
+    margin:20px 0 0;
+    padding:0;
+    list-style:none;
+    display:grid;
+    gap:10px;
+  }
+
+  .svc-hero__panel-list li{
+    position:relative;
+    padding-left:18px;
+    color:rgba(255,255,255,.88);
+    line-height:1.6;
+  }
+
+  .svc-hero__panel-list li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.72em;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--svc-lime);
+    transform:translateY(-50%);
+  }
+
+  .svc-hero__nav{
+    position:absolute;
+    left:54px;
+    right:54px;
+    bottom:26px;
+    z-index:3;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+  }
+
+  .svc-hero__nav-label{
+    color:rgba(255,255,255,.78);
+    font-size:.96rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+
+  .svc-hero__nav-bars{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-left:auto;
+  }
+
+  .svc-hero__bar{
+    width:96px;
+    height:6px;
+    border:0;
+    border-radius:999px;
+    background:rgba(255,255,255,.34);
+    cursor:pointer;
+    transition:background .25s ease, transform .25s ease;
+    padding:0;
+  }
+
+  .svc-hero__bar.is-active{
+    background:var(--svc-lime);
+    transform:scaleY(1.04);
+  }
+
+  /* INTRO */
+  .svc-intro{
+    padding-top:42px;
+  }
+
+  .svc-intro__box{
+    background:linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%);
+    border:1px solid var(--svc-border);
+    border-radius:32px;
+    padding:34px 34px 30px;
+    box-shadow: 0 12px 40px rgba(17,17,17,.05);
+  }
+
+  .svc-intro__kicker{
+    margin:0 0 10px;
+    font-size:.9rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--svc-olive);
+  }
+
+  .svc-intro__title{
+    margin:0;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    line-height:1.05;
+    letter-spacing:-0.04em;
+    color:var(--svc-text);
+  }
+
+  .svc-intro__title .olive{
+    color:var(--svc-olive);
+  }
+
+  .svc-intro__text{
+    margin:18px 0 0;
+    max-width:980px;
+    font-size:1.1rem;
+    line-height:1.85;
+    color:var(--svc-muted);
+  }
+
+  /* SERVICE CARDS */
+  .svc-grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:18px;
+    margin-top:24px;
+  }
+
+  .svc-card{
+    position:relative;
+    overflow:hidden;
+    background:#fff;
+    border:1px solid var(--svc-border);
+    border-radius:28px;
+    padding:28px 26px 26px;
+    box-shadow: 0 12px 34px rgba(17,17,17,.05);
+    transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  }
+
+  .svc-card:hover{
+    transform:translateY(-4px);
+    box-shadow: 0 20px 46px rgba(17,17,17,.08);
+    border-color:#d1c8b2;
+  }
+
+  .svc-card__number{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#f2eedc;
+    color:var(--svc-olive-deep);
+    font-weight:800;
+    font-size:.95rem;
+    margin-bottom:18px;
+  }
+
+  .svc-card__title{
+    margin:0;
+    font-size:1.58rem;
+    line-height:1.08;
+    letter-spacing:-0.03em;
+    color:var(--svc-text);
+  }
+
+  .svc-card__text{
+    margin:14px 0 0;
+    color:var(--svc-muted);
+    line-height:1.78;
+    font-size:1rem;
+  }
+
+  .svc-card__highlight{
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid var(--svc-border);
+    color:var(--svc-text);
+    font-weight:600;
+    line-height:1.65;
+  }
+
+  .svc-card__cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-top:18px;
+    color:var(--svc-olive-deep);
+    text-decoration:none;
+    font-weight:700;
+  }
+
+  .svc-card__cta:hover{
+    color:var(--svc-olive);
+  }
+
+  /* DETAIL SECTIONS */
+  .svc-detail{
+    padding-top:14px;
+  }
+
+  .svc-detail__row{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1.04fr);
+    gap:24px;
+    align-items:stretch;
+  }
+
+  .svc-detail__row.is-reverse{
+    grid-template-columns:minmax(0, 1.04fr) minmax(0, 1fr);
+  }
+
+  .svc-detail__media{
+    position:relative;
+    min-height:460px;
+    border-radius:34px;
+    overflow:hidden;
+    border:1px solid var(--svc-border);
+    box-shadow: 0 18px 50px rgba(17,17,17,.08);
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.28) 100%),
+      linear-gradient(135deg, #e9e5d8 0%, #cbc29a 100%);
+    background-size:cover;
+    background-position:center;
+  }
+
+  .svc-detail__media::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 18% 22%, rgba(183,224,74,.18), transparent 30%),
+      linear-gradient(180deg, rgba(138,123,24,.06), rgba(17,17,17,.28));
+  }
+
+  .svc-detail__media-content{
+    position:absolute;
+    left:28px;
+    right:28px;
+    bottom:28px;
+    z-index:2;
+    padding:22px 22px 20px;
+    border-radius:24px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(10px);
+    color:#fff;
+  }
+
+  .svc-detail__media-content h3{
+    margin:0 0 10px;
+    font-size:1.52rem;
+    line-height:1.1;
+    letter-spacing:-0.03em;
+    color:#fff;
+  }
+
+  .svc-detail__media-content p{
+    margin:0;
+    line-height:1.72;
+    color:rgba(255,255,255,.92);
+  }
+
+  .svc-detail__content{
+    background:linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%);
+    border:1px solid var(--svc-border);
+    border-radius:34px;
+    padding:34px 34px 32px;
+    box-shadow: 0 12px 42px rgba(17,17,17,.05);
+  }
+
+  .svc-detail__eyebrow{
+    display:inline-block;
+    font-size:.88rem;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--svc-olive);
+    margin-bottom:12px;
+  }
+
+  .svc-detail__title{
+    margin:0;
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height:1.02;
+    letter-spacing:-0.04em;
+    color:var(--svc-text);
+  }
+
+  .svc-detail__title .olive{
+    color:var(--svc-olive);
+  }
+
+  .svc-detail__lead{
+    margin:16px 0 0;
+    font-size:1.08rem;
+    line-height:1.82;
+    color:var(--svc-muted);
+  }
+
+  .svc-detail__list{
+    margin:24px 0 0;
+    padding:0;
+    list-style:none;
+    display:grid;
+    gap:14px;
+  }
+
+  .svc-detail__list li{
+    position:relative;
+    padding-left:22px;
+    color:var(--svc-text);
+    line-height:1.72;
+  }
+
+  .svc-detail__list li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.74em;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:var(--svc-olive);
+    transform:translateY(-50%);
+  }
+
+  .svc-detail__actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:26px;
+  }
+
+  .svc-detail__btn-primary{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:54px;
+    padding:0 24px;
+    border-radius:999px;
+    background:var(--svc-olive);
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    transition:background .22s ease, transform .22s ease;
+  }
+
+  .svc-detail__btn-primary:hover{
+    background:var(--svc-olive-deep);
+    transform:translateY(-2px);
+  }
+
+  .svc-detail__btn-ghost{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:54px;
+    padding:0 24px;
+    border-radius:999px;
+    border:1px solid var(--svc-border);
+    color:var(--svc-text);
+    text-decoration:none;
+    font-weight:600;
+    background:#fff;
+    transition:border-color .22s ease, transform .22s ease, color .22s ease;
+  }
+
+  .svc-detail__btn-ghost:hover{
+    border-color:#bfb391;
+    color:var(--svc-olive-deep);
+    transform:translateY(-2px);
+  }
+
+  /* FORMATS */
+  .svc-formats__grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:18px;
+    margin-top:22px;
+  }
+
+  .svc-format{
+    background:#fff;
+    border:1px solid var(--svc-border);
+    border-radius:26px;
+    padding:26px;
+    box-shadow: 0 10px 28px rgba(17,17,17,.05);
+  }
+
+  .svc-format h3{
+    margin:0 0 10px;
+    font-size:1.34rem;
+    line-height:1.1;
+    color:var(--svc-text);
+  }
+
+  .svc-format p{
+    margin:0;
+    line-height:1.76;
+    color:var(--svc-muted);
+  }
+
+  /* FINAL CTA */
+  .svc-final{
+    padding-bottom:10px;
+  }
+
+  .svc-final__box{
+    position:relative;
+    overflow:hidden;
+    border-radius:36px;
+    background:
+      radial-gradient(circle at 14% 18%, rgba(183,224,74,.18), transparent 26%),
+      linear-gradient(135deg, #111111 0%, #1b1b1b 58%, #2a280f 100%);
+    padding:38px 36px;
+    box-shadow: var(--svc-shadow);
+  }
+
+  .svc-final__box::after{
+    content:"";
+    position:absolute;
+    inset:auto -80px -80px auto;
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    border:1px solid rgba(183,224,74,.18);
+  }
+
+  .svc-final__title{
+    margin:0;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height:1.04;
+    letter-spacing:-0.04em;
+    color:#fff;
+    max-width:760px;
+  }
+
+  .svc-final__text{
+    margin:16px 0 0;
+    max-width:760px;
+    color:rgba(255,255,255,.84);
+    line-height:1.82;
+    font-size:1.08rem;
+  }
+
+  .svc-final__actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:24px;
+  }
+
+  .svc-final__btn-primary{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:56px;
+    padding:0 26px;
+    border-radius:999px;
+    background:var(--svc-lime);
+    color:#111;
+    text-decoration:none;
+    font-weight:800;
+    transition:transform .22s ease, opacity .22s ease;
+  }
+
+  .svc-final__btn-primary:hover{
+    transform:translateY(-2px);
+    opacity:.92;
+  }
+
+  .svc-final__btn-ghost{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:56px;
+    padding:0 26px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.18);
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    background:rgba(255,255,255,.04);
+  }
+
+  .svc-final__btn-ghost:hover{
+    background:rgba(255,255,255,.08);
+  }
+
+  @media (max-width: 1100px){
+    .svc-hero__inner,
+    .svc-detail__row,
+    .svc-detail__row.is-reverse{
+      grid-template-columns:1fr;
+    }
+
+    .svc-hero__panel{
+      justify-self:start;
+      width:100%;
+      max-width:none;
+    }
+
+    .svc-grid,
+    .svc-formats__grid{
+      grid-template-columns:1fr;
+    }
+
+    .svc-hero__shell,
+    .svc-hero__track{
+      min-height:680px;
+    }
+
+    .svc-hero__inner{
+      min-height:680px;
+    }
+  }
+
+  @media (max-width: 768px){
+    .svc-hero{
+      padding-top:0;
+    }
+
+    .svc-hero__shell{
+      border-radius: 0 0 28px 28px;
+      min-height:auto;
+    }
+
+    .svc-hero__track,
+    .svc-hero__inner{
+      min-height:auto;
+    }
+
+    .svc-hero__inner{
+      padding:42px 22px 96px;
+      gap:22px;
+    }
+
+    .svc-hero__nav{
+      left:22px;
+      right:22px;
+      bottom:20px;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    .svc-hero__nav-bars{
+      width:100%;
+    }
+
+    .svc-hero__bar{
+      flex:1 1 auto;
+      width:auto;
+    }
+
+    .svc-intro__box,
+    .svc-detail__content,
+    .svc-final__box{
+      padding:26px 22px;
+      border-radius:24px;
+    }
+
+    .svc-card,
+    .svc-format{
+      border-radius:22px;
+      padding:22px;
+    }
+
+    .svc-detail__media{
+      min-height:340px;
+      border-radius:24px;
+    }
+  }
+</style>
+
+<div class="svc-page">
+
+  <!-- HERO / BANNER SLIDER -->
+  <section class="svc-hero" data-reveal>
+    <div class="container" style="max-width:none; padding-left:0; padding-right:0;">
+      <div class="svc-hero__shell" id="svcHero">
+
+        <div class="svc-hero__track">
+
+          <!-- SLIDE 1 -->
+          <article class="svc-hero__slide is-active" data-slide="0">
+            <div class="svc-hero__bg" style="background-image:
+              linear-gradient(135deg, rgba(138,123,24,.26), rgba(17,17,17,.08)),
+              url('{{ url_for('static', filename='IMG/servicos-consultoria.jpg') }}');">
+            </div>
+            <div class="svc-hero__overlay"></div>
+
+            <div class="svc-hero__inner">
+              <div class="svc-hero__content">
+                <div class="svc-hero__kicker">Consultoria • Diagnóstico • Direção Técnica</div>
+                <h1 class="svc-hero__title">
+                  Critério técnico para<br>
+                  <span class="olive">estabilizar e decidir melhor</span>
+                </h1>
+                <p class="svc-hero__text">
+                  A consultoria Stegie entra onde o processo precisa de leitura,
+                  prioridade e direção. Menos ruído, mais clareza operacional e
+                  mais previsibilidade para a malharia.
+                </p>
+
+                <div class="svc-hero__chips">
+                  <span class="svc-hero__chip">Presencial</span>
+                  <span class="svc-hero__chip">Híbrido</span>
+                  <span class="svc-hero__chip">Processo, qualidade e rotina</span>
+                </div>
+
+                <div class="svc-hero__actions">
+                  <a class="svc-hero__btn-primary" href="#consultoria">Conhecer consultoria</a>
+                  <a class="svc-hero__btn-ghost" href="{{ consultoria_href }}">Falar sobre meu cenário</a>
+                </div>
+              </div>
+
+              <div class="svc-hero__panel">
+                <span class="svc-hero__panel-label">Foco desta frente</span>
+                <p class="svc-hero__panel-quote">
+                  “Transformar sinais dispersos em direção técnica, sequência de ação e padrão.”
+                </p>
+                <ul class="svc-hero__panel-list">
+                  <li>Leitura do cenário e dos desvios críticos</li>
+                  <li>Critérios de aceite, decisão e sustentação</li>
+                  <li>Prioridades claras para curto e médio prazo</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- SLIDE 2 -->
+          <article class="svc-hero__slide" data-slide="1">
+            <div class="svc-hero__bg" style="background-image:
+              linear-gradient(135deg, rgba(138,123,24,.24), rgba(17,17,17,.10)),
+              url('{{ url_for('static', filename='IMG/servicos-educacao.jpg') }}');">
+            </div>
+            <div class="svc-hero__overlay"></div>
+
+            <div class="svc-hero__inner">
+              <div class="svc-hero__content">
+                <div class="svc-hero__kicker">Educação • Formação Aplicada • Capacitação</div>
+                <h1 class="svc-hero__title">
+                  Conhecimento que<br>
+                  <span class="olive">entra na rotina</span>
+                </h1>
+                <p class="svc-hero__text">
+                  Educação técnica para malharias que querem mais do que conteúdo:
+                  querem equipe alinhada, linguagem comum e aplicação prática no chão de fábrica.
+                </p>
+
+                <div class="svc-hero__chips">
+                  <span class="svc-hero__chip">Treinamentos</span>
+                  <span class="svc-hero__chip">Workshops</span>
+                  <span class="svc-hero__chip">Imersões e trilhas</span>
+                </div>
+
+                <div class="svc-hero__actions">
+                  <a class="svc-hero__btn-primary" href="#educacao">Conhecer educação</a>
+                  <a class="svc-hero__btn-ghost" href="{{ educacao_href }}">Ver página de educação</a>
+                </div>
+              </div>
+
+              <div class="svc-hero__panel">
+                <span class="svc-hero__panel-label">Foco desta frente</span>
+                <p class="svc-hero__panel-quote">
+                  “Treinamento bom não termina no slide. Ele aparece na decisão, na postura e na execução.”
+                </p>
+                <ul class="svc-hero__panel-list">
+                  <li>Base técnica com linguagem clara e aplicável</li>
+                  <li>Capacitação de equipes, líderes e áreas de apoio</li>
+                  <li>Conteúdo conectado à realidade da malharia</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- SLIDE 3 -->
+          <article class="svc-hero__slide" data-slide="2">
+            <div class="svc-hero__bg" style="background-image:
+              linear-gradient(135deg, rgba(138,123,24,.22), rgba(17,17,17,.08)),
+              url('{{ url_for('static', filename='IMG/servicos-desenvolvimento.jpg') }}');">
+            </div>
+            <div class="svc-hero__overlay"></div>
+
+            <div class="svc-hero__inner">
+              <div class="svc-hero__content">
+                <div class="svc-hero__kicker">Desenvolvimento • Estrutura • Soluções Técnicas</div>
+                <h1 class="svc-hero__title">
+                  Materiais e estruturas que<br>
+                  <span class="olive">permanecem no processo</span>
+                </h1>
+                <p class="svc-hero__text">
+                  Desenvolvimento técnico para criar padrões, materiais, conteúdos e soluções
+                  que organizam a operação e fortalecem a evolução da malharia ao longo do tempo.
+                </p>
+
+                <div class="svc-hero__chips">
+                  <span class="svc-hero__chip">Fichas e materiais</span>
+                  <span class="svc-hero__chip">Soluções sob medida</span>
+                  <span class="svc-hero__chip">Apoio técnico</span>
+                </div>
+
+                <div class="svc-hero__actions">
+                  <a class="svc-hero__btn-primary" href="#desenvolvimento">Conhecer desenvolvimento</a>
+                  <a class="svc-hero__btn-ghost" href="{{ desenvolvimento_href }}">Descrever minha demanda</a>
+                </div>
+              </div>
+
+              <div class="svc-hero__panel">
+                <span class="svc-hero__panel-label">Foco desta frente</span>
+                <p class="svc-hero__panel-quote">
+                  “Quando o material técnico é bem construído, ele reduz dúvida, encurta caminho e sustenta padrão.”
+                </p>
+                <ul class="svc-hero__panel-list">
+                  <li>Estruturação de materiais técnicos e operacionais</li>
+                  <li>Documentos e conteúdos aplicáveis ao contexto real</li>
+                  <li>Soluções que conectam conhecimento e execução</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="svc-hero__nav">
+          <div class="svc-hero__nav-label">Serviços Stegie</div>
+          <div class="svc-hero__nav-bars" role="tablist" aria-label="Navegação do banner">
+            <button class="svc-hero__bar is-active" type="button" data-target="0" aria-label="Slide Consultoria"></button>
+            <button class="svc-hero__bar" type="button" data-target="1" aria-label="Slide Educação"></button>
+            <button class="svc-hero__bar" type="button" data-target="2" aria-label="Slide Desenvolvimento"></button>
+          </div>
+        </div>
+
       </div>
     </div>
+  </section>
 
-    <div class="hero__media" aria-hidden="true">
-      <div class="hero__glass" style="display:flex; align-items:flex-end; padding:22px;">
-        <div class="card" style="padding:24px; width:100%;">
-          <div class="kicker" style="margin-bottom:10px;">Direção técnica</div>
-          <p style="margin:0; font-size:1.22rem; line-height:1.5; color:var(--text);">
-            “Cada serviço existe para reduzir ruído técnico, aumentar clareza operacional
-            e gerar mais previsibilidade na malharia.”
+  <!-- INTRO -->
+  <section class="section svc-intro" data-reveal>
+    <div class="container">
+      <div class="svc-intro__box">
+        <p class="svc-intro__kicker">Serviços presenciais e híbridos</p>
+        <h2 class="svc-intro__title">
+          Uma atuação construída para gerar <span class="olive">clareza, confiança e evolução</span>
+        </h2>
+        <p class="svc-intro__text">
+          A Stegie atua com malharias que precisam elevar o nível técnico da operação e transformar conhecimento
+          em padrão. Em vez de entregar algo genérico, a lógica aqui é integrar leitura de cenário, formação aplicada
+          e desenvolvimento de estruturas que tenham utilidade real. Consultoria, educação e desenvolvimento são
+          frentes complementares de uma mesma direção: fortalecer pessoas, processo e resultado.
+        </p>
+      </div>
+
+      <div class="svc-grid">
+        <article class="svc-card">
+          <div class="svc-card__number">01</div>
+          <h3 class="svc-card__title">Consultoria</h3>
+          <p class="svc-card__text">
+            Diagnóstico, leitura técnica e direção para reduzir variabilidade, organizar prioridades e fortalecer decisão.
           </p>
+          <div class="svc-card__highlight">
+            Ideal para cenários que pedem mais clareza, prioridade e sustentação do processo.
+          </div>
+          <a class="svc-card__cta" href="#consultoria">Explorar consultoria →</a>
+        </article>
+
+        <article class="svc-card">
+          <div class="svc-card__number">02</div>
+          <h3 class="svc-card__title">Educação</h3>
+          <p class="svc-card__text">
+            Treinamentos, workshops e formações aplicadas para transformar conteúdo técnico em comportamento operacional.
+          </p>
+          <div class="svc-card__highlight">
+            Ideal para equipes que precisam nivelar linguagem, fortalecer base e evoluir execução.
+          </div>
+          <a class="svc-card__cta" href="#educacao">Explorar educação →</a>
+        </article>
+
+        <article class="svc-card">
+          <div class="svc-card__number">03</div>
+          <h3 class="svc-card__title">Desenvolvimento</h3>
+          <p class="svc-card__text">
+            Criação de materiais, estruturas e soluções técnicas que permanecem no processo e apoiam a evolução contínua.
+          </p>
+          <div class="svc-card__highlight">
+            Ideal para demandas que pedem construção sob medida, organização técnica e continuidade.
+          </div>
+          <a class="svc-card__cta" href="#desenvolvimento">Explorar desenvolvimento →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSULTORIA -->
+  <section class="section svc-detail" id="consultoria" data-reveal>
+    <div class="container">
+      <div class="svc-detail__row">
+        <div class="svc-detail__media" style="background-image:
+          linear-gradient(180deg, rgba(0,0,0,.12) 0%, rgba(0,0,0,.26) 100%),
+          url('{{ url_for('static', filename='IMG/servicos-consultoria.jpg') }}');">
+          <div class="svc-detail__media-content">
+            <h3>Consultoria com leitura de processo e foco em execução</h3>
+            <p>
+              Para cenários que pedem direção técnica, fechamento de variáveis críticas e definição clara de prioridades.
+            </p>
+          </div>
+        </div>
+
+        <div class="svc-detail__content">
+          <span class="svc-detail__eyebrow">Consultoria</span>
+          <h2 class="svc-detail__title">
+            Diagnóstico, prioridade e <span class="olive">padrão técnico</span>
+          </h2>
+          <p class="svc-detail__lead">
+            A frente de consultoria foi desenhada para entrar onde a malharia precisa de mais critério e menos ruído.
+            O trabalho combina leitura do cenário, identificação de pontos sensíveis, definição de critérios e apoio na
+            construção de uma sequência prática de ação.
+          </p>
+
+          <ul class="svc-detail__list">
+            <li>Diagnóstico técnico do processo, das rotinas e dos pontos de variação</li>
+            <li>Definição de prioridades com base em impacto, risco e viabilidade</li>
+            <li>Critérios de aceite e decisão para reduzir subjetividade</li>
+            <li>Acompanhamento para fortalecer sustentação e continuidade</li>
+            <li>Atuação conectada à realidade operacional da malharia</li>
+          </ul>
+
+          <div class="svc-detail__actions">
+            <a class="svc-detail__btn-primary" href="{{ consultoria_href }}">Falar sobre consultoria</a>
+            <a class="svc-detail__btn-ghost" href="{{ url_for('contato') }}">Agendar diagnóstico</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section section--tight" id="servicos-principais" data-reveal>
-  <div class="container">
-    <div class="card" style="padding:28px;">
-      <h2>Uma frente comercial. Três formas de gerar valor.</h2>
-      <p>
-        A página de serviços precisa mostrar com clareza que a STEGIE não entrega apenas uma ação isolada.
-        A atuação pode começar por um problema técnico, por uma necessidade de capacitação ou por uma demanda
-        de estruturação — mas sempre com foco em aplicação prática, padrão e continuidade.
-      </p>
+  <!-- EDUCAÇÃO -->
+  <section class="section svc-detail" id="educacao" data-reveal>
+    <div class="container">
+      <div class="svc-detail__row is-reverse">
+        <div class="svc-detail__content">
+          <span class="svc-detail__eyebrow">Educação</span>
+          <h2 class="svc-detail__title">
+            Formação aplicada para <span class="olive">mudar comportamento</span>
+          </h2>
+          <p class="svc-detail__lead">
+            A educação Stegie nasce da prática. O objetivo não é apenas transmitir conteúdo técnico, mas construir
+            entendimento, linguagem comum e aplicação no cotidiano da operação. Isso vale para equipe, liderança,
+            áreas de apoio e jornadas de formação mais amplas.
+          </p>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:18px;">
-        <div class="card" style="padding:18px;">
-          <strong style="display:block; margin-bottom:8px;">Consultoria</strong>
-          <p style="margin:0; color:var(--muted);">Para enxergar melhor o cenário, definir prioridades e atacar as causas com critério.</p>
+          <ul class="svc-detail__list">
+            <li>Treinamentos técnicos presenciais e híbridos</li>
+            <li>Workshops, imersões, encontros e trilhas formativas</li>
+            <li>Conteúdo ajustado ao nível técnico e à necessidade do público</li>
+            <li>Aplicação prática voltada à realidade da indústria têxtil</li>
+            <li>Fortalecimento de cultura técnica, vocabulário e tomada de decisão</li>
+          </ul>
+
+          <div class="svc-detail__actions">
+            <a class="svc-detail__btn-primary" href="{{ educacao_href }}">Ver página de educação</a>
+            <a class="svc-detail__btn-ghost" href="{{ url_for('contato') }}">Levar treinamento para minha equipe</a>
+          </div>
         </div>
-        <div class="card" style="padding:18px;">
-          <strong style="display:block; margin-bottom:8px;">Educação</strong>
-          <p style="margin:0; color:var(--muted);">Para nivelar linguagem, fortalecer equipe e transformar conhecimento em comportamento operacional.</p>
-        </div>
-        <div class="card" style="padding:18px;">
-          <strong style="display:block; margin-bottom:8px;">Desenvolvimento</strong>
-          <p style="margin:0; color:var(--muted);">Para construir materiais, padrões e soluções que permaneçam depois da intervenção inicial.</p>
+
+        <div class="svc-detail__media" style="background-image:
+          linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.24) 100%),
+          url('{{ url_for('static', filename='IMG/servicos-educacao.jpg') }}');">
+          <div class="svc-detail__media-content">
+            <h3>Educação que conecta técnica e realidade de fábrica</h3>
+            <p>
+              Para empresas que querem formar pessoas com profundidade, aplicabilidade e visão prática.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section" id="consultoria" data-reveal>
-  <div class="container">
-    <div class="grid-2" style="align-items:center; gap:24px;">
-      <div class="card" style="padding:34px;">
-        <div class="kicker">Consultoria</div>
-        <h2 style="margin-bottom:10px;">Critério técnico para decidir melhor</h2>
-        <p style="font-size:1.12rem; line-height:1.7; margin:0;">
-          “Quando o critério fica claro, a operação para de oscilar por opinião
-          e passa a responder com base em lógica técnica.”
+  <!-- DESENVOLVIMENTO -->
+  <section class="section svc-detail" id="desenvolvimento" data-reveal>
+    <div class="container">
+      <div class="svc-detail__row">
+        <div class="svc-detail__media" style="background-image:
+          linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.26) 100%),
+          url('{{ url_for('static', filename='IMG/servicos-desenvolvimento.jpg') }}');">
+          <div class="svc-detail__media-content">
+            <h3>Desenvolvimento técnico para estruturar e sustentar evolução</h3>
+            <p>
+              Para demandas que exigem materiais, soluções e construção sob medida com utilidade real.
+            </p>
+          </div>
+        </div>
+
+        <div class="svc-detail__content">
+          <span class="svc-detail__eyebrow">Desenvolvimento</span>
+          <h2 class="svc-detail__title">
+            Estruturas, materiais e <span class="olive">soluções sob medida</span>
+          </h2>
+          <p class="svc-detail__lead">
+            Essa frente reúne tudo o que precisa ser construído com inteligência técnica para permanecer útil no
+            processo. Pode envolver documentos, materiais, estruturas de apoio, conteúdos especializados e soluções
+            desenhadas para apoiar a evolução prática da malharia.
+          </p>
+
+          <ul class="svc-detail__list">
+            <li>Criação e organização de materiais técnicos e operacionais</li>
+            <li>Construção de estruturas de apoio ao processo e à padronização</li>
+            <li>Conteúdos e soluções desenvolvidos conforme a demanda do cliente</li>
+            <li>Base técnica para reforçar clareza, consistência e continuidade</li>
+            <li>Integração entre conhecimento, documentação e aplicação prática</li>
+          </ul>
+
+          <div class="svc-detail__actions">
+            <a class="svc-detail__btn-primary" href="{{ desenvolvimento_href }}">Falar sobre desenvolvimento</a>
+            <a class="svc-detail__btn-ghost" href="{{ url_for('contato') }}">Descrever minha demanda</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMATOS -->
+  <section class="section svc-formats" data-reveal>
+    <div class="container">
+      <div class="svc-intro__box">
+        <p class="svc-intro__kicker">Formatos de atuação</p>
+        <h2 class="svc-intro__title">
+          Presencial, híbrido ou em formato <span class="olive">sob medida</span>
+        </h2>
+        <p class="svc-intro__text">
+          O formato da entrega depende do cenário, da urgência e da profundidade necessária. A lógica é escolher
+          a estrutura que mais favoreça resultado, aderência e continuidade.
         </p>
-      </div>
 
-      <div class="card" style="padding:28px;">
-        <p>
-          A consultoria STEGIE é indicada para malharias que precisam entender melhor o cenário,
-          fechar variáveis críticas e definir uma sequência prática de ação.
-        </p>
+        <div class="svc-formats__grid">
+          <article class="svc-format">
+            <h3>Presencial</h3>
+            <p>
+              Para leituras técnicas, visitas, workshops, diagnósticos e interações próximas da operação.
+            </p>
+          </article>
 
-        <ul style="margin:14px 0 0 18px; color:var(--muted); line-height:1.9;">
-          <li>Diagnóstico técnico do processo e das rotinas</li>
-          <li>Leitura de desvios, perdas e pontos de instabilidade</li>
-          <li>Definição de critérios de aceite e decisão</li>
-          <li>Prioridades claras para atuação no curto e médio prazo</li>
-          <li>Acompanhamento para sustentar a implantação</li>
-        </ul>
+          <article class="svc-format">
+            <h3>Híbrido</h3>
+            <p>
+              Combinação entre presença em campo e continuidade remota, ideal para projetos com evolução acompanhada.
+            </p>
+          </article>
 
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;">
-          <a class="btn btn--primary btn-primary" href="{{ consultoria_href }}">Falar sobre consultoria</a>
-          <a class="btn btn--ghost btn-ghost" href="{{ url_for('contato') }}">Agendar diagnóstico</a>
+          <article class="svc-format">
+            <h3>Sob medida</h3>
+            <p>
+              Quando a demanda pede desenho próprio de escopo, entregas e sequência de implementação.
+            </p>
+          </article>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section section--tight" id="educacao" data-reveal>
-  <div class="container">
-    <div class="grid-2" style="align-items:center; gap:24px;">
-      <div class="card" style="padding:28px; order:2;">
-        <p>
-          A educação STEGIE conecta base técnica e realidade de fábrica.
-          O foco não é apenas ensinar conteúdo, mas fazer a equipe compreender,
-          aplicar e repetir melhor no dia a dia.
+  <!-- CTA FINAL -->
+  <section class="section svc-final" data-reveal>
+    <div class="container">
+      <div class="svc-final__box">
+        <h2 class="svc-final__title">
+          Vamos definir qual frente faz mais sentido para o seu momento?
+        </h2>
+        <p class="svc-final__text">
+          Se o seu cenário pede mais clareza, mais direção técnica e uma atuação conectada à realidade da malharia,
+          a Stegie pode estruturar a frente correta entre consultoria, educação, desenvolvimento ou uma combinação entre elas.
         </p>
 
-        <ul style="margin:14px 0 0 18px; color:var(--muted); line-height:1.9;">
-          <li>Treinamentos presenciais e híbridos</li>
-          <li>Workshops, imersões e encontros técnicos</li>
-          <li>Capacitação de operação, liderança e áreas de apoio</li>
-          <li>Conteúdo aplicado ao contexto real da malharia</li>
-          <li>Materiais de apoio para reforço e sustentação</li>
-        </ul>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;">
-          <a class="btn btn--primary btn-primary" href="{{ educacao_href }}">Ver educação</a>
-          <a class="btn btn--ghost btn-ghost" href="{{ url_for('contato') }}">Levar treinamento para minha equipe</a>
-        </div>
-      </div>
-
-      <div class="card" style="padding:34px; order:1;">
-        <div class="kicker">Educação</div>
-        <h2 style="margin-bottom:10px;">Conhecimento que vira comportamento</h2>
-        <p style="font-size:1.12rem; line-height:1.7; margin:0;">
-          “Treinamento só gera resultado quando sai da apresentação
-          e entra na linguagem, na rotina e na decisão da equipe.”
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="desenvolvimento" data-reveal>
-  <div class="container">
-    <div class="grid-2" style="align-items:center; gap:24px;">
-      <div class="card" style="padding:34px;">
-        <div class="kicker">Desenvolvimento</div>
-        <h2 style="margin-bottom:10px;">Estruturas que permanecem no processo</h2>
-        <p style="font-size:1.12rem; line-height:1.7; margin:0;">
-          “Material técnico bom não enfeita parede.
-          Ele orienta a operação, reduz dúvida e fortalece padrão.”
-        </p>
-      </div>
-
-      <div class="card" style="padding:28px;">
-        <p>
-          A frente de desenvolvimento reúne a criação e organização de materiais,
-          padrões, conteúdos e soluções técnicas pensadas para o seu cenário.
-        </p>
-
-        <ul style="margin:14px 0 0 18px; color:var(--muted); line-height:1.9;">
-          <li>Estruturação de documentos e materiais técnicos</li>
-          <li>Construção de padrões aplicáveis à operação</li>
-          <li>Desenvolvimento de conteúdos e apoio técnico especializado</li>
-          <li>Soluções sob medida para apoiar crescimento e organização</li>
-          <li>Base técnica para evolução contínua da malharia</li>
-        </ul>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;">
-          <a class="btn btn--primary btn-primary" href="{{ desenvolvimento_href }}">Falar sobre desenvolvimento</a>
-          <a class="btn btn--ghost btn-ghost" href="{{ url_for('contato') }}">Descrever minha demanda</a>
+        <div class="svc-final__actions">
+          <a class="svc-final__btn-primary" href="{{ url_for('contato') }}">Falar com a Stegie</a>
+          <a class="svc-final__btn-ghost" href="{{ url_for('o_que_fazemos') if false else '/o-que-fazemos' }}">Ver o que fazemos</a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section section--tight" data-reveal>
-  <div class="container">
-    <h2>Formatos de atuação</h2>
-    <p style="max-width:760px; color:var(--muted); margin-top:10px;">
-      A entrega pode assumir formatos diferentes conforme o momento da empresa,
-      a urgência do cenário e a profundidade necessária.
-    </p>
+</div>
 
-    <div class="grid-3" style="margin-top:18px;">
-      <div class="card" style="padding:24px;">
-        <h3>Presencial</h3>
-        <p>Visitas técnicas, workshops, treinamentos e atuação próxima da rotina operacional.</p>
-      </div>
+<script>
+  (function(){
+    const hero = document.getElementById('svcHero');
+    if(!hero) return;
 
-      <div class="card" style="padding:24px;">
-        <h3>Híbrido</h3>
-        <p>Combinação de encontros presenciais com alinhamentos, acompanhamento e suporte remoto.</p>
-      </div>
+    const slides = Array.from(hero.querySelectorAll('.svc-hero__slide'));
+    const bars = Array.from(hero.querySelectorAll('.svc-hero__bar'));
+    if(!slides.length || !bars.length) return;
 
-      <div class="card" style="padding:24px;">
-        <h3>Projeto ou programa</h3>
-        <p>Escopo claro, entregas definidas e sequência de execução ajustada ao seu cenário.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    let current = 0;
+    let timer = null;
+    const delay = 6500;
 
-<section class="section" data-reveal>
-  <div class="container">
-    <h2>Como começamos</h2>
-    <div class="grid-2" style="margin-top:18px;">
-      <div class="card" style="padding:22px;">
-        <h3>1) Você apresenta o cenário</h3>
-        <p>Explica o contexto, a necessidade e o ponto que hoje mais exige atenção.</p>
-      </div>
+    function goTo(index){
+      current = index;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('is-active', i === index);
+      });
+      bars.forEach((bar, i) => {
+        bar.classList.toggle('is-active', i === index);
+      });
+    }
 
-      <div class="card" style="padding:22px;">
-        <h3>2) Eu organizo a leitura inicial</h3>
-        <p>Identifico o foco principal, os riscos e a melhor lógica de entrada.</p>
-      </div>
+    function next(){
+      const nextIndex = (current + 1) % slides.length;
+      goTo(nextIndex);
+    }
 
-      <div class="card" style="padding:22px;">
-        <h3>3) Definimos a frente mais adequada</h3>
-        <p>Consultoria, educação, desenvolvimento — ou a combinação mais coerente entre elas.</p>
-      </div>
+    function start(){
+      stop();
+      timer = setInterval(next, delay);
+    }
 
-      <div class="card" style="padding:22px;">
-        <h3>4) Estruturamos a execução</h3>
-        <p>Com formato, sequência, entregas e direção técnica compatíveis com a realidade da malharia.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    function stop(){
+      if(timer){
+        clearInterval(timer);
+        timer = null;
+      }
+    }
 
-{% set cta = {
-  "title": "Vamos entender qual serviço faz mais sentido para o seu cenário?",
-  "text": "Conte o momento da sua malharia e eu te ajudo a definir a melhor frente de atuação: consultoria, educação, desenvolvimento ou uma combinação entre elas.",
-  "button": "Falar com a STEGIE",
-  "href": "/contato"
-} %}
-{% include "Parciais/sections/cta.html" %}
+    bars.forEach((bar, i) => {
+      bar.addEventListener('click', () => {
+        goTo(i);
+        start();
+      });
+    });
+
+    hero.addEventListener('mouseenter', stop);
+    hero.addEventListener('mouseleave', start);
+
+    goTo(0);
+    start();
+  })();
+</script>
 
 {% endblock %}
