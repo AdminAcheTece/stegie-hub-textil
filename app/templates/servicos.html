@@ -803,6 +803,231 @@
       min-height:340px;
       border-radius:24px;
     }
+
+    /* =========================================================
+       AJUSTE FINO PREMIUM DOS SLIDES | MAIS CLEAN E MAIS BAIXO
+       Cole no FINAL do seu <style>
+       ========================================================= */
+    
+    .svh-shell{
+      height:clamp(340px, 26vw, 390px);
+      min-height:340px;
+    }
+    
+    .svh-inner{
+      grid-template-columns:minmax(0, 1.22fr) minmax(280px, .78fr);
+      gap:20px;
+      align-items:center;
+      padding:26px 44px 56px;
+    }
+    
+    .svh-copy{
+      max-width:700px;
+      align-self:center;
+    }
+    
+    .svh-kicker{
+      margin-bottom:14px;
+      padding:9px 14px;
+      font-size:.78rem;
+    }
+    
+    .svh-title{
+      max-width:700px;
+      font-size:clamp(2.1rem, 3.45vw, 3.95rem);
+      line-height:.95;
+    }
+    
+    .svh-text{
+      margin-top:14px;
+      max-width:620px;
+      font-size:clamp(.96rem, 1.02vw, 1.08rem);
+      line-height:1.38;
+    }
+    
+    .svh-actions{
+      margin-top:18px;
+    }
+    
+    .svh-btn{
+      min-height:50px;
+      padding:0 26px;
+    }
+    
+    .svh-btn--primary{
+      gap:12px;
+    }
+    
+    .svh-btn-arrow{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.1rem;
+      line-height:1;
+      transform:translateY(-1px);
+    }
+    
+    .svh-panel{
+      align-self:center;
+      margin-top:-10px;
+      width:min(100%, 430px);
+      padding:18px 18px 16px;
+      border-radius:26px;
+    }
+    
+    .svh-panel-label{
+      margin-bottom:10px;
+      font-size:.76rem;
+    }
+    
+    .svh-panel-quote{
+      font-size:1.02rem;
+      line-height:1.34;
+    }
+    
+    .svh-panel-list{
+      margin-top:12px;
+      gap:8px;
+    }
+    
+    .svh-panel-list li{
+      font-size:.94rem;
+      line-height:1.42;
+    }
+    
+    .svh-indicators{
+      bottom:16px;
+    }
+    
+    /* =========================
+       TABLET
+       ========================= */
+    @media (max-width: 1100px){
+      .svh-shell{
+        height:430px;
+        min-height:430px;
+      }
+    
+      .svh-inner{
+        padding:24px 28px 52px;
+        gap:16px;
+      }
+    
+      .svh-title{
+        font-size:clamp(2rem, 4.8vw, 3.4rem);
+      }
+    
+      .svh-text{
+        max-width:700px;
+      }
+    
+      .svh-panel{
+        max-width:480px;
+        margin-top:0;
+      }
+    
+      .svh-indicators{
+        right:28px;
+        bottom:14px;
+      }
+    }
+    
+    /* =========================
+       MOBILE
+       ========================= */
+    @media (max-width: 768px){
+      .svh-shell{
+        height:470px;
+        min-height:470px;
+      }
+    
+      .svh-inner{
+        padding:18px 16px 54px;
+        gap:12px;
+        align-items:end;
+      }
+    
+      .svh-kicker{
+        padding:7px 11px;
+        font-size:.68rem;
+        margin-bottom:10px;
+      }
+    
+      .svh-title{
+        font-size:clamp(1.75rem, 8.2vw, 2.5rem);
+        line-height:.98;
+      }
+    
+      .svh-text{
+        margin-top:10px;
+        max-width:none;
+        font-size:.94rem;
+        line-height:1.38;
+      }
+    
+      .svh-actions{
+        margin-top:14px;
+      }
+    
+      .svh-btn{
+        min-height:44px;
+        padding:0 18px;
+        font-size:.92rem;
+      }
+    
+      .svh-panel{
+        padding:14px 14px 12px;
+        border-radius:18px;
+      }
+    
+      .svh-panel-label{
+        margin-bottom:8px;
+        font-size:.68rem;
+      }
+    
+      .svh-panel-quote{
+        font-size:.95rem;
+        line-height:1.32;
+      }
+    
+      .svh-panel-list{
+        margin-top:10px;
+        gap:6px;
+      }
+    
+      .svh-panel-list li{
+        padding-left:13px;
+        font-size:.85rem;
+        line-height:1.34;
+      }
+    
+      .svh-indicators{
+        right:16px;
+        bottom:12px;
+        left:auto;
+      }
+    
+      .svh-bar{
+        width:58px;
+        flex:0 0 58px;
+      }
+    }
+    
+    @media (max-width: 390px){
+      .svh-shell{
+        height:500px;
+        min-height:500px;
+      }
+    
+      .svh-title{
+        font-size:clamp(1.68rem, 8.8vw, 2.25rem);
+      }
+    
+      .svh-text{
+        font-size:.90rem;
+      }
+    }
+    
   }
 </style>
 
@@ -823,26 +1048,22 @@
         <div class="svh-inner">
           <div class="svh-copy">
             <div class="svh-kicker">Consultoria • Diagnóstico • Direção técnica</div>
-
+          
             <h1 class="svh-title">
               Critério técnico para
               <span class="accent">estabilizar e decidir melhor</span>
             </h1>
-
+          
             <p class="svh-text">
               A Stegie entra onde o processo precisa de leitura, prioridade e direção.
               Menos ruído, mais clareza operacional e mais previsibilidade para a malharia.
             </p>
-
-            <div class="svh-tags">
-              <span class="svh-tag">Presencial</span>
-              <span class="svh-tag">Híbrido</span>
-              <span class="svh-tag">Processo e qualidade</span>
-            </div>
-
+          
             <div class="svh-actions">
-              <a class="svh-btn svh-btn--primary" href="#consultoria">Conhecer consultoria</a>
-              <a class="svh-btn svh-btn--ghost" href="{{ consultoria_href }}">Falar sobre meu cenário</a>
+              <a class="svh-btn svh-btn--primary" href="#consultoria">
+                <span>Conhecer</span>
+                <span class="svh-btn-arrow" aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
 
@@ -871,26 +1092,22 @@
         <div class="svh-inner">
           <div class="svh-copy">
             <div class="svh-kicker">Educação • Formação aplicada • Capacitação</div>
-
+          
             <h1 class="svh-title">
               Conhecimento que
               <span class="accent">entra na rotina</span>
             </h1>
-
+          
             <p class="svh-text">
               Educação técnica para malharias que querem equipe alinhada, linguagem comum
               e aplicação prática no chão de fábrica.
             </p>
-
-            <div class="svh-tags">
-              <span class="svh-tag">Treinamentos</span>
-              <span class="svh-tag">Workshops</span>
-              <span class="svh-tag">Imersões e trilhas</span>
-            </div>
-
+          
             <div class="svh-actions">
-              <a class="svh-btn svh-btn--primary" href="#educacao">Conhecer educação</a>
-              <a class="svh-btn svh-btn--ghost" href="{{ educacao_href }}">Ver página de educação</a>
+              <a class="svh-btn svh-btn--primary" href="#educacao">
+                <span>Saiba mais</span>
+                <span class="svh-btn-arrow" aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
 
@@ -919,26 +1136,22 @@
         <div class="svh-inner">
           <div class="svh-copy">
             <div class="svh-kicker">Desenvolvimento • Estrutura • Soluções técnicas</div>
-
+          
             <h1 class="svh-title">
               Materiais e estruturas que
               <span class="accent">permanecem no processo</span>
             </h1>
-
+          
             <p class="svh-text">
               Desenvolvimento técnico para criar padrões, materiais, conteúdos e soluções
               que organizam a operação e fortalecem a evolução da malharia.
             </p>
-
-            <div class="svh-tags">
-              <span class="svh-tag">Fichas e materiais</span>
-              <span class="svh-tag">Soluções sob medida</span>
-              <span class="svh-tag">Apoio técnico</span>
-            </div>
-
+          
             <div class="svh-actions">
-              <a class="svh-btn svh-btn--primary" href="#desenvolvimento">Conhecer desenvolvimento</a>
-              <a class="svh-btn svh-btn--ghost" href="{{ desenvolvimento_href }}">Descrever minha demanda</a>
+              <a class="svh-btn svh-btn--primary" href="#desenvolvimento">
+                <span>Conhecer</span>
+                <span class="svh-btn-arrow" aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
 
