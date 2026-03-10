@@ -4044,3 +4044,96 @@ a.btn-ghost:hover{
     font-size: clamp(1.04rem, 4.8vw, 1.34rem);
   }
 }
+
+/* =========================================================
+   TÍTULOS DOS SLIDES NO MOBILE | QUEBRA CONTROLADA
+   Cole no FINAL do <style>
+   ========================================================= */
+
+/* desktop continua normal */
+.svh-title-line{
+  display:inline;
+}
+
+/* mobile */
+@media (max-width: 768px){
+
+  .svh-copy{
+    max-width: 96%;
+    width: 96%;
+    padding-top: 12px;
+  }
+
+  .svh-title{
+    width:100%;
+    max-width:none;
+    margin:0;
+    font-size:1.58rem;
+    line-height:1.02;
+    letter-spacing:-0.03em;
+  }
+
+  .svh-title-line{
+    display:block;
+    width:fit-content;
+    max-width:100%;
+    padding:3px 8px 5px;
+    margin:0 0 4px 0;
+    background:rgba(0,0,0,.42);
+    box-decoration-break:clone;
+    -webkit-box-decoration-break:clone;
+  }
+
+  .svh-title-line.accent{
+    color:#d6ce86;
+  }
+
+  /* slide 1 */
+  .svh-track > .svh-slide:nth-child(1) .svh-title{
+    font-size:1.50rem;
+  }
+
+  /* slide 2 */
+  .svh-track > .svh-slide:nth-child(2) .svh-title{
+    font-size:1.52rem;
+  }
+
+  /* slide 3 */
+  .svh-track > .svh-slide:nth-child(3) .svh-title{
+    font-size:1.34rem;
+  }
+
+  .svh-actions{
+    margin-top:12px;
+  }
+}
+
+@media (max-width: 420px){
+
+  .svh-copy{
+    max-width:97%;
+    width:97%;
+  }
+
+  .svh-title{
+    font-size:1.42rem;
+    line-height:1.02;
+  }
+
+  .svh-title-line{
+    padding:2px 7px 4px;
+    margin-bottom:3px;
+  }
+
+  .svh-track > .svh-slide:nth-child(1) .svh-title{
+    font-size:1.34rem;
+  }
+
+  .svh-track > .svh-slide:nth-child(2) .svh-title{
+    font-size:1.36rem;
+  }
+
+  .svh-track > .svh-slide:nth-child(3) .svh-title{
+    font-size:1.22rem;
+  }
+}
