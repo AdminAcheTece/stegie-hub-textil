@@ -802,287 +802,480 @@
     .svc-detail__media{
       min-height:340px;
       border-radius:24px;
-    }
+    }   
+  }
 
-    /* =========================================================
-       AJUSTE FINO PREMIUM DOS SLIDES | MAIS CLEAN E MAIS BAIXO
-       Cole no FINAL do seu <style>
-       ========================================================= */
-    
+  /* =========================================================
+     HERO REAL EM USO NA PÁGINA /servicos
+     BLOCO LIMPO E VÁLIDO
+     Cole no FINAL do <style>, fora de qualquer @media
+     ========================================================= */
+  
+  /* espaço entre menu preto e início do slider */
+  .svh-hero{
+    position:relative;
+    width:100%;
+    margin-top:14px;
+    padding:0;
+  }
+  
+  /* caixa geral do slider */
+  .svh-shell{
+    position:relative;
+    overflow:hidden;
+    border-radius:0 0 30px 30px;
+    background:#0c0c0c;
+    box-shadow:0 24px 80px rgba(17,17,17,.10);
+    height:clamp(360px, 24vw, 420px);
+    min-height:360px;
+  }
+  
+  .svh-track{
+    position:relative;
+    width:100%;
+    height:100%;
+  }
+  
+  .svh-slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .55s ease, visibility .55s ease, transform .55s ease;
+    transform:scale(1.01);
+  }
+  
+  .svh-slide.is-active{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:scale(1);
+  }
+  
+  .svh-bg{
+    position:absolute;
+    inset:0;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center center;
+  }
+  
+  .svh-overlay{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.58) 36%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.08) 100%),
+      linear-gradient(180deg, rgba(138,123,24,.18) 0%, rgba(95,85,16,.18) 100%);
+  }
+  
+  .svh-inner{
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:1440px;
+    height:100%;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:minmax(0, 1.18fr) minmax(320px, .82fr);
+    gap:24px;
+    align-items:start;
+    padding:42px 40px 52px;
+  }
+  
+  .svh-copy{
+    max-width:760px;
+    align-self:start;
+    color:#fff;
+    padding-top:4px;
+  }
+  
+  .svh-kicker{
+    display:inline-flex;
+    align-items:center;
+    padding:9px 16px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.06);
+    backdrop-filter:blur(8px);
+    color:rgba(255,255,255,.86);
+    font-size:.82rem;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  
+  .svh-title{
+    margin:0;
+    max-width:880px;
+    color:#fff;
+    font-size:clamp(2.2rem, 3.6vw, 4rem);
+    line-height:.94;
+    letter-spacing:-.045em;
+  }
+  
+  .svh-title-line{
+    display:inline;
+  }
+  
+  .svh-title .accent{
+    color:#d6ce86;
+  }
+  
+  .svh-text{
+    margin:14px 0 0;
+    max-width:760px;
+    color:rgba(255,255,255,.92);
+    font-size:clamp(.98rem, 1.05vw, 1.08rem);
+    line-height:1.34;
+  }
+  
+  .svh-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:18px;
+  }
+  
+  .svh-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:48px;
+    padding:0 22px;
+    border-radius:999px;
+    text-decoration:none;
+    transition:
+      background .22s ease,
+      color .22s ease,
+      border-color .22s ease,
+      transform .20s ease,
+      box-shadow .22s ease;
+  }
+  
+  .svh-btn:hover{
+    transform:translateY(-2px);
+  }
+  
+  .svh-btn--primary{
+    background:#8a7b18;
+    color:#fff;
+    font-weight:700;
+    gap:8px;
+  }
+  
+  .svh-btn--primary:hover{
+    background:#B6F34D;
+    color:#111111;
+    border-color:#B6F34D;
+  }
+  
+  .svh-btn--primary:hover .svh-btn-arrow{
+    color:#111111;
+  }
+  
+  .svh-btn-arrow{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1rem;
+    line-height:1;
+    transform:translateY(-1px);
+  }
+  
+  .svh-panel{
+    justify-self:end;
+    align-self:start;
+    width:min(100%, 420px);
+    margin-top:18px;
+    padding:18px 18px 16px;
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.10);
+    backdrop-filter:blur(12px);
+    color:#fff;
+    box-shadow:0 20px 60px rgba(0,0,0,.18);
+  }
+  
+  .svh-panel-label{
+    display:block;
+    margin-bottom:10px;
+    color:rgba(255,255,255,.74);
+    font-size:.76rem;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+  
+  .svh-panel-quote{
+    margin:0;
+    color:#fff;
+    font-size:.98rem;
+    line-height:1.30;
+    letter-spacing:-.01em;
+  }
+  
+  .svh-panel-list{
+    list-style:none;
+    padding:0;
+    margin:12px 0 0;
+    display:grid;
+    gap:8px;
+  }
+  
+  .svh-panel-list li{
+    position:relative;
+    padding-left:15px;
+    color:rgba(255,255,255,.88);
+    line-height:1.34;
+    font-size:.88rem;
+  }
+  
+  .svh-panel-list li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.72em;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#b7e04a;
+    transform:translateY(-50%);
+  }
+  
+  .svh-indicators{
+    position:absolute;
+    right:34px;
+    bottom:14px;
+    z-index:3;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  
+  .svh-bar{
+    width:66px;
+    height:5px;
+    border:0;
+    border-radius:999px;
+    padding:0;
+    cursor:pointer;
+    background:rgba(255,255,255,.34);
+    transition:background .2s ease, transform .2s ease;
+  }
+  
+  .svh-bar.is-active{
+    background:#b7e04a;
+    transform:scaleY(1.04);
+  }
+  
+  /* =========================
+     NOTEBOOK / TABLET
+     ========================= */
+  @media (max-width: 1200px){
+    .svh-hero{
+      margin-top:12px;
+    }
+  
     .svh-shell{
-      height:clamp(340px, 26vw, 390px);
-      min-height:340px;
+      height:380px;
+      min-height:380px;
     }
-    
+  
     .svh-inner{
-      grid-template-columns:minmax(0, 1.22fr) minmax(280px, .78fr);
-      gap:20px;
-      align-items:center;
-      padding:26px 44px 56px;
+      padding:34px 28px 48px;
+      gap:18px;
     }
-    
-    .svh-copy{
-      max-width:700px;
-      align-self:center;
-    }
-    
-    .svh-kicker{
-      margin-bottom:14px;
-      padding:9px 14px;
-      font-size:.78rem;
-    }
-    
+  
     .svh-title{
-      max-width:700px;
-      font-size:clamp(2.1rem, 3.45vw, 3.95rem);
-      line-height:.95;
+      font-size:clamp(2rem, 4vw, 3.2rem);
     }
-    
-    .svh-text{
-      margin-top:14px;
-      max-width:620px;
-      font-size:clamp(.96rem, 1.02vw, 1.08rem);
-      line-height:1.38;
-    }
-    
-    .svh-actions{
+  
+    .svh-panel{
+      width:min(100%, 390px);
       margin-top:18px;
     }
-    
-    .svh-btn{
-      min-height:50px;
-      padding:0 26px;
-    }
-    
-    .svh-btn--primary{
-      gap:12px;
-    }
-    
-    .svh-btn-arrow{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.1rem;
-      line-height:1;
-      transform:translateY(-1px);
-    }
-    
-    .svh-panel{
-      align-self:center;
-      margin-top:-10px;
-      width:min(100%, 430px);
-      padding:18px 18px 16px;
-      border-radius:26px;
-    }
-    
-    .svh-panel-label{
-      margin-bottom:10px;
-      font-size:.76rem;
-    }
-    
-    .svh-panel-quote{
-      font-size:1.02rem;
-      line-height:1.34;
-    }
-    
-    .svh-panel-list{
-      margin-top:12px;
-      gap:8px;
-    }
-    
-    .svh-panel-list li{
-      font-size:.94rem;
-      line-height:1.42;
-    }
-    
+  
     .svh-indicators{
-      bottom:16px;
+      right:28px;
+      bottom:12px;
     }
-    
-    /* =========================
-       TABLET
-       ========================= */
-    @media (max-width: 1100px){
-      .svh-shell{
-        height:430px;
-        min-height:430px;
-      }
-    
-      .svh-inner{
-        padding:24px 28px 52px;
-        gap:16px;
-      }
-    
-      .svh-title{
-        font-size:clamp(2rem, 4.8vw, 3.4rem);
-      }
-    
-      .svh-text{
-        max-width:700px;
-      }
-    
-      .svh-panel{
-        max-width:480px;
-        margin-top:0;
-      }
-    
-      .svh-indicators{
-        right:28px;
-        bottom:14px;
-      }
+  
+    .svh-bar{
+      width:58px;
     }
-    
-    /* =========================
-       MOBILE
-       ========================= */
-    @media (max-width: 768px){
-      .svh-shell{
-        height:470px;
-        min-height:470px;
-      }
-    
-      .svh-inner{
-        padding:18px 16px 54px;
-        gap:12px;
-        align-items:end;
-      }
-    
-      .svh-kicker{
-        padding:7px 11px;
-        font-size:.68rem;
-        margin-bottom:10px;
-      }
-    
-      .svh-title{
-        font-size:clamp(1.75rem, 8.2vw, 2.5rem);
-        line-height:.98;
-      }
-    
-      .svh-text{
-        margin-top:10px;
-        max-width:none;
-        font-size:.94rem;
-        line-height:1.38;
-      }
-    
-      .svh-actions{
-        margin-top:14px;
-      }
-    
-      .svh-btn{
-        min-height:44px;
-        padding:0 18px;
-        font-size:.92rem;
-      }
-    
-      .svh-panel{
-        padding:14px 14px 12px;
-        border-radius:18px;
-      }
-    
-      .svh-panel-label{
-        margin-bottom:8px;
-        font-size:.68rem;
-      }
-    
-      .svh-panel-quote{
-        font-size:.95rem;
-        line-height:1.32;
-      }
-    
-      .svh-panel-list{
-        margin-top:10px;
-        gap:6px;
-      }
-    
-      .svh-panel-list li{
-        padding-left:13px;
-        font-size:.85rem;
-        line-height:1.34;
-      }
-    
-      .svh-indicators{
-        right:16px;
-        bottom:12px;
-        left:auto;
-      }
-    
-      .svh-bar{
-        width:58px;
-        flex:0 0 58px;
-      }
-    }
-    
-    @media (max-width: 390px){
-      .svh-shell{
-        height:500px;
-        min-height:500px;
-      }
-    
-      .svh-title{
-        font-size:clamp(1.68rem, 8.8vw, 2.25rem);
-      }
-    
-      .svh-text{
-        font-size:.90rem;
-      }
-    }
-
-    /* =========================================================
-       AJUSTE DE RESPIRO DOS SLIDES EM RELAÇÃO AO MENU SUPERIOR
-       Cole no FINAL do <style>
-       ========================================================= */
-    
-    /* DESKTOP */
+  }
+  
+  /* =========================
+     TABLET MENOR
+     ========================= */
+  @media (max-width: 980px){
     .svh-shell{
-      height: clamp(335px, 22vw, 380px);
-      min-height: 335px;
+      height:360px;
+      min-height:360px;
     }
-    
+  
     .svh-inner{
-      padding: 36px 40px 46px;
+      grid-template-columns:minmax(0, 1fr) 320px;
+      padding:28px 22px 44px;
+      gap:16px;
     }
-    
-    .svh-copy{
-      padding-top: 8px;
+  
+    .svh-title{
+      font-size:clamp(1.9rem, 4vw, 2.8rem);
     }
-    
+  
+    .svh-text{
+      font-size:.94rem;
+    }
+  
     .svh-panel{
-      margin-top: 26px;
+      width:100%;
+      margin-top:16px;
     }
-    
-    /* NOTEBOOK / TABLET */
-    @media (max-width: 1200px){
-      .svh-shell{
-        height: 350px;
-        min-height: 350px;
-      }
-    
-      .svh-inner{
-        padding: 26px 28px 42px;
-      }
-    
-      .svh-panel{
-        margin-top: 20px;
-      }
+  }
+  
+  /* =========================
+     MOBILE
+     ========================= */
+  @media (max-width: 768px){
+    .svh-hero{
+      margin-top:10px;
     }
-    
-    /* TABLET MENOR */
-    @media (max-width: 980px){
-      .svh-shell{
-        height: 330px;
-        min-height: 330px;
-      }
-    
-      .svh-inner{
-        padding: 24px 22px 40px;
-      }
-    
-      .svh-panel{
-        margin-top: 18px;
-      }
+  
+    .svh-shell{
+      height:380px;
+      min-height:380px;
+      border-radius:0 0 22px 22px;
     }
-    
+  
+    .svh-overlay{
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.84) 0%, rgba(0,0,0,.66) 42%, rgba(0,0,0,.24) 100%),
+        linear-gradient(180deg, rgba(138,123,24,.14) 0%, rgba(95,85,16,.14) 100%);
+    }
+  
+    .svh-inner{
+      grid-template-columns:1fr;
+      align-items:start;
+      gap:0;
+      padding:20px 16px 48px;
+    }
+  
+    .svh-copy{
+      max-width:96%;
+      width:96%;
+      padding-top:8px;
+    }
+  
+    .svh-kicker{
+      display:none;
+    }
+  
+    .svh-title{
+      width:100%;
+      max-width:none;
+      margin:0;
+      font-size:1.48rem;
+      line-height:1.02;
+      letter-spacing:-0.03em;
+    }
+  
+    .svh-title-line{
+      display:block;
+      width:fit-content;
+      max-width:100%;
+      padding:2px 7px 4px;
+      margin:0 0 4px 0;
+      background:rgba(0,0,0,.42);
+      box-decoration-break:clone;
+      -webkit-box-decoration-break:clone;
+    }
+  
+    .svh-title-line.accent{
+      color:#d6ce86;
+    }
+  
+    .svh-text{
+      display:none;
+    }
+  
+    .svh-panel{
+      display:none;
+    }
+  
+    .svh-actions{
+      margin-top:12px;
+    }
+  
+    .svh-btn{
+      min-height:40px;
+      padding:0 16px;
+      font-size:.86rem;
+    }
+  
+    .svh-btn-arrow{
+      font-size:.95rem;
+    }
+  
+    .svh-indicators{
+      right:14px;
+      bottom:10px;
+      gap:6px;
+    }
+  
+    .svh-bar{
+      width:46px;
+      height:4px;
+      flex:0 0 46px;
+    }
+  
+    /* recorte individual das imagens no mobile */
+    .svh-track > .svh-slide:nth-child(1) .svh-bg{
+      background-position:74% center;
+    }
+  
+    .svh-track > .svh-slide:nth-child(2) .svh-bg{
+      background-position:68% center;
+    }
+  
+    .svh-track > .svh-slide:nth-child(3) .svh-bg{
+      background-position:76% center;
+    }
+  }
+  
+  @media (max-width: 420px){
+    .svh-shell{
+      height:390px;
+      min-height:390px;
+    }
+  
+    .svh-copy{
+      max-width:97%;
+      width:97%;
+    }
+  
+    .svh-title{
+      font-size:1.38rem;
+    }
+  
+    .svh-track > .svh-slide:nth-child(1) .svh-title{
+      font-size:1.34rem;
+    }
+  
+    .svh-track > .svh-slide:nth-child(2) .svh-title{
+      font-size:1.36rem;
+    }
+  
+    .svh-track > .svh-slide:nth-child(3) .svh-title{
+      font-size:1.24rem;
+    }
+  
+    .svh-bar{
+      width:42px;
+      flex:0 0 42px;
+    }
   }
 </style>
 
