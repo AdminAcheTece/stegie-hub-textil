@@ -3550,3 +3550,328 @@ a.btn-ghost:hover{
     font-size:.96rem;
   }
 }
+
+/* =========================================================
+   AJUSTE FINAL HERO SERVIÇOS
+   Desktop mais baixo + card mais para cima
+   Mobile limpo, compacto e premium
+   Cole no FINAL do seu <style>
+   ========================================================= */
+
+/* =========================
+   DESKTOP
+   ========================= */
+.svh-shell{
+  height: clamp(300px, 20vw, 340px);
+  min-height: 300px;
+}
+
+.svh-inner{
+  grid-template-columns: minmax(0, 1.22fr) minmax(280px, .78fr);
+  align-items: start;
+  gap: 18px;
+  padding: 18px 40px 44px;
+}
+
+.svh-copy{
+  max-width: 760px;
+  align-self: start;
+  padding-top: 2px;
+}
+
+.svh-kicker{
+  margin-bottom: 12px;
+  padding: 8px 14px;
+  font-size: .76rem;
+  line-height: 1;
+}
+
+.svh-title{
+  max-width: 860px;
+  font-size: clamp(2rem, 3.2vw, 3.55rem);
+  line-height: .95;
+  letter-spacing: -.04em;
+}
+
+.svh-text{
+  margin-top: 12px;
+  max-width: 700px;
+  font-size: clamp(.92rem, .95vw, 1.02rem);
+  line-height: 1.34;
+}
+
+.svh-actions{
+  margin-top: 14px;
+}
+
+.svh-btn{
+  min-height: 46px;
+  padding: 0 20px;
+  font-size: .94rem;
+}
+
+.svh-btn--primary{
+  gap: 8px;
+  border-radius: 999px;
+}
+
+.svh-btn-arrow{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.svh-panel{
+  align-self: start;
+  width: min(100%, 395px);
+  margin-top: -8px;
+  padding: 16px 18px 14px;
+  border-radius: 24px;
+}
+
+.svh-panel-label{
+  margin-bottom: 8px;
+  font-size: .74rem;
+}
+
+.svh-panel-quote{
+  font-size: .94rem;
+  line-height: 1.28;
+}
+
+.svh-panel-list{
+  margin-top: 10px;
+  gap: 6px;
+}
+
+.svh-panel-list li{
+  padding-left: 15px;
+  font-size: .86rem;
+  line-height: 1.30;
+}
+
+.svh-panel-list li::before{
+  width: 7px;
+  height: 7px;
+}
+
+.svh-indicators{
+  right: 34px;
+  bottom: 12px;
+  gap: 7px;
+}
+
+.svh-bar{
+  width: 66px;
+  height: 5px;
+}
+
+/* =========================
+   NOTEBOOK / TABLET HORIZONTAL
+   ========================= */
+@media (max-width: 1200px){
+  .svh-shell{
+    height: 320px;
+    min-height: 320px;
+  }
+
+  .svh-inner{
+    padding: 18px 28px 42px;
+    gap: 16px;
+  }
+
+  .svh-title{
+    font-size: clamp(1.9rem, 3.8vw, 3.1rem);
+  }
+
+  .svh-text{
+    max-width: 620px;
+  }
+
+  .svh-panel{
+    width: min(100%, 365px);
+    margin-top: -4px;
+  }
+
+  .svh-indicators{
+    right: 28px;
+    bottom: 10px;
+  }
+
+  .svh-bar{
+    width: 58px;
+  }
+}
+
+/* =========================
+   TABLET VERTICAL
+   ========================= */
+@media (max-width: 980px){
+  .svh-shell{
+    height: 300px;
+    min-height: 300px;
+  }
+
+  .svh-inner{
+    grid-template-columns: minmax(0, 1fr) 320px;
+    padding: 16px 22px 40px;
+    gap: 14px;
+  }
+
+  .svh-title{
+    font-size: clamp(1.75rem, 4.1vw, 2.7rem);
+  }
+
+  .svh-text{
+    font-size: .92rem;
+    line-height: 1.30;
+  }
+
+  .svh-panel{
+    width: 100%;
+    padding: 14px 14px 12px;
+    border-radius: 20px;
+  }
+
+  .svh-panel-quote{
+    font-size: .88rem;
+  }
+
+  .svh-panel-list li{
+    font-size: .80rem;
+  }
+}
+
+/* =========================
+   MOBILE
+   Estratégia definitiva:
+   - esconder kicker
+   - esconder parágrafo
+   - esconder card "Foco desta frente"
+   - manter imagem + título + CTA + indicadores
+   ========================= */
+@media (max-width: 768px){
+  .svh-hero{
+    margin-top: -10px;
+  }
+
+  .svh-shell{
+    height: 360px;
+    min-height: 360px;
+    border-radius: 0 0 20px 20px;
+  }
+
+  .svh-overlay{
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.84) 0%, rgba(0,0,0,.66) 42%, rgba(0,0,0,.24) 100%),
+      linear-gradient(180deg, rgba(138,123,24,.14) 0%, rgba(95,85,16,.14) 100%);
+  }
+
+  .svh-inner{
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 0;
+    padding: 14px 14px 44px;
+  }
+
+  .svh-copy{
+    max-width: 68%;
+    padding-top: 6px;
+  }
+
+  .svh-kicker{
+    display: none;
+  }
+
+  .svh-title{
+    max-width: 240px;
+    font-size: clamp(1.62rem, 8.6vw, 2.3rem);
+    line-height: .96;
+    letter-spacing: -.04em;
+  }
+
+  .svh-text{
+    display: none;
+  }
+
+  .svh-panel{
+    display: none;
+  }
+
+  .svh-actions{
+    margin-top: 12px;
+  }
+
+  .svh-btn{
+    min-height: 40px;
+    padding: 0 16px;
+    font-size: .86rem;
+  }
+
+  .svh-btn--primary{
+    gap: 6px;
+  }
+
+  .svh-btn-arrow{
+    font-size: .95rem;
+  }
+
+  .svh-indicators{
+    right: 14px;
+    bottom: 10px;
+    left: auto;
+    gap: 6px;
+  }
+
+  .svh-bar{
+    width: 46px;
+    height: 4px;
+    flex: 0 0 46px;
+  }
+
+  /* recorte individual das imagens no mobile */
+  .svh-track > .svh-slide:nth-child(1) .svh-bg{
+    background-position: 74% center;
+  }
+
+  .svh-track > .svh-slide:nth-child(2) .svh-bg{
+    background-position: 68% center;
+  }
+
+  .svh-track > .svh-slide:nth-child(3) .svh-bg{
+    background-position: 76% center;
+  }
+}
+
+/* =========================
+   MOBILE MENOR
+   ========================= */
+@media (max-width: 420px){
+  .svh-shell{
+    height: 380px;
+    min-height: 380px;
+  }
+
+  .svh-copy{
+    max-width: 70%;
+  }
+
+  .svh-title{
+    max-width: 220px;
+    font-size: clamp(1.52rem, 9vw, 2.08rem);
+  }
+
+  .svh-btn{
+    min-height: 38px;
+    padding: 0 14px;
+    font-size: .84rem;
+  }
+
+  .svh-bar{
+    width: 42px;
+    flex: 0 0 42px;
+  }
+}
