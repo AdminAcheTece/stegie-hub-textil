@@ -1213,58 +1213,64 @@
 </div>
 
 <script>
-  (function(){
-    const hero = document.getElementById('svcHero');
-    if(!hero) return;
+document.addEventListener("DOMContentLoaded", function () {
+  const hero = document.getElementById("svhHero");
+  if (!hero) return;
 
-    const slides = Array.from(hero.querySelectorAll('.svc-hero__slide'));
-    const bars = Array.from(hero.querySelectorAll('.svc-hero__bar'));
-    if(!slides.length || !bars.length) return;
+  const slides = Array.from(hero.querySelectorAll(".svh-slide"));
+  const bars = Array.from(hero.querySelectorAll(".svh-bar"));
 
-    let current = 0;
-    let timer = null;
-    const delay = 6500;
+  if (!slides.length || !bars.length) return;
 
-    function goTo(index){
-      current = index;
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('is-active', i === index);
-      });
-      bars.forEach((bar, i) => {
-        bar.classList.toggle('is-active', i === index);
-      });
-    }
+  let current = 0;
+  let timer = null;
+  const delay = 6500;
 
-    function next(){
-      const nextIndex = (current + 1) % slides.length;
-      goTo(nextIndex);
-    }
+  function showSlide(index) {
+    current = index;
 
-    function start(){
-      stop();
-      timer = setInterval(next, delay);
-    }
-
-    function stop(){
-      if(timer){
-        clearInterval(timer);
-        timer = null;
-      }
-    }
-
-    bars.forEach((bar, i) => {
-      bar.addEventListener('click', () => {
-        goTo(i);
-        start();
-      });
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("is-active", i === index);
     });
 
-    hero.addEventListener('mouseenter', stop);
-    hero.addEventListener('mouseleave', start);
+    bars.forEach((bar, i) => {
+      bar.classList.toggle("is-active", i === index);
+    });
+  }
 
-    goTo(0);
-    start();
-  })();
+  function nextSlide() {
+    const next = (current + 1) % slides.length;
+    showSlide(next);
+  }
+
+  function startSlider() {
+    stopSlider();
+    timer = setInterval(nextSlide, delay);
+  }
+
+  function stopSlider() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  bars.forEach((bar, index) => {
+    bar.addEventListener("click", function () {
+      showSlide(index);
+      startSlider();
+    });
+  });
+
+  hero.addEventListener("mouseenter", stopSlider);
+  hero.addEventListener("mouseleave", startSlider);
+
+  hero.addEventListener("touchstart", stopSlider, { passive: true });
+  hero.addEventListener("touchend", startSlider, { passive: true });
+
+  showSlide(0);
+  startSlider();
+});
 </script>
 
 {% endblock %}
