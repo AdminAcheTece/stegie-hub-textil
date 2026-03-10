@@ -1141,12 +1141,12 @@
      ========================= */
   @media (max-width: 768px){
     .svh-hero{
-      margin-top:0px;
+      margin-top:0;
     }
   
     .svh-shell{
-      height:320px;
-      min-height:320px;
+      height:290px;
+      min-height:290px;
       border-radius:0 0 22px 22px;
     }
   
@@ -1158,15 +1158,17 @@
   
     .svh-inner{
       grid-template-columns:1fr;
-      align-items:start;
+      align-items:center;
       gap:0;
-      padding:16px 16px 42px;
+      height:100%;
+      padding:10px 16px 34px;
     }
   
     .svh-copy{
       max-width:96%;
       width:96%;
-      padding-top:8px;
+      padding-top:0;
+      align-self:center;
     }
   
     .svh-kicker{
@@ -1177,7 +1179,7 @@
       width:100%;
       max-width:none;
       margin:0;
-      font-size:1.48rem;
+      font-size:1.34rem;
       line-height:1.02;
       letter-spacing:-0.03em;
     }
@@ -1206,17 +1208,17 @@
     }
   
     .svh-actions{
-      margin-top:12px;
+      margin-top:10px;
     }
   
     .svh-btn{
-      min-height:40px;
-      padding:0 16px;
-      font-size:.86rem;
+      min-height:38px;
+      padding:0 15px;
+      font-size:.84rem;
     }
   
     .svh-btn-arrow{
-      font-size:.95rem;
+      font-size:.92rem;
     }
   
     .svh-indicators{
@@ -1226,12 +1228,11 @@
     }
   
     .svh-bar{
-      width:46px;
+      width:42px;
       height:4px;
-      flex:0 0 46px;
+      flex:0 0 42px;
     }
   
-    /* recorte individual das imagens no mobile */
     .svh-track > .svh-slide:nth-child(1) .svh-bg{
       background-position:74% center;
     }
@@ -1247,8 +1248,8 @@
   
   @media (max-width: 420px){
     .svh-shell{
-      height:335px;
-      min-height:335px;
+      height:305px;
+      min-height:305px;
     }
   
     .svh-copy{
@@ -1257,24 +1258,24 @@
     }
   
     .svh-title{
-      font-size:1.38rem;
+      font-size:1.28rem;
     }
   
     .svh-track > .svh-slide:nth-child(1) .svh-title{
-      font-size:1.34rem;
+      font-size:1.26rem;
     }
   
     .svh-track > .svh-slide:nth-child(2) .svh-title{
-      font-size:1.36rem;
+      font-size:1.28rem;
     }
   
     .svh-track > .svh-slide:nth-child(3) .svh-title{
-      font-size:1.24rem;
+      font-size:1.16rem;
     }
   
     .svh-bar{
-      width:42px;
-      flex:0 0 42px;
+      width:40px;
+      flex:0 0 40px;
     }
   }
 </style>
@@ -1675,6 +1676,12 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  window.scrollTo(0, 0);
+
   const hero = document.getElementById("svhHero");
   if (!hero) return;
 
@@ -1728,6 +1735,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   hero.addEventListener("touchstart", stopSlider, { passive: true });
   hero.addEventListener("touchend", startSlider, { passive: true });
+
+  window.addEventListener("pageshow", function () {
+    window.scrollTo(0, 0);
+  });
 
   showSlide(0);
   startSlider();
