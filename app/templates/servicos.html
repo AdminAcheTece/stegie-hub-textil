@@ -1,122 +1,271 @@
 {% extends "base.html" %}
 {% block title %}STEGIE | Serviços{% endblock %}
-{% block meta_description %}Serviços STEGIE para malharias: consultoria, fichas técnicas, agente técnico e entregas para padrão e previsibilidade.{% endblock %}
+{% block meta_description %}Serviços STEGIE para malharias: consultoria, educação e desenvolvimento técnico em formatos presenciais e híbridos.{% endblock %}
 
 {% block content %}
 
-{% set hero = {
-  "eyebrow": "Serviços",
-  "h1": "Padrão técnico para malharias que querem previsibilidade",
-  "text": "A STEGIE entrega consultoria e suporte técnico com foco em execução: critérios de qualidade, ficha técnica, treinamento e sustentação em rotina.",
-  "bullets": [
-    "Critérios claros para aceite e decisão",
-    "Ficha técnica aplicável ao processo",
-    "Rotina de sustentação (checagens e auditoria)"
-  ],
-  "primary_label": "Agendar diagnóstico",
-  "primary_href": "/contato",
-  "secondary_label": "Ver entregas e formatos",
-  "secondary_href": "#entregas",
-  "microcopy": "Plano inicial claro, com prioridades e sequência de execução."
-} %}
-{% include "Parciais/sections/hero.html" %}
+{# 
+  Ajuste estes 3 links quando as páginas específicas estiverem prontas.
+  Por enquanto, deixei seguro para não quebrar rota.
+#}
+{% set consultoria_href = "/contato?assunto=consultoria" %}
+{% set educacao_href = "/educacao" %}
+{% set desenvolvimento_href = "/contato?assunto=desenvolvimento" %}
 
-<section class="section section--tight" id="entregas" data-reveal>
-  <div class="container">
-    <div class="card" style="padding:28px;">
-      <h2>Entregas que viram padrão</h2>
-      <p>Mais do que diagnóstico, você recebe estrutura para sustentar: definição de critérios, documentação aplicável, treinamento e rotina de verificação. Padrão técnico só existe quando é repetível.</p>
+<section class="hero">
+  <div class="container hero__grid">
+    <div>
+      <div class="kicker">Consultoria • Educação • Desenvolvimento</div>
+      <h1>Serviços STEGIE</h1>
+      <p>
+        Atuação presencial e híbrida para malharias que querem organizar processo,
+        capacitar pessoas e desenvolver padrões técnicos com aplicação prática.
+      </p>
 
-      <ul style="margin:12px 0 0 18px; color:var(--muted); line-height:1.9;">
-        <li>Critérios de qualidade e aceite</li>
-        <li>Ficha técnica aplicável (com tolerâncias e testes)</li>
-        <li>Sequência de execução (passo a passo)</li>
-        <li>Treinamento aplicado ao seu cenário</li>
-        <li>Rotina de sustentação (checagens, auditoria e ajuste fino)</li>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:20px; max-width:920px;">
+        <a href="#consultoria" class="card" style="padding:18px 20px; text-decoration:none; color:inherit;">
+          <div class="kicker" style="margin-bottom:8px;">Serviço 01</div>
+          <strong style="display:block; font-size:1.05rem;">Consultoria</strong>
+          <span style="display:block; margin-top:6px; color:var(--muted); line-height:1.6;">
+            Diagnóstico, critério técnico e sustentação de processo.
+          </span>
+        </a>
+
+        <a href="#educacao" class="card" style="padding:18px 20px; text-decoration:none; color:inherit;">
+          <div class="kicker" style="margin-bottom:8px;">Serviço 02</div>
+          <strong style="display:block; font-size:1.05rem;">Educação</strong>
+          <span style="display:block; margin-top:6px; color:var(--muted); line-height:1.6;">
+            Formação aplicada para equipes, lideranças e operação.
+          </span>
+        </a>
+
+        <a href="#desenvolvimento" class="card" style="padding:18px 20px; text-decoration:none; color:inherit;">
+          <div class="kicker" style="margin-bottom:8px;">Serviço 03</div>
+          <strong style="display:block; font-size:1.05rem;">Desenvolvimento</strong>
+          <span style="display:block; margin-top:6px; color:var(--muted); line-height:1.6;">
+            Estruturas, materiais e soluções técnicas para o seu cenário.
+          </span>
+        </a>
+      </div>
+
+      <ul class="hero__bullets">
+        <li>Consultoria para atacar desvios, estruturar critérios e orientar a tomada de decisão.</li>
+        <li>Educação aplicada para transformar conhecimento técnico em rotina e execução.</li>
+        <li>Desenvolvimento de materiais e soluções que organizam a operação e sustentam evolução.</li>
       </ul>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;">
+        <a class="btn btn--primary btn-primary" href="{{ url_for('contato') }}">Falar sobre meu cenário</a>
+        <a class="btn btn--ghost btn-ghost" href="#servicos-principais">Explorar os serviços</a>
+      </div>
+    </div>
+
+    <div class="hero__media" aria-hidden="true">
+      <div class="hero__glass" style="display:flex; align-items:flex-end; padding:22px;">
+        <div class="card" style="padding:24px; width:100%;">
+          <div class="kicker" style="margin-bottom:10px;">Direção técnica</div>
+          <p style="margin:0; font-size:1.22rem; line-height:1.5; color:var(--text);">
+            “Cada serviço existe para reduzir ruído técnico, aumentar clareza operacional
+            e gerar mais previsibilidade na malharia.”
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-{% set cards = {
-  "title": "Serviços STEGIE",
-  "subtitle": "Estruturas de entrega para malharias que precisam de padrão e sustentação — não só diagnóstico.",
-  "grid_class": "grid-2",
-  "items": [
-    {
-      "h":"Consultoria Têxtil para Malharia",
-      "p":"Diagnóstico técnico, padronização e sustentação para estabilizar processo e elevar qualidade com consistência.",
-      "href":"/contato?assunto=diagnostico",
-      "link":"Solicitar diagnóstico >"
-    },
-    {
-      "h":"Fichas Técnicas de Malharia",
-      "p":"Ficha técnica como padrão real: orienta operação, inspeção, aceite e decisão técnica.",
-      "href":"/contato?assunto=ficha",
-      "link":"Estruturar minha ficha >"
-    },
-    {
-      "h":"Agente Técnico Têxtil",
-      "p":"Suporte contínuo para reduzir ruído técnico, acelerar decisões e manter o padrão vivo.",
-      "href":"/contato?assunto=agente-tecnico",
-      "link":"Entender o modelo >"
-    },
-    {
-      "h":"Encontre sua Ficha Técnica",
-      "p":"Serviço direto para identificar, construir ou ajustar a ficha técnica ideal para o seu cenário.",
-      "href":"/contato?assunto=encontrar-ficha",
-      "link":"Quero minha ficha >"
-    },
-    {
-      "h":"Educação Têxtil",
-      "p":"Treinamento aplicado para transformar conhecimento técnico em comportamento operacional.",
-      "href":"/educacao",
-      "link":"Ver trilhas >"
-    }
-  ]
-} %}
-{% include "Parciais/sections/cards.html" %}
+<section class="section section--tight" id="servicos-principais" data-reveal>
+  <div class="container">
+    <div class="card" style="padding:28px;">
+      <h2>Uma frente comercial. Três formas de gerar valor.</h2>
+      <p>
+        A página de serviços precisa mostrar com clareza que a STEGIE não entrega apenas uma ação isolada.
+        A atuação pode começar por um problema técnico, por uma necessidade de capacitação ou por uma demanda
+        de estruturação — mas sempre com foco em aplicação prática, padrão e continuidade.
+      </p>
 
-{% set cards = {
-  "title": "Formatos de atuação",
-  "subtitle": "A escolha do formato depende do seu cenário e do nível de variação atual.",
-  "grid_class": "grid-3",
-  "items": [
-    {"h":"Projeto (início, meio e fim)","p":"Para padronizar um tema específico e deixar sustentação implantada.","href":"/contato?assunto=projeto","link":"Conversar sobre projeto >"},
-    {"h":"Sprint técnico (curto e objetivo)","p":"Para atacar um problema crítico com rapidez e critérios claros.","href":"/contato?assunto=sprint","link":"Conversar sobre sprint >"},
-    {"h":"Acompanhamento (Agente Técnico)","p":"Para manter padrão, evoluir processo e reduzir retrabalho no mês a mês.","href":"/contato?assunto=agente-tecnico","link":"Quero acompanhamento >"}
-  ]
-} %}
-{% include "Parciais/sections/cards.html" %}
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:18px;">
+        <div class="card" style="padding:18px;">
+          <strong style="display:block; margin-bottom:8px;">Consultoria</strong>
+          <p style="margin:0; color:var(--muted);">Para enxergar melhor o cenário, definir prioridades e atacar as causas com critério.</p>
+        </div>
+        <div class="card" style="padding:18px;">
+          <strong style="display:block; margin-bottom:8px;">Educação</strong>
+          <p style="margin:0; color:var(--muted);">Para nivelar linguagem, fortalecer equipe e transformar conhecimento em comportamento operacional.</p>
+        </div>
+        <div class="card" style="padding:18px;">
+          <strong style="display:block; margin-bottom:8px;">Desenvolvimento</strong>
+          <p style="margin:0; color:var(--muted);">Para construir materiais, padrões e soluções que permaneçam depois da intervenção inicial.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="consultoria" data-reveal>
+  <div class="container">
+    <div class="grid-2" style="align-items:center; gap:24px;">
+      <div class="card" style="padding:34px;">
+        <div class="kicker">Consultoria</div>
+        <h2 style="margin-bottom:10px;">Critério técnico para decidir melhor</h2>
+        <p style="font-size:1.12rem; line-height:1.7; margin:0;">
+          “Quando o critério fica claro, a operação para de oscilar por opinião
+          e passa a responder com base em lógica técnica.”
+        </p>
+      </div>
+
+      <div class="card" style="padding:28px;">
+        <p>
+          A consultoria STEGIE é indicada para malharias que precisam entender melhor o cenário,
+          fechar variáveis críticas e definir uma sequência prática de ação.
+        </p>
+
+        <ul style="margin:14px 0 0 18px; color:var(--muted); line-height:1.9;">
+          <li>Diagnóstico técnico do processo e das rotinas</li>
+          <li>Leitura de desvios, perdas e pontos de instabilidade</li>
+          <li>Definição de critérios de aceite e decisão</li>
+          <li>Prioridades claras para atuação no curto e médio prazo</li>
+          <li>Acompanhamento para sustentar a implantação</li>
+        </ul>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;">
+          <a class="btn btn--primary btn-primary" href="{{ consultoria_href }}">Falar sobre consultoria</a>
+          <a class="btn btn--ghost btn-ghost" href="{{ url_for('contato') }}">Agendar diagnóstico</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight" id="educacao" data-reveal>
+  <div class="container">
+    <div class="grid-2" style="align-items:center; gap:24px;">
+      <div class="card" style="padding:28px; order:2;">
+        <p>
+          A educação STEGIE conecta base técnica e realidade de fábrica.
+          O foco não é apenas ensinar conteúdo, mas fazer a equipe compreender,
+          aplicar e repetir melhor no dia a dia.
+        </p>
+
+        <ul style="margin:14px 0 0 18px; color:var(--muted); line-height:1.9;">
+          <li>Treinamentos presenciais e híbridos</li>
+          <li>Workshops, imersões e encontros técnicos</li>
+          <li>Capacitação de operação, liderança e áreas de apoio</li>
+          <li>Conteúdo aplicado ao contexto real da malharia</li>
+          <li>Materiais de apoio para reforço e sustentação</li>
+        </ul>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;">
+          <a class="btn btn--primary btn-primary" href="{{ educacao_href }}">Ver educação</a>
+          <a class="btn btn--ghost btn-ghost" href="{{ url_for('contato') }}">Levar treinamento para minha equipe</a>
+        </div>
+      </div>
+
+      <div class="card" style="padding:34px; order:1;">
+        <div class="kicker">Educação</div>
+        <h2 style="margin-bottom:10px;">Conhecimento que vira comportamento</h2>
+        <p style="font-size:1.12rem; line-height:1.7; margin:0;">
+          “Treinamento só gera resultado quando sai da apresentação
+          e entra na linguagem, na rotina e na decisão da equipe.”
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="desenvolvimento" data-reveal>
+  <div class="container">
+    <div class="grid-2" style="align-items:center; gap:24px;">
+      <div class="card" style="padding:34px;">
+        <div class="kicker">Desenvolvimento</div>
+        <h2 style="margin-bottom:10px;">Estruturas que permanecem no processo</h2>
+        <p style="font-size:1.12rem; line-height:1.7; margin:0;">
+          “Material técnico bom não enfeita parede.
+          Ele orienta a operação, reduz dúvida e fortalece padrão.”
+        </p>
+      </div>
+
+      <div class="card" style="padding:28px;">
+        <p>
+          A frente de desenvolvimento reúne a criação e organização de materiais,
+          padrões, conteúdos e soluções técnicas pensadas para o seu cenário.
+        </p>
+
+        <ul style="margin:14px 0 0 18px; color:var(--muted); line-height:1.9;">
+          <li>Estruturação de documentos e materiais técnicos</li>
+          <li>Construção de padrões aplicáveis à operação</li>
+          <li>Desenvolvimento de conteúdos e apoio técnico especializado</li>
+          <li>Soluções sob medida para apoiar crescimento e organização</li>
+          <li>Base técnica para evolução contínua da malharia</li>
+        </ul>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;">
+          <a class="btn btn--primary btn-primary" href="{{ desenvolvimento_href }}">Falar sobre desenvolvimento</a>
+          <a class="btn btn--ghost btn-ghost" href="{{ url_for('contato') }}">Descrever minha demanda</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight" data-reveal>
+  <div class="container">
+    <h2>Formatos de atuação</h2>
+    <p style="max-width:760px; color:var(--muted); margin-top:10px;">
+      A entrega pode assumir formatos diferentes conforme o momento da empresa,
+      a urgência do cenário e a profundidade necessária.
+    </p>
+
+    <div class="grid-3" style="margin-top:18px;">
+      <div class="card" style="padding:24px;">
+        <h3>Presencial</h3>
+        <p>Visitas técnicas, workshops, treinamentos e atuação próxima da rotina operacional.</p>
+      </div>
+
+      <div class="card" style="padding:24px;">
+        <h3>Híbrido</h3>
+        <p>Combinação de encontros presenciais com alinhamentos, acompanhamento e suporte remoto.</p>
+      </div>
+
+      <div class="card" style="padding:24px;">
+        <h3>Projeto ou programa</h3>
+        <p>Escopo claro, entregas definidas e sequência de execução ajustada ao seu cenário.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="section" data-reveal>
   <div class="container">
     <h2>Como começamos</h2>
     <div class="grid-2" style="margin-top:18px;">
       <div class="card" style="padding:22px;">
-        <h3>1) Você descreve seu cenário</h3>
-        <p>Qualidade, variação, ficha, testes, treinamento — o que está doendo agora.</p>
+        <h3>1) Você apresenta o cenário</h3>
+        <p>Explica o contexto, a necessidade e o ponto que hoje mais exige atenção.</p>
       </div>
+
       <div class="card" style="padding:22px;">
-        <h3>2) Eu faço o diagnóstico inicial</h3>
-        <p>Devolvo prioridades, perguntas-chave e uma lógica clara de execução.</p>
+        <h3>2) Eu organizo a leitura inicial</h3>
+        <p>Identifico o foco principal, os riscos e a melhor lógica de entrada.</p>
       </div>
+
       <div class="card" style="padding:22px;">
-        <h3>3) Definimos formato e sequência</h3>
-        <p>Projeto, sprint ou acompanhamento — e a ordem correta do trabalho.</p>
+        <h3>3) Definimos a frente mais adequada</h3>
+        <p>Consultoria, educação, desenvolvimento — ou a combinação mais coerente entre elas.</p>
       </div>
+
       <div class="card" style="padding:22px;">
-        <h3>4) Implementamos padrão e sustentação</h3>
-        <p>Critérios, ficha técnica, treino e rotina para manter o resultado no tempo.</p>
+        <h3>4) Estruturamos a execução</h3>
+        <p>Com formato, sequência, entregas e direção técnica compatíveis com a realidade da malharia.</p>
       </div>
     </div>
   </div>
 </section>
 
 {% set cta = {
-  "title": "Quer previsibilidade na sua malharia?",
-  "text": "Vamos estruturar critérios, ficha técnica e rotina para estabilizar processo e elevar o padrão.",
-  "button": "Agendar diagnóstico",
+  "title": "Vamos entender qual serviço faz mais sentido para o seu cenário?",
+  "text": "Conte o momento da sua malharia e eu te ajudo a definir a melhor frente de atuação: consultoria, educação, desenvolvimento ou uma combinação entre elas.",
+  "button": "Falar com a STEGIE",
   "href": "/contato"
 } %}
 {% include "Parciais/sections/cta.html" %}
