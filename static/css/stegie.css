@@ -3875,3 +3875,97 @@ a.btn-ghost:hover{
     flex: 0 0 42px;
   }
 }
+
+/* =========================================================
+   AJUSTE FINO FINAL | DESKTOP + MOBILE
+   Cole no FINAL do seu <style>
+   ========================================================= */
+
+/* =========================
+   DESKTOP
+   ========================= */
+
+/* 1) Desce um pouco o card "FOCO DESTA FRENTE" */
+.svh-panel{
+  margin-top: 10px;
+}
+
+/* 2) Hover do botão principal no padrão do anexo */
+.svh-btn--primary:hover{
+  background: #B6F34D;
+  color: #111111;
+  border-color: #B6F34D;
+}
+
+.svh-btn--primary:hover .svh-btn-arrow{
+  color: #111111;
+}
+
+/* transição mais suave no botão */
+.svh-btn--primary{
+  transition:
+    background .22s ease,
+    color .22s ease,
+    border-color .22s ease,
+    transform .20s ease,
+    box-shadow .22s ease;
+}
+
+/* =========================
+   NOTEBOOK / TABLET
+   ========================= */
+@media (max-width: 1200px){
+  .svh-panel{
+    margin-top: 12px;
+  }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+@media (max-width: 768px){
+
+  /* mantém o hero limpo */
+  .svh-copy{
+    max-width: 82%;
+    padding-top: 10px;
+  }
+
+  /* 3) Título menor e mais distribuído */
+  .svh-title{
+    max-width: 290px;
+    font-size: clamp(1.38rem, 6.9vw, 1.95rem);
+    line-height: .98;
+    letter-spacing: -.035em;
+  }
+
+  /* botão continua compacto */
+  .svh-actions{
+    margin-top: 12px;
+  }
+
+  .svh-btn{
+    min-height: 40px;
+    padding: 0 15px;
+    font-size: .84rem;
+  }
+
+  .svh-btn-arrow{
+    font-size: .92rem;
+  }
+}
+
+/* =========================
+   MOBILE MENOR
+   ========================= */
+@media (max-width: 420px){
+  .svh-copy{
+    max-width: 84%;
+  }
+
+  .svh-title{
+    max-width: 300px;
+    font-size: clamp(1.28rem, 6.4vw, 1.78rem);
+    line-height: .99;
+  }
+}
