@@ -808,162 +808,161 @@
 
 <div class="svc-page">
 
-  <!-- HERO / BANNER SLIDER -->
-  <section class="svc-hero" data-reveal>
-  <div class="svc-hero__shell" id="svcHero">
-
-    <div class="svc-hero__track">
+  <section class="svh-hero">
+  <div class="svh-shell" id="svhHero">
+    <div class="svh-track">
 
       <!-- SLIDE 1 -->
-      <article class="svc-hero__slide is-active" data-slide="0">
-        <div class="svc-hero__bg" style="background-image:
-          linear-gradient(135deg, rgba(138,123,24,.24), rgba(17,17,17,.08)),
-          url('{{ url_for('static', filename='img/servicos-consultoria.jpg') }}');">
+      <article class="svh-slide is-active">
+        <div class="svh-bg" style="background-image:
+          linear-gradient(135deg, rgba(138,123,24,.18), rgba(17,17,17,.06)),
+          url('{{ url_for('static', filename='IMG/servicos-consultoria.jpg') }}');">
         </div>
-        <div class="svc-hero__overlay"></div>
+        <div class="svh-overlay"></div>
 
-        <div class="svc-hero__inner">
-          <div class="svc-hero__content">
-            <div class="svc-hero__kicker">Consultoria • Diagnóstico • Direção Técnica</div>
-            <h1 class="svc-hero__title">
-              Critério técnico para<br>
-              <span class="olive">estabilizar e decidir melhor</span>
+        <div class="svh-inner">
+          <div class="svh-copy">
+            <div class="svh-kicker">Consultoria • Diagnóstico • Direção técnica</div>
+
+            <h1 class="svh-title">
+              Critério técnico para
+              <span class="accent">estabilizar e decidir melhor</span>
             </h1>
-            <p class="svc-hero__text">
-              A consultoria Stegie entra onde o processo precisa de leitura,
-              prioridade e direção. Menos ruído, mais clareza operacional e
-              mais previsibilidade para a malharia.
+
+            <p class="svh-text">
+              A Stegie entra onde o processo precisa de leitura, prioridade e direção.
+              Menos ruído, mais clareza operacional e mais previsibilidade para a malharia.
             </p>
 
-            <div class="svc-hero__chips">
-              <span class="svc-hero__chip">Presencial</span>
-              <span class="svc-hero__chip">Híbrido</span>
-              <span class="svc-hero__chip">Processo, qualidade e rotina</span>
+            <div class="svh-tags">
+              <span class="svh-tag">Presencial</span>
+              <span class="svh-tag">Híbrido</span>
+              <span class="svh-tag">Processo e qualidade</span>
             </div>
 
-            <div class="svc-hero__actions">
-              <a class="svc-hero__btn-primary" href="#consultoria">Conhecer consultoria</a>
-              <a class="svc-hero__btn-ghost" href="{{ consultoria_href }}">Falar sobre meu cenário</a>
+            <div class="svh-actions">
+              <a class="svh-btn svh-btn--primary" href="#consultoria">Conhecer consultoria</a>
+              <a class="svh-btn svh-btn--ghost" href="{{ consultoria_href }}">Falar sobre meu cenário</a>
             </div>
           </div>
 
-          <div class="svc-hero__panel">
-            <span class="svc-hero__panel-label">Foco desta frente</span>
-            <p class="svc-hero__panel-quote">
+          <aside class="svh-panel">
+            <span class="svh-panel-label">Foco desta frente</span>
+            <p class="svh-panel-quote">
               “Transformar sinais dispersos em direção técnica, sequência de ação e padrão.”
             </p>
-            <ul class="svc-hero__panel-list">
+            <ul class="svh-panel-list">
               <li>Leitura do cenário e dos desvios críticos</li>
               <li>Critérios de aceite, decisão e sustentação</li>
               <li>Prioridades claras para curto e médio prazo</li>
             </ul>
-          </div>
+          </aside>
         </div>
       </article>
 
       <!-- SLIDE 2 -->
-      <article class="svc-hero__slide" data-slide="1">
-        <div class="svc-hero__bg" style="background-image:
-          linear-gradient(135deg, rgba(138,123,24,.22), rgba(17,17,17,.10)),
-          url('{{ url_for('static', filename='img/servicos-educacao.jpg') }}');">
+      <article class="svh-slide">
+        <div class="svh-bg" style="background-image:
+          linear-gradient(135deg, rgba(138,123,24,.16), rgba(17,17,17,.08)),
+          url('{{ url_for('static', filename='IMG/servicos-educacao.jpg') }}');">
         </div>
-        <div class="svc-hero__overlay"></div>
+        <div class="svh-overlay"></div>
 
-        <div class="svc-hero__inner">
-          <div class="svc-hero__content">
-            <div class="svc-hero__kicker">Educação • Formação Aplicada • Capacitação</div>
-            <h1 class="svc-hero__title">
-              Conhecimento que<br>
-              <span class="olive">entra na rotina</span>
+        <div class="svh-inner">
+          <div class="svh-copy">
+            <div class="svh-kicker">Educação • Formação aplicada • Capacitação</div>
+
+            <h1 class="svh-title">
+              Conhecimento que
+              <span class="accent">entra na rotina</span>
             </h1>
-            <p class="svc-hero__text">
-              Educação técnica para malharias que querem mais do que conteúdo:
-              querem equipe alinhada, linguagem comum e aplicação prática no chão de fábrica.
+
+            <p class="svh-text">
+              Educação técnica para malharias que querem equipe alinhada, linguagem comum
+              e aplicação prática no chão de fábrica.
             </p>
 
-            <div class="svc-hero__chips">
-              <span class="svc-hero__chip">Treinamentos</span>
-              <span class="svc-hero__chip">Workshops</span>
-              <span class="svc-hero__chip">Imersões e trilhas</span>
+            <div class="svh-tags">
+              <span class="svh-tag">Treinamentos</span>
+              <span class="svh-tag">Workshops</span>
+              <span class="svh-tag">Imersões e trilhas</span>
             </div>
 
-            <div class="svc-hero__actions">
-              <a class="svc-hero__btn-primary" href="#educacao">Conhecer educação</a>
-              <a class="svc-hero__btn-ghost" href="{{ educacao_href }}">Ver página de educação</a>
+            <div class="svh-actions">
+              <a class="svh-btn svh-btn--primary" href="#educacao">Conhecer educação</a>
+              <a class="svh-btn svh-btn--ghost" href="{{ educacao_href }}">Ver página de educação</a>
             </div>
           </div>
 
-          <div class="svc-hero__panel">
-            <span class="svc-hero__panel-label">Foco desta frente</span>
-            <p class="svc-hero__panel-quote">
+          <aside class="svh-panel">
+            <span class="svh-panel-label">Foco desta frente</span>
+            <p class="svh-panel-quote">
               “Treinamento bom não termina no slide. Ele aparece na decisão, na postura e na execução.”
             </p>
-            <ul class="svc-hero__panel-list">
+            <ul class="svh-panel-list">
               <li>Base técnica com linguagem clara e aplicável</li>
               <li>Capacitação de equipes, líderes e áreas de apoio</li>
               <li>Conteúdo conectado à realidade da malharia</li>
             </ul>
-          </div>
+          </aside>
         </div>
       </article>
 
       <!-- SLIDE 3 -->
-      <article class="svc-hero__slide" data-slide="2">
-        <div class="svc-hero__bg" style="background-image:
-          linear-gradient(135deg, rgba(138,123,24,.22), rgba(17,17,17,.08)),
-          url('{{ url_for('static', filename='img/servicos-desenvolvimento.jpg') }}');">
+      <article class="svh-slide">
+        <div class="svh-bg" style="background-image:
+          linear-gradient(135deg, rgba(138,123,24,.16), rgba(17,17,17,.06)),
+          url('{{ url_for('static', filename='IMG/servicos-desenvolvimento.jpg') }}');">
         </div>
-        <div class="svc-hero__overlay"></div>
+        <div class="svh-overlay"></div>
 
-        <div class="svc-hero__inner">
-          <div class="svc-hero__content">
-            <div class="svc-hero__kicker">Desenvolvimento • Estrutura • Soluções Técnicas</div>
-            <h1 class="svc-hero__title">
-              Materiais e estruturas<br>
-              <span class="olive">que permanecem no processo</span>
+        <div class="svh-inner">
+          <div class="svh-copy">
+            <div class="svh-kicker">Desenvolvimento • Estrutura • Soluções técnicas</div>
+
+            <h1 class="svh-title">
+              Materiais e estruturas que
+              <span class="accent">permanecem no processo</span>
             </h1>
-            <p class="svc-hero__text">
-              Desenvolvimento técnico para criar padrões, materiais, conteúdos e
-              soluções que organizam a operação e fortalecem a evolução da malharia.
+
+            <p class="svh-text">
+              Desenvolvimento técnico para criar padrões, materiais, conteúdos e soluções
+              que organizam a operação e fortalecem a evolução da malharia.
             </p>
 
-            <div class="svc-hero__chips">
-              <span class="svc-hero__chip">Fichas e materiais</span>
-              <span class="svc-hero__chip">Soluções sob medida</span>
-              <span class="svc-hero__chip">Apoio técnico</span>
+            <div class="svh-tags">
+              <span class="svh-tag">Fichas e materiais</span>
+              <span class="svh-tag">Soluções sob medida</span>
+              <span class="svh-tag">Apoio técnico</span>
             </div>
 
-            <div class="svc-hero__actions">
-              <a class="svc-hero__btn-primary" href="#desenvolvimento">Conhecer desenvolvimento</a>
-              <a class="svc-hero__btn-ghost" href="{{ desenvolvimento_href }}">Descrever minha demanda</a>
+            <div class="svh-actions">
+              <a class="svh-btn svh-btn--primary" href="#desenvolvimento">Conhecer desenvolvimento</a>
+              <a class="svh-btn svh-btn--ghost" href="{{ desenvolvimento_href }}">Descrever minha demanda</a>
             </div>
           </div>
 
-          <div class="svc-hero__panel">
-            <span class="svc-hero__panel-label">Foco desta frente</span>
-            <p class="svc-hero__panel-quote">
+          <aside class="svh-panel">
+            <span class="svh-panel-label">Foco desta frente</span>
+            <p class="svh-panel-quote">
               “Quando o material técnico é bem construído, ele reduz dúvida, encurta caminho e sustenta padrão.”
             </p>
-            <ul class="svc-hero__panel-list">
+            <ul class="svh-panel-list">
               <li>Estruturação de materiais técnicos e operacionais</li>
               <li>Documentos e conteúdos aplicáveis ao contexto real</li>
               <li>Soluções que conectam conhecimento e execução</li>
             </ul>
-          </div>
+          </aside>
         </div>
       </article>
 
     </div>
 
-    <div class="svc-hero__nav">
-      <div class="svc-hero__nav-label">Serviços Stegie</div>
-      <div class="svc-hero__nav-bars" role="tablist" aria-label="Navegação do banner">
-        <button class="svc-hero__bar is-active" type="button" data-target="0" aria-label="Slide Consultoria"></button>
-        <button class="svc-hero__bar" type="button" data-target="1" aria-label="Slide Educação"></button>
-        <button class="svc-hero__bar" type="button" data-target="2" aria-label="Slide Desenvolvimento"></button>
-      </div>
+    <div class="svh-indicators" aria-label="Navegação do banner">
+      <button class="svh-bar is-active" type="button" data-index="0" aria-label="Slide 1"></button>
+      <button class="svh-bar" type="button" data-index="1" aria-label="Slide 2"></button>
+      <button class="svh-bar" type="button" data-index="2" aria-label="Slide 3"></button>
     </div>
-
   </div>
 </section>
 
