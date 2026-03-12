@@ -290,9 +290,15 @@ def not_found(_):
 def health():
     return "ok", 200
 
+from flask import render_template, redirect, url_for
+
+@app.route("/desenvolvimento-de-malhas")
+def desenvolvimento_malhas():
+    return render_template("desenvolvimento_malhas.html")
+
 @app.route("/consultoria-textil")
 def consultoria_textil():
-    return render_template("consultoria_textil.html")
+    return redirect(url_for("desenvolvimento_malhas"))
 
 # -----------------------------
 # Local run (somente dev)
