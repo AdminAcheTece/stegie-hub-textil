@@ -60,36 +60,36 @@
     min-height:520px;
     border-radius:0 0 34px 34px;
     background:
-      linear-gradient(90deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.58) 36%, rgba(0,0,0,.28) 72%, rgba(0,0,0,.18) 100%),
-      radial-gradient(circle at 75% 20%, rgba(255,173,43,.16), transparent 18%),
-      radial-gradient(circle at 85% 65%, rgba(183,242,56,.16), transparent 16%),
-      linear-gradient(135deg, #0a1014 0%, #151a18 25%, #2a2017 52%, #151515 75%, #0f1316 100%);
-    box-shadow:0 20px 50px rgba(0,0,0,.12);
+      linear-gradient(90deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.38) 34%, rgba(0,0,0,.14) 68%, rgba(0,0,0,.08) 100%),
+      radial-gradient(circle at 78% 18%, rgba(255,214,102,.26), transparent 18%),
+      radial-gradient(circle at 86% 62%, rgba(200,235,120,.18), transparent 16%),
+      linear-gradient(135deg, #6e6440 0%, #94885d 18%, #c8bc8a 40%, #e7dec1 62%, #d2c69b 80%, #b4aa7a 100%);
+    box-shadow:0 20px 50px rgba(0,0,0,.10);
   }
-
+  
   .ftm-slide::before{
     content:"";
     position:absolute;
     inset:0;
     background:
-      radial-gradient(circle at 76% 22%, rgba(255,170,0,.28) 0, rgba(255,170,0,.08) 10%, transparent 24%),
-      radial-gradient(circle at 70% 48%, rgba(255,192,67,.18) 0, transparent 16%),
-      radial-gradient(circle at 86% 74%, rgba(183,242,56,.10) 0, transparent 14%);
+      radial-gradient(circle at 74% 22%, rgba(255,245,190,.34) 0, rgba(255,245,190,.10) 10%, transparent 24%),
+      radial-gradient(circle at 70% 48%, rgba(255,225,140,.18) 0, transparent 16%),
+      radial-gradient(circle at 86% 74%, rgba(210,245,150,.12) 0, transparent 14%);
     pointer-events:none;
   }
-
+  
   .ftm-slide::after{
     content:"";
     position:absolute;
     inset:0;
     background-image:
-      linear-gradient(120deg, transparent 0%, transparent 46%, rgba(255,168,0,.24) 50%, transparent 54%, transparent 100%),
-      linear-gradient(110deg, transparent 0%, transparent 62%, rgba(189,255,70,.16) 66%, transparent 70%, transparent 100%);
-    opacity:.7;
+      linear-gradient(118deg, transparent 0%, transparent 48%, rgba(255,255,255,.10) 52%, transparent 56%, transparent 100%),
+      linear-gradient(108deg, transparent 0%, transparent 66%, rgba(210,245,150,.10) 70%, transparent 74%, transparent 100%);
+    opacity:.75;
     mix-blend-mode:screen;
     pointer-events:none;
   }
-
+  
   .ftm-slide__grid{
     position:relative;
     z-index:2;
@@ -102,28 +102,28 @@
     margin:0 auto;
     padding:56px 0 64px;
   }
-
+  
   .ftm-slide__content{
     color:#fff;
     max-width:760px;
   }
-
+  
   .ftm-brow{
     display:inline-flex;
     align-items:center;
     min-height:42px;
     padding:0 18px;
     border-radius:999px;
-    border:1px solid rgba(255,255,255,.16);
-    background:rgba(255,255,255,.08);
-    color:rgba(255,255,255,.84);
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.12);
+    color:rgba(255,255,255,.88);
     font-size:.92rem;
     font-weight:700;
     letter-spacing:.12em;
     text-transform:uppercase;
     backdrop-filter:blur(10px);
   }
-
+  
   .ftm-slide h1{
     margin:18px 0 14px;
     font-size:clamp(2.5rem, 5vw, 4.9rem);
@@ -132,19 +132,19 @@
     font-weight:700;
     max-width:10ch;
   }
-
+  
   .ftm-slide h1 .ftm-em{
-    color:#d4c771;
+    color:#efe29a;
   }
-
+  
   .ftm-slide__lead{
     margin:0 0 24px;
     max-width:21ch;
     font-size:1.18rem;
     line-height:1.5;
-    color:rgba(255,255,255,.94);
+    color:rgba(255,255,255,.96);
   }
-
+  
   .ftm-actions{
     display:flex;
     flex-wrap:wrap;
@@ -209,9 +209,9 @@
     width:min(100%, 520px);
     border-radius:30px;
     padding:28px 26px 24px;
-    background:rgba(255,255,255,.14);
-    border:1px solid rgba(255,255,255,.18);
-    box-shadow:0 18px 44px rgba(0,0,0,.18);
+    background:rgba(255,255,255,.22);
+    border:1px solid rgba(255,255,255,.24);
+    box-shadow:0 18px 44px rgba(0,0,0,.14);
     backdrop-filter:blur(18px);
     color:#fff;
   }
@@ -264,28 +264,7 @@
     color:rgba(255,255,255,.78);
     line-height:1.55;
     font-size:.95rem;
-  }
-
-  .ftm-slide-dots{
-    position:absolute;
-    right:48px;
-    bottom:18px;
-    z-index:3;
-    display:flex;
-    gap:10px;
-  }
-
-  .ftm-slide-dots span{
-    display:block;
-    width:74px;
-    height:6px;
-    border-radius:999px;
-    background:rgba(255,255,255,.24);
-  }
-
-  .ftm-slide-dots span.is-active{
-    background:var(--ftm-accent-2);
-  }
+  }  
 
   .ftm-section-nav{
     position:sticky;
@@ -907,13 +886,7 @@
             Esta página apresenta o serviço. A experiência de compra e acesso pode ficar em um ambiente próprio, protegido por login.
           </div>
         </aside>
-      </div>
-
-      <div class="ftm-slide-dots" aria-hidden="true">
-        <span class="is-active"></span>
-        <span></span>
-        <span></span>
-      </div>
+      </div>      
     </div>
   </section>
 
