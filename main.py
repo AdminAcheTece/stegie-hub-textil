@@ -225,20 +225,9 @@ def fichas_tecnicas_page():
     return render_template("fichas-tecnicas.html")
 
 
-@app.route("/conteudos", endpoint="conteudos")
-def conteudos_page():
-    tag = request.args.get("tag")
-    artigos = [a for a in ARTIGOS if (not tag or a["tag"] == tag)]
-    return render_template("conteudos.html", artigos=artigos, tag=tag)
-
-
-@app.route("/conteudos/<slug>", endpoint="artigo")
-def artigo_page(slug):
-    art = next((a for a in ARTIGOS if a["slug"] == slug), None)
-    if not art:
-        abort(404)
-    more = [a for a in ARTIGOS if a["slug"] != slug][:3]
-    return render_template("artigo.html", art=art, more=more)
+@main.route("/conteudos")
+def conteudos():
+    return render_template("conteudos.html")
 
 
 @app.route("/cases", endpoint="cases")
