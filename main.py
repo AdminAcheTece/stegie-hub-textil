@@ -310,6 +310,18 @@ def agente_tecnico_textil_ia():
 @app.route("/agente-tecnico-textil-ia/ferramenta")
 def agente_tecnico_textil_ia_ferramenta():
     return redirect("/contato")
+
+@app.route("/fichas-tecnicas-malharia")
+def fichas_tecnicas_malharia():
+    return render_template("fichas_tecnicas_malharia.html")
+
+# rota temporária para a área de compra/login das fichas
+# depois, quando a página real estiver pronta, troque o redirect
+# pelo destino final
+@app.route("/fichas-tecnicas-malharia/acesso")
+def fichas_tecnicas_malharia_acesso():
+    return redirect("/login")
+
 # -----------------------------
 # Local run (somente dev)
 # -----------------------------
