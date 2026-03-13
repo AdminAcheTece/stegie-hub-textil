@@ -301,6 +301,10 @@ def desenvolvimento_malhas():
 def consultoria_textil():
     return redirect(url_for("desenvolvimento_malhas"))
 
+@app.route("/educacao")
+def educacao():
+    return render_template("educacao.html")
+
 # -----------------------------
 # Local run (somente dev)
 # -----------------------------
