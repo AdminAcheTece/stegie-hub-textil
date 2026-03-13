@@ -1,0 +1,1364 @@
+{% extends "base.html" %}
+{% block title %}STEGIE | Agente Técnico Têxtil com IA{% endblock %}
+{% block meta_description %}Agente Técnico Têxtil com IA para apoiar consultas técnicas, desenvolvimento, qualidade, treinamento e tomada de decisão na malharia.{% endblock %}
+
+{% block content %}
+
+<style>
+  .ati-page{
+    --ati-bg:#f3f1eb;
+    --ati-surface:#ffffff;
+    --ati-text:#121212;
+    --ati-muted:#5b5b5b;
+    --ati-border:#ddd7cb;
+    --ati-accent:#8E8420;
+    --ati-accent-2:#B7F238;
+    --ati-dark:#0d0d0d;
+    --ati-radius-xl:32px;
+    --ati-radius-lg:24px;
+    --ati-radius-md:18px;
+    --ati-shadow:0 18px 44px rgba(0,0,0,.08);
+    --ati-shadow-soft:0 10px 28px rgba(0,0,0,.05);
+    background:var(--ati-bg);
+    color:var(--ati-text);
+    overflow:hidden;
+  }
+
+  .ati-container{
+    width:min(1180px, calc(100% - 40px));
+    margin:0 auto;
+  }
+
+  .ati-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:.92rem;
+    font-weight:700;
+    letter-spacing:.02em;
+    color:var(--ati-accent);
+  }
+
+  .ati-kicker::before{
+    content:"";
+    width:10px;
+    height:10px;
+    border-radius:999px;
+    background:var(--ati-accent-2);
+    box-shadow:0 0 0 5px rgba(183,242,56,.14);
+  }
+
+  .ati-hero{
+    position:relative;
+    padding:0 0 34px;
+    background:linear-gradient(180deg, #f5f3ee 0%, #f3f1eb 100%);
+  }
+
+  .ati-slide{
+    position:relative;
+    overflow:hidden;
+    min-height:520px;
+    border-radius:0 0 34px 34px;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.58) 35%, rgba(0,0,0,.28) 72%, rgba(0,0,0,.18) 100%),
+      radial-gradient(circle at 72% 26%, rgba(255,173,43,.18), transparent 20%),
+      radial-gradient(circle at 85% 55%, rgba(183,242,56,.14), transparent 14%),
+      linear-gradient(135deg, #081018 0%, #0f1b23 22%, #151a18 48%, #2c2117 70%, #0f1316 100%);
+    box-shadow:0 20px 50px rgba(0,0,0,.12);
+  }
+
+  .ati-slide::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 76% 22%, rgba(255,170,0,.38) 0, rgba(255,170,0,.12) 10%, transparent 24%),
+      radial-gradient(circle at 72% 42%, rgba(255,192,67,.28) 0, transparent 18%),
+      radial-gradient(circle at 84% 70%, rgba(183,242,56,.14) 0, transparent 16%);
+    pointer-events:none;
+  }
+
+  .ati-slide::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(120deg, transparent 0%, transparent 43%, rgba(255,168,0,.36) 48%, transparent 53%, transparent 100%),
+      linear-gradient(108deg, transparent 0%, transparent 62%, rgba(255,196,0,.24) 67%, transparent 72%, transparent 100%),
+      linear-gradient(102deg, transparent 0%, transparent 71%, rgba(189,255,70,.22) 76%, transparent 81%, transparent 100%);
+    opacity:.7;
+    mix-blend-mode:screen;
+    pointer-events:none;
+  }
+
+  .ati-slide__grid{
+    position:relative;
+    z-index:2;
+    min-height:520px;
+    display:grid;
+    grid-template-columns:1.18fr .82fr;
+    gap:34px;
+    align-items:center;
+    width:min(1180px, calc(100% - 40px));
+    margin:0 auto;
+    padding:56px 0 64px;
+  }
+
+  .ati-slide__content{
+    color:#fff;
+    max-width:760px;
+  }
+
+  .ati-brow{
+    display:inline-flex;
+    align-items:center;
+    min-height:42px;
+    padding:0 18px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.08);
+    color:rgba(255,255,255,.84);
+    font-size:.92rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    backdrop-filter:blur(10px);
+  }
+
+  .ati-slide h1{
+    margin:18px 0 14px;
+    font-size:clamp(2.5rem, 5vw, 4.9rem);
+    line-height:.98;
+    letter-spacing:-.05em;
+    font-weight:700;
+    max-width:11ch;
+  }
+
+  .ati-slide h1 .ati-em{
+    color:#d4c771;
+  }
+
+  .ati-slide__lead{
+    margin:0 0 24px;
+    max-width:20ch;
+    font-size:1.18rem;
+    line-height:1.5;
+    color:rgba(255,255,255,.94);
+  }
+
+  .ati-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin:0 0 26px;
+  }
+
+  .ati-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:56px;
+    padding:0 24px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:1rem;
+    transition:transform .24s ease, box-shadow .24s ease, background .24s ease, color .24s ease, border-color .24s ease;
+    border:1px solid transparent;
+  }
+
+  .ati-btn:hover{ transform:translateY(-2px); }
+
+  .ati-btn--primary{
+    background:#b29f1f;
+    color:#fff;
+    box-shadow:0 10px 24px rgba(178,159,31,.28);
+  }
+
+  .ati-btn--ghost{
+    border-color:rgba(255,255,255,.28);
+    color:#fff;
+    background:rgba(255,255,255,.06);
+    backdrop-filter:blur(8px);
+  }
+
+  .ati-btn--ghost:hover{
+    background:rgba(255,255,255,.12);
+  }
+
+  .ati-hero__dynamic{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    color:rgba(255,255,255,.76);
+    font-size:1rem;
+  }
+
+  .ati-hero__dynamic strong{
+    color:#fff;
+  }
+
+  .ati-word-rotator{
+    min-width:210px;
+    color:#d4c771;
+    font-weight:800;
+  }
+
+  .ati-focus-card{
+    justify-self:end;
+    width:min(100%, 520px);
+    border-radius:30px;
+    padding:28px 26px 24px;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.18);
+    box-shadow:0 18px 44px rgba(0,0,0,.18);
+    backdrop-filter:blur(18px);
+    color:#fff;
+  }
+
+  .ati-focus-card__eyebrow{
+    display:block;
+    margin-bottom:12px;
+    color:rgba(255,255,255,.72);
+    font-weight:800;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    font-size:.88rem;
+  }
+
+  .ati-focus-card h3{
+    margin:0 0 16px;
+    font-size:1.28rem;
+    line-height:1.26;
+    letter-spacing:-.02em;
+    font-weight:700;
+  }
+
+  .ati-focus-list{
+    margin:0 0 18px;
+    padding:0;
+    list-style:none;
+  }
+
+  .ati-focus-list li{
+    position:relative;
+    padding-left:22px;
+    margin:0 0 12px;
+    color:rgba(255,255,255,.92);
+    line-height:1.5;
+    font-size:1rem;
+  }
+
+  .ati-focus-list li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.62em;
+    width:9px;
+    height:9px;
+    border-radius:999px;
+    background:var(--ati-accent-2);
+  }
+
+  .ati-focus-note{
+    color:rgba(255,255,255,.78);
+    line-height:1.55;
+    font-size:.95rem;
+  }
+
+  .ati-slide-dots{
+    position:absolute;
+    right:48px;
+    bottom:18px;
+    z-index:3;
+    display:flex;
+    gap:10px;
+  }
+
+  .ati-slide-dots span{
+    display:block;
+    width:74px;
+    height:6px;
+    border-radius:999px;
+    background:rgba(255,255,255,.24);
+  }
+
+  .ati-slide-dots span.is-active{
+    background:var(--ati-accent-2);
+  }
+
+  .ati-section-nav{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(243,241,235,.92);
+    backdrop-filter:blur(14px);
+    border-top:1px solid rgba(18,18,18,.06);
+    border-bottom:1px solid rgba(18,18,18,.08);
+  }
+
+  .ati-section-nav__inner{
+    width:min(1180px, calc(100% - 40px));
+    margin:0 auto;
+    display:flex;
+    gap:30px;
+    overflow:auto;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+
+  .ati-section-nav__inner::-webkit-scrollbar{ display:none; }
+
+  .ati-section-nav a{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    height:66px;
+    white-space:nowrap;
+    text-decoration:none;
+    color:#5f5f5f;
+    font-weight:600;
+    transition:color .22s ease;
+  }
+
+  .ati-section-nav a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:3px;
+    border-radius:999px;
+    background:transparent;
+    transition:background .22s ease;
+  }
+
+  .ati-section-nav a:hover,
+  .ati-section-nav a.is-active{
+    color:var(--ati-accent);
+  }
+
+  .ati-section-nav a.is-active::after{
+    background:var(--ati-accent-2);
+  }
+
+  .ati-block{
+    padding:84px 0;
+  }
+
+  .ati-panel{
+    display:grid;
+    grid-template-columns:minmax(0, 1.15fr) minmax(340px, .85fr);
+    gap:32px;
+    background:rgba(255,255,255,.72);
+    border:1px solid rgba(18,18,18,.08);
+    border-radius:var(--ati-radius-xl);
+    padding:36px;
+    box-shadow:var(--ati-shadow-soft);
+  }
+
+  .ati-heading{
+    margin:12px 0 14px;
+    font-size:clamp(2rem, 3.4vw, 3.2rem);
+    line-height:1.08;
+    letter-spacing:-.04em;
+    font-weight:700;
+  }
+
+  .ati-lead{
+    margin:0 0 22px;
+    max-width:62ch;
+    font-size:1.12rem;
+    line-height:1.8;
+    color:#222;
+  }
+
+  .ati-list{
+    margin:18px 0 0;
+    padding-left:22px;
+  }
+
+  .ati-list li{
+    margin:0 0 12px;
+    font-size:1.05rem;
+    line-height:1.66;
+    color:#1f1f1f;
+  }
+
+  .ati-side-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:26px;
+    background:linear-gradient(180deg, #131313 0%, #1f1f1f 100%);
+    color:#fff;
+    min-height:100%;
+    box-shadow:0 24px 52px rgba(0,0,0,.18);
+  }
+
+  .ati-side-card__visual{
+    height:200px;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(183,242,56,.85) 0, rgba(183,242,56,.06) 18%, transparent 30%),
+      radial-gradient(circle at 78% 34%, rgba(255,255,255,.12) 0, transparent 20%),
+      radial-gradient(circle at 72% 72%, rgba(142,132,32,.55) 0, transparent 24%),
+      linear-gradient(135deg, #231f12 0%, #0f0f0f 48%, #1b1b1b 100%);
+  }
+
+  .ati-side-card__body{ padding:24px 24px 26px; }
+
+  .ati-side-card__tag{
+    display:inline-flex;
+    min-height:30px;
+    padding:0 12px;
+    align-items:center;
+    border-radius:999px;
+    background:rgba(183,242,56,.14);
+    color:var(--ati-accent-2);
+    font-size:.84rem;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+
+  .ati-side-card h3{
+    margin:0 0 14px;
+    font-size:1.55rem;
+    line-height:1.12;
+    letter-spacing:-.03em;
+    font-weight:700;
+  }
+
+  .ati-side-card p{
+    margin:0 0 18px;
+    color:rgba(255,255,255,.82);
+    line-height:1.72;
+  }
+
+  .ati-mini-metrics{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:12px;
+    margin-top:18px;
+  }
+
+  .ati-mini-metric{
+    padding:16px 14px;
+    border-radius:18px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.08);
+  }
+
+  .ati-mini-metric strong{
+    display:block;
+    font-size:1.22rem;
+    font-weight:800;
+    margin-bottom:5px;
+  }
+
+  .ati-mini-metric span{
+    color:rgba(255,255,255,.74);
+    line-height:1.45;
+    font-size:.92rem;
+  }
+
+  .ati-topline{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:26px;
+  }
+
+  .ati-topline p{
+    max-width:62ch;
+    margin:0;
+    color:var(--ati-muted);
+    line-height:1.7;
+    font-size:1.04rem;
+  }
+
+  .ati-grid-4{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ati-grid-3{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ati-card{
+    position:relative;
+    border-radius:24px;
+    padding:24px 22px;
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(18,18,18,.08);
+    box-shadow:var(--ati-shadow-soft);
+    overflow:hidden;
+    transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+  }
+
+  .ati-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--ati-shadow);
+    border-color:rgba(142,132,32,.22);
+  }
+
+  .ati-card::before{
+    content:"";
+    position:absolute;
+    inset:0 auto auto 0;
+    width:100%;
+    height:4px;
+    background:linear-gradient(90deg, var(--ati-accent-2), var(--ati-accent));
+  }
+
+  .ati-card__icon{
+    width:50px;
+    height:50px;
+    border-radius:16px;
+    display:grid;
+    place-items:center;
+    background:rgba(142,132,32,.08);
+    color:var(--ati-accent);
+    font-size:1.18rem;
+    font-weight:800;
+    margin-bottom:16px;
+  }
+
+  .ati-card h3{
+    margin:0 0 12px;
+    font-size:1.16rem;
+    letter-spacing:-.02em;
+    line-height:1.24;
+    font-weight:700;
+  }
+
+  .ati-card p{
+    margin:0 0 14px;
+    color:#505050;
+    line-height:1.68;
+    font-size:.98rem;
+  }
+
+  .ati-bullets{
+    margin:0;
+    padding-left:18px;
+  }
+
+  .ati-bullets li{
+    margin:0 0 8px;
+    color:#5a5a5a;
+    line-height:1.56;
+    font-size:.94rem;
+  }
+
+  .ati-steps{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ati-step{
+    position:relative;
+    background:rgba(255,255,255,.8);
+    border:1px solid rgba(18,18,18,.08);
+    border-radius:24px;
+    padding:24px 22px;
+    box-shadow:var(--ati-shadow-soft);
+    transition:transform .24s ease, box-shadow .24s ease;
+  }
+
+  .ati-step:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--ati-shadow);
+  }
+
+  .ati-step__num{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:linear-gradient(145deg, #161616 0%, #2b2b2b 100%);
+    color:#fff;
+    font-weight:800;
+    margin-bottom:18px;
+  }
+
+  .ati-step h3{
+    margin:0 0 12px;
+    font-size:1.14rem;
+    line-height:1.25;
+    letter-spacing:-.02em;
+    font-weight:700;
+  }
+
+  .ati-step p{
+    margin:0;
+    color:#4f4f4f;
+    line-height:1.66;
+    font-size:.97rem;
+  }
+
+  .ati-results{
+    display:grid;
+    grid-template-columns:repeat(5, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ati-result{
+    border-radius:22px;
+    padding:22px 20px;
+    background:#fff;
+    border:1px solid rgba(18,18,18,.08);
+    box-shadow:var(--ati-shadow-soft);
+  }
+
+  .ati-result__num{
+    display:inline-flex;
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:14px;
+    background:rgba(183,242,56,.18);
+    color:#191919;
+    font-weight:800;
+  }
+
+  .ati-result h3{
+    margin:0 0 10px;
+    font-size:1.06rem;
+    line-height:1.3;
+    font-weight:700;
+    letter-spacing:-.02em;
+  }
+
+  .ati-result p{
+    margin:0;
+    color:#555;
+    line-height:1.64;
+    font-size:.96rem;
+  }
+
+  .ati-tool-panel{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) minmax(320px, .8fr);
+    gap:22px;
+    border-radius:30px;
+    padding:30px;
+    background:linear-gradient(135deg, #131313 0%, #202020 100%);
+    color:#fff;
+    box-shadow:0 24px 50px rgba(0,0,0,.16);
+    overflow:hidden;
+    position:relative;
+  }
+
+  .ati-tool-panel::before{
+    content:"";
+    position:absolute;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(183,242,56,.16) 0%, rgba(183,242,56,0) 72%);
+    top:-110px;
+    right:-90px;
+  }
+
+  .ati-tool-panel__body{
+    position:relative;
+    z-index:1;
+  }
+
+  .ati-tool-panel h3{
+    margin:12px 0 14px;
+    font-size:clamp(1.8rem, 3vw, 2.7rem);
+    line-height:1.08;
+    letter-spacing:-.04em;
+    font-weight:700;
+  }
+
+  .ati-tool-panel p{
+    margin:0 0 18px;
+    max-width:62ch;
+    color:rgba(255,255,255,.82);
+    line-height:1.75;
+  }
+
+  .ati-tool-card{
+    position:relative;
+    z-index:1;
+    border-radius:24px;
+    padding:24px 22px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.1);
+    backdrop-filter:blur(10px);
+  }
+
+  .ati-tool-card span{
+    display:block;
+    margin-bottom:10px;
+    color:var(--ati-accent-2);
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    font-size:.88rem;
+  }
+
+  .ati-tool-card h4{
+    margin:0 0 12px;
+    font-size:1.2rem;
+    line-height:1.25;
+    font-weight:700;
+  }
+
+  .ati-tool-card ul{
+    margin:0;
+    padding-left:18px;
+  }
+
+  .ati-tool-card li{
+    margin:0 0 8px;
+    color:rgba(255,255,255,.86);
+    line-height:1.55;
+  }
+
+  .ati-quote{
+    margin-top:28px;
+    padding:24px 26px;
+    border-radius:24px;
+    background:linear-gradient(135deg, #171717 0%, #232323 100%);
+    color:#fff;
+    box-shadow:var(--ati-shadow);
+  }
+
+  .ati-quote p{
+    margin:0;
+    font-size:1.18rem;
+    line-height:1.7;
+    letter-spacing:-.02em;
+  }
+
+  .ati-quote strong{
+    color:var(--ati-accent-2);
+  }
+
+  .ati-cta{
+    position:relative;
+    padding:0 0 94px;
+  }
+
+  .ati-cta__box{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg, #121212 0%, #202020 100%);
+    border-radius:32px;
+    padding:42px;
+    color:#fff;
+    box-shadow:0 28px 64px rgba(0,0,0,.18);
+  }
+
+  .ati-cta__box::before{
+    content:"";
+    position:absolute;
+    width:340px;
+    height:340px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(183,242,56,.22) 0%, rgba(183,242,56,0) 72%);
+    top:-120px;
+    right:-80px;
+  }
+
+  .ati-cta__grid{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:minmax(0,1.2fr) auto;
+    gap:24px;
+    align-items:center;
+  }
+
+  .ati-cta h2{
+    margin:0 0 12px;
+    font-size:clamp(2rem, 3.4vw, 3.1rem);
+    line-height:1.05;
+    letter-spacing:-.04em;
+    font-weight:700;
+  }
+
+  .ati-cta p{
+    margin:0;
+    max-width:62ch;
+    color:rgba(255,255,255,.78);
+    line-height:1.8;
+    font-size:1.08rem;
+  }
+
+  .ati-reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+
+  .ati-reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media (max-width: 1180px){
+    .ati-grid-4{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .ati-steps{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .ati-results{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+  }
+
+  @media (max-width: 980px){
+    .ati-slide__grid,
+    .ati-panel,
+    .ati-tool-panel,
+    .ati-cta__grid{
+      grid-template-columns:1fr;
+    }
+
+    .ati-focus-card{
+      justify-self:stretch;
+      width:100%;
+    }
+
+    .ati-grid-3{ grid-template-columns:1fr; }
+    .ati-results{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  }
+
+  @media (max-width: 720px){
+    .ati-container{
+      width:min(100% - 24px, 1180px);
+    }
+
+    .ati-slide{
+      min-height:auto;
+      border-radius:0 0 28px 28px;
+    }
+
+    .ati-slide__grid{
+      min-height:auto;
+      width:min(100% - 24px, 1180px);
+      padding:34px 0 52px;
+    }
+
+    .ati-slide h1{
+      max-width:100%;
+      font-size:2.6rem;
+    }
+
+    .ati-slide__lead{
+      max-width:100%;
+      font-size:1.05rem;
+    }
+
+    .ati-block{
+      padding:62px 0;
+    }
+
+    .ati-panel,
+    .ati-side-card__body,
+    .ati-tool-panel,
+    .ati-cta__box{
+      padding:24px;
+    }
+
+    .ati-topline{
+      display:block;
+      margin-bottom:20px;
+    }
+
+    .ati-topline p{
+      margin-top:10px;
+    }
+
+    .ati-grid-4,
+    .ati-steps,
+    .ati-results,
+    .ati-mini-metrics{
+      grid-template-columns:1fr;
+    }
+
+    .ati-section-nav a{
+      height:58px;
+      font-size:.95rem;
+    }
+
+    .ati-actions{
+      flex-direction:column;
+      align-items:stretch;
+    }
+
+    .ati-btn{
+      width:100%;
+    }
+
+    .ati-slide-dots{
+      right:16px;
+      left:16px;
+      justify-content:flex-end;
+      bottom:12px;
+    }
+
+    .ati-slide-dots span{
+      width:54px;
+    }
+
+    .ati-cta{
+      padding-bottom:70px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .ati-reveal,
+    .ati-btn,
+    .ati-card,
+    .ati-step{
+      animation:none !important;
+      transition:none !important;
+    }
+  }
+</style>
+
+<div class="ati-page">
+  <section class="ati-hero">
+    <div class="ati-slide">
+      <div class="ati-slide__grid">
+        <div class="ati-slide__content ati-reveal">
+          <div class="ati-brow">IA • CONSULTA TÉCNICA • APOIO À DECISÃO</div>
+
+          <h1>Agente Técnico <span class="ati-em">Têxtil com IA</span></h1>
+
+          <p class="ati-slide__lead">
+            Uma camada inteligente para acelerar consulta técnica, organizar respostas e apoiar desenvolvimento, qualidade e operação com mais agilidade.
+          </p>
+
+          <div class="ati-actions">
+            <a href="{{ url_for('agente_tecnico_textil_ia_ferramenta') }}" class="ati-btn ati-btn--primary">Acessar ferramenta</a>
+            <a href="#visao-geral" class="ati-btn ati-btn--ghost">Entender o serviço</a>
+          </div>
+
+          <p class="ati-hero__dynamic">
+            <strong>Projetado para apoiar:</strong>
+            <span class="ati-word-rotator" id="atiWordRotator">consultas técnicas rápidas</span>
+          </p>
+        </div>
+
+        <aside class="ati-focus-card ati-reveal">
+          <span class="ati-focus-card__eyebrow">FOCO DESTA FRENTE</span>
+          <h3>“Transformar dúvida técnica em resposta útil, mais rápida e mais aplicável.”</h3>
+
+          <ul class="ati-focus-list">
+            <li>Consultas sobre malha, fio, composição, estrutura e acabamento</li>
+            <li>Apoio a desenvolvimento, qualidade, treinamento e suporte técnico</li>
+            <li>Mais agilidade para organizar respostas e próximos passos</li>
+          </ul>
+
+          <div class="ati-focus-note">
+            Esta página apresenta o serviço. A ferramenta em si pode ficar em uma rota separada, já prevista no botão principal.
+          </div>
+        </aside>
+      </div>
+
+      <div class="ati-slide-dots" aria-hidden="true">
+        <span class="is-active"></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </section>
+
+  <nav class="ati-section-nav">
+    <div class="ati-section-nav__inner">
+      <a href="#visao-geral" class="is-active">Visão geral</a>
+      <a href="#o-que-resolve">O que resolve</a>
+      <a href="#aplicacoes">Aplicações</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#ferramenta">Ferramenta</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#fale-conosco">Fale conosco</a>
+    </div>
+  </nav>
+
+  <section id="visao-geral" class="ati-block">
+    <div class="ati-container">
+      <div class="ati-panel ati-reveal">
+        <div>
+          <div class="ati-kicker">Visão geral</div>
+          <h2 class="ati-heading">Uma interface técnica para responder melhor e mais rápido.</h2>
+
+          <p class="ati-lead">
+            O Agente Técnico Têxtil com IA foi pensado para apoiar profissionais e empresas que precisam consultar, interpretar e estruturar informações técnicas com mais agilidade.
+            Em vez de depender apenas de memória, busca dispersa ou troca lenta entre áreas, a proposta é concentrar conhecimento útil em uma experiência mais prática.
+          </p>
+
+          <p class="ati-lead">
+            Ele não substitui a engenharia ou a análise humana. Ele fortalece a velocidade de consulta, a organização da resposta e a clareza sobre próximos passos,
+            especialmente em temas ligados a malharia, fios, estruturas, qualidade, desenvolvimento e linguagem técnica.
+          </p>
+
+          <ul class="ati-list">
+            <li>Respostas mais organizadas para temas técnicos recorrentes.</li>
+            <li>Menos dispersão entre informação, decisão e ação.</li>
+            <li>Mais apoio para times que lidam com desenvolvimento, qualidade, treinamento e suporte.</li>
+            <li>Uma frente digital coerente com o posicionamento técnico da Stegie.</li>
+          </ul>
+
+          <div class="ati-actions" style="margin-top:24px; margin-bottom:0;">
+            <a href="{{ url_for('agente_tecnico_textil_ia_ferramenta') }}" class="ati-btn ati-btn--primary">Ir para a ferramenta</a>
+            <a href="/servicos" class="ati-btn ati-btn--ghost" style="color:#121212;border-color:rgba(18,18,18,.14);background:#fff;">Voltar aos serviços</a>
+          </div>
+        </div>
+
+        <aside class="ati-side-card">
+          <div class="ati-side-card__visual"></div>
+          <div class="ati-side-card__body">
+            <span class="ati-side-card__tag">O que entrega</span>
+            <h3>Acesso técnico mais rápido, mais claro e mais útil para a rotina.</h3>
+            <p>
+              O agente foi desenhado para reduzir fricção entre dúvida e resposta, ajudando a consultar, organizar e interpretar conteúdos técnicos com mais objetividade.
+            </p>
+
+            <div class="ati-mini-metrics">
+              <div class="ati-mini-metric">
+                <strong>+</strong>
+                <span>agilidade para consultas e apoio técnico</span>
+              </div>
+              <div class="ati-mini-metric">
+                <strong>1</strong>
+                <span>experiência digital alinhada ao ecossistema Stegie</span>
+              </div>
+              <div class="ati-mini-metric">
+                <strong>−</strong>
+                <span>tempo gasto procurando respostas fragmentadas</span>
+              </div>
+              <div class="ati-mini-metric">
+                <strong>↑</strong>
+                <span>clareza sobre próximos passos e interpretação</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="o-que-resolve" class="ati-block" style="padding-top:0;">
+    <div class="ati-container">
+      <div class="ati-topline ati-reveal">
+        <div>
+          <div class="ati-kicker">O que resolve</div>
+          <h2 class="ati-heading">Onde esse agente agrega valor técnico.</h2>
+        </div>
+        <p>
+          A lógica aqui é simples: menos atrito para consultar, interpretar e estruturar resposta técnica.
+        </p>
+      </div>
+
+      <div class="ati-grid-4">
+        <article class="ati-card ati-reveal">
+          <div class="ati-card__icon">01</div>
+          <h3>Consulta técnica recorrente</h3>
+          <p>Dúvidas frequentes sobre fios, malhas, estruturas, composição, defeitos, acabamento e critérios técnicos.</p>
+        </article>
+
+        <article class="ati-card ati-reveal">
+          <div class="ati-card__icon">02</div>
+          <h3>Apoio ao desenvolvimento</h3>
+          <p>Organização de raciocínio técnico para leitura de produto, base, aplicação e possíveis caminhos de solução.</p>
+        </article>
+
+        <article class="ati-card ati-reveal">
+          <div class="ati-card__icon">03</div>
+          <h3>Suporte à qualidade</h3>
+          <p>Apoio para interpretar sinais, relacionar causas prováveis e orientar uma resposta técnica mais clara.</p>
+        </article>
+
+        <article class="ati-card ati-reveal">
+          <div class="ati-card__icon">04</div>
+          <h3>Formação e nivelamento</h3>
+          <p>Reforço de linguagem técnica e acesso mais simples a conceitos importantes para equipe e liderança.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="aplicacoes" class="ati-block" style="padding-top:0;">
+    <div class="ati-container">
+      <div class="ati-topline ati-reveal">
+        <div>
+          <div class="ati-kicker">Aplicações</div>
+          <h2 class="ati-heading">Quem pode usar melhor essa frente.</h2>
+        </div>
+        <p>
+          O agente foi desenhado para apoiar diferentes áreas sem perder o foco técnico.
+        </p>
+      </div>
+
+      <div class="ati-grid-4">
+        <article class="ati-card ati-reveal">
+          <div class="ati-card__icon">A</div>
+          <h3>Desenvolvimento</h3>
+          <p>Apoio para leitura de referência, construção de raciocínio e organização de critérios técnicos.</p>
+          <ul class="ati-bullets">
+            <li>Malhas e bases</li>
+            <li>Estruturas e composições</li>
+            <li>Perguntas de desenvolvimento</li>
+          </ul>
+        </article>
+
+        <article class="ati-card ati-reveal">
+          <div class="ati-card__icon">B</div>
+          <h3>Qualidade</h3>
+          <p>Agilidade para cruzar informação técnica e estruturar análise inicial de ocorrência ou desvio.</p>
+          <ul class="ati-bullets">
+            <li>Defeitos e causas prováveis</li>
+            <li>Critérios e leitura técnica</li>
+            <li>Apoio à investigação</li>
+          </ul>
+        </article>
+
+        <article class="ati-card ati-reveal">
+          <div class="ati-card__icon">C</div>
+          <h3>Comercial técnico</h3>
+          <p>Base para responder com mais clareza a perguntas técnicas de clientes, parceiros e mercado.</p>
+          <ul class="ati-bullets">
+            <li>Explicação técnica simplificada</li>
+            <li>Organização da resposta</li>
+            <li>Apoio à argumentação</li>
+          </ul>
+        </article>
+
+        <article class="ati-card ati-reveal">
+          <div class="ati-card__icon">D</div>
+          <h3>Treinamento interno</h3>
+          <p>Reforço de conteúdo para nivelar linguagem técnica e apoiar processos de capacitação.</p>
+          <ul class="ati-bullets">
+            <li>Consulta rápida de conceitos</li>
+            <li>Apoio a trilhas de formação</li>
+            <li>Base para educação contínua</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="ati-block" style="padding-top:0;">
+    <div class="ati-container">
+      <div class="ati-topline ati-reveal">
+        <div>
+          <div class="ati-kicker">Como funciona</div>
+          <h2 class="ati-heading">Uma sequência simples entre pergunta e ação.</h2>
+        </div>
+        <p>
+          No espírito da Falconi, esta seção transforma o serviço em uma jornada clara e tangível.
+        </p>
+      </div>
+
+      <div class="ati-steps">
+        <article class="ati-step ati-reveal">
+          <div class="ati-step__num">01</div>
+          <h3>Entrada da dúvida</h3>
+          <p>A pessoa entra com pergunta, contexto, objetivo ou problema técnico a ser interpretado.</p>
+        </article>
+
+        <article class="ati-step ati-reveal">
+          <div class="ati-step__num">02</div>
+          <h3>Leitura inteligente</h3>
+          <p>O agente organiza o tema e estrutura uma resposta com mais clareza e menos dispersão.</p>
+        </article>
+
+        <article class="ati-step ati-reveal">
+          <div class="ati-step__num">03</div>
+          <h3>Resposta técnica útil</h3>
+          <p>O retorno deixa de ser genérico e passa a apoiar decisão, entendimento ou próximo passo.</p>
+        </article>
+
+        <article class="ati-step ati-reveal">
+          <div class="ati-step__num">04</div>
+          <h3>Aplicação prática</h3>
+          <p>A informação vira base para desenvolvimento, qualidade, treinamento, suporte ou conversa técnica.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="ferramenta" class="ati-block" style="padding-top:0;">
+    <div class="ati-container">
+      <div class="ati-topline ati-reveal">
+        <div>
+          <div class="ati-kicker">Ferramenta separada</div>
+          <h2 class="ati-heading">Esta página apresenta o serviço. A experiência de uso pode ficar em um ambiente próprio.</h2>
+        </div>
+        <p>
+          Você comentou que haverá uma ferramenta à parte. Então esta seção já nasce preparada para direcionar o usuário até ela.
+        </p>
+      </div>
+
+      <div class="ati-tool-panel ati-reveal">
+        <div class="ati-tool-panel__body">
+          <div class="ati-kicker">Ambiente da ferramenta</div>
+          <h3>Botão pronto para levar o usuário ao Agente Técnico Têxtil com IA.</h3>
+          <p>
+            Hoje o botão pode apontar para uma rota temporária. Depois, quando a aplicação estiver pronta,
+            basta trocar o destino pelo link final da ferramenta sem precisar redesenhar a página institucional.
+          </p>
+          <div class="ati-actions" style="margin-bottom:0;">
+            <a href="{{ url_for('agente_tecnico_textil_ia_ferramenta') }}" class="ati-btn ati-btn--primary">Abrir ferramenta</a>
+            <a href="/contato" class="ati-btn ati-btn--ghost">Falar sobre implantação</a>
+          </div>
+        </div>
+
+        <aside class="ati-tool-card">
+          <span>já previsto no layout</span>
+          <h4>O que pode existir dentro da ferramenta</h4>
+          <ul>
+            <li>Campo de consulta e contexto técnico</li>
+            <li>Respostas organizadas por tema e profundidade</li>
+            <li>Atalhos para temas recorrentes da malharia</li>
+            <li>Integração futura com materiais, fichas e trilhas</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="resultados" class="ati-block" style="padding-top:0;">
+    <div class="ati-container">
+      <div class="ati-topline ati-reveal">
+        <div>
+          <div class="ati-kicker">Resultados esperados</div>
+          <h2 class="ati-heading">O que tende a melhorar com essa frente digital.</h2>
+        </div>
+        <p>
+          O foco aqui não é substituir o técnico, e sim ampliar velocidade, acesso e organização do conhecimento.
+        </p>
+      </div>
+
+      <div class="ati-results">
+        <article class="ati-result ati-reveal">
+          <div class="ati-result__num">1</div>
+          <h3>Mais velocidade</h3>
+          <p>A resposta chega mais rápido para dúvidas técnicas que travam análise ou conversa.</p>
+        </article>
+
+        <article class="ati-result ati-reveal">
+          <div class="ati-result__num">2</div>
+          <h3>Mais clareza</h3>
+          <p>A informação passa a vir mais organizada e mais fácil de aplicar.</p>
+        </article>
+
+        <article class="ati-result ati-reveal">
+          <div class="ati-result__num">3</div>
+          <h3>Mais autonomia</h3>
+          <p>Times ganham apoio para consultar e avançar sem depender sempre do mesmo ponto de suporte.</p>
+        </article>
+
+        <article class="ati-result ati-reveal">
+          <div class="ati-result__num">4</div>
+          <h3>Mais consistência</h3>
+          <p>A linguagem técnica tende a ficar mais uniforme entre áreas e situações recorrentes.</p>
+        </article>
+
+        <article class="ati-result ati-reveal">
+          <div class="ati-result__num">5</div>
+          <h3>Mais escala</h3>
+          <p>O conhecimento técnico da Stegie passa a operar também por uma camada digital própria.</p>
+        </article>
+      </div>
+
+      <div class="ati-quote ati-reveal">
+        <p><strong>IA útil no contexto têxtil</strong> não é só responder. É ajudar a organizar a dúvida, acelerar o raciocínio e tornar a decisão técnica mais fluida.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="fale-conosco" class="ati-cta">
+    <div class="ati-container">
+      <div class="ati-cta__box ati-reveal">
+        <div class="ati-cta__grid">
+          <div>
+            <div class="ati-kicker">Fale conosco</div>
+            <h2>Vamos estruturar sua frente de Agente Técnico Têxtil com IA.</h2>
+            <p>
+              Para empresas e projetos que querem transformar conhecimento técnico em uma experiência digital mais acessível, mais rápida e mais aplicável.
+            </p>
+          </div>
+
+          <div class="ati-actions" style="margin:0;">
+            <a href="{{ url_for('agente_tecnico_textil_ia_ferramenta') }}" class="ati-btn ati-btn--primary">Acessar ferramenta</a>
+            <a href="/contato" class="ati-btn ati-btn--ghost">Falar com a Stegie</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  (function(){
+    const words = [
+      "consultas técnicas rápidas",
+      "apoio ao desenvolvimento",
+      "suporte à qualidade",
+      "organização da resposta",
+      "linguagem técnica mais clara",
+      "acesso ao conhecimento"
+    ];
+
+    const rotator = document.getElementById("atiWordRotator");
+    let index = 0;
+
+    if (rotator) {
+      setInterval(() => {
+        index = (index + 1) % words.length;
+        rotator.textContent = words[index];
+      }, 2100);
+    }
+
+    const revealEls = document.querySelectorAll(".ati-reveal");
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach((el) => revealObserver.observe(el));
+
+    const navLinks = document.querySelectorAll(".ati-section-nav a");
+    const sections = [...navLinks]
+      .map(link => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove("is-active"));
+          const activeLink = document.querySelector('.ati-section-nav a[href="#' + entry.target.id + '"]');
+          if (activeLink) activeLink.classList.add("is-active");
+        }
+      });
+    }, {
+      rootMargin: "-35% 0px -55% 0px",
+      threshold: 0.02
+    });
+
+    sections.forEach(section => navObserver.observe(section));
+  })();
+</script>
+
+{% endblock %}
