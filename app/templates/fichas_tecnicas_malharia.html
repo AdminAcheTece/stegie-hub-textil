@@ -1,118 +1,162 @@
 {% extends "base.html" %}
-{% block title %}STEGIE | Educação Têxtil{% endblock %}
-{% block meta_description %}Educação têxtil aplicada para malharias, com treinamentos técnicos, linguagem comum entre áreas e foco em rotina, critério e previsibilidade.{% endblock %}
+{% block title %}STEGIE | Fichas Técnicas de Malharia{% endblock %}
+{% block meta_description %}Fichas Técnicas de Malharia com base estruturada para consulta, compra e aplicação em desenvolvimento, engenharia, qualidade e comercial técnico.{% endblock %}
 
 {% block content %}
 
 <style>
-  .edu-page{
-    --edu-bg:#f3f1eb;
-    --edu-surface:#ffffff;
-    --edu-text:#121212;
-    --edu-muted:#5b5b5b;
-    --edu-border:#ddd7cb;
-    --edu-accent:#8E8420;
-    --edu-accent-2:#B7F238;
-    --edu-dark:#0d0d0d;
-    --edu-radius-xl:30px;
-    --edu-radius-lg:24px;
-    --edu-radius-md:18px;
-    --edu-shadow:0 18px 44px rgba(0,0,0,.08);
-    --edu-shadow-soft:0 10px 28px rgba(0,0,0,.05);
-    background:var(--edu-bg);
-    color:var(--edu-text);
+  .ftm-page{
+    --ftm-bg:#f3f1eb;
+    --ftm-surface:#ffffff;
+    --ftm-text:#121212;
+    --ftm-muted:#5b5b5b;
+    --ftm-border:#ddd7cb;
+    --ftm-accent:#8E8420;
+    --ftm-accent-2:#B7F238;
+    --ftm-dark:#0d0d0d;
+    --ftm-radius-xl:32px;
+    --ftm-radius-lg:24px;
+    --ftm-radius-md:18px;
+    --ftm-shadow:0 18px 44px rgba(0,0,0,.08);
+    --ftm-shadow-soft:0 10px 28px rgba(0,0,0,.05);
+    background:var(--ftm-bg);
+    color:var(--ftm-text);
     overflow:hidden;
   }
 
-  .edu-container{
+  .ftm-container{
     width:min(1180px, calc(100% - 40px));
     margin:0 auto;
   }
 
-  .edu-kicker{
+  .ftm-kicker{
     display:inline-flex;
     align-items:center;
     gap:10px;
     font-size:.92rem;
     font-weight:700;
     letter-spacing:.02em;
-    color:var(--edu-accent);
+    color:var(--ftm-accent);
   }
 
-  .edu-kicker::before{
+  .ftm-kicker::before{
     content:"";
     width:10px;
     height:10px;
     border-radius:999px;
-    background:var(--edu-accent-2);
+    background:var(--ftm-accent-2);
     box-shadow:0 0 0 5px rgba(183,242,56,.14);
   }
 
-  .edu-hero{
+  .ftm-hero{
     position:relative;
-    padding:56px 0 36px;
+    padding:0 0 34px;
+    background:linear-gradient(180deg, #f5f3ee 0%, #f3f1eb 100%);
+  }
+
+  .ftm-slide{
+    position:relative;
+    overflow:hidden;
+    min-height:520px;
+    border-radius:0 0 34px 34px;
     background:
-      radial-gradient(circle at 84% 18%, rgba(183,242,56,.16), transparent 24%),
-      radial-gradient(circle at 10% 88%, rgba(142,132,32,.12), transparent 24%),
-      linear-gradient(180deg, #f5f3ee 0%, #f3f1eb 100%);
+      linear-gradient(90deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.58) 36%, rgba(0,0,0,.28) 72%, rgba(0,0,0,.18) 100%),
+      radial-gradient(circle at 75% 20%, rgba(255,173,43,.16), transparent 18%),
+      radial-gradient(circle at 85% 65%, rgba(183,242,56,.16), transparent 16%),
+      linear-gradient(135deg, #0a1014 0%, #151a18 25%, #2a2017 52%, #151515 75%, #0f1316 100%);
+    box-shadow:0 20px 50px rgba(0,0,0,.12);
   }
 
-  .edu-hero__grid{
+  .ftm-slide::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 76% 22%, rgba(255,170,0,.28) 0, rgba(255,170,0,.08) 10%, transparent 24%),
+      radial-gradient(circle at 70% 48%, rgba(255,192,67,.18) 0, transparent 16%),
+      radial-gradient(circle at 86% 74%, rgba(183,242,56,.10) 0, transparent 14%);
+    pointer-events:none;
+  }
+
+  .ftm-slide::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(120deg, transparent 0%, transparent 46%, rgba(255,168,0,.24) 50%, transparent 54%, transparent 100%),
+      linear-gradient(110deg, transparent 0%, transparent 62%, rgba(189,255,70,.16) 66%, transparent 70%, transparent 100%);
+    opacity:.7;
+    mix-blend-mode:screen;
+    pointer-events:none;
+  }
+
+  .ftm-slide__grid{
+    position:relative;
+    z-index:2;
+    min-height:520px;
     display:grid;
-    grid-template-columns:1.05fr .95fr;
-    gap:42px;
+    grid-template-columns:1.18fr .82fr;
+    gap:34px;
     align-items:center;
+    width:min(1180px, calc(100% - 40px));
+    margin:0 auto;
+    padding:56px 0 64px;
   }
 
-  .edu-hero h1{
-    margin:18px 0 18px;
-    font-size:clamp(2.2rem, 4vw, 4.2rem);
-    line-height:1.02;
-    letter-spacing:-.04em;
-    max-width:11ch;
+  .ftm-slide__content{
+    color:#fff;
+    max-width:760px;
+  }
+
+  .ftm-brow{
+    display:inline-flex;
+    align-items:center;
+    min-height:42px;
+    padding:0 18px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.08);
+    color:rgba(255,255,255,.84);
+    font-size:.92rem;
     font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    backdrop-filter:blur(10px);
   }
 
-  .edu-hero__lead{
-    margin:0 0 22px;
-    max-width:62ch;
-    font-size:1.14rem;
-    line-height:1.78;
-    color:#232323;
+  .ftm-slide h1{
+    margin:18px 0 14px;
+    font-size:clamp(2.5rem, 5vw, 4.9rem);
+    line-height:.98;
+    letter-spacing:-.05em;
+    font-weight:700;
+    max-width:10ch;
   }
 
-  .edu-hero__dynamic{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:8px;
-    margin:0 0 26px;
-    color:var(--edu-muted);
-    font-size:1rem;
+  .ftm-slide h1 .ftm-em{
+    color:#d4c771;
   }
 
-  .edu-hero__dynamic strong{
-    color:var(--edu-text);
+  .ftm-slide__lead{
+    margin:0 0 24px;
+    max-width:21ch;
+    font-size:1.18rem;
+    line-height:1.5;
+    color:rgba(255,255,255,.94);
   }
 
-  .edu-word-rotator{
-    min-width:185px;
-    color:var(--edu-accent);
-    font-weight:800;
-  }
-
-  .edu-actions{
+  .ftm-actions{
     display:flex;
     flex-wrap:wrap;
     gap:14px;
     margin:0 0 26px;
   }
 
-  .edu-btn{
+  .ftm-btn{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    min-height:54px;
+    min-height:56px;
     padding:0 24px;
     border-radius:999px;
     text-decoration:none;
@@ -122,139 +166,128 @@
     border:1px solid transparent;
   }
 
-  .edu-btn:hover{ transform:translateY(-2px); }
+  .ftm-btn:hover{ transform:translateY(-2px); }
 
-  .edu-btn--primary{
-    background:var(--edu-accent-2);
-    color:#141414;
-    box-shadow:var(--edu-shadow-soft);
+  .ftm-btn--primary{
+    background:#b29f1f;
+    color:#fff;
+    box-shadow:0 10px 24px rgba(178,159,31,.28);
   }
 
-  .edu-btn--ghost{
-    border-color:var(--edu-accent);
-    color:var(--edu-accent);
-    background:transparent;
+  .ftm-btn--ghost{
+    border-color:rgba(255,255,255,.28);
+    color:#fff;
+    background:rgba(255,255,255,.06);
+    backdrop-filter:blur(8px);
   }
 
-  .edu-btn--ghost:hover{
-    background:rgba(142,132,32,.08);
+  .ftm-btn--ghost:hover{
+    background:rgba(255,255,255,.12);
   }
 
-  .edu-chips{
+  .ftm-hero__dynamic{
     display:flex;
     flex-wrap:wrap;
-    gap:10px;
-  }
-
-  .edu-chip{
-    display:inline-flex;
     align-items:center;
-    gap:10px;
-    min-height:40px;
-    padding:0 14px;
-    border-radius:999px;
-    background:rgba(255,255,255,.72);
-    border:1px solid rgba(18,18,18,.08);
-    backdrop-filter:blur(10px);
-    color:#262626;
-    font-size:.94rem;
+    gap:8px;
+    color:rgba(255,255,255,.76);
+    font-size:1rem;
   }
 
-  .edu-chip::before{
-    content:"";
-    width:7px;
-    height:7px;
-    border-radius:999px;
-    background:var(--edu-accent);
-  }
-
-  .edu-hero__visual{
-    position:relative;
-    min-height:560px;
-  }
-
-  .edu-visual-card{
-    position:absolute;
-    inset:0;
-    border-radius:32px;
-    overflow:hidden;
-    background:
-      radial-gradient(circle at 22% 22%, rgba(183,242,56,.17), transparent 22%),
-      linear-gradient(145deg, #121212 0%, #1f1f1f 48%, #171717 100%);
-    box-shadow:0 28px 64px rgba(0,0,0,.16);
-    border:1px solid rgba(255,255,255,.06);
-    padding:24px;
-  }
-
-  .edu-visual-card__grid{
-    height:100%;
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:16px;
-    align-content:space-between;
-  }
-
-  .edu-visual-box{
-    border-radius:22px;
-    padding:20px 18px;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.08);
-    color:#fff;
-    backdrop-filter:blur(8px);
-    animation:eduFloat 6.2s ease-in-out infinite;
-  }
-
-  .edu-visual-box:nth-child(2){ animation-delay:.9s; }
-  .edu-visual-box:nth-child(3){ animation-delay:1.8s; }
-  .edu-visual-box:nth-child(4){ animation-delay:2.7s; }
-
-  .edu-visual-box small{
-    display:block;
-    margin-bottom:8px;
-    color:var(--edu-accent-2);
-    font-weight:700;
-    letter-spacing:.04em;
-    text-transform:uppercase;
-  }
-
-  .edu-visual-box strong{
-    display:block;
-    font-size:1.04rem;
-    line-height:1.34;
-    letter-spacing:-.02em;
-  }
-
-  .edu-visual-summary{
-    grid-column:1 / -1;
-    border-radius:24px;
-    padding:22px 20px;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.08);
+  .ftm-hero__dynamic strong{
     color:#fff;
   }
 
-  .edu-visual-summary span{
+  .ftm-word-rotator{
+    min-width:220px;
+    color:#d4c771;
+    font-weight:800;
+  }
+
+  .ftm-focus-card{
+    justify-self:end;
+    width:min(100%, 520px);
+    border-radius:30px;
+    padding:28px 26px 24px;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.18);
+    box-shadow:0 18px 44px rgba(0,0,0,.18);
+    backdrop-filter:blur(18px);
+    color:#fff;
+  }
+
+  .ftm-focus-card__eyebrow{
     display:block;
-    margin-bottom:8px;
+    margin-bottom:12px;
     color:rgba(255,255,255,.72);
-    font-size:.92rem;
+    font-weight:800;
+    letter-spacing:.1em;
     text-transform:uppercase;
-    letter-spacing:.04em;
+    font-size:.88rem;
   }
 
-  .edu-visual-summary strong{
+  .ftm-focus-card h3{
+    margin:0 0 16px;
+    font-size:1.28rem;
+    line-height:1.26;
+    letter-spacing:-.02em;
+    font-weight:700;
+  }
+
+  .ftm-focus-list{
+    margin:0 0 18px;
+    padding:0;
+    list-style:none;
+  }
+
+  .ftm-focus-list li{
+    position:relative;
+    padding-left:22px;
+    margin:0 0 12px;
+    color:rgba(255,255,255,.92);
+    line-height:1.5;
+    font-size:1rem;
+  }
+
+  .ftm-focus-list li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.62em;
+    width:9px;
+    height:9px;
+    border-radius:999px;
+    background:var(--ftm-accent-2);
+  }
+
+  .ftm-focus-note{
+    color:rgba(255,255,255,.78);
+    line-height:1.55;
+    font-size:.95rem;
+  }
+
+  .ftm-slide-dots{
+    position:absolute;
+    right:48px;
+    bottom:18px;
+    z-index:3;
+    display:flex;
+    gap:10px;
+  }
+
+  .ftm-slide-dots span{
     display:block;
-    font-size:1.4rem;
-    line-height:1.2;
-    letter-spacing:-.03em;
+    width:74px;
+    height:6px;
+    border-radius:999px;
+    background:rgba(255,255,255,.24);
   }
 
-  @keyframes eduFloat{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(-8px); }
+  .ftm-slide-dots span.is-active{
+    background:var(--ftm-accent-2);
   }
 
-  .edu-section-nav{
+  .ftm-section-nav{
     position:sticky;
     top:0;
     z-index:20;
@@ -264,7 +297,7 @@
     border-bottom:1px solid rgba(18,18,18,.08);
   }
 
-  .edu-section-nav__inner{
+  .ftm-section-nav__inner{
     width:min(1180px, calc(100% - 40px));
     margin:0 auto;
     display:flex;
@@ -274,9 +307,9 @@
     -ms-overflow-style:none;
   }
 
-  .edu-section-nav__inner::-webkit-scrollbar{ display:none; }
+  .ftm-section-nav__inner::-webkit-scrollbar{ display:none; }
 
-  .edu-section-nav a{
+  .ftm-section-nav a{
     position:relative;
     display:inline-flex;
     align-items:center;
@@ -288,7 +321,7 @@
     transition:color .22s ease;
   }
 
-  .edu-section-nav a::after{
+  .ftm-section-nav a::after{
     content:"";
     position:absolute;
     left:0;
@@ -300,31 +333,31 @@
     transition:background .22s ease;
   }
 
-  .edu-section-nav a:hover,
-  .edu-section-nav a.is-active{
-    color:var(--edu-accent);
+  .ftm-section-nav a:hover,
+  .ftm-section-nav a.is-active{
+    color:var(--ftm-accent);
   }
 
-  .edu-section-nav a.is-active::after{
-    background:var(--edu-accent-2);
+  .ftm-section-nav a.is-active::after{
+    background:var(--ftm-accent-2);
   }
 
-  .edu-block{
+  .ftm-block{
     padding:84px 0;
   }
 
-  .edu-panel{
+  .ftm-panel{
     display:grid;
     grid-template-columns:minmax(0, 1.15fr) minmax(340px, .85fr);
     gap:32px;
     background:rgba(255,255,255,.72);
     border:1px solid rgba(18,18,18,.08);
-    border-radius:var(--edu-radius-xl);
+    border-radius:var(--ftm-radius-xl);
     padding:36px;
-    box-shadow:var(--edu-shadow-soft);
+    box-shadow:var(--ftm-shadow-soft);
   }
 
-  .edu-heading{
+  .ftm-heading{
     margin:12px 0 14px;
     font-size:clamp(2rem, 3.4vw, 3.2rem);
     line-height:1.08;
@@ -332,7 +365,7 @@
     font-weight:700;
   }
 
-  .edu-lead{
+  .ftm-lead{
     margin:0 0 22px;
     max-width:62ch;
     font-size:1.12rem;
@@ -340,19 +373,19 @@
     color:#222;
   }
 
-  .edu-list{
+  .ftm-list{
     margin:18px 0 0;
     padding-left:22px;
   }
 
-  .edu-list li{
+  .ftm-list li{
     margin:0 0 12px;
     font-size:1.05rem;
     line-height:1.66;
     color:#1f1f1f;
   }
 
-  .edu-side-card{
+  .ftm-side-card{
     position:relative;
     overflow:hidden;
     border-radius:26px;
@@ -362,7 +395,7 @@
     box-shadow:0 24px 52px rgba(0,0,0,.18);
   }
 
-  .edu-side-card__visual{
+  .ftm-side-card__visual{
     height:200px;
     position:relative;
     overflow:hidden;
@@ -373,16 +406,16 @@
       linear-gradient(135deg, #231f12 0%, #0f0f0f 48%, #1b1b1b 100%);
   }
 
-  .edu-side-card__body{ padding:24px 24px 26px; }
+  .ftm-side-card__body{ padding:24px 24px 26px; }
 
-  .edu-side-card__tag{
+  .ftm-side-card__tag{
     display:inline-flex;
     min-height:30px;
     padding:0 12px;
     align-items:center;
     border-radius:999px;
     background:rgba(183,242,56,.14);
-    color:var(--edu-accent-2);
+    color:var(--ftm-accent-2);
     font-size:.84rem;
     font-weight:700;
     letter-spacing:.04em;
@@ -390,7 +423,7 @@
     margin-bottom:14px;
   }
 
-  .edu-side-card h3{
+  .ftm-side-card h3{
     margin:0 0 14px;
     font-size:1.55rem;
     line-height:1.12;
@@ -398,40 +431,40 @@
     font-weight:700;
   }
 
-  .edu-side-card p{
+  .ftm-side-card p{
     margin:0 0 18px;
     color:rgba(255,255,255,.82);
     line-height:1.72;
   }
 
-  .edu-mini-metrics{
+  .ftm-mini-metrics{
     display:grid;
     grid-template-columns:repeat(2, minmax(0,1fr));
     gap:12px;
     margin-top:18px;
   }
 
-  .edu-mini-metric{
+  .ftm-mini-metric{
     padding:16px 14px;
     border-radius:18px;
     background:rgba(255,255,255,.06);
     border:1px solid rgba(255,255,255,.08);
   }
 
-  .edu-mini-metric strong{
+  .ftm-mini-metric strong{
     display:block;
     font-size:1.22rem;
     font-weight:800;
     margin-bottom:5px;
   }
 
-  .edu-mini-metric span{
+  .ftm-mini-metric span{
     color:rgba(255,255,255,.74);
     line-height:1.45;
     font-size:.92rem;
   }
 
-  .edu-topline{
+  .ftm-topline{
     display:flex;
     align-items:end;
     justify-content:space-between;
@@ -439,66 +472,95 @@
     margin-bottom:26px;
   }
 
-  .edu-topline p{
+  .ftm-topline p{
     max-width:62ch;
     margin:0;
-    color:var(--edu-muted);
+    color:var(--ftm-muted);
     line-height:1.7;
     font-size:1.04rem;
   }
 
-  .edu-grid-4{
+  .ftm-grid-4{
     display:grid;
     grid-template-columns:repeat(4, minmax(0,1fr));
     gap:18px;
   }
 
-  .edu-grid-3{
+  .ftm-steps{
     display:grid;
-    grid-template-columns:repeat(3, minmax(0,1fr));
+    grid-template-columns:repeat(4, minmax(0,1fr));
     gap:18px;
   }
 
-  .edu-card{
+  .ftm-results{
+    display:grid;
+    grid-template-columns:repeat(5, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ftm-card,
+  .ftm-step,
+  .ftm-result{
     position:relative;
     border-radius:24px;
     padding:24px 22px;
     background:rgba(255,255,255,.82);
     border:1px solid rgba(18,18,18,.08);
-    box-shadow:var(--edu-shadow-soft);
+    box-shadow:var(--ftm-shadow-soft);
     overflow:hidden;
     transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
   }
 
-  .edu-card:hover{
+  .ftm-card:hover,
+  .ftm-step:hover,
+  .ftm-result:hover{
     transform:translateY(-6px);
-    box-shadow:var(--edu-shadow);
+    box-shadow:var(--ftm-shadow);
     border-color:rgba(142,132,32,.22);
   }
 
-  .edu-card::before{
+  .ftm-card::before,
+  .ftm-step::before,
+  .ftm-result::before{
     content:"";
     position:absolute;
     inset:0 auto auto 0;
     width:100%;
     height:4px;
-    background:linear-gradient(90deg, var(--edu-accent-2), var(--edu-accent));
+    background:linear-gradient(90deg, var(--ftm-accent-2), var(--ftm-accent));
   }
 
-  .edu-card__icon{
+  .ftm-card__icon,
+  .ftm-step__num,
+  .ftm-result__num{
     width:50px;
     height:50px;
     border-radius:16px;
     display:grid;
     place-items:center;
     background:rgba(142,132,32,.08);
-    color:var(--edu-accent);
+    color:var(--ftm-accent);
     font-size:1.18rem;
     font-weight:800;
     margin-bottom:16px;
   }
 
-  .edu-card h3{
+  .ftm-step__num{
+    background:linear-gradient(145deg, #161616 0%, #2b2b2b 100%);
+    color:#fff;
+  }
+
+  .ftm-result__num{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    background:rgba(183,242,56,.18);
+    color:#191919;
+  }
+
+  .ftm-card h3,
+  .ftm-step h3,
+  .ftm-result h3{
     margin:0 0 12px;
     font-size:1.16rem;
     letter-spacing:-.02em;
@@ -506,148 +568,134 @@
     font-weight:700;
   }
 
-  .edu-card p{
+  .ftm-card p,
+  .ftm-step p,
+  .ftm-result p{
     margin:0 0 14px;
     color:#505050;
     line-height:1.68;
     font-size:.98rem;
   }
 
-  .edu-bullets{
+  .ftm-bullets{
     margin:0;
     padding-left:18px;
   }
 
-  .edu-bullets li{
+  .ftm-bullets li{
     margin:0 0 8px;
     color:#5a5a5a;
     line-height:1.56;
     font-size:.94rem;
   }
 
-  .edu-cta-link{
-    display:inline-flex;
-    align-items:center;
-    margin-top:6px;
-    font-weight:700;
-    text-decoration:none;
-    color:var(--edu-accent);
-  }
-
-  .edu-pill-grid{
+  .ftm-shop-panel{
     display:grid;
-    grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:18px;
+    grid-template-columns:minmax(0, 1fr) minmax(320px, .8fr);
+    gap:22px;
+    border-radius:30px;
+    padding:30px;
+    background:linear-gradient(135deg, #131313 0%, #202020 100%);
+    color:#fff;
+    box-shadow:0 24px 50px rgba(0,0,0,.16);
+    overflow:hidden;
+    position:relative;
   }
 
-  .edu-pill-card{
+  .ftm-shop-panel::before{
+    content:"";
+    position:absolute;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(183,242,56,.16) 0%, rgba(183,242,56,0) 72%);
+    top:-110px;
+    right:-90px;
+  }
+
+  .ftm-shop-panel__body,
+  .ftm-shop-card{
+    position:relative;
+    z-index:1;
+  }
+
+  .ftm-shop-panel h3{
+    margin:12px 0 14px;
+    font-size:clamp(1.8rem, 3vw, 2.7rem);
+    line-height:1.08;
+    letter-spacing:-.04em;
+    font-weight:700;
+  }
+
+  .ftm-shop-panel p{
+    margin:0 0 18px;
+    max-width:62ch;
+    color:rgba(255,255,255,.82);
+    line-height:1.75;
+  }
+
+  .ftm-shop-card{
     border-radius:24px;
-    padding:26px 24px;
-    background:rgba(255,255,255,.82);
-    border:1px solid rgba(18,18,18,.08);
-    box-shadow:var(--edu-shadow-soft);
+    padding:24px 22px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.1);
+    backdrop-filter:blur(10px);
   }
 
-  .edu-pill-card h3{
-    margin:0 0 10px;
-    font-size:1.4rem;
-    line-height:1.15;
-    letter-spacing:-.03em;
-    font-weight:700;
-  }
-
-  .edu-pill-card p{
-    margin:0 0 16px;
-    color:var(--edu-muted);
-    line-height:1.68;
-  }
-
-  .edu-badges{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-  }
-
-  .edu-badge{
-    display:inline-flex;
-    align-items:center;
-    min-height:38px;
-    padding:0 14px;
-    border-radius:999px;
-    background:#f7f5ef;
-    border:1px solid rgba(18,18,18,.08);
-    color:#202020;
-    font-size:.94rem;
-  }
-
-  .edu-results{
-    display:grid;
-    grid-template-columns:repeat(5, minmax(0,1fr));
-    gap:18px;
-  }
-
-  .edu-result{
-    border-radius:22px;
-    padding:22px 20px;
-    background:#fff;
-    border:1px solid rgba(18,18,18,.08);
-    box-shadow:var(--edu-shadow-soft);
-  }
-
-  .edu-result__num{
-    display:inline-flex;
-    width:38px;
-    height:38px;
-    border-radius:12px;
-    align-items:center;
-    justify-content:center;
-    margin-bottom:14px;
-    background:rgba(183,242,56,.18);
-    color:#191919;
+  .ftm-shop-card span{
+    display:block;
+    margin-bottom:10px;
+    color:var(--ftm-accent-2);
     font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    font-size:.88rem;
   }
 
-  .edu-result h3{
-    margin:0 0 10px;
-    font-size:1.06rem;
-    line-height:1.3;
+  .ftm-shop-card h4{
+    margin:0 0 12px;
+    font-size:1.2rem;
+    line-height:1.25;
     font-weight:700;
-    letter-spacing:-.02em;
   }
 
-  .edu-result p{
+  .ftm-shop-card ul{
     margin:0;
-    color:#555;
-    line-height:1.64;
-    font-size:.96rem;
+    padding-left:18px;
   }
 
-  .edu-quote{
+  .ftm-shop-card li{
+    margin:0 0 8px;
+    color:rgba(255,255,255,.86);
+    line-height:1.55;
+  }
+
+  .ftm-quote{
     margin-top:28px;
     padding:24px 26px;
     border-radius:24px;
     background:linear-gradient(135deg, #171717 0%, #232323 100%);
     color:#fff;
-    box-shadow:var(--edu-shadow);
+    box-shadow:var(--ftm-shadow);
   }
 
-  .edu-quote p{
+  .ftm-quote p{
     margin:0;
     font-size:1.18rem;
     line-height:1.7;
     letter-spacing:-.02em;
   }
 
-  .edu-quote strong{
-    color:var(--edu-accent-2);
+  .ftm-quote strong{
+    color:var(--ftm-accent-2);
   }
 
-  .edu-cta{
+  .ftm-cta{
     position:relative;
     padding:0 0 94px;
   }
 
-  .edu-cta__box{
+  .ftm-cta__box{
     position:relative;
     overflow:hidden;
     background:linear-gradient(135deg, #121212 0%, #202020 100%);
@@ -657,7 +705,7 @@
     box-shadow:0 28px 64px rgba(0,0,0,.18);
   }
 
-  .edu-cta__box::before{
+  .ftm-cta__box::before{
     content:"";
     position:absolute;
     width:340px;
@@ -668,7 +716,7 @@
     right:-80px;
   }
 
-  .edu-cta__grid{
+  .ftm-cta__grid{
     position:relative;
     z-index:1;
     display:grid;
@@ -677,7 +725,7 @@
     align-items:center;
   }
 
-  .edu-cta h2{
+  .ftm-cta h2{
     margin:0 0 12px;
     font-size:clamp(2rem, 3.4vw, 3.1rem);
     line-height:1.05;
@@ -685,7 +733,7 @@
     font-weight:700;
   }
 
-  .edu-cta p{
+  .ftm-cta p{
     margin:0;
     max-width:62ch;
     color:rgba(255,255,255,.78);
@@ -693,255 +741,249 @@
     font-size:1.08rem;
   }
 
-  .edu-reveal{
+  .ftm-reveal{
     opacity:0;
     transform:translateY(28px);
     transition:opacity .7s ease, transform .7s ease;
   }
 
-  .edu-reveal.is-visible{
+  .ftm-reveal.is-visible{
     opacity:1;
     transform:translateY(0);
   }
 
   @media (max-width: 1180px){
-    .edu-grid-4{ grid-template-columns:repeat(2, minmax(0,1fr)); }
-    .edu-results{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+    .ftm-grid-4,
+    .ftm-steps{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .ftm-results{ grid-template-columns:repeat(3, minmax(0,1fr)); }
   }
 
   @media (max-width: 980px){
-    .edu-hero__grid,
-    .edu-panel,
-    .edu-cta__grid{
+    .ftm-slide__grid,
+    .ftm-panel,
+    .ftm-shop-panel,
+    .ftm-cta__grid{
       grid-template-columns:1fr;
     }
 
-    .edu-hero__visual{ min-height:460px; }
-    .edu-grid-3{ grid-template-columns:1fr; }
-    .edu-pill-grid{ grid-template-columns:1fr; }
-    .edu-results{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .ftm-focus-card{
+      justify-self:stretch;
+      width:100%;
+    }
+
+    .ftm-results{ grid-template-columns:repeat(2, minmax(0,1fr)); }
   }
 
   @media (max-width: 720px){
-    .edu-container{
+    .ftm-container{
       width:min(100% - 24px, 1180px);
     }
 
-    .edu-hero{
-      padding:34px 0 24px;
+    .ftm-slide{
+      min-height:auto;
+      border-radius:0 0 28px 28px;
     }
 
-    .edu-hero h1{
+    .ftm-slide__grid{
+      min-height:auto;
+      width:min(100% - 24px, 1180px);
+      padding:34px 0 52px;
+    }
+
+    .ftm-slide h1{
       max-width:100%;
-      font-size:2.4rem;
+      font-size:2.6rem;
     }
 
-    .edu-hero__lead{
-      font-size:1.02rem;
-      line-height:1.75;
+    .ftm-slide__lead{
+      max-width:100%;
+      font-size:1.05rem;
     }
 
-    .edu-hero__visual{
-      min-height:420px;
-      margin-top:10px;
-    }
-
-    .edu-visual-card{
-      padding:16px;
-    }
-
-    .edu-visual-card__grid{
-      grid-template-columns:1fr;
-    }
-
-    .edu-visual-summary{
-      grid-column:auto;
-    }
-
-    .edu-block{
+    .ftm-block{
       padding:62px 0;
     }
 
-    .edu-panel,
-    .edu-side-card__body,
-    .edu-pill-card,
-    .edu-cta__box{
+    .ftm-panel,
+    .ftm-side-card__body,
+    .ftm-shop-panel,
+    .ftm-cta__box{
       padding:24px;
     }
 
-    .edu-topline{
+    .ftm-topline{
       display:block;
       margin-bottom:20px;
     }
 
-    .edu-topline p{
+    .ftm-topline p{
       margin-top:10px;
     }
 
-    .edu-grid-4,
-    .edu-results,
-    .edu-mini-metrics{
+    .ftm-grid-4,
+    .ftm-steps,
+    .ftm-results,
+    .ftm-mini-metrics{
       grid-template-columns:1fr;
     }
 
-    .edu-section-nav a{
+    .ftm-section-nav a{
       height:58px;
       font-size:.95rem;
     }
 
-    .edu-actions{
+    .ftm-actions{
       flex-direction:column;
       align-items:stretch;
     }
 
-    .edu-btn{
+    .ftm-btn{
       width:100%;
     }
 
-    .edu-cta{
+    .ftm-slide-dots{
+      right:16px;
+      left:16px;
+      justify-content:flex-end;
+      bottom:12px;
+    }
+
+    .ftm-slide-dots span{
+      width:54px;
+    }
+
+    .ftm-cta{
       padding-bottom:70px;
     }
   }
 
   @media (prefers-reduced-motion: reduce){
-    .edu-visual-box,
-    .edu-reveal,
-    .edu-btn,
-    .edu-card{
+    .ftm-reveal,
+    .ftm-btn,
+    .ftm-card,
+    .ftm-step,
+    .ftm-result{
       animation:none !important;
       transition:none !important;
     }
   }
 </style>
 
-<div class="edu-page">
-  <section class="edu-hero">
-    <div class="edu-container edu-hero__grid">
-      <div class="edu-reveal">
-        <div class="edu-kicker">Educação Têxtil</div>
-        <h1>Treinamento técnico aplicado para malharias.</h1>
+<div class="ftm-page">
+  <section class="ftm-hero">
+    <div class="ftm-slide">
+      <div class="ftm-slide__grid">
+        <div class="ftm-slide__content ftm-reveal">
+          <div class="ftm-brow">PADRONAGEM • BASE TÉCNICA • CONSULTA E COMPRA</div>
 
-        <p class="edu-hero__lead">
-          A Stegie transforma conteúdo técnico em capacitação útil para a rotina industrial.
-          O foco é criar linguagem comum entre operação, qualidade, desenvolvimento e liderança, com mais critério,
-          previsibilidade e capacidade de decisão.
-        </p>
+          <h1>Fichas Técnicas de <span class="ftm-em">Malharia</span></h1>
 
-        <p class="edu-hero__dynamic">
-          <strong>Formação com foco em:</strong>
-          <span class="edu-word-rotator" id="eduWordRotator">rotina e disciplina</span>
-        </p>
+          <p class="ftm-slide__lead">
+            Uma base estruturada para consultar, comparar e adquirir fichas técnicas com mais clareza sobre construção, aplicação e leitura do produto.
+          </p>
 
-        <div class="edu-actions">
-          <a href="/contato" class="edu-btn edu-btn--primary">Solicitar formato in-company</a>
-          <a href="#cursos" class="edu-btn edu-btn--ghost">Ver frentes de treinamento</a>
+          <div class="ftm-actions">
+            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--primary">Acessar área de fichas</a>
+            <a href="#visao-geral" class="ftm-btn ftm-btn--ghost">Entender o serviço</a>
+          </div>
+
+          <p class="ftm-hero__dynamic">
+            <strong>Projetado para facilitar:</strong>
+            <span class="ftm-word-rotator" id="ftmWordRotator">consulta técnica organizada</span>
+          </p>
         </div>
 
-        <div class="edu-chips">
-          <span class="edu-chip">Treinamento operacional</span>
-          <span class="edu-chip">Desenvolvimento de malha</span>
-          <span class="edu-chip">Qualidade de fios</span>
-          <span class="edu-chip">Testes e critérios de aceite</span>
-        </div>
+        <aside class="ftm-focus-card ftm-reveal">
+          <span class="ftm-focus-card__eyebrow">FOCO DESTA FRENTE</span>
+          <h3>“Transformar necessidade de consulta em acesso técnico rápido, filtrável e mais aplicável.”</h3>
+
+          <ul class="ftm-focus-list">
+            <li>Fichas com leitura mais clara para desenvolvimento, engenharia e comercial</li>
+            <li>Base organizada para busca por tipo, aplicação e características técnicas</li>
+            <li>Botão direto para a área de login e compra das fichas</li>
+          </ul>
+
+          <div class="ftm-focus-note">
+            Esta página apresenta o serviço. A experiência de compra e acesso pode ficar em um ambiente próprio, protegido por login.
+          </div>
+        </aside>
       </div>
 
-      <div class="edu-hero__visual edu-reveal">
-        <div class="edu-visual-card">
-          <div class="edu-visual-card__grid">
-            <div class="edu-visual-box">
-              <small>01</small>
-              <strong>Operação com mais critério e menos interpretação solta.</strong>
-            </div>
-            <div class="edu-visual-box">
-              <small>02</small>
-              <strong>Qualidade e processo falando a mesma língua técnica.</strong>
-            </div>
-            <div class="edu-visual-box">
-              <small>03</small>
-              <strong>Treinamentos ligados à rotina, não só à teoria.</strong>
-            </div>
-            <div class="edu-visual-box">
-              <small>04</small>
-              <strong>Conteúdo adaptado à realidade da malharia.</strong>
-            </div>
-            <div class="edu-visual-summary">
-              <span>Educação aplicada</span>
-              <strong>Conhecimento técnico que entra no processo e melhora a decisão.</strong>
-            </div>
-          </div>
-        </div>
+      <div class="ftm-slide-dots" aria-hidden="true">
+        <span class="is-active"></span>
+        <span></span>
+        <span></span>
       </div>
     </div>
   </section>
 
-  <nav class="edu-section-nav">
-    <div class="edu-section-nav__inner">
+  <nav class="ftm-section-nav">
+    <div class="ftm-section-nav__inner">
       <a href="#visao-geral" class="is-active">Visão geral</a>
-      <a href="#impacto">O que muda</a>
-      <a href="#cursos">Cursos</a>
-      <a href="#formatos">Formatos</a>
-      <a href="#publico">Para quem é</a>
+      <a href="#o-que-entrega">O que entrega</a>
+      <a href="#aplicacoes">Aplicações</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#acesso">Área de compra</a>
+      <a href="#resultados">Resultados</a>
       <a href="#fale-conosco">Fale conosco</a>
     </div>
   </nav>
 
-  <section id="visao-geral" class="edu-block">
-    <div class="edu-container">
-      <div class="edu-panel edu-reveal">
+  <section id="visao-geral" class="ftm-block">
+    <div class="ftm-container">
+      <div class="ftm-panel ftm-reveal">
         <div>
-          <div class="edu-kicker">Visão geral</div>
-          <h2 class="edu-heading">Educação que conecta conteúdo, rotina e decisão.</h2>
+          <div class="ftm-kicker">Visão geral</div>
+          <h2 class="ftm-heading">Uma camada técnica para consultar e adquirir fichas com mais critério.</h2>
 
-          <p class="edu-lead">
-            A página atual de Educação já comunica bem três pilares centrais: fechamento de variáveis críticas,
-            critérios de aceite com testes orientando a decisão e uma rotina simples para sustentar resultado.
-            O novo desenho mantém essa base, mas sobe o nível de apresentação, leitura e percepção de valor.
+          <p class="ftm-lead">
+            As Fichas Técnicas de Malharia foram pensadas para organizar informação útil em uma base prática de consulta.
+            Em vez de depender de memória dispersa, anotações soltas ou documentos pouco padronizados, a proposta é concentrar leitura técnica em fichas mais claras e mais utilizáveis.
           </p>
 
-          <p class="edu-lead">
-            A proposta aqui não é só ensinar conceitos. É ajudar o time a aplicar fundamentos têxteis no processo real,
-            reduzindo ruído técnico e melhorando a forma como as áreas interpretam problema, ajuste e aceite.
+          <p class="ftm-lead">
+            Essa frente apoia profissionais e empresas que precisam enxergar melhor construção, composição, aplicação, comportamento e lógica técnica da malha,
+            além de criar uma experiência mais objetiva para busca, comparação e compra.
           </p>
 
-          <ul class="edu-list">
-            <li>Treinamentos conectados à realidade da malharia.</li>
-            <li>Conteúdo técnico traduzido para o contexto da equipe.</li>
-            <li>Menos retrabalho por interpretação errada de variável crítica.</li>
-            <li>Mais consistência entre operação, qualidade, laboratório e desenvolvimento.</li>
+          <ul class="ftm-list">
+            <li>Fichas estruturadas para consulta técnica mais rápida.</li>
+            <li>Base útil para desenvolvimento, engenharia, qualidade e comercial técnico.</li>
+            <li>Organização melhor do conhecimento sobre tipos e aplicações de malha.</li>
+            <li>Ambiente preparado para acesso via login e compra por clientes.</li>
           </ul>
 
-          <div class="edu-actions" style="margin-top:24px; margin-bottom:0;">
-            <a href="/contato" class="edu-btn edu-btn--primary">Falar sobre capacitação</a>
-            <a href="/servicos" class="edu-btn edu-btn--ghost">Voltar aos serviços</a>
+          <div class="ftm-actions" style="margin-top:24px; margin-bottom:0;">
+            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--primary">Entrar na área de fichas</a>
+            <a href="/servicos" class="ftm-btn ftm-btn--ghost" style="color:#121212;border-color:rgba(18,18,18,.14);background:#fff;">Voltar aos serviços</a>
           </div>
         </div>
 
-        <aside class="edu-side-card">
-          <div class="edu-side-card__visual"></div>
-          <div class="edu-side-card__body">
-            <span class="edu-side-card__tag">O que entregamos</span>
-            <h3>Capacitação técnica com aplicação prática no chão de fábrica.</h3>
+        <aside class="ftm-side-card">
+          <div class="ftm-side-card__visual"></div>
+          <div class="ftm-side-card__body">
+            <span class="ftm-side-card__tag">O que entrega</span>
+            <h3>Mais clareza técnica para consultar, comparar e selecionar bases de malha.</h3>
             <p>
-              O objetivo não é treinar por treinar. É desenvolver repertório técnico útil,
-              padrão de leitura e linguagem comum para sustentar melhores decisões no processo.
+              A proposta é transformar informação técnica em uma experiência mais organizada, reduzindo atrito entre dúvida, busca e tomada de decisão.
             </p>
 
-            <div class="edu-mini-metrics">
-              <div class="edu-mini-metric">
-                <strong>4</strong>
-                <span>frentes de treinamento já descritas na página atual</span>
-              </div>
-              <div class="edu-mini-metric">
+            <div class="ftm-mini-metrics">
+              <div class="ftm-mini-metric">
                 <strong>+</strong>
-                <span>clareza sobre variáveis, testes e critérios de aceite</span>
+                <span>agilidade para buscar e comparar fichas</span>
               </div>
-              <div class="edu-mini-metric">
+              <div class="ftm-mini-metric">
                 <strong>1</strong>
-                <span>linguagem técnica comum entre áreas</span>
+                <span>base digital alinhada ao ecossistema Stegie</span>
               </div>
-              <div class="edu-mini-metric">
+              <div class="ftm-mini-metric">
                 <strong>−</strong>
-                <span>retrabalho por interpretação técnica incorreta</span>
+                <span>consulta dispersa e pouco padronizada</span>
+              </div>
+              <div class="ftm-mini-metric">
+                <strong>↑</strong>
+                <span>clareza sobre aplicação e leitura técnica</span>
               </div>
             </div>
           </div>
@@ -950,214 +992,251 @@
     </div>
   </section>
 
-  <section id="impacto" class="edu-block" style="padding-top:0;">
-    <div class="edu-container">
-      <div class="edu-topline edu-reveal">
+  <section id="o-que-entrega" class="ftm-block" style="padding-top:0;">
+    <div class="ftm-container">
+      <div class="ftm-topline ftm-reveal">
         <div>
-          <div class="edu-kicker">O que muda</div>
-          <h2 class="edu-heading">Resultados esperados depois do treinamento.</h2>
+          <div class="ftm-kicker">O que entrega</div>
+          <h2 class="ftm-heading">O que essa frente organiza para o usuário.</h2>
         </div>
         <p>
-          A sua página atual já lista os ganhos mais relevantes do programa. Aqui eles entram em destaque,
-          com leitura mais forte e visual mais organizado.
+          A lógica aqui é simples: menos atrito entre necessidade de informação e leitura técnica útil.
         </p>
       </div>
 
-      <div class="edu-results">
-        <article class="edu-result edu-reveal">
-          <div class="edu-result__num">1</div>
-          <h3>Critérios claros para decisão e aceite</h3>
-          <p>O time passa a avaliar melhor o que realmente está dentro, fora ou no limite esperado.</p>
+      <div class="ftm-grid-4">
+        <article class="ftm-card ftm-reveal">
+          <div class="ftm-card__icon">01</div>
+          <h3>Consulta estruturada</h3>
+          <p>Acesso mais organizado a fichas técnicas, com leitura mais clara e menos dependência de informação solta.</p>
         </article>
 
-        <article class="edu-result edu-reveal">
-          <div class="edu-result__num">2</div>
-          <h3>Redução de variação</h3>
-          <p>O ajuste das variáveis críticas deixa de ser intuitivo e passa a ser mais criterioso.</p>
+        <article class="ftm-card ftm-reveal">
+          <div class="ftm-card__icon">02</div>
+          <h3>Base comparável</h3>
+          <p>Possibilidade de comparar diferentes malhas e bases com mais critério técnico e comercial.</p>
         </article>
 
-        <article class="edu-result edu-reveal">
-          <div class="edu-result__num">3</div>
-          <h3>Rotina de verificação</h3>
-          <p>Fica mais claro o que checar, quando checar e como registrar para não perder o histórico.</p>
+        <article class="ftm-card ftm-reveal">
+          <div class="ftm-card__icon">03</div>
+          <h3>Busca por filtros</h3>
+          <p>Estrutura pronta para trabalhar filtros como composição, gramatura, construção, aplicação e outras variáveis.</p>
         </article>
 
-        <article class="edu-result edu-reveal">
-          <div class="edu-result__num">4</div>
-          <h3>Linguagem comum entre áreas</h3>
-          <p>Operação, qualidade e desenvolvimento passam a discutir o mesmo problema com a mesma base.</p>
-        </article>
-
-        <article class="edu-result edu-reveal">
-          <div class="edu-result__num">5</div>
-          <h3>Menos retrabalho</h3>
-          <p>A interpretação técnica correta reduz erro repetido, ruído e decisões tardias.</p>
-        </article>
-      </div>
-
-      <div class="edu-quote edu-reveal">
-        <p><strong>Educação aplicada</strong> não é só transferência de conteúdo: é criação de critério, leitura técnica e consistência de execução.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="cursos" class="edu-block" style="padding-top:0;">
-    <div class="edu-container">
-      <div class="edu-topline edu-reveal">
-        <div>
-          <div class="edu-kicker">Cursos</div>
-          <h2 class="edu-heading">Frentes de treinamento já posicionadas pela Stegie.</h2>
-        </div>
-        <p>
-          A página atual já apresenta quatro ofertas claras. O novo layout mantém essas frentes,
-          mas com leitura premium, maior hierarquia e CTA melhor distribuída.
-        </p>
-      </div>
-
-      <div class="edu-grid-4">
-        <article class="edu-card edu-reveal">
-          <div class="edu-card__icon">01</div>
-          <h3>Treinamento Operacional em Malharia</h3>
-          <p>Rotina, variáveis críticas e disciplina de execução para sustentar estabilidade de processo.</p>
-          <ul class="edu-bullets">
-            <li>Variáveis que mais abrem variação</li>
-            <li>Checkpoints de controle e checagem</li>
-            <li>Prevenção de defeitos recorrentes</li>
-            <li>Padrão operacional e registro mínimo</li>
-          </ul>
-          <a href="/contato" class="edu-cta-link">Quero este treinamento</a>
-        </article>
-
-        <article class="edu-card edu-reveal">
-          <div class="edu-card__icon">02</div>
-          <h3>Desenvolvimento de Malha</h3>
-          <p>Do objetivo do produto à construção replicável, com parâmetros, estrutura e critérios.</p>
-          <ul class="edu-bullets">
-            <li>Requisito transformado em especificação técnica</li>
-            <li>Impacto das variáveis na malha</li>
-            <li>Critérios de avaliação e validação</li>
-            <li>Padronização do desenvolvimento</li>
-          </ul>
-          <a href="/contato" class="edu-cta-link">Quero este treinamento</a>
-        </article>
-
-        <article class="edu-card edu-reveal">
-          <div class="edu-card__icon">03</div>
-          <h3>Padrões de Qualidade de Fios</h3>
-          <p>Como a qualidade do fio aparece na malha e como transformar isso em critério técnico útil.</p>
-          <ul class="edu-bullets">
-            <li>Variáveis de fio e seus efeitos</li>
-            <li>Critérios para recebimento e uso</li>
-            <li>Comunicação técnica com fornecedores</li>
-            <li>Prevenção antes do defeito na malha</li>
-          </ul>
-          <a href="/contato" class="edu-cta-link">Quero este treinamento</a>
-        </article>
-
-        <article class="edu-card edu-reveal">
-          <div class="edu-card__icon">04</div>
-          <h3>Testes de Qualidade da Malha</h3>
-          <p>Teste certo, no momento certo, com leitura objetiva para apoiar a decisão.</p>
-          <ul class="edu-bullets">
-            <li>Quais testes importam por objetivo</li>
-            <li>Quando testar no fluxo</li>
-            <li>Interpretação e ação</li>
-            <li>Critérios de aceite e tolerâncias</li>
-          </ul>
-          <a href="/contato" class="edu-cta-link">Quero este treinamento</a>
+        <article class="ftm-card ftm-reveal">
+          <div class="ftm-card__icon">04</div>
+          <h3>Acesso comercializável</h3>
+          <p>Uma frente preparada para login, compra, entrega digital e evolução futura do catálogo.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <section id="formatos" class="edu-block" style="padding-top:0;">
-    <div class="edu-container">
-      <div class="edu-topline edu-reveal">
+  <section id="aplicacoes" class="ftm-block" style="padding-top:0;">
+    <div class="ftm-container">
+      <div class="ftm-topline ftm-reveal">
         <div>
-          <div class="edu-kicker">Formatos</div>
-          <h2 class="edu-heading">Como a educação pode ser entregue.</h2>
+          <div class="ftm-kicker">Aplicações</div>
+          <h2 class="ftm-heading">Quem tende a extrair mais valor dessa base.</h2>
         </div>
         <p>
-          Esta seção entra para profissionalizar a oferta e facilitar o entendimento comercial da página.
+          As fichas podem apoiar diferentes perfis, sem perder a profundidade técnica.
         </p>
       </div>
 
-      <div class="edu-pill-grid">
-        <article class="edu-pill-card edu-reveal">
-          <h3>Treinamentos fechados</h3>
-          <p>Programas estruturados para equipes que precisam nivelar entendimento técnico e ganhar consistência no processo.</p>
-          <div class="edu-badges">
-            <span class="edu-badge">Presencial</span>
-            <span class="edu-badge">In-company</span>
-            <span class="edu-badge">Conteúdo aplicado</span>
-            <span class="edu-badge">Casos da operação</span>
+      <div class="ftm-grid-4">
+        <article class="ftm-card ftm-reveal">
+          <div class="ftm-card__icon">A</div>
+          <h3>Desenvolvimento</h3>
+          <p>Consulta de bases, leitura comparativa e apoio na construção de raciocínio para novos produtos.</p>
+          <ul class="ftm-bullets">
+            <li>Tipos de malha</li>
+            <li>Estrutura e composição</li>
+            <li>Apoio à seleção técnica</li>
+          </ul>
+        </article>
+
+        <article class="ftm-card ftm-reveal">
+          <div class="ftm-card__icon">B</div>
+          <h3>Engenharia e processo</h3>
+          <p>Base de apoio para leitura mais objetiva de características e comportamento esperado da malha.</p>
+          <ul class="ftm-bullets">
+            <li>Construção técnica</li>
+            <li>Lógica de aplicação</li>
+            <li>Consulta rápida</li>
+          </ul>
+        </article>
+
+        <article class="ftm-card ftm-reveal">
+          <div class="ftm-card__icon">C</div>
+          <h3>Comercial técnico</h3>
+          <p>Mais clareza para explicar bases, comparar opções e sustentar conversas com cliente e mercado.</p>
+          <ul class="ftm-bullets">
+            <li>Argumentação técnica</li>
+            <li>Leitura simplificada</li>
+            <li>Apoio à venda</li>
+          </ul>
+        </article>
+
+        <article class="ftm-card ftm-reveal">
+          <div class="ftm-card__icon">D</div>
+          <h3>Estudo e capacitação</h3>
+          <p>Consulta contínua para aprender melhor sobre tipos de malha, aplicações e critérios técnicos.</p>
+          <ul class="ftm-bullets">
+            <li>Formação prática</li>
+            <li>Nivelamento técnico</li>
+            <li>Repertório estruturado</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="ftm-block" style="padding-top:0;">
+    <div class="ftm-container">
+      <div class="ftm-topline ftm-reveal">
+        <div>
+          <div class="ftm-kicker">Como funciona</div>
+          <h2 class="ftm-heading">Uma jornada simples entre busca, leitura e compra.</h2>
+        </div>
+        <p>
+          No mesmo espírito das demais páginas, o serviço fica tangível quando a sequência está clara.
+        </p>
+      </div>
+
+      <div class="ftm-steps">
+        <article class="ftm-step ftm-reveal">
+          <div class="ftm-step__num">01</div>
+          <h3>Entrada no catálogo</h3>
+          <p>O usuário acessa a base e entra em um ambiente preparado para navegar pelas fichas.</p>
+        </article>
+
+        <article class="ftm-step ftm-reveal">
+          <div class="ftm-step__num">02</div>
+          <h3>Busca e filtragem</h3>
+          <p>A seleção acontece por tipo de malha, aplicação, composição, gramatura ou outras variáveis do sistema.</p>
+        </article>
+
+        <article class="ftm-step ftm-reveal">
+          <div class="ftm-step__num">03</div>
+          <h3>Leitura da ficha</h3>
+          <p>O usuário acessa a ficha técnica com uma estrutura mais clara e mais útil para consulta.</p>
+        </article>
+
+        <article class="ftm-step ftm-reveal">
+          <div class="ftm-step__num">04</div>
+          <h3>Compra e acesso</h3>
+          <p>Com login e fluxo próprio, o cliente pode comprar, organizar e acessar suas fichas com mais autonomia.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="acesso" class="ftm-block" style="padding-top:0;">
+    <div class="ftm-container">
+      <div class="ftm-topline ftm-reveal">
+        <div>
+          <div class="ftm-kicker">Área de compra e login</div>
+          <h2 class="ftm-heading">Esta página apresenta o serviço. O ambiente de compra pode ficar em uma área separada.</h2>
+        </div>
+        <p>
+          Como você comentou, o cliente terá uma área própria para entrar, comprar e acessar fichas. Esta seção já nasce preparada para esse fluxo.
+        </p>
+      </div>
+
+      <div class="ftm-shop-panel ftm-reveal">
+        <div class="ftm-shop-panel__body">
+          <div class="ftm-kicker">Ambiente do cliente</div>
+          <h3>Botão pronto para direcionar o usuário para a área de login e compras das fichas.</h3>
+          <p>
+            Hoje o botão pode apontar para uma rota temporária. Depois, quando o ambiente de vendas estiver pronto,
+            basta trocar o destino pelo link final sem precisar refazer a página institucional.
+          </p>
+          <div class="ftm-actions" style="margin-bottom:0;">
+            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--primary">Entrar na área de fichas</a>
+            <a href="/contato" class="ftm-btn ftm-btn--ghost">Falar sobre o catálogo</a>
           </div>
-        </article>
+        </div>
 
-        <article class="edu-pill-card edu-reveal">
-          <h3>Desenho sob medida</h3>
-          <p>Conteúdo ajustado ao cenário da empresa, ao nível da equipe, ao tipo de produto e aos gargalos prioritários.</p>
-          <div class="edu-badges">
-            <span class="edu-badge">Diagnóstico inicial</span>
-            <span class="edu-badge">Adaptação do conteúdo</span>
-            <span class="edu-badge">Foco na realidade</span>
-            <span class="edu-badge">Objetivo claro</span>
-          </div>
-        </article>
+        <aside class="ftm-shop-card">
+          <span>já previsto no layout</span>
+          <h4>O que pode existir dentro dessa área</h4>
+          <ul>
+            <li>Login do cliente</li>
+            <li>Catálogo filtrável de fichas</li>
+            <li>Página individual de cada ficha</li>
+            <li>Compra, histórico e acesso ao material adquirido</li>
+          </ul>
+        </aside>
       </div>
     </div>
   </section>
 
-  <section id="publico" class="edu-block" style="padding-top:0;">
-    <div class="edu-container">
-      <div class="edu-topline edu-reveal">
+  <section id="resultados" class="ftm-block" style="padding-top:0;">
+    <div class="ftm-container">
+      <div class="ftm-topline ftm-reveal">
         <div>
-          <div class="edu-kicker">Para quem é</div>
-          <h2 class="edu-heading">Times que precisam decidir melhor e executar com padrão.</h2>
+          <div class="ftm-kicker">Resultados esperados</div>
+          <h2 class="ftm-heading">O que tende a melhorar com essa frente.</h2>
         </div>
         <p>
-          A sua página atual lista com clareza os perfis mais aderentes. Mantive essa lógica,
-          mas em blocos com mais presença visual.
+          O foco aqui é ampliar acesso, organização e usabilidade do conhecimento técnico em malharia.
         </p>
       </div>
 
-      <div class="edu-grid-3">
-        <article class="edu-card edu-reveal">
-          <div class="edu-card__icon">A</div>
-          <h3>Operação e produção</h3>
-          <p>Equipes que precisam de mais leitura de processo, disciplina de execução e rotina de verificação.</p>
+      <div class="ftm-results">
+        <article class="ftm-result ftm-reveal">
+          <div class="ftm-result__num">1</div>
+          <h3>Mais acesso</h3>
+          <p>As fichas ficam mais disponíveis para consulta e decisão.</p>
         </article>
 
-        <article class="edu-card edu-reveal">
-          <div class="edu-card__icon">B</div>
-          <h3>Desenvolvimento e qualidade</h3>
-          <p>Áreas que precisam interpretar melhor variável crítica, testes, requisito do produto e critério de aceite.</p>
+        <article class="ftm-result ftm-reveal">
+          <div class="ftm-result__num">2</div>
+          <h3>Mais clareza</h3>
+          <p>A leitura técnica se torna mais objetiva e mais aplicável.</p>
         </article>
 
-        <article class="edu-card edu-reveal">
-          <div class="edu-card__icon">C</div>
-          <h3>Liderança industrial</h3>
-          <p>Gestores e coordenadores que precisam alinhar time, linguagem técnica e padrão decisório.</p>
+        <article class="ftm-result ftm-reveal">
+          <div class="ftm-result__num">3</div>
+          <h3>Mais organização</h3>
+          <p>A base deixa de ser dispersa e ganha estrutura de catálogo.</p>
         </article>
+
+        <article class="ftm-result ftm-reveal">
+          <div class="ftm-result__num">4</div>
+          <h3>Mais valor comercial</h3>
+          <p>O conteúdo passa a existir também como produto digital de acesso controlado.</p>
+        </article>
+
+        <article class="ftm-result ftm-reveal">
+          <div class="ftm-result__num">5</div>
+          <h3>Mais escala</h3>
+          <p>O repertório técnico pode ser entregue a mais pessoas com melhor experiência.</p>
+        </article>
+      </div>
+
+      <div class="ftm-quote ftm-reveal">
+        <p><strong>Ficha técnica boa</strong> não é só um documento. É uma interface entre conhecimento, decisão, produto e aplicação real.</p>
       </div>
     </div>
   </section>
 
-  <section id="fale-conosco" class="edu-cta">
-    <div class="edu-container">
-      <div class="edu-cta__box edu-reveal">
-        <div class="edu-cta__grid">
+  <section id="fale-conosco" class="ftm-cta">
+    <div class="ftm-container">
+      <div class="ftm-cta__box ftm-reveal">
+        <div class="ftm-cta__grid">
           <div>
-            <div class="edu-kicker">Fale conosco</div>
-            <h2>Vamos estruturar a educação têxtil da sua equipe com mais profundidade e aplicação prática.</h2>
+            <div class="ftm-kicker">Fale conosco</div>
+            <h2>Vamos estruturar sua frente de Fichas Técnicas de Malharia.</h2>
             <p>
-              Para empresas que precisam nivelar entendimento, reduzir retrabalho e fortalecer a tomada de decisão técnica no processo.
+              Para projetos que querem organizar conhecimento técnico, criar uma base consultável e abrir uma experiência própria de compra e acesso por clientes.
             </p>
           </div>
 
-          <div class="edu-actions" style="margin:0;">
-            <a href="/contato" class="edu-btn edu-btn--primary">Solicitar proposta</a>
-            <a href="/servicos" class="edu-btn edu-btn--ghost" style="color:#fff;border-color:rgba(255,255,255,.25);">Voltar aos serviços</a>
+          <div class="ftm-actions" style="margin:0;">
+            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--primary">Acessar área de fichas</a>
+            <a href="/contato" class="ftm-btn ftm-btn--ghost">Falar com a Stegie</a>
           </div>
         </div>
       </div>
@@ -1168,15 +1247,15 @@
 <script>
   (function(){
     const words = [
-      "rotina e disciplina",
-      "critérios de aceite",
-      "variáveis críticas",
-      "linguagem comum",
-      "interpretação técnica",
-      "decisão mais segura"
+      "consulta técnica organizada",
+      "comparação entre bases",
+      "busca por filtros",
+      "acesso ao catálogo",
+      "compra com login",
+      "repertório técnico escalável"
     ];
 
-    const rotator = document.getElementById("eduWordRotator");
+    const rotator = document.getElementById("ftmWordRotator");
     let index = 0;
 
     if (rotator) {
@@ -1186,7 +1265,7 @@
       }, 2100);
     }
 
-    const revealEls = document.querySelectorAll(".edu-reveal");
+    const revealEls = document.querySelectorAll(".ftm-reveal");
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -1198,7 +1277,7 @@
 
     revealEls.forEach((el) => revealObserver.observe(el));
 
-    const navLinks = document.querySelectorAll(".edu-section-nav a");
+    const navLinks = document.querySelectorAll(".ftm-section-nav a");
     const sections = [...navLinks]
       .map(link => document.querySelector(link.getAttribute("href")))
       .filter(Boolean);
@@ -1207,7 +1286,7 @@
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           navLinks.forEach(link => link.classList.remove("is-active"));
-          const activeLink = document.querySelector('.edu-section-nav a[href="#' + entry.target.id + '"]');
+          const activeLink = document.querySelector('.ftm-section-nav a[href="#' + entry.target.id + '"]');
           if (activeLink) activeLink.classList.add("is-active");
         }
       });
