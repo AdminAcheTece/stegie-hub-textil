@@ -107,7 +107,7 @@
       <a href="/servicos#educacao">Educação Têxtil</a>
       <a href="{{ url_for('desenvolvimento_malhas') }}">Desenvolvimento de Malhas</a>
       <a href="{{ url_for('agente_tecnico_textil_ia') }}">Agente Técnico Têxtil com IA</a>
-      <a href="/fichas-tecnicas">Fichas Técnicas de Malharia</a>
+      <a href="{{ url_for('fichas_tecnicas_malharia') }}">Fichas Técnicas de Malharia</a>
       <hr style="opacity:.25; margin:12px 0;">
       <a href="/quem-somos">Quem somos</a>
       <a href="/o-que-fazemos">O que fazemos</a>
@@ -136,7 +136,7 @@
 
       <div class="st-mega__col">
         <div class="st-mega__title">Padronagens</div>
-        <a class="st-mega__item" href="/fichas-tecnicas">Fichas Técnicas de Malharia</a>
+        <a class="st-mega__item" <a href="{{ url_for('fichas_tecnicas_malharia') }}">Fichas Técnicas de Malharia</a>
       </div>
     </div>
   </section>
