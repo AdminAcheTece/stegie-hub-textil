@@ -220,11 +220,6 @@ def servicos_page():
     return render_template("servicos.html")
 
 
-@app.route("/educacao", endpoint="educacao")
-def educacao_page():
-    return render_template("educacao.html")
-
-
 @app.route("/fichas-tecnicas", endpoint="fichas_tecnicas")
 def fichas_tecnicas_page():
     return render_template("fichas-tecnicas.html")
