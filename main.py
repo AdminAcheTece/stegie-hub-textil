@@ -293,6 +293,7 @@ def health():
 from flask import render_template, redirect, url_for
 
 @app.route("/desenvolvimento-de-malhas")
+@app.route("/desenvolvimento_malhas")
 def desenvolvimento_malhas():
     return render_template("desenvolvimento_malhas.html")
 
