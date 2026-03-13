@@ -294,7 +294,7 @@ def desenvolvimento_malhas():
 
 @app.route("/consultoria-textil")
 def consultoria_textil():
-    return redirect(url_for("desenvolvimento_malhas"))
+    return render_template("consultoria_textil.html")
 
 @app.route("/educacao")
 def educacao():
