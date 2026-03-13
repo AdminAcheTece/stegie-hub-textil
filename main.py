@@ -300,6 +300,16 @@ def consultoria_textil():
 def educacao():
     return render_template("educacao.html")
 
+@app.route("/agente-tecnico-textil-ia")
+def agente_tecnico_textil_ia():
+    return render_template("agente_tecnico_textil_ia.html")
+
+# rota temporária para o botão da ferramenta
+# depois, quando a ferramenta estiver pronta, troque esse redirect
+# pela rota real ou pela URL final da aplicação
+@app.route("/agente-tecnico-textil-ia/ferramenta")
+def agente_tecnico_textil_ia_ferramenta():
+    return redirect("/contato")
 # -----------------------------
 # Local run (somente dev)
 # -----------------------------
