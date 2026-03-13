@@ -1,0 +1,1326 @@
+{% extends "base.html" %}
+{% block title %}STEGIE | Consultoria Têxtil{% endblock %}
+{% block meta_description %}Consultoria têxtil para malharias com diagnóstico técnico, leitura de processo, definição de prioridades, critérios de aceite e direção prática para execução.{% endblock %}
+
+{% block content %}
+
+<style>
+  .ctz-page{
+    --ctz-bg:#f3f1eb;
+    --ctz-surface:#ffffff;
+    --ctz-text:#121212;
+    --ctz-muted:#5b5b5b;
+    --ctz-border:#ddd7cb;
+    --ctz-accent:#8E8420;
+    --ctz-accent-2:#B7F238;
+    --ctz-dark:#0d0d0d;
+    --ctz-radius-xl:30px;
+    --ctz-radius-lg:24px;
+    --ctz-radius-md:18px;
+    --ctz-shadow:0 18px 44px rgba(0,0,0,.08);
+    --ctz-shadow-soft:0 10px 28px rgba(0,0,0,.05);
+    background:var(--ctz-bg);
+    color:var(--ctz-text);
+    overflow:hidden;
+  }
+
+  .ctz-container{
+    width:min(1180px, calc(100% - 40px));
+    margin:0 auto;
+  }
+
+  .ctz-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:.92rem;
+    font-weight:700;
+    letter-spacing:.02em;
+    color:var(--ctz-accent);
+  }
+
+  .ctz-kicker::before{
+    content:"";
+    width:10px;
+    height:10px;
+    border-radius:999px;
+    background:var(--ctz-accent-2);
+    box-shadow:0 0 0 5px rgba(183,242,56,.14);
+  }
+
+  .ctz-hero{
+    position:relative;
+    padding:56px 0 36px;
+    background:
+      radial-gradient(circle at 84% 18%, rgba(183,242,56,.16), transparent 24%),
+      radial-gradient(circle at 10% 88%, rgba(142,132,32,.12), transparent 24%),
+      linear-gradient(180deg, #f5f3ee 0%, #f3f1eb 100%);
+  }
+
+  .ctz-hero__grid{
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    gap:42px;
+    align-items:center;
+  }
+
+  .ctz-hero h1{
+    margin:18px 0 18px;
+    font-size:clamp(2.2rem, 4vw, 4.2rem);
+    line-height:1.02;
+    letter-spacing:-.04em;
+    max-width:10.5ch;
+    font-weight:700;
+  }
+
+  .ctz-hero__lead{
+    margin:0 0 22px;
+    max-width:62ch;
+    font-size:1.14rem;
+    line-height:1.78;
+    color:#232323;
+  }
+
+  .ctz-hero__dynamic{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    margin:0 0 26px;
+    color:var(--ctz-muted);
+    font-size:1rem;
+  }
+
+  .ctz-hero__dynamic strong{
+    color:var(--ctz-text);
+  }
+
+  .ctz-word-rotator{
+    min-width:200px;
+    color:var(--ctz-accent);
+    font-weight:800;
+  }
+
+  .ctz-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin:0 0 26px;
+  }
+
+  .ctz-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:54px;
+    padding:0 24px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:1rem;
+    transition:transform .24s ease, box-shadow .24s ease, background .24s ease, color .24s ease, border-color .24s ease;
+    border:1px solid transparent;
+  }
+
+  .ctz-btn:hover{ transform:translateY(-2px); }
+
+  .ctz-btn--primary{
+    background:var(--ctz-accent-2);
+    color:#141414;
+    box-shadow:var(--ctz-shadow-soft);
+  }
+
+  .ctz-btn--ghost{
+    border-color:var(--ctz-accent);
+    color:var(--ctz-accent);
+    background:transparent;
+  }
+
+  .ctz-btn--ghost:hover{
+    background:rgba(142,132,32,.08);
+  }
+
+  .ctz-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  .ctz-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    min-height:40px;
+    padding:0 14px;
+    border-radius:999px;
+    background:rgba(255,255,255,.72);
+    border:1px solid rgba(18,18,18,.08);
+    backdrop-filter:blur(10px);
+    color:#262626;
+    font-size:.94rem;
+  }
+
+  .ctz-chip::before{
+    content:"";
+    width:7px;
+    height:7px;
+    border-radius:999px;
+    background:var(--ctz-accent);
+  }
+
+  .ctz-hero__visual{
+    position:relative;
+    min-height:560px;
+  }
+
+  .ctz-orbit{
+    position:absolute;
+    inset:0;
+    display:grid;
+    place-items:center;
+  }
+
+  .ctz-orbit__ring{
+    position:absolute;
+    border-radius:999px;
+    border:1px solid rgba(18,18,18,.10);
+  }
+
+  .ctz-orbit__ring--1{ width:460px; height:460px; }
+  .ctz-orbit__ring--2{ width:360px; height:360px; }
+  .ctz-orbit__ring--3{ width:250px; height:250px; }
+
+  .ctz-orbit__core{
+    position:relative;
+    z-index:2;
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    background:linear-gradient(160deg, #121212 0%, #1e1e1e 100%);
+    color:#fff;
+    box-shadow:0 26px 60px rgba(0,0,0,.22);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    padding:28px;
+  }
+
+  .ctz-orbit__core span{
+    display:block;
+    color:rgba(255,255,255,.7);
+    font-size:.9rem;
+    margin-bottom:10px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+  }
+
+  .ctz-orbit__core strong{
+    font-size:1.7rem;
+    line-height:1.15;
+    font-weight:700;
+    letter-spacing:-.03em;
+  }
+
+  .ctz-floating-card{
+    position:absolute;
+    z-index:3;
+    min-width:170px;
+    padding:16px 18px;
+    border-radius:18px;
+    background:rgba(255,255,255,.88);
+    border:1px solid rgba(18,18,18,.08);
+    box-shadow:var(--ctz-shadow-soft);
+    backdrop-filter:blur(16px);
+    animation:ctzFloat 6.5s ease-in-out infinite;
+  }
+
+  .ctz-floating-card small{
+    display:block;
+    margin-bottom:6px;
+    color:var(--ctz-accent);
+    font-weight:700;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+  }
+
+  .ctz-floating-card strong{
+    display:block;
+    font-size:1.02rem;
+    line-height:1.35;
+  }
+
+  .ctz-floating-card--a{ top:36px; right:18px; animation-delay:0s; }
+  .ctz-floating-card--b{ top:168px; left:6px; animation-delay:1s; }
+  .ctz-floating-card--c{ right:6px; bottom:184px; animation-delay:2.1s; }
+  .ctz-floating-card--d{ left:44px; bottom:52px; animation-delay:2.9s; }
+
+  @keyframes ctzFloat{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-10px); }
+  }
+
+  .ctz-section-nav{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(243,241,235,.92);
+    backdrop-filter:blur(14px);
+    border-top:1px solid rgba(18,18,18,.06);
+    border-bottom:1px solid rgba(18,18,18,.08);
+  }
+
+  .ctz-section-nav__inner{
+    width:min(1180px, calc(100% - 40px));
+    margin:0 auto;
+    display:flex;
+    gap:30px;
+    overflow:auto;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+
+  .ctz-section-nav__inner::-webkit-scrollbar{ display:none; }
+
+  .ctz-section-nav a{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    height:66px;
+    white-space:nowrap;
+    text-decoration:none;
+    color:#5f5f5f;
+    font-weight:600;
+    transition:color .22s ease;
+  }
+
+  .ctz-section-nav a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:3px;
+    border-radius:999px;
+    background:transparent;
+    transition:background .22s ease;
+  }
+
+  .ctz-section-nav a:hover,
+  .ctz-section-nav a.is-active{
+    color:var(--ctz-accent);
+  }
+
+  .ctz-section-nav a.is-active::after{
+    background:var(--ctz-accent-2);
+  }
+
+  .ctz-block{
+    padding:84px 0;
+  }
+
+  .ctz-panel{
+    display:grid;
+    grid-template-columns:minmax(0, 1.15fr) minmax(340px, .85fr);
+    gap:32px;
+    background:rgba(255,255,255,.72);
+    border:1px solid rgba(18,18,18,.08);
+    border-radius:var(--ctz-radius-xl);
+    padding:36px;
+    box-shadow:var(--ctz-shadow-soft);
+  }
+
+  .ctz-heading{
+    margin:12px 0 14px;
+    font-size:clamp(2rem, 3.4vw, 3.2rem);
+    line-height:1.08;
+    letter-spacing:-.04em;
+    font-weight:700;
+  }
+
+  .ctz-lead{
+    margin:0 0 22px;
+    max-width:62ch;
+    font-size:1.12rem;
+    line-height:1.8;
+    color:#222;
+  }
+
+  .ctz-list{
+    margin:18px 0 0;
+    padding-left:22px;
+  }
+
+  .ctz-list li{
+    margin:0 0 12px;
+    font-size:1.05rem;
+    line-height:1.66;
+    color:#1f1f1f;
+  }
+
+  .ctz-side-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:26px;
+    background:linear-gradient(180deg, #131313 0%, #1f1f1f 100%);
+    color:#fff;
+    min-height:100%;
+    box-shadow:0 24px 52px rgba(0,0,0,.18);
+  }
+
+  .ctz-side-card__visual{
+    height:200px;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(183,242,56,.85) 0, rgba(183,242,56,.06) 18%, transparent 30%),
+      radial-gradient(circle at 78% 34%, rgba(255,255,255,.12) 0, transparent 20%),
+      radial-gradient(circle at 72% 72%, rgba(142,132,32,.55) 0, transparent 24%),
+      linear-gradient(135deg, #231f12 0%, #0f0f0f 48%, #1b1b1b 100%);
+  }
+
+  .ctz-side-card__body{ padding:24px 24px 26px; }
+
+  .ctz-side-card__tag{
+    display:inline-flex;
+    min-height:30px;
+    padding:0 12px;
+    align-items:center;
+    border-radius:999px;
+    background:rgba(183,242,56,.14);
+    color:var(--ctz-accent-2);
+    font-size:.84rem;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+
+  .ctz-side-card h3{
+    margin:0 0 14px;
+    font-size:1.55rem;
+    line-height:1.12;
+    letter-spacing:-.03em;
+    font-weight:700;
+  }
+
+  .ctz-side-card p{
+    margin:0 0 18px;
+    color:rgba(255,255,255,.82);
+    line-height:1.72;
+  }
+
+  .ctz-mini-metrics{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:12px;
+    margin-top:18px;
+  }
+
+  .ctz-mini-metric{
+    padding:16px 14px;
+    border-radius:18px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.08);
+  }
+
+  .ctz-mini-metric strong{
+    display:block;
+    font-size:1.22rem;
+    font-weight:800;
+    margin-bottom:5px;
+  }
+
+  .ctz-mini-metric span{
+    color:rgba(255,255,255,.74);
+    line-height:1.45;
+    font-size:.92rem;
+  }
+
+  .ctz-topline{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:26px;
+  }
+
+  .ctz-topline p{
+    max-width:62ch;
+    margin:0;
+    color:var(--ctz-muted);
+    line-height:1.7;
+    font-size:1.04rem;
+  }
+
+  .ctz-grid-4{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ctz-grid-3{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ctz-card{
+    position:relative;
+    border-radius:24px;
+    padding:24px 22px;
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(18,18,18,.08);
+    box-shadow:var(--ctz-shadow-soft);
+    overflow:hidden;
+    transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+  }
+
+  .ctz-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--ctz-shadow);
+    border-color:rgba(142,132,32,.22);
+  }
+
+  .ctz-card::before{
+    content:"";
+    position:absolute;
+    inset:0 auto auto 0;
+    width:100%;
+    height:4px;
+    background:linear-gradient(90deg, var(--ctz-accent-2), var(--ctz-accent));
+  }
+
+  .ctz-card__icon{
+    width:50px;
+    height:50px;
+    border-radius:16px;
+    display:grid;
+    place-items:center;
+    background:rgba(142,132,32,.08);
+    color:var(--ctz-accent);
+    font-size:1.18rem;
+    font-weight:800;
+    margin-bottom:16px;
+  }
+
+  .ctz-card h3{
+    margin:0 0 12px;
+    font-size:1.16rem;
+    letter-spacing:-.02em;
+    line-height:1.24;
+    font-weight:700;
+  }
+
+  .ctz-card p{
+    margin:0 0 14px;
+    color:#505050;
+    line-height:1.68;
+    font-size:.98rem;
+  }
+
+  .ctz-bullets{
+    margin:0;
+    padding-left:18px;
+  }
+
+  .ctz-bullets li{
+    margin:0 0 8px;
+    color:#5a5a5a;
+    line-height:1.56;
+    font-size:.94rem;
+  }
+
+  .ctz-steps{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ctz-step{
+    position:relative;
+    background:rgba(255,255,255,.8);
+    border:1px solid rgba(18,18,18,.08);
+    border-radius:24px;
+    padding:24px 22px;
+    box-shadow:var(--ctz-shadow-soft);
+    transition:transform .24s ease, box-shadow .24s ease;
+  }
+
+  .ctz-step:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--ctz-shadow);
+  }
+
+  .ctz-step__num{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:linear-gradient(145deg, #161616 0%, #2b2b2b 100%);
+    color:#fff;
+    font-weight:800;
+    margin-bottom:18px;
+  }
+
+  .ctz-step h3{
+    margin:0 0 12px;
+    font-size:1.14rem;
+    line-height:1.25;
+    letter-spacing:-.02em;
+    font-weight:700;
+  }
+
+  .ctz-step p{
+    margin:0;
+    color:#4f4f4f;
+    line-height:1.66;
+    font-size:.97rem;
+  }
+
+  .ctz-results{
+    display:grid;
+    grid-template-columns:repeat(5, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ctz-result{
+    border-radius:22px;
+    padding:22px 20px;
+    background:#fff;
+    border:1px solid rgba(18,18,18,.08);
+    box-shadow:var(--ctz-shadow-soft);
+  }
+
+  .ctz-result__num{
+    display:inline-flex;
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:14px;
+    background:rgba(183,242,56,.18);
+    color:#191919;
+    font-weight:800;
+  }
+
+  .ctz-result h3{
+    margin:0 0 10px;
+    font-size:1.06rem;
+    line-height:1.3;
+    font-weight:700;
+    letter-spacing:-.02em;
+  }
+
+  .ctz-result p{
+    margin:0;
+    color:#555;
+    line-height:1.64;
+    font-size:.96rem;
+  }
+
+  .ctz-pill-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .ctz-pill-card{
+    border-radius:24px;
+    padding:26px 24px;
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(18,18,18,.08);
+    box-shadow:var(--ctz-shadow-soft);
+  }
+
+  .ctz-pill-card h3{
+    margin:0 0 10px;
+    font-size:1.4rem;
+    line-height:1.15;
+    letter-spacing:-.03em;
+    font-weight:700;
+  }
+
+  .ctz-pill-card p{
+    margin:0 0 16px;
+    color:var(--ctz-muted);
+    line-height:1.68;
+  }
+
+  .ctz-badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  .ctz-badge{
+    display:inline-flex;
+    align-items:center;
+    min-height:38px;
+    padding:0 14px;
+    border-radius:999px;
+    background:#f7f5ef;
+    border:1px solid rgba(18,18,18,.08);
+    color:#202020;
+    font-size:.94rem;
+  }
+
+  .ctz-quote{
+    margin-top:28px;
+    padding:24px 26px;
+    border-radius:24px;
+    background:linear-gradient(135deg, #171717 0%, #232323 100%);
+    color:#fff;
+    box-shadow:var(--ctz-shadow);
+  }
+
+  .ctz-quote p{
+    margin:0;
+    font-size:1.18rem;
+    line-height:1.7;
+    letter-spacing:-.02em;
+  }
+
+  .ctz-quote strong{
+    color:var(--ctz-accent-2);
+  }
+
+  .ctz-cta{
+    position:relative;
+    padding:0 0 94px;
+  }
+
+  .ctz-cta__box{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg, #121212 0%, #202020 100%);
+    border-radius:32px;
+    padding:42px;
+    color:#fff;
+    box-shadow:0 28px 64px rgba(0,0,0,.18);
+  }
+
+  .ctz-cta__box::before{
+    content:"";
+    position:absolute;
+    width:340px;
+    height:340px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(183,242,56,.22) 0%, rgba(183,242,56,0) 72%);
+    top:-120px;
+    right:-80px;
+  }
+
+  .ctz-cta__grid{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:minmax(0,1.2fr) auto;
+    gap:24px;
+    align-items:center;
+  }
+
+  .ctz-cta h2{
+    margin:0 0 12px;
+    font-size:clamp(2rem, 3.4vw, 3.1rem);
+    line-height:1.05;
+    letter-spacing:-.04em;
+    font-weight:700;
+  }
+
+  .ctz-cta p{
+    margin:0;
+    max-width:62ch;
+    color:rgba(255,255,255,.78);
+    line-height:1.8;
+    font-size:1.08rem;
+  }
+
+  .ctz-reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+
+  .ctz-reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media (max-width: 1180px){
+    .ctz-grid-4{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .ctz-steps{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .ctz-results{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+  }
+
+  @media (max-width: 980px){
+    .ctz-hero__grid,
+    .ctz-panel,
+    .ctz-cta__grid{
+      grid-template-columns:1fr;
+    }
+
+    .ctz-hero__visual{ min-height:460px; }
+    .ctz-grid-3{ grid-template-columns:1fr; }
+    .ctz-pill-grid{ grid-template-columns:1fr; }
+    .ctz-results{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  }
+
+  @media (max-width: 720px){
+    .ctz-container{
+      width:min(100% - 24px, 1180px);
+    }
+
+    .ctz-hero{
+      padding:34px 0 24px;
+    }
+
+    .ctz-hero h1{
+      max-width:100%;
+      font-size:2.4rem;
+    }
+
+    .ctz-hero__lead{
+      font-size:1.02rem;
+      line-height:1.75;
+    }
+
+    .ctz-hero__visual{
+      min-height:420px;
+      margin-top:10px;
+    }
+
+    .ctz-orbit__ring--1{ width:330px; height:330px; }
+    .ctz-orbit__ring--2{ width:250px; height:250px; }
+    .ctz-orbit__ring--3{ width:180px; height:180px; }
+
+    .ctz-orbit__core{
+      width:180px;
+      height:180px;
+      padding:18px;
+    }
+
+    .ctz-orbit__core strong{
+      font-size:1.2rem;
+    }
+
+    .ctz-floating-card{
+      min-width:140px;
+      padding:12px 14px;
+    }
+
+    .ctz-floating-card strong{
+      font-size:.92rem;
+    }
+
+    .ctz-floating-card--a{ top:6px; right:0; }
+    .ctz-floating-card--b{ top:140px; left:0; }
+    .ctz-floating-card--c{ right:0; bottom:130px; }
+    .ctz-floating-card--d{ left:20px; bottom:12px; }
+
+    .ctz-block{
+      padding:62px 0;
+    }
+
+    .ctz-panel,
+    .ctz-side-card__body,
+    .ctz-pill-card,
+    .ctz-cta__box{
+      padding:24px;
+    }
+
+    .ctz-topline{
+      display:block;
+      margin-bottom:20px;
+    }
+
+    .ctz-topline p{
+      margin-top:10px;
+    }
+
+    .ctz-grid-4,
+    .ctz-steps,
+    .ctz-results,
+    .ctz-mini-metrics{
+      grid-template-columns:1fr;
+    }
+
+    .ctz-section-nav a{
+      height:58px;
+      font-size:.95rem;
+    }
+
+    .ctz-actions{
+      flex-direction:column;
+      align-items:stretch;
+    }
+
+    .ctz-btn{
+      width:100%;
+    }
+
+    .ctz-cta{
+      padding-bottom:70px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .ctz-floating-card,
+    .ctz-reveal,
+    .ctz-btn,
+    .ctz-card,
+    .ctz-step{
+      animation:none !important;
+      transition:none !important;
+    }
+  }
+</style>
+
+<div class="ctz-page">
+  <section class="ctz-hero">
+    <div class="ctz-container ctz-hero__grid">
+      <div class="ctz-reveal">
+        <div class="ctz-kicker">Consultoria Têxtil</div>
+        <h1>Critério técnico para estabilizar e decidir melhor.</h1>
+
+        <p class="ctz-hero__lead">
+          A Stegie entra onde a malharia precisa de mais leitura, menos ruído e uma direção prática de execução.
+          A consultoria organiza prioridades, fecha variáveis críticas, reduz subjetividade e fortalece a previsibilidade do processo.
+        </p>
+
+        <p class="ctz-hero__dynamic">
+          <strong>Atuação com foco em:</strong>
+          <span class="ctz-word-rotator" id="ctzWordRotator">diagnóstico técnico</span>
+        </p>
+
+        <div class="ctz-actions">
+          <a href="/contato" class="ctz-btn ctz-btn--primary">Agendar diagnóstico</a>
+          <a href="#como-atuamos" class="ctz-btn ctz-btn--ghost">Entender a atuação</a>
+        </div>
+
+        <div class="ctz-chips">
+          <span class="ctz-chip">Leitura de processo</span>
+          <span class="ctz-chip">Prioridades claras</span>
+          <span class="ctz-chip">Critérios de aceite</span>
+          <span class="ctz-chip">Sustentação da execução</span>
+        </div>
+      </div>
+
+      <div class="ctz-hero__visual ctz-reveal">
+        <div class="ctz-orbit">
+          <div class="ctz-orbit__ring ctz-orbit__ring--1"></div>
+          <div class="ctz-orbit__ring ctz-orbit__ring--2"></div>
+          <div class="ctz-orbit__ring ctz-orbit__ring--3"></div>
+
+          <div class="ctz-orbit__core">
+            <span>Consultoria aplicada</span>
+            <strong>Diagnóstico + prioridade + direção técnica</strong>
+          </div>
+        </div>
+
+        <div class="ctz-floating-card ctz-floating-card--a">
+          <small>01</small>
+          <strong>Leitura do cenário e dos desvios críticos.</strong>
+        </div>
+
+        <div class="ctz-floating-card ctz-floating-card--b">
+          <small>02</small>
+          <strong>Critérios objetivos para decidir melhor.</strong>
+        </div>
+
+        <div class="ctz-floating-card ctz-floating-card--c">
+          <small>03</small>
+          <strong>Plano de prioridade com sequência prática.</strong>
+        </div>
+
+        <div class="ctz-floating-card ctz-floating-card--d">
+          <small>04</small>
+          <strong>Sustentação para reduzir recaída e ruído operacional.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="ctz-section-nav">
+    <div class="ctz-section-nav__inner">
+      <a href="#visao-geral" class="is-active">Visão geral</a>
+      <a href="#quando-entra">Quando entra</a>
+      <a href="#frentes">Frentes</a>
+      <a href="#como-atuamos">Como atuamos</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#formatos">Formatos</a>
+      <a href="#fale-conosco">Fale conosco</a>
+    </div>
+  </nav>
+
+  <section id="visao-geral" class="ctz-block">
+    <div class="ctz-container">
+      <div class="ctz-panel ctz-reveal">
+        <div>
+          <div class="ctz-kicker">Visão geral</div>
+          <h2 class="ctz-heading">Consultoria para transformar sinais dispersos em direção técnica.</h2>
+
+          <p class="ctz-lead">
+            A consultoria Stegie foi desenhada para entrar onde a malharia precisa de mais critério e menos interpretação solta.
+            O trabalho combina leitura do cenário, identificação de pontos sensíveis, definição de prioridades e apoio na construção de uma sequência prática de ação.
+          </p>
+
+          <p class="ctz-lead">
+            O objetivo não é entregar diagnóstico genérico. É estruturar uma direção útil para a rotina:
+            o que atacar primeiro, o que precisa de critério técnico, o que deve ser estabilizado e como sustentar evolução sem perder o foco.
+          </p>
+
+          <ul class="ctz-list">
+            <li>Diagnóstico técnico do processo, das rotinas e dos pontos de variação.</li>
+            <li>Definição de prioridades com base em impacto, risco e viabilidade.</li>
+            <li>Critérios de aceite e decisão para reduzir subjetividade.</li>
+            <li>Acompanhamento para fortalecer sustentação e continuidade.</li>
+          </ul>
+
+          <div class="ctz-actions" style="margin-top:24px; margin-bottom:0;">
+            <a href="/contato" class="ctz-btn ctz-btn--primary">Falar sobre consultoria</a>
+            <a href="/servicos" class="ctz-btn ctz-btn--ghost">Voltar aos serviços</a>
+          </div>
+        </div>
+
+        <aside class="ctz-side-card">
+          <div class="ctz-side-card__visual"></div>
+          <div class="ctz-side-card__body">
+            <span class="ctz-side-card__tag">O que entregamos</span>
+            <h3>Clareza, prioridade e padrão técnico para a malharia.</h3>
+            <p>
+              A consultoria atua onde o processo precisa de direção real. Menos ruído, menos dispersão e mais capacidade de decidir,
+              agir e sustentar o que foi definido.
+            </p>
+
+            <div class="ctz-mini-metrics">
+              <div class="ctz-mini-metric">
+                <strong>+</strong>
+                <span>clareza sobre o que realmente precisa ser tratado</span>
+              </div>
+              <div class="ctz-mini-metric">
+                <strong>1</strong>
+                <span>sequência prática para sair do diagnóstico e entrar na execução</span>
+              </div>
+              <div class="ctz-mini-metric">
+                <strong>−</strong>
+                <span>subjetividade na análise e na priorização</span>
+              </div>
+              <div class="ctz-mini-metric">
+                <strong>↑</strong>
+                <span>consistência de leitura técnica e sustentação</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="quando-entra" class="ctz-block" style="padding-top:0;">
+    <div class="ctz-container">
+      <div class="ctz-topline ctz-reveal">
+        <div>
+          <div class="ctz-kicker">Quando entra</div>
+          <h2 class="ctz-heading">Cenários em que a consultoria faz mais sentido.</h2>
+        </div>
+        <p>
+          Ideal para momentos em que a operação precisa de leitura técnica, prioridade bem definida e mais previsibilidade.
+        </p>
+      </div>
+
+      <div class="ctz-grid-4">
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">01</div>
+          <h3>Variabilidade alta</h3>
+          <p>Quando largura, gramatura, estabilidade, defeitos ou comportamento do processo oscilam sem clareza suficiente sobre origem e prioridade.</p>
+        </article>
+
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">02</div>
+          <h3>Critério fraco de decisão</h3>
+          <p>Quando o time discute muito, mas decide pouco, porque faltam parâmetros objetivos de aceite, limite e ação.</p>
+        </article>
+
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">03</div>
+          <h3>Prioridades embaralhadas</h3>
+          <p>Quando há muitos sintomas ao mesmo tempo e a equipe perde força tentando resolver tudo sem sequência lógica.</p>
+        </article>
+
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">04</div>
+          <h3>Dificuldade de sustentar</h3>
+          <p>Quando ações até acontecem, mas o processo volta atrás por falta de rotina, reforço técnico e padrão.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="frentes" class="ctz-block" style="padding-top:0;">
+    <div class="ctz-container">
+      <div class="ctz-topline ctz-reveal">
+        <div>
+          <div class="ctz-kicker">Frentes da consultoria</div>
+          <h2 class="ctz-heading">Onde a atuação ganha profundidade.</h2>
+        </div>
+        <p>
+          A página foi estruturada para vender melhor a lógica da consultoria: entender, priorizar, definir critério e sustentar.
+        </p>
+      </div>
+
+      <div class="ctz-grid-4">
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">A</div>
+          <h3>Diagnóstico técnico</h3>
+          <p>Leitura do processo, das rotinas, dos desvios e dos pontos que mais geram ruído, perda ou instabilidade.</p>
+          <ul class="ctz-bullets">
+            <li>Leitura de cenário</li>
+            <li>Mapeamento dos pontos sensíveis</li>
+            <li>Entendimento do contexto operacional</li>
+          </ul>
+        </article>
+
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">B</div>
+          <h3>Priorização técnica</h3>
+          <p>Separação do que é sintoma e do que realmente merece foco, com base em impacto, risco e viabilidade.</p>
+          <ul class="ctz-bullets">
+            <li>Escolha do que atacar primeiro</li>
+            <li>Sequência de ação mais racional</li>
+            <li>Menos dispersão da equipe</li>
+          </ul>
+        </article>
+
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">C</div>
+          <h3>Critérios e padrão</h3>
+          <p>Definição de parâmetros para reduzir subjetividade e dar base objetiva à decisão técnica.</p>
+          <ul class="ctz-bullets">
+            <li>Critérios de aceite</li>
+            <li>Leitura de limites e tolerâncias</li>
+            <li>Menos decisão por sensação</li>
+          </ul>
+        </article>
+
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">D</div>
+          <h3>Sustentação prática</h3>
+          <p>Transformação do direcionamento em rotina possível de ser mantida pela operação.</p>
+          <ul class="ctz-bullets">
+            <li>Checkpoints e reforços</li>
+            <li>Organização da execução</li>
+            <li>Continuidade após a leitura inicial</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-atuamos" class="ctz-block" style="padding-top:0;">
+    <div class="ctz-container">
+      <div class="ctz-topline ctz-reveal">
+        <div>
+          <div class="ctz-kicker">Como atuamos</div>
+          <h2 class="ctz-heading">Uma sequência simples para gerar direção e ação.</h2>
+        </div>
+        <p>
+          Assim como na referência da Falconi, esta seção organiza o serviço em etapas claras, tornando a oferta mais tangível.
+        </p>
+      </div>
+
+      <div class="ctz-steps">
+        <article class="ctz-step ctz-reveal">
+          <div class="ctz-step__num">01</div>
+          <h3>Leitura do cenário</h3>
+          <p>Entendimento do contexto, da operação, das rotinas e dos sinais que hoje mais pesam na variabilidade.</p>
+        </article>
+
+        <article class="ctz-step ctz-reveal">
+          <div class="ctz-step__num">02</div>
+          <h3>Definição de foco</h3>
+          <p>Separação do que é prioridade real e do que pode esperar, reduzindo dispersão e conflito de agenda.</p>
+        </article>
+
+        <article class="ctz-step ctz-reveal">
+          <div class="ctz-step__num">03</div>
+          <h3>Critério e direção</h3>
+          <p>Construção dos parâmetros técnicos, da lógica de aceite e da sequência prática para agir com mais firmeza.</p>
+        </article>
+
+        <article class="ctz-step ctz-reveal">
+          <div class="ctz-step__num">04</div>
+          <h3>Sustentação</h3>
+          <p>Apoio para manter clareza, reforçar rotina e evitar que o processo volte à condição anterior.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="resultados" class="ctz-block" style="padding-top:0;">
+    <div class="ctz-container">
+      <div class="ctz-topline ctz-reveal">
+        <div>
+          <div class="ctz-kicker">Resultados esperados</div>
+          <h2 class="ctz-heading">O que tende a mudar com a consultoria.</h2>
+        </div>
+        <p>
+          A proposta aqui é fortalecer decisão, clareza e sustentação, não apenas produzir análise.
+        </p>
+      </div>
+
+      <div class="ctz-results">
+        <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">1</div>
+          <h3>Mais clareza</h3>
+          <p>O cenário deixa de parecer difuso e passa a ser lido com mais critério técnico.</p>
+        </article>
+
+        <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">2</div>
+          <h3>Mais foco</h3>
+          <p>As prioridades ficam mais bem definidas e a equipe ganha direção para agir.</p>
+        </article>
+
+        <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">3</div>
+          <h3>Menos subjetividade</h3>
+          <p>Critérios de aceite e decisão reduzem ruído e interpretação solta.</p>
+        </article>
+
+        <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">4</div>
+          <h3>Mais consistência</h3>
+          <p>O processo passa a contar com padrões mais claros para leitura e execução.</p>
+        </article>
+
+        <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">5</div>
+          <h3>Mais sustentação</h3>
+          <p>As ações deixam de ser pontuais e ganham mais chance de permanecer úteis na rotina.</p>
+        </article>
+      </div>
+
+      <div class="ctz-quote ctz-reveal">
+        <p><strong>Consultoria boa</strong> não aumenta complexidade. Ela reduz ruído, organiza prioridade e cria condição real para a equipe agir melhor.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="formatos" class="ctz-block" style="padding-top:0;">
+    <div class="ctz-container">
+      <div class="ctz-topline ctz-reveal">
+        <div>
+          <div class="ctz-kicker">Formatos</div>
+          <h2 class="ctz-heading">Como a consultoria pode acontecer.</h2>
+        </div>
+        <p>
+          Esta seção ajuda a vender escopo sem engessar a solução.
+        </p>
+      </div>
+
+      <div class="ctz-pill-grid">
+        <article class="ctz-pill-card ctz-reveal">
+          <h3>Presencial</h3>
+          <p>Ideal para leitura técnica, visitas em campo, diagnóstico, workshops e interação mais próxima com a operação.</p>
+          <div class="ctz-badges">
+            <span class="ctz-badge">Visita técnica</span>
+            <span class="ctz-badge">Leitura em campo</span>
+            <span class="ctz-badge">Discussão com equipe</span>
+          </div>
+        </article>
+
+        <article class="ctz-pill-card ctz-reveal">
+          <h3>Híbrido ou sob medida</h3>
+          <p>Combinação entre presença e continuidade remota, ou desenho próprio conforme urgência, profundidade e escopo da demanda.</p>
+          <div class="ctz-badges">
+            <span class="ctz-badge">Acompanhamento</span>
+            <span class="ctz-badge">Continuidade remota</span>
+            <span class="ctz-badge">Escopo customizado</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="fale-conosco" class="ctz-cta">
+    <div class="ctz-container">
+      <div class="ctz-cta__box ctz-reveal">
+        <div class="ctz-cta__grid">
+          <div>
+            <div class="ctz-kicker">Fale conosco</div>
+            <h2>Vamos organizar sua consultoria têxtil com mais clareza técnica e direção prática.</h2>
+            <p>
+              Para malharias que precisam reduzir ruído, fechar variáveis críticas, priorizar melhor e fortalecer a sustentação do processo.
+            </p>
+          </div>
+
+          <div class="ctz-actions" style="margin:0;">
+            <a href="/contato" class="ctz-btn ctz-btn--primary">Agendar conversa</a>
+            <a href="/servicos" class="ctz-btn ctz-btn--ghost" style="color:#fff;border-color:rgba(255,255,255,.25);">Voltar aos serviços</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  (function(){
+    const words = [
+      "diagnóstico técnico",
+      "leitura de processo",
+      "prioridades claras",
+      "critérios de aceite",
+      "sequência de ação",
+      "sustentação prática"
+    ];
+
+    const rotator = document.getElementById("ctzWordRotator");
+    let index = 0;
+
+    if (rotator) {
+      setInterval(() => {
+        index = (index + 1) % words.length;
+        rotator.textContent = words[index];
+      }, 2100);
+    }
+
+    const revealEls = document.querySelectorAll(".ctz-reveal");
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach((el) => revealObserver.observe(el));
+
+    const navLinks = document.querySelectorAll(".ctz-section-nav a");
+    const sections = [...navLinks]
+      .map(link => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove("is-active"));
+          const activeLink = document.querySelector('.ctz-section-nav a[href="#' + entry.target.id + '"]');
+          if (activeLink) activeLink.classList.add("is-active");
+        }
+      });
+    }, {
+      rootMargin: "-35% 0px -55% 0px",
+      threshold: 0.02
+    });
+
+    sections.forEach(section => navObserver.observe(section));
+  })();
+</script>
+
+{% endblock %}
