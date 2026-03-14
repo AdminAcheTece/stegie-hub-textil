@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Stegie | Qualidade Têxtil{% endblock %}
+{% block meta_description %}Curadoria visual de canais, instituições, empresas, laboratórios e leituras sobre qualidade têxtil.{% endblock %}
+
+{% block content %}
+
+<section class="tc-hero" data-reveal>
+  <div class="container tc-hero__grid">
+    <div class="tc-hero__content">
+      <a href="{{ url_for('conteudos') }}" class="tc-back">← Voltar para Conteúdos</a>
+      <div class="tc-kicker">Tema Técnico</div>
+      <h1>{{ page_title }} Têxtil</h1>
+      <p class="tc-hero__lead">
+        {{ page_intro }}
+      </p>
+
+      <div class="tc-hero__actions">
+        <a href="#tc-shelves" class="btn btn-primary">Explorar fontes</a>
+        <a href="{{ url_for('contato') }}" class="btn btn-secondary">Falar com a Stegie</a>
+      </div>
+    </div>
+
+    <aside class="tc-hero__panel">
+      <div class="tc-panel">
+        <div class="tc-panel__label">Curadoria visual</div>
+        <h2>Uma experiência mais intuitiva para descobrir boas fontes</h2>
+        <p>
+          Em vez de textos longos, esta página organiza referências em capas visuais,
+          descrições curtas e acesso direto para canais, instituições, empresas e leituras.
+        </p>
+
+        <div class="tc-panel__chips">
+          <span>Instituições</span>
+          <span>Laboratórios</span>
+          <span>Vídeos</span>
+          <span>Redes</span>
+          <span>Leituras</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="tc-nav" data-reveal>
+  <div class="container">
+    <div class="tc-nav__inner">
+      {% for shelf in shelves %}
+        <a href="#{{ shelf.id }}" class="tc-pill">{{ shelf.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section id="tc-shelves" class="tc-shelves">
+  {% for shelf in shelves %}
+    <section id="{{ shelf.id }}" class="tc-shelf" data-reveal>
+      <div class="container">
+        <div class="tc-shelf__head">
+          <div>
+            <div class="tc-kicker tc-kicker--small">Qualidade</div>
+            <h2>{{ shelf.title }}</h2>
+            <p>{{ shelf.subtitle }}</p>
+          </div>
+
+          <a href="#tc-shelves" class="tc-shelf__top">Voltar ao topo</a>
+        </div>
+
+        <div class="tc-track">
+          {% for item in shelf.items %}
+            {% set has_link = item.url and item.url != "#" %}
+            <article class="tc-card">
+              <a
+                class="tc-card__media"
+                href="{{ item.url if has_link else '#' }}"
+                {% if has_link %}target="_blank" rel="noopener"{% endif %}
+                aria-label="{{ item.name }}"
+              >
+                {% if item.image %}
+                  <div class="tc-cover" style="background-image:url('{{ item.image }}');">
+                {% else %}
+                  <div class="tc-cover tc-cover--placeholder">
+                {% endif %}
+                    <span class="tc-badge">{{ item.badge }}</span>
+                    <div class="tc-cover__label">{{ item.cover_title }}</div>
+                  </div>
+              </a>
+
+              <div class="tc-card__body">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.description }}</p>
+
+                <a
+                  href="{{ item.url if has_link else '#' }}"
+                  class="tc-link"
+                  {% if has_link %}target="_blank" rel="noopener"{% endif %}
+                >
+                  {% if has_link %}Acessar fonte{% else %}Definir link{% endif %}
+                </a>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endfor %}
+</section>
+
+<section class="tc-editorial" data-reveal>
+  <div class="container">
+    <div class="tc-editorial__box">
+      <div class="tc-kicker">Leitura da Stegie</div>
+      <h2>Qualidade não é apenas checagem. É critério, método e capacidade de decisão.</h2>
+      <p>
+        Esta página não foi criada para concentrar conteúdo próprio, mas para orientar melhor
+        a busca por fontes relevantes. A proposta é facilitar o acesso ao que já existe de valioso
+        no mercado e ajudar você a navegar por esse ecossistema com mais clareza.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="tc-cta" data-reveal>
+  <div class="container">
+    <div class="tc-cta__box">
+      <div class="tc-cta__content">
+        <div class="tc-kicker">Próximo passo</div>
+        <h2>Quer aplicar essa visão de qualidade na prática industrial?</h2>
+        <p>
+          A Stegie conecta leitura técnica, processo e direcionamento aplicado para empresas,
+          equipes e projetos ligados à indústria têxtil.
+        </p>
+      </div>
+
+      <div class="tc-cta__actions">
+        <a href="{{ url_for('solucoes') }}" class="btn btn-primary">Conhecer soluções</a>
+        <a href="{{ url_for('contato') }}" class="btn btn-secondary">Entrar em contato</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
