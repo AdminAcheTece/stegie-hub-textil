@@ -176,12 +176,12 @@ QUALITY_SHELVES = [
         "subtitle": "Fontes com base técnica, métodos, estudos, atualização setorial e referência estruturada.",
         "cards": [
             {
-                "name": "Instituição 01",
-                "badge": "Instituição",
-                "description": "Normas, estudos, eventos e conteúdos de apoio para acompanhamento técnico da qualidade.",
-                "url": "#",
-                "image": "",
-                "cover_title": "Normas",
+                "name": "Inmetro",
+                "badge": "Referência oficial",
+                "description": "Órgão de referência em metrologia, acreditação, conformidade e conteúdos técnicos para suporte à qualidade.",
+                "url": "https://www.gov.br/inmetro/pt-br",
+                "image": "/static/img/conteudos/qualidade/inmetro.jpg",
+                "cover_title": "Qualidade Oficial",
             },
             {
                 "name": "Instituição 02",
