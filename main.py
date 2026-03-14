@@ -180,7 +180,7 @@ QUALITY_SHELVES = [
                 "badge": "Instituição pública",
                 "description": "Referência oficial no Brasil em metrologia, acreditação, regulamentação e avaliação da conformidade.",
                 "url": "https://www.gov.br/inmetro/pt-br",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/inmetro.jpg",
                 "cover_title": "Metrologia",
             },
             {
@@ -188,7 +188,7 @@ QUALITY_SHELVES = [
                 "badge": "Normalização",
                 "description": "Fonte central para normas técnicas brasileiras, consulta normativa e estrutura formal de padronização.",
                 "url": "https://abnt.org.br/",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/abnt.jpg",
                 "cover_title": "Normas",
             },
             {
@@ -196,7 +196,7 @@ QUALITY_SHELVES = [
                 "badge": "Métodos têxteis",
                 "description": "Entidade internacional muito reconhecida em métodos e procedimentos de ensaio aplicados a têxteis.",
                 "url": "https://www.aatcc.org/",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/aatcc.jpg",
                 "cover_title": "Métodos",
             },
             {
@@ -204,7 +204,7 @@ QUALITY_SHELVES = [
                 "badge": "Entidade internacional",
                 "description": "Referência global em profissionalismo, conhecimento e publicações para a cadeia têxtil.",
                 "url": "https://www.textileinstitute.org/",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/textile-institute.jpg",
                 "cover_title": "Referência",
             },
         ],
@@ -219,7 +219,7 @@ QUALITY_SHELVES = [
                 "badge": "Ensaios e certificação",
                 "description": "Grupo global de testes, inspeção e certificação com atuação forte em têxteis e conformidade.",
                 "url": "https://www.sgs.com/en/service-groups/textiles-and-clothing",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/sgs.jpg",
                 "cover_title": "Ensaios",
             },
             {
@@ -227,7 +227,7 @@ QUALITY_SHELVES = [
                 "badge": "Teste têxtil",
                 "description": "Fonte reconhecida para serviços de ensaio têxtil, conformidade e qualidade de produtos.",
                 "url": "https://www.intertek.com/textiles-apparel/textile-testing/",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/intertek.jpg",
                 "cover_title": "Controle",
             },
             {
@@ -235,7 +235,7 @@ QUALITY_SHELVES = [
                 "badge": "Compliance",
                 "description": "Referência internacional em testes, inspeções e soluções de conformidade para softlines e têxteis.",
                 "url": "https://www.cps.bureauveritas.com/needs/textile-testing-services-compliance-solutions",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/bureau-veritas.jpg",
                 "cover_title": "Compliance",
             },
             {
@@ -243,7 +243,7 @@ QUALITY_SHELVES = [
                 "badge": "Laboratório",
                 "description": "Instituição reconhecida por testes e certificações baseados em ciência para têxteis e produtos.",
                 "url": "https://www.hohenstein.com/en/",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/hohenstein.jpg",
                 "cover_title": "Laboratório",
             },
         ],
@@ -258,7 +258,7 @@ QUALITY_SHELVES = [
                 "badge": "YouTube oficial",
                 "description": "Canal oficial com conteúdos sobre qualidade, metrologia, conformidade e informação confiável.",
                 "url": "https://www.youtube.com/@tvinmetro",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/tv-inmetro.jpg",
                 "cover_title": "Oficial",
             },
             {
@@ -266,7 +266,7 @@ QUALITY_SHELVES = [
                 "badge": "Canal técnico",
                 "description": "Conteúdo institucional e técnico voltado à comunidade profissional de ensaios e métodos têxteis.",
                 "url": "https://www.youtube.com/@AatccOrg",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/aatcc-youtube.jpg",
                 "cover_title": "Métodos",
             },
             {
@@ -274,7 +274,7 @@ QUALITY_SHELVES = [
                 "badge": "Webinars",
                 "description": "Vídeos, palestras e webinars ligados a atualização técnica e desenvolvimento profissional.",
                 "url": "https://www.youtube.com/@thetextileinstitute3333",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/textile-institute-youtube.jpg",
                 "cover_title": "Webinars",
             },
             {
@@ -282,7 +282,7 @@ QUALITY_SHELVES = [
                 "badge": "Qualidade aplicada",
                 "description": "Canal institucional com conteúdos de qualidade, testes, conformidade e serviços técnicos.",
                 "url": "https://www.youtube.com/intertekgroup",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/intertek-youtube.jpg",
                 "cover_title": "Testes",
             },
         ],
@@ -297,7 +297,7 @@ QUALITY_SHELVES = [
                 "badge": "LinkedIn oficial",
                 "description": "Perfil útil para acompanhar atualizações institucionais, programas, qualidade e conformidade.",
                 "url": "https://www.linkedin.com/company/inmetro",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/inmetro-linkedin.jpg",
                 "cover_title": "Atualização",
             },
             {
@@ -305,7 +305,7 @@ QUALITY_SHELVES = [
                 "badge": "LinkedIn oficial",
                 "description": "Canal profissional para acompanhar normas, lançamentos, eventos e discussões ligadas à padronização.",
                 "url": "https://br.linkedin.com/company/abnt-associacao-brasileira-de-normas-tecnicas",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/abnt-linkedin.jpg",
                 "cover_title": "Normas",
             },
             {
@@ -313,7 +313,7 @@ QUALITY_SHELVES = [
                 "badge": "LinkedIn oficial",
                 "description": "Atualização recorrente sobre eventos, métodos, comunidade técnica e assuntos de qualidade têxtil.",
                 "url": "https://www.linkedin.com/company/aatcc",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/aatcc-linkedin.jpg",
                 "cover_title": "Comunidade",
             },
             {
@@ -321,7 +321,7 @@ QUALITY_SHELVES = [
                 "badge": "LinkedIn oficial",
                 "description": "Boa fonte para acompanhar debates, publicações e movimentações da comunidade têxtil internacional.",
                 "url": "https://uk.linkedin.com/company/the-textile-institute",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/textile-institute-linkedin.jpg",
                 "cover_title": "Rede global",
             },
         ],
@@ -336,7 +336,7 @@ QUALITY_SHELVES = [
                 "badge": "Segurança têxtil",
                 "description": "Base forte para consulta sobre padrões, selos e segurança de produtos têxteis.",
                 "url": "https://www.oeko-tex.com/en/our-standards/",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/oeko-tex.jpg",
                 "cover_title": "Padrões",
             },
             {
@@ -344,7 +344,7 @@ QUALITY_SHELVES = [
                 "badge": "Revista setorial",
                 "description": "Publicação tradicional para acompanhar notícias, tecnologia e movimento industrial têxtil.",
                 "url": "https://www.textileworld.com/",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/textile-world.jpg",
                 "cover_title": "Indústria",
             },
             {
@@ -352,7 +352,7 @@ QUALITY_SHELVES = [
                 "badge": "Atualização técnica",
                 "description": "Página institucional de notícias e press releases voltada à comunidade técnica de ensaios têxteis.",
                 "url": "https://www.aatcc.org/press-releases/",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/aatcc-news.jpg",
                 "cover_title": "Notícias",
             },
             {
@@ -360,13 +360,12 @@ QUALITY_SHELVES = [
                 "badge": "Publicações",
                 "description": "Portfólio de livros, revistas, journals e materiais técnicos para aprofundamento profissional.",
                 "url": "https://www.textileinstitute.org/publications/textiles-magazine/",
-                "image": "",
+                "image": "/static/img/conteudos/qualidade/textile-institute-publications.jpg",
                 "cover_title": "Leituras",
             },
         ],
     },
 ]
-
 
 # -----------------------------
 # Rotas principais
