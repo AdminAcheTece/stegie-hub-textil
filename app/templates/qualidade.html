@@ -45,7 +45,7 @@
   <div class="container">
     <div class="tc-nav__inner">
       {% for shelf in shelves %}
-        <a href="#{{ shelf.id }}" class="tc-pill">{{ shelf.title }}</a>
+        <a href="#{{ shelf['id'] }}" class="tc-pill">{{ shelf['title'] }}</a>
       {% endfor %}
     </div>
   </div>
@@ -53,44 +53,44 @@
 
 <section id="tc-shelves" class="tc-shelves">
   {% for shelf in shelves %}
-    <section id="{{ shelf.id }}" class="tc-shelf" data-reveal>
+    <section id="{{ shelf['id'] }}" class="tc-shelf" data-reveal>
       <div class="container">
         <div class="tc-shelf__head">
           <div>
             <div class="tc-kicker tc-kicker--small">Qualidade</div>
-            <h2>{{ shelf.title }}</h2>
-            <p>{{ shelf.subtitle }}</p>
+            <h2>{{ shelf['title'] }}</h2>
+            <p>{{ shelf['subtitle'] }}</p>
           </div>
 
           <a href="#tc-shelves" class="tc-shelf__top">Voltar ao topo</a>
         </div>
 
         <div class="tc-track">
-          {% for item in shelf.items %}
-            {% set has_link = item.url and item.url != "#" %}
+          {% for item in shelf['cards'] %}
+            {% set has_link = item['url'] and item['url'] != '#' %}
             <article class="tc-card">
               <a
                 class="tc-card__media"
-                href="{{ item.url if has_link else '#' }}"
+                href="{{ item['url'] if has_link else '#' }}"
                 {% if has_link %}target="_blank" rel="noopener"{% endif %}
-                aria-label="{{ item.name }}"
+                aria-label="{{ item['name'] }}"
               >
-                {% if item.image %}
-                  <div class="tc-cover" style="background-image:url('{{ item.image }}');">
+                {% if item['image'] %}
+                  <div class="tc-cover" style="background-image:url('{{ item['image'] }}');">
                 {% else %}
                   <div class="tc-cover tc-cover--placeholder">
                 {% endif %}
-                    <span class="tc-badge">{{ item.badge }}</span>
-                    <div class="tc-cover__label">{{ item.cover_title }}</div>
+                    <span class="tc-badge">{{ item['badge'] }}</span>
+                    <div class="tc-cover__label">{{ item['cover_title'] }}</div>
                   </div>
               </a>
 
               <div class="tc-card__body">
-                <h3>{{ item.name }}</h3>
-                <p>{{ item.description }}</p>
+                <h3>{{ item['name'] }}</h3>
+                <p>{{ item['description'] }}</p>
 
                 <a
-                  href="{{ item.url if has_link else '#' }}"
+                  href="{{ item['url'] if has_link else '#' }}"
                   class="tc-link"
                   {% if has_link %}target="_blank" rel="noopener"{% endif %}
                 >
