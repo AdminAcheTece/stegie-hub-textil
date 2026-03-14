@@ -188,7 +188,7 @@ QUALITY_SHELVES = [
                 "badge": "Normalização",
                 "description": "Fonte central para normas técnicas brasileiras, consulta normativa e estrutura formal de padronização.",
                 "url": "https://abnt.org.br/",
-                "image": "/static/img/conteudos/qualidade/abnt.jpg",
+                "image": "/static/img/conteudos/qualidade/abnt.png",
                 "cover_title": "Normas",
             },
             {
@@ -196,7 +196,7 @@ QUALITY_SHELVES = [
                 "badge": "Métodos têxteis",
                 "description": "Entidade internacional muito reconhecida em métodos e procedimentos de ensaio aplicados a têxteis.",
                 "url": "https://www.aatcc.org/",
-                "image": "/static/img/conteudos/qualidade/aatcc.jpg",
+                "image": "/static/img/conteudos/qualidade/aatcc.png",
                 "cover_title": "Métodos",
             },
             {
@@ -219,7 +219,7 @@ QUALITY_SHELVES = [
                 "badge": "Ensaios e certificação",
                 "description": "Grupo global de testes, inspeção e certificação com atuação forte em têxteis e conformidade.",
                 "url": "https://www.sgs.com/en/service-groups/textiles-and-clothing",
-                "image": "/static/img/conteudos/qualidade/sgs.jpg",
+                "image": "/static/img/conteudos/qualidade/sgs.png",
                 "cover_title": "Ensaios",
             },
             {
@@ -235,7 +235,7 @@ QUALITY_SHELVES = [
                 "badge": "Compliance",
                 "description": "Referência internacional em testes, inspeções e soluções de conformidade para softlines e têxteis.",
                 "url": "https://www.cps.bureauveritas.com/needs/textile-testing-services-compliance-solutions",
-                "image": "/static/img/conteudos/qualidade/bureau-veritas.jpg",
+                "image": "/static/img/conteudos/qualidade/bureau-veritas.png",
                 "cover_title": "Compliance",
             },
             {
@@ -243,7 +243,7 @@ QUALITY_SHELVES = [
                 "badge": "Laboratório",
                 "description": "Instituição reconhecida por testes e certificações baseados em ciência para têxteis e produtos.",
                 "url": "https://www.hohenstein.com/en/",
-                "image": "/static/img/conteudos/qualidade/hohenstein.jpg",
+                "image": "/static/img/conteudos/qualidade/hohenstein.png",
                 "cover_title": "Laboratório",
             },
         ],
@@ -297,7 +297,7 @@ QUALITY_SHELVES = [
                 "badge": "LinkedIn oficial",
                 "description": "Perfil útil para acompanhar atualizações institucionais, programas, qualidade e conformidade.",
                 "url": "https://www.linkedin.com/company/inmetro",
-                "image": "/static/img/conteudos/qualidade/inmetro-linkedin.jpg",
+                "image": "/static/img/conteudos/qualidade/inmetro-linkedin.png",
                 "cover_title": "Atualização",
             },
             {
@@ -313,7 +313,7 @@ QUALITY_SHELVES = [
                 "badge": "LinkedIn oficial",
                 "description": "Atualização recorrente sobre eventos, métodos, comunidade técnica e assuntos de qualidade têxtil.",
                 "url": "https://www.linkedin.com/company/aatcc",
-                "image": "/static/img/conteudos/qualidade/aatcc-linkedin.jpg",
+                "image": "/static/img/conteudos/qualidade/aatcc-linkedin.png",
                 "cover_title": "Comunidade",
             },
             {
@@ -352,7 +352,7 @@ QUALITY_SHELVES = [
                 "badge": "Atualização técnica",
                 "description": "Página institucional de notícias e press releases voltada à comunidade técnica de ensaios têxteis.",
                 "url": "https://www.aatcc.org/press-releases/",
-                "image": "/static/img/conteudos/qualidade/aatcc-news.jpg",
+                "image": "/static/img/conteudos/qualidade/aatcc-news.png",
                 "cover_title": "Notícias",
             },
             {
