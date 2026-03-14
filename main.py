@@ -169,6 +169,203 @@ CASES = [
     }
 ]
 
+QUALITY_SHELVES = [
+    {
+        "id": "instituicoes",
+        "title": "Instituições e Entidades",
+        "subtitle": "Fontes com base técnica, métodos, estudos, atualização setorial e referência estruturada.",
+        "items": [
+            {
+                "name": "Instituição 01",
+                "badge": "Instituição",
+                "description": "Normas, estudos, eventos e conteúdos de apoio para acompanhamento técnico da qualidade.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Normas"
+            },
+            {
+                "name": "Instituição 02",
+                "badge": "Entidade",
+                "description": "Atualização setorial, visão técnica e materiais de apoio para profissionais da área.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Métodos"
+            },
+            {
+                "name": "Instituição 03",
+                "badge": "Associação",
+                "description": "Base de consulta para quem precisa acompanhar boas práticas e evolução da área.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Estudos"
+            },
+            {
+                "name": "Instituição 04",
+                "badge": "Centro técnico",
+                "description": "Conteúdos aplicados, referências e iniciativas ligadas ao controle e à melhoria contínua.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Qualidade"
+            },
+        ],
+    },
+    {
+        "id": "laboratorios",
+        "title": "Empresas e Laboratórios",
+        "subtitle": "Aplicação prática, ensaios, equipamentos, soluções e conhecimento ligado ao campo real.",
+        "items": [
+            {
+                "name": "Laboratório 01",
+                "badge": "Laboratório",
+                "description": "Ensaios, suporte técnico e leitura aplicada de resultados para decisões com mais critério.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Ensaios"
+            },
+            {
+                "name": "Empresa 01",
+                "badge": "Fornecedor técnico",
+                "description": "Soluções e conteúdos que ajudam a entender performance, padrão e estabilidade de produto.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Padrão"
+            },
+            {
+                "name": "Empresa 02",
+                "badge": "Tecnologia",
+                "description": "Conhecimento aplicado a monitoramento, equipamentos e controle de variáveis.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Controle"
+            },
+            {
+                "name": "Laboratório 02",
+                "badge": "Teste",
+                "description": "Avaliações físicas, interpretação de resultados e apoio à tomada de decisão.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Teste"
+            },
+        ],
+    },
+    {
+        "id": "canais",
+        "title": "Canais e Vídeos",
+        "subtitle": "Conteúdo visual para acompanhar demonstrações, interpretações e aplicações práticas.",
+        "items": [
+            {
+                "name": "Canal 01",
+                "badge": "YouTube",
+                "description": "Vídeos, explicações e demonstrações úteis para aprofundar a leitura técnica da qualidade.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Vídeos"
+            },
+            {
+                "name": "Canal 02",
+                "badge": "Canal técnico",
+                "description": "Explicações práticas sobre defeitos, critérios, testes e acompanhamento de processo.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Defeitos"
+            },
+            {
+                "name": "Canal 03",
+                "badge": "Conteúdo visual",
+                "description": "Material útil para revisar fundamentos, enxergar aplicações e ampliar repertório.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Inspeção"
+            },
+            {
+                "name": "Canal 04",
+                "badge": "Vídeo técnico",
+                "description": "Referência para quem aprende melhor com imagem, demonstração e explicação objetiva.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Análise"
+            },
+        ],
+    },
+    {
+        "id": "redes",
+        "title": "Redes Profissionais",
+        "subtitle": "Perfis e iniciativas para acompanhar conteúdos curtos, insights e atualização constante.",
+        "items": [
+            {
+                "name": "Perfil 01",
+                "badge": "Instagram",
+                "description": "Publicações rápidas com abordagem técnica, prática e educacional sobre qualidade.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Social"
+            },
+            {
+                "name": "Perfil 02",
+                "badge": "LinkedIn",
+                "description": "Visões mais estratégicas sobre qualidade, gestão, tecnologia e evolução industrial.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Gestão"
+            },
+            {
+                "name": "Perfil 03",
+                "badge": "Profissional",
+                "description": "Referência para acompanhar percepções de campo, experiências e boas práticas.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Campo"
+            },
+            {
+                "name": "Perfil 04",
+                "badge": "Comunidade",
+                "description": "Atualização recorrente para manter contato com discussões e movimentos do setor.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Insights"
+            },
+        ],
+    },
+    {
+        "id": "leituras",
+        "title": "Portais e Leituras",
+        "subtitle": "Artigos, portais e páginas de aprofundamento para interpretar melhor o tema.",
+        "items": [
+            {
+                "name": "Portal 01",
+                "badge": "Portal",
+                "description": "Leituras para ampliar repertório e acompanhar discussões ligadas à qualidade têxtil.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Leituras"
+            },
+            {
+                "name": "Blog 01",
+                "badge": "Blog",
+                "description": "Conteúdos editoriais com abordagem prática e técnica para estudo contínuo.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Artigos"
+            },
+            {
+                "name": "Biblioteca 01",
+                "badge": "Conteúdo",
+                "description": "Materiais úteis para consulta e aprofundamento em fundamentos e aplicações.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Consulta"
+            },
+            {
+                "name": "Portal 02",
+                "badge": "Atualização",
+                "description": "Referência para quem deseja acompanhar tendências, leituras e movimento do tema.",
+                "url": "#",
+                "image": "",
+                "cover_title": "Tendências"
+            },
+        ],
+    },
+]
 
 # -----------------------------
 # Rotas principais
@@ -239,6 +436,14 @@ def conteudos_page():
     ]
     return render_template("conteudos.html", artigos=artigos, tag=tag)
 
+@app.route("/conteudos/temas/qualidade", endpoint="conteudos_tema_qualidade")
+def conteudos_tema_qualidade():
+    return render_template(
+        "qualidade.html",
+        page_title="Qualidade",
+        page_intro="Fontes, canais e referências para acompanhar controle, padronização, ensaios, análise de defeitos e melhoria contínua.",
+        shelves=QUALITY_SHELVES,
+    )
 
 # Rotas temporárias para evitar 404 enquanto as subpáginas de conteúdos são estruturadas
 @app.route("/conteudos/<path:subpath>", endpoint="conteudos_subpagina_temp")
