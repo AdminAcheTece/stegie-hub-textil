@@ -160,3 +160,63 @@ console.log("Stegie app.js carregado");
     if (e.key === "Escape") closeAll();
   });
 })();
+
+(function () {
+  const slider = document.querySelector('[data-qt-slider]');
+  if (!slider) return;
+
+  const slides = Array.from(slider.querySelectorAll('[data-qt-slide]'));
+  const dots = Array.from(slider.querySelectorAll('[data-qt-dot]'));
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!slides.length || !dots.length) return;
+
+  let current = 0;
+  let timer = null;
+  const interval = 5200;
+
+  function goTo(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('is-active', i === index);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === index);
+    });
+
+    current = index;
+  }
+
+  function next() {
+    const nextIndex = (current + 1) % slides.length;
+    goTo(nextIndex);
+  }
+
+  function start() {
+    if (reduceMotion) return;
+    stop();
+    timer = setInterval(next, interval);
+  }
+
+  function stop() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', function () {
+      goTo(index);
+      start();
+    });
+  });
+
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+  slider.addEventListener('focusin', stop);
+  slider.addEventListener('focusout', start);
+
+  goTo(0);
+  start();
+})();
