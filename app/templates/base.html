@@ -401,23 +401,36 @@
     (function () {
       const root = document.getElementById("stTopbar");
       if (!root) return;
-
+  
       const burger = root.querySelector(".st-fnav__burger");
       const mobile = document.getElementById("st-fnav-mobile");
       if (!burger || !mobile) return;
-
+  
+      function setMobileDimensions() {
+        const rootRect = root.getBoundingClientRect();
+        const topOffset = Math.round(rootRect.bottom);
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const menuHeight = Math.max(0, viewportHeight - topOffset);
+  
+        mobile.style.top = topOffset + "px";
+        mobile.style.height = menuHeight + "px";
+      }
+  
       function closeMenu() {
         burger.setAttribute("aria-expanded", "false");
         mobile.hidden = true;
         mobile.classList.remove("is-open");
+        document.body.style.overflow = "";
       }
-
+  
       function openMenu() {
+        setMobileDimensions();
         burger.setAttribute("aria-expanded", "true");
         mobile.hidden = false;
         mobile.classList.add("is-open");
+        document.body.style.overflow = "hidden";
       }
-
+  
       burger.addEventListener("click", function (e) {
         e.stopPropagation();
         const isOpen = burger.getAttribute("aria-expanded") === "true";
@@ -427,19 +440,31 @@
           openMenu();
         }
       });
-
+  
       document.addEventListener("click", function (e) {
         if (!mobile.contains(e.target) && !burger.contains(e.target)) {
           closeMenu();
         }
       });
-
+  
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") {
           closeMenu();
         }
       });
-
+  
+      window.addEventListener("resize", function () {
+        if (burger.getAttribute("aria-expanded") === "true") {
+          setMobileDimensions();
+        }
+      });
+  
+      window.addEventListener("orientationchange", function () {
+        if (burger.getAttribute("aria-expanded") === "true") {
+          setMobileDimensions();
+        }
+      });
+  
       mobile.querySelectorAll("a").forEach(function(link) {
         link.addEventListener("click", function() {
           closeMenu();
