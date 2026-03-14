@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<section class="tt-hero" data-reveal>
+<section id="topo" class="tt-hero" data-reveal>
   <div class="container tt-hero__inner">
     <div class="tt-kicker">Conteúdos Têxteis</div>
     <h1>Referências e caminhos para acompanhar a indústria têxtil com mais direção</h1>
@@ -109,7 +109,7 @@
             Fluxos produtivos, eficiência operacional, perdas, integração entre etapas
             e consistência de processo.
           </p>
-          <a href="{{ url_for('processos') }}" class="tt-link">Explorar Processos</a>
+          <a href="/conteudos/processos" class="tt-link">Explorar Processos</a>
         </div>
       </article>
 
@@ -120,7 +120,7 @@
             Máquinas, automação, digitalização, MES, IoT, inteligência artificial
             e inovação aplicada.
           </p>
-          <a href="{{ url_for('tecnologias') }}" class="tt-link">Explorar Tecnologias</a>
+          <a href="/conteudos/tecnologias" class="tt-link">Explorar Tecnologias</a>
         </div>
       </article>
 
@@ -131,7 +131,7 @@
             Capacitação, liderança, cultura industrial, segurança, desenvolvimento técnico
             e evolução das equipes.
           </p>
-          <a href="{{ url_for('pessoas') }}" class="tt-link">Explorar Pessoas</a>
+          <a href="/conteudos/pessoas" class="tt-link">Explorar Pessoas</a>
         </div>
       </article>
 
@@ -142,7 +142,7 @@
             Tendências, competitividade, cadeia têxtil, movimentos do setor,
             oportunidades e visão estratégica.
           </p>
-          <a href="{{ url_for('mercado') }}" class="tt-link">Explorar Mercado</a>
+          <a href="/conteudos/mercado" class="tt-link">Explorar Mercado</a>
         </div>
       </article>
     </div>
@@ -169,7 +169,7 @@
             Perfis de profissionais, empresas, instituições e projetos que compartilham
             conteúdos, bastidores, tendências e visões práticas do setor.
           </p>
-          <a href="{{ url_for('main.instagram_conteudos') }}" class="tt-link">Ver referências</a>
+          <a href="/conteudos/instagram" class="tt-link">Ver referências</a>
         </div>
       </article>
 
@@ -181,7 +181,7 @@
             Conteúdos com foco em mercado, tecnologia, negócios, gestão,
             carreira e transformações da indústria.
           </p>
-          <a href="{{ url_for('main.linkedin_conteudos') }}" class="tt-link">Ver referências</a>
+          <a href="/conteudos/linkedin" class="tt-link">Ver referências</a>
         </div>
       </article>
 
@@ -193,7 +193,7 @@
             Canais, entrevistas, demonstrações, explicações técnicas e materiais
             visuais para aprofundar temas do setor.
           </p>
-          <a href="{{ url_for('main.youtube_conteudos') }}" class="tt-link">Ver referências</a>
+          <a href="/conteudos/youtube" class="tt-link">Ver referências</a>
         </div>
       </article>
 
@@ -205,7 +205,7 @@
             Conversas, análises, entrevistas e debates úteis para acompanhar
             visões técnicas, profissionais e mercadológicas.
           </p>
-          <a href="{{ url_for('main.podcasts_conteudos') }}" class="tt-link">Ver referências</a>
+          <a href="/conteudos/podcasts" class="tt-link">Ver referências</a>
         </div>
       </article>
 
@@ -217,7 +217,7 @@
             Sites, artigos e plataformas com conteúdo técnico, notícias,
             tendências e aprofundamento editorial.
           </p>
-          <a href="{{ url_for('main.blogs_conteudos') }}" class="tt-link">Ver referências</a>
+          <a href="/conteudos/blogs-portais" class="tt-link">Ver referências</a>
         </div>
       </article>
 
@@ -229,7 +229,7 @@
             Entidades, centros técnicos, empresas e iniciativas que ajudam
             a construir repertório e atualização com base mais estruturada.
           </p>
-          <a href="{{ url_for('main.referencias_conteudos') }}" class="tt-link">Ver referências</a>
+          <a href="/conteudos/instituicoes-e-empresas" class="tt-link">Ver referências</a>
         </div>
       </article>
     </div>
@@ -254,7 +254,7 @@
           <p>
             Tipos, propriedades, origens, comportamento e impacto no desempenho têxtil.
           </p>
-          <a href="{{ url_for('fibras') }}" class="tt-link">Explorar tema</a>
+          <a href="/biblioteca/fibras" class="tt-link">Explorar tema</a>
         </div>
       </article>
 
@@ -264,7 +264,7 @@
           <p>
             Estruturas, processos, características, variações e influência sobre a malha ou tecido.
           </p>
-          <a href="{{ url_for('fios') }}" class="tt-link">Explorar tema</a>
+          <a href="/biblioteca/fios" class="tt-link">Explorar tema</a>
         </div>
       </article>
 
@@ -274,7 +274,7 @@
           <p>
             Fundamentos, estruturas, teares, construção das malhas e aspectos técnicos do processo.
           </p>
-          <a href="{{ url_for('malharia') }}" class="tt-link">Explorar tema</a>
+          <a href="/biblioteca/malharia" class="tt-link">Explorar tema</a>
         </div>
       </article>
 
@@ -284,7 +284,7 @@
           <p>
             Conceitos, ligamentos, estruturas e leitura técnica do processo de tecelagem.
           </p>
-          <a href="{{ url_for('tecelagem_plana') }}" class="tt-link">Explorar tema</a>
+          <a href="/biblioteca/tecelagem-plana" class="tt-link">Explorar tema</a>
         </div>
       </article>
 
@@ -294,7 +294,7 @@
           <p>
             Preparação, tinturaria, acabamento e variáveis que impactam resultado, toque e performance.
           </p>
-          <a href="{{ url_for('beneficiamento') }}" class="tt-link">Explorar tema</a>
+          <a href="/biblioteca/beneficiamento" class="tt-link">Explorar tema</a>
         </div>
       </article>
 
@@ -304,7 +304,7 @@
           <p>
             Uma navegação mais ampla para acessar o conjunto de temas, referências e materiais disponíveis.
           </p>
-          <a href="topo" class="tt-link">Voltar ao início</a>
+          <a href="#topo" class="tt-link">Voltar ao início</a>
         </div>
       </article>
     </div>
