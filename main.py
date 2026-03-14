@@ -174,14 +174,14 @@ QUALITY_SHELVES = [
         "id": "instituicoes",
         "title": "Instituições e Entidades",
         "subtitle": "Fontes com base técnica, métodos, estudos, atualização setorial e referência estruturada.",
-        "items": [
+        "cards": [
             {
                 "name": "Instituição 01",
                 "badge": "Instituição",
                 "description": "Normas, estudos, eventos e conteúdos de apoio para acompanhamento técnico da qualidade.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Normas"
+                "cover_title": "Normas",
             },
             {
                 "name": "Instituição 02",
@@ -189,7 +189,7 @@ QUALITY_SHELVES = [
                 "description": "Atualização setorial, visão técnica e materiais de apoio para profissionais da área.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Métodos"
+                "cover_title": "Métodos",
             },
             {
                 "name": "Instituição 03",
@@ -197,7 +197,7 @@ QUALITY_SHELVES = [
                 "description": "Base de consulta para quem precisa acompanhar boas práticas e evolução da área.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Estudos"
+                "cover_title": "Estudos",
             },
             {
                 "name": "Instituição 04",
@@ -205,7 +205,7 @@ QUALITY_SHELVES = [
                 "description": "Conteúdos aplicados, referências e iniciativas ligadas ao controle e à melhoria contínua.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Qualidade"
+                "cover_title": "Qualidade",
             },
         ],
     },
@@ -213,14 +213,14 @@ QUALITY_SHELVES = [
         "id": "laboratorios",
         "title": "Empresas e Laboratórios",
         "subtitle": "Aplicação prática, ensaios, equipamentos, soluções e conhecimento ligado ao campo real.",
-        "items": [
+        "cards": [
             {
                 "name": "Laboratório 01",
                 "badge": "Laboratório",
                 "description": "Ensaios, suporte técnico e leitura aplicada de resultados para decisões com mais critério.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Ensaios"
+                "cover_title": "Ensaios",
             },
             {
                 "name": "Empresa 01",
@@ -228,7 +228,7 @@ QUALITY_SHELVES = [
                 "description": "Soluções e conteúdos que ajudam a entender performance, padrão e estabilidade de produto.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Padrão"
+                "cover_title": "Padrão",
             },
             {
                 "name": "Empresa 02",
@@ -236,7 +236,7 @@ QUALITY_SHELVES = [
                 "description": "Conhecimento aplicado a monitoramento, equipamentos e controle de variáveis.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Controle"
+                "cover_title": "Controle",
             },
             {
                 "name": "Laboratório 02",
@@ -244,7 +244,7 @@ QUALITY_SHELVES = [
                 "description": "Avaliações físicas, interpretação de resultados e apoio à tomada de decisão.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Teste"
+                "cover_title": "Teste",
             },
         ],
     },
@@ -252,14 +252,14 @@ QUALITY_SHELVES = [
         "id": "canais",
         "title": "Canais e Vídeos",
         "subtitle": "Conteúdo visual para acompanhar demonstrações, interpretações e aplicações práticas.",
-        "items": [
+        "cards": [
             {
                 "name": "Canal 01",
                 "badge": "YouTube",
                 "description": "Vídeos, explicações e demonstrações úteis para aprofundar a leitura técnica da qualidade.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Vídeos"
+                "cover_title": "Vídeos",
             },
             {
                 "name": "Canal 02",
@@ -267,7 +267,7 @@ QUALITY_SHELVES = [
                 "description": "Explicações práticas sobre defeitos, critérios, testes e acompanhamento de processo.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Defeitos"
+                "cover_title": "Defeitos",
             },
             {
                 "name": "Canal 03",
@@ -275,7 +275,7 @@ QUALITY_SHELVES = [
                 "description": "Material útil para revisar fundamentos, enxergar aplicações e ampliar repertório.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Inspeção"
+                "cover_title": "Inspeção",
             },
             {
                 "name": "Canal 04",
@@ -283,7 +283,7 @@ QUALITY_SHELVES = [
                 "description": "Referência para quem aprende melhor com imagem, demonstração e explicação objetiva.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Análise"
+                "cover_title": "Análise",
             },
         ],
     },
@@ -291,14 +291,14 @@ QUALITY_SHELVES = [
         "id": "redes",
         "title": "Redes Profissionais",
         "subtitle": "Perfis e iniciativas para acompanhar conteúdos curtos, insights e atualização constante.",
-        "items": [
+        "cards": [
             {
                 "name": "Perfil 01",
                 "badge": "Instagram",
                 "description": "Publicações rápidas com abordagem técnica, prática e educacional sobre qualidade.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Social"
+                "cover_title": "Social",
             },
             {
                 "name": "Perfil 02",
@@ -306,7 +306,7 @@ QUALITY_SHELVES = [
                 "description": "Visões mais estratégicas sobre qualidade, gestão, tecnologia e evolução industrial.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Gestão"
+                "cover_title": "Gestão",
             },
             {
                 "name": "Perfil 03",
@@ -314,7 +314,7 @@ QUALITY_SHELVES = [
                 "description": "Referência para acompanhar percepções de campo, experiências e boas práticas.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Campo"
+                "cover_title": "Campo",
             },
             {
                 "name": "Perfil 04",
@@ -322,7 +322,7 @@ QUALITY_SHELVES = [
                 "description": "Atualização recorrente para manter contato com discussões e movimentos do setor.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Insights"
+                "cover_title": "Insights",
             },
         ],
     },
@@ -330,14 +330,14 @@ QUALITY_SHELVES = [
         "id": "leituras",
         "title": "Portais e Leituras",
         "subtitle": "Artigos, portais e páginas de aprofundamento para interpretar melhor o tema.",
-        "items": [
+        "cards": [
             {
                 "name": "Portal 01",
                 "badge": "Portal",
                 "description": "Leituras para ampliar repertório e acompanhar discussões ligadas à qualidade têxtil.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Leituras"
+                "cover_title": "Leituras",
             },
             {
                 "name": "Blog 01",
@@ -345,7 +345,7 @@ QUALITY_SHELVES = [
                 "description": "Conteúdos editoriais com abordagem prática e técnica para estudo contínuo.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Artigos"
+                "cover_title": "Artigos",
             },
             {
                 "name": "Biblioteca 01",
@@ -353,7 +353,7 @@ QUALITY_SHELVES = [
                 "description": "Materiais úteis para consulta e aprofundamento em fundamentos e aplicações.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Consulta"
+                "cover_title": "Consulta",
             },
             {
                 "name": "Portal 02",
@@ -361,11 +361,12 @@ QUALITY_SHELVES = [
                 "description": "Referência para quem deseja acompanhar tendências, leituras e movimento do tema.",
                 "url": "#",
                 "image": "",
-                "cover_title": "Tendências"
+                "cover_title": "Tendências",
             },
         ],
     },
 ]
+
 
 # -----------------------------
 # Rotas principais
@@ -417,7 +418,6 @@ def servicos_page():
     return render_template("servicos.html")
 
 
-# Rota auxiliar para links/CTAs que usem "soluções"
 @app.route("/solucoes", endpoint="solucoes")
 def solucoes_redirect():
     return redirect(url_for("servicos"), code=302)
@@ -436,6 +436,7 @@ def conteudos_page():
     ]
     return render_template("conteudos.html", artigos=artigos, tag=tag)
 
+
 @app.route("/conteudos/temas/qualidade", endpoint="conteudos_tema_qualidade")
 def conteudos_tema_qualidade():
     return render_template(
@@ -445,13 +446,19 @@ def conteudos_tema_qualidade():
         shelves=QUALITY_SHELVES,
     )
 
-# Rotas temporárias para evitar 404 enquanto as subpáginas de conteúdos são estruturadas
+
+@app.route("/conteudos/temas/<slug>", endpoint="conteudos_tema_temp")
+def conteudos_tema_temp(slug):
+    if slug == "qualidade":
+        return redirect(url_for("conteudos_tema_qualidade"), code=302)
+    return redirect(url_for("conteudos"), code=302)
+
+
 @app.route("/conteudos/<path:subpath>", endpoint="conteudos_subpagina_temp")
 def conteudos_subpagina_temp(subpath):
     return redirect(url_for("conteudos"), code=302)
 
 
-# Rotas temporárias para a biblioteca de conteúdos
 @app.route("/biblioteca/<path:subpath>", endpoint="biblioteca_subpagina_temp")
 def biblioteca_subpagina_temp(subpath):
     return redirect(url_for("conteudos"), code=302)
@@ -521,9 +528,6 @@ def agente_tecnico_textil_ia():
     return render_template("agente_tecnico_textil_ia.html")
 
 
-# rota temporária para o botão da ferramenta
-# depois, quando a ferramenta estiver pronta, troque esse redirect
-# pela rota real ou pela URL final da aplicação
 @app.route("/agente-tecnico-textil-ia/ferramenta", endpoint="agente_tecnico_textil_ia_ferramenta")
 def agente_tecnico_textil_ia_ferramenta():
     return redirect("/contato")
@@ -534,9 +538,6 @@ def fichas_tecnicas_malharia():
     return render_template("fichas_tecnicas_malharia.html")
 
 
-# rota temporária para a área de compra/login das fichas
-# depois, quando a página real estiver pronta, troque o redirect
-# pelo destino final
 @app.route("/fichas-tecnicas-malharia/acesso", endpoint="fichas_tecnicas_malharia_acesso")
 def fichas_tecnicas_malharia_acesso():
     return redirect("/login")
