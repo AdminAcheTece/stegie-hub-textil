@@ -113,19 +113,78 @@
     <div class="st-fnav__accent" aria-hidden="true"></div>
 
     <!-- Mobile menu -->
-    <div class="st-fnav__mobile" id="st-fnav-mobile" hidden>
-      <a href="{{ url_for('consultoria_textil') }}">Consultoria Têxtil (Malharia)</a>
-      <a href="{{ url_for('educacao') }}">Educação Têxtil</a>
-      <a href="{{ url_for('desenvolvimento_malhas') }}">Desenvolvimento de Malhas</a>
-      <a href="{{ url_for('agente_tecnico_textil_ia') }}">Agente Técnico Têxtil com IA</a>
-      <a href="{{ url_for('fichas_tecnicas_malharia') }}">Fichas Técnicas de Malharia</a>
+    <nav class="st-fnav__mobile" id="st-fnav-mobile" hidden aria-label="Menu mobile">
+      <!-- SOLUÇÕES -->
+      <div class="st-fnav__mobile-group">
+        <div class="st-fnav__mobile-heading" style="color:#fff; font-weight:700; font-size:1.02rem; margin:0 0 10px;">
+          Soluções
+        </div>
 
-      <hr style="opacity:.25; margin:12px 0;">
+        <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:0 0 6px;">
+          Serviços
+        </div>
+        <a href="{{ url_for('consultoria_textil') }}">Consultoria Têxtil (Malharia)</a>
+        <a href="{{ url_for('educacao') }}">Educação Têxtil</a>
+        <a href="{{ url_for('desenvolvimento_malhas') }}">Desenvolvimento de Malhas</a>
 
-      <a href="{{ url_for('quem_somos') }}">Quem somos</a>
-      <a href="{{ url_for('o_que_fazemos') }}">O que fazemos</a>
-      <a href="{{ url_for('contato') }}">Fale conosco</a>
-    </div>
+        <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 6px;">
+          Tecnologia
+        </div>
+        <a href="{{ url_for('agente_tecnico_textil_ia') }}">Agente Técnico Têxtil com IA</a>
+
+        <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 6px;">
+          Padronagens
+        </div>
+        <a href="{{ url_for('fichas_tecnicas_malharia') }}">Fichas Técnicas de Malharia</a>
+      </div>
+
+      <hr style="opacity:.25; margin:14px 0;">
+
+      <!-- CONTEÚDOS -->
+      <div class="st-fnav__mobile-group">
+        <div class="st-fnav__mobile-heading" style="color:#fff; font-weight:700; font-size:1.02rem; margin:0 0 10px;">
+          Conteúdos
+        </div>
+
+        <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:0 0 6px;">
+          Redes Sociais
+        </div>
+        <a href="{{ url_for('conteudos') }}">Instagram</a>
+        <a href="{{ url_for('conteudos') }}">LinkedIn</a>
+        <a href="{{ url_for('conteudos') }}">YouTube</a>
+
+        <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 6px;">
+          Temas Técnicos
+        </div>
+        <a href="{{ url_for('conteudos_tema_qualidade') }}">Qualidade</a>
+        <a href="{{ url_for('conteudos_tema_temp', slug='processos') }}">Processos</a>
+        <a href="{{ url_for('conteudos_tema_temp', slug='pessoas') }}">Pessoas</a>
+        <a href="{{ url_for('conteudos_tema_temp', slug='tecnologias') }}">Tecnologias</a>
+        <a href="{{ url_for('conteudos_tema_temp', slug='mercado') }}">Mercado</a>
+
+        <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 6px;">
+          Biblioteca de Conteúdos
+        </div>
+        <a href="{{ url_for('conteudos') }}">Fibras</a>
+        <a href="{{ url_for('conteudos') }}">Fios</a>
+        <a href="{{ url_for('conteudos') }}">Malharia</a>
+        <a href="{{ url_for('conteudos') }}">Tecelagem Plana</a>
+        <a href="{{ url_for('conteudos') }}">Beneficiamento</a>
+      </div>
+
+      <hr style="opacity:.25; margin:14px 0;">
+
+      <!-- SOBRE -->
+      <div class="st-fnav__mobile-group">
+        <div class="st-fnav__mobile-heading" style="color:#fff; font-weight:700; font-size:1.02rem; margin:0 0 10px;">
+          Sobre
+        </div>
+
+        <a href="{{ url_for('quem_somos') }}">Quem somos</a>
+        <a href="{{ url_for('o_que_fazemos') }}">O que fazemos</a>
+        <a href="{{ url_for('contato') }}">Fale conosco</a>
+      </div>
+    </nav>
   </header>
 
   <!-- =========================================================
@@ -379,6 +438,12 @@
         if (e.key === "Escape") {
           closeMenu();
         }
+      });
+
+      mobile.querySelectorAll("a").forEach(function(link) {
+        link.addEventListener("click", function() {
+          closeMenu();
+        });
       });
     })();
   </script>
