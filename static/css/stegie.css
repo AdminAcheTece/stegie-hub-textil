@@ -5625,14 +5625,20 @@ a.btn-ghost:hover{
   transform: scaleX(1.03);
 }
 
-.qt-slide__inner::before{
+.qt-slide::after{
   content:"";
   position:absolute;
-  inset: 0;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
   background:
-    linear-gradient(90deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.18) 30%, rgba(0,0,0,.04) 60%, rgba(0,0,0,0) 100%);
-  z-index: -1;
-  border-radius: inherit;
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.26) 0%,
+      rgba(0,0,0,.16) 28%,
+      rgba(0,0,0,.08) 58%,
+      rgba(0,0,0,.02) 100%
+    );
 }
 
 @media (max-width: 1180px){
