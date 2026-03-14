@@ -171,7 +171,7 @@ CASES = [
 
 
 # -----------------------------
-# Rotas
+# Rotas principais
 # -----------------------------
 @app.route("/", endpoint="home")
 def home_page():
@@ -220,14 +220,36 @@ def servicos_page():
     return render_template("servicos.html")
 
 
+# Rota auxiliar para links/CTAs que usem "soluções"
+@app.route("/solucoes", endpoint="solucoes")
+def solucoes_redirect():
+    return redirect(url_for("servicos"), code=302)
+
+
 @app.route("/fichas-tecnicas", endpoint="fichas_tecnicas")
 def fichas_tecnicas_page():
     return render_template("fichas-tecnicas.html")
 
 
-@main.route("/conteudos")
-def conteudos():
-    return render_template("conteudos.html")
+@app.route("/conteudos", endpoint="conteudos")
+def conteudos_page():
+    tag = request.args.get("tag", "").strip()
+    artigos = ARTIGOS if not tag else [
+        artigo for artigo in ARTIGOS if artigo["tag"].lower() == tag.lower()
+    ]
+    return render_template("conteudos.html", artigos=artigos, tag=tag)
+
+
+# Rotas temporárias para evitar 404 enquanto as subpáginas de conteúdos são estruturadas
+@app.route("/conteudos/<path:subpath>", endpoint="conteudos_subpagina_temp")
+def conteudos_subpagina_temp(subpath):
+    return redirect(url_for("conteudos"), code=302)
+
+
+# Rotas temporárias para a biblioteca de conteúdos
+@app.route("/biblioteca/<path:subpath>", endpoint="biblioteca_subpagina_temp")
+def biblioteca_subpagina_temp(subpath):
+    return redirect(url_for("conteudos"), code=302)
 
 
 @app.route("/cases", endpoint="cases")
@@ -265,51 +287,63 @@ def termos_page():
     return render_template("termos.html")
 
 
-@app.errorhandler(404)
-def not_found(_):
-    return render_template("404.html"), 404
-
-
 @app.route("/health", endpoint="health")
 def health():
     return "ok", 200
 
-from flask import render_template, redirect, url_for
 
-@app.route("/desenvolvimento-de-malhas")
-@app.route("/desenvolvimento_malhas")
+# -----------------------------
+# Rotas complementares
+# -----------------------------
+@app.route("/desenvolvimento-de-malhas", endpoint="desenvolvimento_de_malhas_hifen")
+@app.route("/desenvolvimento_malhas", endpoint="desenvolvimento_malhas")
 def desenvolvimento_malhas():
     return render_template("desenvolvimento_malhas.html")
 
-@app.route("/consultoria-textil")
+
+@app.route("/consultoria-textil", endpoint="consultoria_textil")
 def consultoria_textil():
     return render_template("consultoria_textil.html")
 
-@app.route("/educacao")
+
+@app.route("/educacao", endpoint="educacao")
 def educacao():
     return render_template("educacao.html")
 
-@app.route("/agente-tecnico-textil-ia")
+
+@app.route("/agente-tecnico-textil-ia", endpoint="agente_tecnico_textil_ia")
 def agente_tecnico_textil_ia():
     return render_template("agente_tecnico_textil_ia.html")
+
 
 # rota temporária para o botão da ferramenta
 # depois, quando a ferramenta estiver pronta, troque esse redirect
 # pela rota real ou pela URL final da aplicação
-@app.route("/agente-tecnico-textil-ia/ferramenta")
+@app.route("/agente-tecnico-textil-ia/ferramenta", endpoint="agente_tecnico_textil_ia_ferramenta")
 def agente_tecnico_textil_ia_ferramenta():
     return redirect("/contato")
 
-@app.route("/fichas-tecnicas-malharia")
+
+@app.route("/fichas-tecnicas-malharia", endpoint="fichas_tecnicas_malharia")
 def fichas_tecnicas_malharia():
     return render_template("fichas_tecnicas_malharia.html")
+
 
 # rota temporária para a área de compra/login das fichas
 # depois, quando a página real estiver pronta, troque o redirect
 # pelo destino final
-@app.route("/fichas-tecnicas-malharia/acesso")
+@app.route("/fichas-tecnicas-malharia/acesso", endpoint="fichas_tecnicas_malharia_acesso")
 def fichas_tecnicas_malharia_acesso():
     return redirect("/login")
+
+
+# -----------------------------
+# Error handlers
+# -----------------------------
+@app.errorhandler(404)
+def not_found(_):
+    return render_template("404.html"), 404
+
 
 # -----------------------------
 # Local run (somente dev)
