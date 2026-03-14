@@ -4,16 +4,88 @@
 {% block meta_description %}{{ page_intro }}{% endblock %}
 
 {% block content %}
+<section class="qt-hero" aria-label="Banner de destaque da curadoria de qualidade">
+  <div class="qt-hero__slider" data-qt-slider>
+
+    <!-- SLIDE 1 -->
+    <article class="qt-slide is-active" data-qt-slide>
+      <div class="qt-slide__bg qt-slide__bg--social"></div>
+
+      <div class="container qt-slide__inner">
+        <div class="qt-slide__content">
+          <div class="qt-slide__eyebrow">Redes Sociais</div>
+          <h1 class="qt-slide__title">Atualização curta. Presença constante.</h1>
+          <p class="qt-slide__text">
+            Canais para acompanhar referências, sinais do setor e conteúdo técnico com ritmo e clareza.
+          </p>
+          <a href="#quality-collections" class="qt-slide__cta">Explorar curadoria</a>
+        </div>
+
+        <div class="qt-slide__statement" aria-hidden="true">
+          <span class="qt-slide__statement-top">conteúdo</span>
+          <span class="qt-slide__statement-main">que mantém</span>
+          <span class="qt-slide__statement-bottom">o radar ligado</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SLIDE 2 -->
+    <article class="qt-slide" data-qt-slide>
+      <div class="qt-slide__bg qt-slide__bg--technical"></div>
+
+      <div class="container qt-slide__inner">
+        <div class="qt-slide__content">
+          <div class="qt-slide__eyebrow">Temas Técnicos</div>
+          <h2 class="qt-slide__title">Critério para entender. Direção para agir.</h2>
+          <p class="qt-slide__text">
+            Leituras que organizam o raciocínio técnico e ajudam a transformar informação em decisão.
+          </p>
+          <a href="#quality-collections" class="qt-slide__cta">Ver referências</a>
+        </div>
+
+        <div class="qt-slide__statement" aria-hidden="true">
+          <span class="qt-slide__statement-top">tema certo,</span>
+          <span class="qt-slide__statement-main">leitura clara</span>
+          <span class="qt-slide__statement-bottom">e aplicação melhor</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SLIDE 3 -->
+    <article class="qt-slide" data-qt-slide>
+      <div class="qt-slide__bg qt-slide__bg--library"></div>
+
+      <div class="container qt-slide__inner">
+        <div class="qt-slide__content">
+          <div class="qt-slide__eyebrow">Biblioteca de Conteúdos</div>
+          <h2 class="qt-slide__title">Base para consultar melhor.</h2>
+          <p class="qt-slide__text">
+            Uma biblioteca para localizar assuntos, ampliar repertório e aprofundar a leitura técnica.
+          </p>
+          <a href="#quality-collections" class="qt-slide__cta">Abrir seleção</a>
+        </div>
+
+        <div class="qt-slide__statement" aria-hidden="true">
+          <span class="qt-slide__statement-top">conteúdo</span>
+          <span class="qt-slide__statement-main">que vira</span>
+          <span class="qt-slide__statement-bottom">repertório útil</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- CONTROLES -->
+    <div class="qt-hero__dots" aria-label="Navegação dos slides">
+      <button class="qt-hero__dot is-active" type="button" data-qt-dot aria-label="Ir para slide 1"></button>
+      <button class="qt-hero__dot" type="button" data-qt-dot aria-label="Ir para slide 2"></button>
+      <button class="qt-hero__dot" type="button" data-qt-dot aria-label="Ir para slide 3"></button>
+    </div>
+  </div>
+</section>
+
 <section class="q-page">
   <div class="q-wrap">
-    <header class="q-hero">
-      <p class="q-eyebrow">Curadoria visual</p>
-      <h1 class="q-title">{{ page_title }}</h1>
-      <p class="q-intro">{{ page_intro }}</p>
-    </header>
-
     {% for shelf in shelves %}
-      <section class="q-shelf" id="{{ shelf.id }}">
+      <section class="q-shelf" id="{% if loop.first %}quality-collections{% else %}{{ shelf.id }}{% endif %}">
         <div class="q-shelf__head">
           <h2 class="q-shelf__title">{{ shelf.title }}</h2>
           <p class="q-shelf__subtitle">{{ shelf.subtitle }}</p>
@@ -66,4 +138,68 @@
     {% endfor %}
   </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    const slider = document.querySelector('[data-qt-slider]');
+    if (!slider) return;
+
+    const slides = Array.from(slider.querySelectorAll('[data-qt-slide]'));
+    const dots = Array.from(slider.querySelectorAll('[data-qt-dot]'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!slides.length || !dots.length) return;
+
+    let current = 0;
+    let timer = null;
+    const interval = 5200;
+
+    function goTo(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('is-active', i === index);
+      });
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === index);
+      });
+
+      current = index;
+    }
+
+    function next() {
+      const nextIndex = (current + 1) % slides.length;
+      goTo(nextIndex);
+    }
+
+    function start() {
+      if (reduceMotion) return;
+      stop();
+      timer = setInterval(next, interval);
+    }
+
+    function stop() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', function () {
+        goTo(index);
+        start();
+      });
+    });
+
+    slider.addEventListener('mouseenter', stop);
+    slider.addEventListener('mouseleave', start);
+    slider.addEventListener('focusin', stop);
+    slider.addEventListener('focusout', start);
+
+    goTo(0);
+    start();
+  })();
+</script>
 {% endblock %}
