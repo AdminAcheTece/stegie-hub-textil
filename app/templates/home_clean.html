@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stegie</title>
 
-  <!-- Inter base + Manrope (wordmark) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
@@ -18,7 +17,7 @@
       --bg:#F7F6F3;
     }
 
-    /* FIX estrutural: evita “arrastar lateralmente” no mobile */
+    /* Anti “puxar pro lado” */
     *, *::before, *::after{ box-sizing: border-box; }
     html, body{ width:100%; overflow-x:hidden; }
 
@@ -42,7 +41,6 @@
       z-index: 50;
       background: transparent;
     }
-
     .home-top-actions{
       display:flex;
       align-items:center;
@@ -50,7 +48,6 @@
       position: relative;
     }
 
-    /* Botão sanduíche */
     .icon-btn{
       width: 40px;
       height: 40px;
@@ -69,7 +66,6 @@
       stroke:#111;
     }
 
-    /* Botão CONTA (resolve o “círculo preto sem função”) */
     .avatar{
       width: 40px;
       height: 40px;
@@ -95,7 +91,6 @@
       white-space:nowrap;border:0;
     }
 
-    /* Dropdown menu: preto com fonte branca */
     .menu{
       position:absolute;
       top: 52px;
@@ -127,7 +122,7 @@
     }
     .menu-item:hover{ background: rgba(255,255,255,.08); }
 
-    /* ===== CENTRO (agora 100% centralizado e estável no mobile) ===== */
+    /* ===== CENTRO ===== */
     .home-wrap{
       width: 100%;
       min-height: 100vh;
@@ -146,7 +141,6 @@
       gap: 10px;
     }
 
-    /* Marca */
     .brand-lockup{
       display:grid;
       justify-items:center;
@@ -169,7 +163,6 @@
       color:#111;
     }
 
-    /* Pill frase — agora SEM “min()” e sem estourar no mobile */
     .home-pill{
       width: 100%;
       max-width: 720px;
@@ -198,7 +191,6 @@
     .home-pill-text::before{ content:"“"; }
     .home-pill-text::after{ content:"”"; }
 
-    /* Atalhos */
     .home-shortcuts{
       width: 100%;
       max-width: 860px;
@@ -206,6 +198,7 @@
       grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 14px;
       margin-top: 2px;
+      justify-items: center;
     }
     .shortcut{
       text-decoration:none;
@@ -236,7 +229,7 @@
     .shortcut-ico svg [fill]:not([fill="none"]){ fill: var(--olive); }
     .shortcut-ico svg *{ stroke-width: 1.9; }
 
-    /* ===== PROVA SOCIAL (marquee) ===== */
+    /* ===== MARCAS ===== */
     .home-proof{
       width: 100%;
       max-width: 920px;
@@ -271,17 +264,14 @@
       will-change: transform;
       animation: marquee 26s linear infinite;
     }
-    .marquee:hover .marquee__track{ animation-play-state: paused; }
-
     @keyframes marquee{
       0%   { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
-    /* chips claros + LOGO maior (compensando margem branca do arquivo) */
     .client-chip{
-      height: 48px;                 /* mantém o card */
-      padding: 6px 10px;            /* MAIS espaço útil pro logo */
+      height: 48px;
+      padding: 6px 10px;
       border-radius: 12px;
       background: rgba(255,255,255,.92);
       border: 1px solid rgba(0,0,0,.10);
@@ -297,11 +287,10 @@
       width:auto;
       object-fit: contain;
       filter: grayscale(1) contrast(1.08);
-      transform: scale(1.55);       /* <<< AUMENTA BEM no desktop */
+      transform: scale(1.65); /* maior no desktop sem aumentar o card */
       transform-origin: center;
     }
 
-    /* Tagline */
     .home-tagline{
       margin-top: 6px;
       text-align:center;
@@ -339,52 +328,52 @@
     }
     .footer-links a:hover{ text-decoration: underline; }
 
-    /* ===== RESPONSIVO (MOBILE: alinhado, próximo e sem deslocar) ===== */
-    @media (max-width: 980px){
-      .home-wrap{
-        padding: calc(64px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
-      }
-      .home-shortcuts{
-        grid-template-columns: repeat(3, minmax(0,1fr));
-        max-width: 720px;
-      }
-      .client-logo{ transform: scale(1.35); }
-    }
-
+    /* ===== MOBILE (CENTRALIZAÇÃO DEFINITIVA) ===== */
     @media (max-width: 520px){
-      /* no mobile, começa mais “no topo” e fica harmônico */
+      /* O segredo: limitar a largura útil e centralizar tudo */
+      .home-center{
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Garantir que cada bloco seja “auto central” */
+      .brand-lockup,
+      .home-pill,
+      .home-shortcuts,
+      .home-proof,
+      .home-tagline{
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+      /* Começar mais alto e ficar harmônico */
       .home-wrap{
         align-items:flex-start;
         padding: calc(74px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
       }
 
-      .brand-logo{ height: 68px; }
-      .home-brand{ font-size: 54px; }
-
-      .home-pill{
-        max-width: 100%;
-        height: 46px;
-      }
-      .home-pill-text{
-        font-size: 15px;
-      }
-
-      /* Ícones bem alinhados e próximos (3 colunas = 2 linhas) */
+      /* Grid bem alinhado e próximo */
       .home-shortcuts{
         grid-template-columns: repeat(3, minmax(0,1fr));
         gap: 10px;
         max-width: 100%;
+        justify-items: center;
       }
       .shortcut{ padding: 6px 4px; gap: 8px; }
       .shortcut-ico{ width: 50px; height: 50px; }
       .shortcut-ico svg{ width: 25px; height: 25px; }
       .shortcut-label{ font-size: 13px !important; }
 
-      .home-proof{ max-width: 100%; }
+      /* Pill 100% sem estourar */
+      .home-pill{ max-width: 100%; height: 46px; }
+      .home-pill-text{ font-size: 15px; }
+
+      /* Logos coerentes no mobile */
       .client-chip{ height: 42px; }
       .client-logo{
         height: 30px;
-        transform: scale(1.32);
+        transform: scale(1.35);
       }
 
       .home-tagline{ font-size: 20px; }
@@ -404,50 +393,6 @@
       <path d="M20 21a8 8 0 0 0-16 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
-
-    <symbol id="i-home" viewBox="0 0 24 24">
-      <path d="M3 10.5 12 3l9 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M5.5 10.5V21h13V10.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M10 21v-6h4v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </symbol>
-
-    <symbol id="i-bot" viewBox="0 0 24 24">
-      <path d="M12 3v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M9.5 5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      <rect x="5" y="7" width="14" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M9 12h.01M15 12h.01" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
-      <path d="M8.5 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    </symbol>
-
-    <!-- Consultoria: engrenagem + pessoa (mais próximo do seu anexo) -->
-    <symbol id="i-wrench" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
-      <circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
-      <path d="M12 2.8v2.1M12 19.1v2.1M2.9 12h2.1M19 12h2.1M4.5 5.5l1.5 1.5M18 18l1.5 1.5M4.5 18.5l1.5-1.5M18 6l1.5-1.5"
-            fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      <path d="M12 13.2a2.1 2.1 0 1 0-2.1-2.1a2.1 2.1 0 0 0 2.1 2.1Z"
-            fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M15.2 17.2a4.1 4.1 0 0 0-6.4 0"
-            fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-    </symbol>
-
-    <symbol id="i-grad" viewBox="0 0 24 24">
-      <path d="M12 3 2 8l10 5 10-5-10-5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M6 10v6c0 1.7 2.7 3 6 3s6-1.3 6-3v-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    </symbol>
-
-    <symbol id="i-file" viewBox="0 0 24 24">
-      <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-6Z"
-            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M14 2v6h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M8 13h8M8 17h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    </symbol>
-
-    <symbol id="i-book" viewBox="0 0 24 24">
-      <path d="M4 19a2 2 0 0 0 2 2h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M4 5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2V5Z"
-            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-    </symbol>
   </svg>
 
   <!-- Topo: menu + conta -->
@@ -457,7 +402,6 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"></use></svg>
       </button>
 
-      <!-- IMPORTANTE: este link precisa apontar para sua página de login/cadastro -->
       <a class="avatar" href="{{ account.href }}" aria-label="Conta">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-user"></use></svg>
         <span class="sr-only">Conta</span>
