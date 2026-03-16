@@ -438,7 +438,7 @@ def home_page():
     # Link exato pedido (com âncora)
     conteudos_qualidade = url_for("conteudos_tema_qualidade") + "#quality-collections"
 
-    # ÍCONES/CARDS do meio da página
+    # ÍCONES/CARDS do meio da página (NOVO MENU)
     shortcuts = [
         {"label": "Home", "href": url_for("servicos"), "icon": "i-home"},
         {"label": "Consultoria", "href": url_for("consultoria_textil"), "icon": "i-wrench"},
@@ -449,13 +449,25 @@ def home_page():
     ]
 
     # LINKS do rodapé (abaixo) e também do menu sanduíche (homeMenu)
+    # >>> VOLTANDO para: Quem somos + Contato + Política + Termos (como você pediu)
     nav_links = [
-        {"label": "Home", "href": url_for("servicos")},
-        {"label": "Consultoria", "href": url_for("consultoria_textil")},
-        {"label": "Cursos", "href": url_for("educacao")},
-        {"label": "Fichas Técnicas", "href": url_for("fichas_tecnicas_malharia")},
-        {"label": "Conteúdos", "href": conteudos_qualidade},
-        {"label": "Agente Têxtil", "href": url_for("agente_tecnico_textil_ia")},
+        {"label": "Quem somos", "href": url_for("quem_somos")},
+        {"label": "Contato", "href": url_for("contato")},
+        {"label": "Política", "href": url_for("politica")},
+        {"label": "Termos", "href": url_for("termos")},
+    ]
+
+    # LISTA DE LOGOS (prova social) — você só coloca os arquivos nessa pasta
+    # Caminho sugerido: static/img/clientes/cliente-01.png ... cliente-12.png
+    clientes = [
+        {"src": url_for("static", filename="img/clientes/cliente-01.png"), "alt": "Empresa atendida 01"},
+        {"src": url_for("static", filename="img/clientes/cliente-02.png"), "alt": "Empresa atendida 02"},
+        {"src": url_for("static", filename="img/clientes/cliente-03.png"), "alt": "Empresa atendida 03"},
+        {"src": url_for("static", filename="img/clientes/cliente-04.png"), "alt": "Empresa atendida 04"},
+        {"src": url_for("static", filename="img/clientes/cliente-05.png"), "alt": "Empresa atendida 05"},
+        {"src": url_for("static", filename="img/clientes/cliente-06.png"), "alt": "Empresa atendida 06"},
+        {"src": url_for("static", filename="img/clientes/cliente-07.png"), "alt": "Empresa atendida 07"},
+        {"src": url_for("static", filename="img/clientes/cliente-08.png"), "alt": "Empresa atendida 08"},
     ]
 
     account = {"href": url_for("home"), "initials": "V"}
@@ -465,8 +477,8 @@ def home_page():
         shortcuts=shortcuts,
         nav_links=nav_links,
         account=account,
+        clientes=clientes,
     )
-
 
 @app.route("/home", endpoint="home_redirect")
 def home_redirect():
