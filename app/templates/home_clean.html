@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stegie</title>
 
+  <!-- Inter base + Manrope (wordmark) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
@@ -13,21 +14,17 @@
 
   <style>
     :root{
-      --olive:#7B7424;         /* oliva fechado */
+      --olive:#7B7424;
       --bg:#F7F6F3;
     }
 
-    .home-clean{
-      --primary:#111;
-      --text:#111;
-      --muted:rgba(0,0,0,.68);
-      --border:rgba(0,0,0,.12);
-      --surface:rgba(255,255,255,.78);
-
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:#111;
+    /* ===== BASE HOME ===== */
+    body.home-clean{
       background: var(--bg);
+      color:#111;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       min-height: 100vh;
+      overflow-x: hidden;                 /* evita “deslocar para direita” no mobile */
     }
 
     /* Tipos um pouco maiores */
@@ -45,45 +42,144 @@
       top:-9999px !important;
     }
 
-    /* ===== TOPO ===== */
-    .home-clean .icon-btn{
-      color:#111 !important;
-      background:rgba(255,255,255,.90) !important;
-      border:1px solid rgba(0,0,0,.14) !important;
+    /* ===== TOPO (fixo) ===== */
+    .home-top{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      padding: 0 18px;
+      z-index: 50;
+      background: transparent;
     }
-    .home-clean .icon-btn svg,
-    .home-clean .icon-btn svg use{
-      color:#111 !important;
-      stroke:#111 !important;
+    .home-top-actions{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      position: relative;
     }
-    .avatar{
-      background:#111 !important;
-      color:#fff !important;
-      font-weight:700 !important;
-      font-size:14px !important;
-      line-height:1 !important;
-    }
-    .avatar span{ display:block; transform: translateY(1px); }
 
-    /* ===== ENQUADRAR TUDO NA MESMA TELA =====
-       (compacta espaços verticais) */
+    /* Botão sanduíche (claro + ícone escuro) */
+    .icon-btn{
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.14);
+      background: rgba(255,255,255,.90);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      color:#111; /* currentColor do SVG */
+    }
+    .icon-btn svg, .icon-btn svg use{
+      width: 20px;
+      height: 20px;
+      color:#111;
+      stroke:#111;
+    }
+
+    /* Avatar vira “Conta” (agora com ícone de usuário) */
+    .avatar{
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      display:grid;
+      place-items:center;
+      text-decoration:none;
+      box-shadow: 0 10px 22px rgba(0,0,0,.08);
+    }
+    .avatar svg{
+      width: 18px;
+      height: 18px;
+      stroke: #fff;
+      fill: none;
+    }
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    /* Dropdown menu: preto com fonte branca */
+    .menu{
+      position:absolute;
+      top: 52px;
+      right: 0;
+      min-width: 220px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: #0b0b0b;
+      box-shadow: 0 18px 40px rgba(0,0,0,.22);
+      padding: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-6px);
+      transition: .16s ease;
+    }
+    .menu.is-open{
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .menu-item{
+      display:block;
+      padding: 11px 12px;
+      border-radius: 10px;
+      text-decoration:none;
+      color: rgba(255,255,255,.92);
+      font-weight: 500;
+    }
+    .menu-item:hover{ background: rgba(255,255,255,.08); }
+
+    /* ===== CONTEÚDO CENTRAL (100% CENTRALIZADO) ===== */
     .home-wrap{
+      width: 100%;
       min-height: 100vh;
       display:grid;
       place-items:center;
-      padding: 68px 16px 86px !important; /* topo menor + rodapé fixo */
+      padding: 68px 16px 86px; /* topo/rodapé */
     }
+
     .home-center{
       width: min(980px, 100%);
+      margin: 0 auto;                 /* garante centralização */
       display:grid;
       justify-items:center;
-      gap: 10px !important; /* antes 14 */
+      gap: 10px;
     }
 
-    .brand-lockup{ margin-bottom: 10px !important; } /* menos espaço */
-    .home-brand{ margin-top: -6px; }                 /* aproxima */
+    /* Marca */
+    .brand-lockup{
+      display:grid;
+      justify-items:center;
+      text-align:center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .brand-logo{
+      height: clamp(72px, 9vw, 150px);
+      width:auto;
+      display:block;
+    }
+    .home-brand{
+      font-family: Manrope, Inter, system-ui, sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: clamp(46px, 7vw, 84px);
+      line-height: .92;
+      margin-top: -6px;
+      color:#111;
+    }
 
-    /* Pill: texto central */
+    /* Pill frase */
     .home-pill{
       width: min(720px, 100%);
       height: 48px;
@@ -95,26 +191,35 @@
       align-items:center;
       justify-content:center;
       padding: 0 16px;
+      text-align:center;
     }
     .home-pill-text{
       font-weight: 400;
       font-size: 16px;
       font-style: italic;
-      text-align:center;
-      color: rgba(0,0,0,.70);
+      color: rgba(0,0,0,.72);
     }
     .home-pill-text::before{ content:"“"; }
     .home-pill-text::after{ content:"”"; }
 
-    /* Atalhos (6 colunas) */
+    /* Atalhos (6 itens) */
     .home-shortcuts{
-      width: min(820px, 100%);
+      width: min(860px, 100%);
       display:grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-      gap: 14px !important; /* menos espaço */
-      margin-top: 2px !important;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 2px;
     }
-    .shortcut{ padding: 8px 6px; }
+    .shortcut{
+      text-decoration:none;
+      color:#111;
+      display:grid;
+      justify-items:center;
+      gap: 10px;
+      padding: 8px 6px;
+      border-radius: 16px;
+    }
+    .shortcut:hover{ background: rgba(0,0,0,.03); }
     .shortcut-ico{
       width: 54px;
       height: 54px;
@@ -126,34 +231,22 @@
       box-shadow: 0 10px 18px rgba(0,0,0,.05);
     }
 
-    /* ÍCONES: oliva + 10% maior */
-    .home-clean .shortcut-ico svg{
-      width:26px !important;
-      height:26px !important;
-      color:var(--olive) !important;
-    }
-    .home-clean .shortcut-ico svg [stroke]{ stroke:var(--olive) !important; }
-    .home-clean .shortcut-ico svg [fill]:not([fill="none"]){ fill:var(--olive) !important; }
-    .home-clean .shortcut-ico svg *{ stroke-width:1.9; }
-
-    /* Tagline (mantém) */
-    .home-tagline{
-      margin-top: 6px;
-      text-align:center;
-      font-size: clamp(20px, 2.2vw, 32px);
-      font-weight: 500;
-      letter-spacing:-0.01em;
-      line-height: 1.12;
+    /* Ícones oliva + 10% maior */
+    .shortcut-ico svg{
+      width: 26px;
+      height: 26px;
       color: var(--olive);
     }
+    .shortcut-ico svg [stroke]{ stroke: var(--olive); }
+    .shortcut-ico svg [fill]:not([fill="none"]){ fill: var(--olive); }
+    .shortcut-ico svg *{ stroke-width: 1.9; }
 
-    /* ===== EMPRESAS ATENDIDAS (marquee infinito) ===== */
+    /* ===== PROVA SOCIAL: MARQUEE ===== */
     .home-proof{
       width: min(920px, 100%);
       margin-top: 8px;
       padding: 10px 0 8px;
-      border-top: 1px solid rgba(0,0,0,.12);
-      border-bottom: 1px solid rgba(0,0,0,.12);
+      border: 1px solid rgba(0,0,0,.12);
       background: rgba(255,255,255,.22);
       border-radius: 14px;
     }
@@ -167,7 +260,6 @@
       margin-bottom: 8px;
     }
 
-    /* container do movimento */
     .marquee{
       position: relative;
       overflow: hidden;
@@ -183,8 +275,6 @@
       will-change: transform;
       animation: marquee 26s linear infinite;
     }
-
-    /* pausa ao passar o mouse (opcional premium) */
     .marquee:hover .marquee__track{ animation-play-state: paused; }
 
     @keyframes marquee{
@@ -192,10 +282,10 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* chip claro atrás do logo + 40% maior */
+    /* chips claros + logos maiores, compensando “margem interna” do PNG */
     .client-chip{
-      height: 48px;                 /* ~40% maior (era 34px) */
-      padding: 8px 14px;
+      height: 48px;                 /* 40% maior que o original */
+      padding: 8px 12px;
       border-radius: 12px;
       background: rgba(255,255,255,.92);
       border: 1px solid rgba(0,0,0,.10);
@@ -204,31 +294,33 @@
       align-items:center;
       justify-content:center;
       flex: 0 0 auto;
+      overflow: hidden;
     }
     .client-logo{
-      height: 32px;                 /* logo dentro do chip */
+      height: 34px;
       width:auto;
       object-fit: contain;
-      filter: grayscale(1) contrast(1.1); /* P&B sem escurecer demais */
-      opacity: .98;
+
+      /* P&B sem “escurecer” demais */
+      filter: grayscale(1) contrast(1.08);
+
+      /* COMPENSA o “respiro branco” das imagens: aumenta visual */
+      transform: scale(1.25);
+      transform-origin: center;
     }
 
-    /* responsivo */
-    @media (max-width: 980px){
-      .home-wrap{ padding: 64px 14px 86px !important; }
-      .home-shortcuts{ grid-template-columns: repeat(3, minmax(0,1fr)) !important; width:min(720px,100%); }
-      .client-chip{ height: 44px; }
-      .client-logo{ height: 30px; }
-    }
-    @media (max-width: 520px){
-      .home-shortcuts{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
-      .home-tagline{ font-size: 20px; }
-      .client-chip{ height: 40px; padding: 8px 12px; }
-      .client-logo{ height: 26px; }
-      .marquee__track{ gap: 14px; }
+    /* Tagline */
+    .home-tagline{
+      margin-top: 6px;
+      text-align:center;
+      font-size: clamp(20px, 2.2vw, 32px);
+      font-weight: 500;
+      letter-spacing:-0.01em;
+      line-height: 1.12;
+      color: var(--olive);
     }
 
-    /* Rodapé fixo (mantém) */
+    /* ===== RODAPÉ FIXO ===== */
     .home-footer{
       position: fixed;
       left: 0; right: 0; bottom: 0;
@@ -241,25 +333,54 @@
     .footer-row{
       width: min(1100px, 100%);
       margin: 0 auto;
-      display: flex;
-      align-items: center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       gap: 18px;
-      justify-content: center;
+      flex-wrap: wrap;
     }
     .footer-links a{
       color: rgba(0,0,0,.72);
       font-weight: 600;
+      text-decoration:none;
     }
     .footer-links a:hover{ text-decoration: underline; }
+
+    /* ===== RESPONSIVO (MOBILE CORRIGE DESLOCAMENTO) ===== */
+    @media (max-width: 980px){
+      .home-wrap{ padding: 64px 14px 86px; }
+      .home-shortcuts{ grid-template-columns: repeat(3, minmax(0,1fr)); width:min(720px,100%); }
+      .client-chip{ height: 44px; }
+      .client-logo{ height: 30px; transform: scale(1.22); }
+    }
+    @media (max-width: 520px){
+      /* Em mobile: tudo ocupa 100% e fica central */
+      .home-wrap{ padding: 60px 14px 86px; }
+      .home-center{ width: 100%; }
+
+      .home-pill{ height: 46px; width: 100%; }
+      .home-shortcuts{ grid-template-columns: repeat(2, minmax(0,1fr)); width: 100%; gap: 12px; }
+
+      .home-proof{ width: 100%; }
+      .client-chip{ height: 40px; padding: 8px 10px; }
+      .client-logo{ height: 26px; transform: scale(1.22); }
+
+      .home-tagline{ font-size: 20px; }
+    }
   </style>
 </head>
 
 <body class="home-clean">
 
-  <!-- SVG sprite (invisível) -->
+  <!-- SVG sprite -->
   <svg class="home-icons-sprite" aria-hidden="true" focusable="false">
     <symbol id="i-menu" viewBox="0 0 24 24">
       <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <path d="M20 21a8 8 0 0 0-16 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
 
     <symbol id="i-home" viewBox="0 0 24 24">
@@ -276,9 +397,19 @@
       <path d="M8.5 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
 
+    <!-- CONSULTORIA (substitui o wrench) — engrenagem + pessoa -->
     <symbol id="i-wrench" viewBox="0 0 24 24">
-      <path d="M14.7 6.3a5 5 0 0 0-6.5 6.5L3 18l3 3 5.2-5.2a5 5 0 0 0 6.5-6.5l-2.2 2.2-2.8-2.8 2-2.3Z"
+      <!-- gear (simples e premium) -->
+      <circle cx="10" cy="11" r="3.1" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="10" cy="11" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8" opacity="1"/>
+      <path d="M10 2.8v2.1M10 19.1v2.1M2.9 11h2.1M15 11h2.1M4.5 5.5l1.5 1.5M13.9 15l1.5 1.5M4.5 16.5l1.5-1.5M13.9 7l1.5-1.5"
+            fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+
+      <!-- person (direita) -->
+      <path d="M18.3 10.2a2.2 2.2 0 1 0-2.2-2.2a2.2 2.2 0 0 0 2.2 2.2Z"
             fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22 20.4a4.6 4.6 0 0 0-7.4 0"
+            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
 
     <symbol id="i-grad" viewBox="0 0 24 24">
@@ -300,17 +431,17 @@
     </symbol>
   </svg>
 
-  <!-- Topo direito: sanduíche + avatar -->
+  <!-- Topo direito: menu + conta -->
   <header class="home-top" aria-label="Topo">
-    <div class="home-top-spacer"></div>
-
     <div class="home-top-actions">
       <button class="icon-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="homeMenu">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"></use></svg>
       </button>
 
+      <!-- CTA Conta (linkável via account.href no main.py) -->
       <a class="avatar" href="{{ account.href }}" aria-label="Conta">
-        <span>{{ account.initials }}</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-user"></use></svg>
+        <span class="sr-only">{{ account.initials }}</span>
       </a>
 
       <div class="menu" id="homeMenu" role="menu" aria-label="Menu principal">
@@ -346,10 +477,8 @@
         {% endfor %}
       </nav>
 
-      <!-- PROVA SOCIAL: marquee infinito -->
       <section class="home-proof" aria-label="Empresas atendidas">
         <div class="home-proof__title">Empresas atendidas</div>
-
         <div class="marquee">
           <div class="marquee__track" id="clientsTrack">
             {% for c in clientes %}
@@ -357,8 +486,6 @@
                 <img class="client-logo" src="{{ c.src }}" alt="{{ c.alt }}" loading="lazy" decoding="async">
               </div>
             {% endfor %}
-
-            <!-- duplicação via JS (garante loop perfeito) -->
           </div>
         </div>
       </section>
@@ -427,20 +554,18 @@
         el.textContent = phrases[idx];
       }
 
-      // Marquee infinito perfeito: duplica os itens até passar de 2x largura
+      // Marquee infinito: duplica itens para loop perfeito
       const track = document.getElementById("clientsTrack");
       if (track){
-        const items = Array.from(track.children);
-        // duplica uma vez (mínimo)
-        items.forEach(node => track.appendChild(node.cloneNode(true)));
+        const original = Array.from(track.children);
+        original.forEach(node => track.appendChild(node.cloneNode(true)));
 
-        // se ainda estiver curto, duplica mais
         const ensureLoop = () => {
           const parentW = track.parentElement.getBoundingClientRect().width;
           const trackW = track.getBoundingClientRect().width;
           if (trackW < parentW * 2){
-            const now = Array.from(track.children).slice(0, items.length);
-            now.forEach(node => track.appendChild(node.cloneNode(true)));
+            const base = Array.from(track.children).slice(0, original.length);
+            base.forEach(node => track.appendChild(node.cloneNode(true)));
           }
         };
         ensureLoop();
