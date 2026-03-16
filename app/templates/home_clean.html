@@ -18,44 +18,31 @@
       --bg:#F7F6F3;
     }
 
-    /* ===== BASE HOME ===== */
+    /* FIX estrutural: evita “arrastar lateralmente” no mobile */
+    *, *::before, *::after{ box-sizing: border-box; }
+    html, body{ width:100%; overflow-x:hidden; }
+
     body.home-clean{
       background: var(--bg);
       color:#111;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       min-height: 100vh;
-      overflow-x: hidden;                 /* evita “deslocar para direita” no mobile */
+      overflow-x:hidden;
     }
 
-    /* Tipos um pouco maiores */
-    .shortcut-label{ font-size:14px !important; }
-    .menu-item{ font-size:14.5px !important; }
-    .footer-links a{ font-size:13.5px !important; }
-
-    /* Sprite nunca aparece */
-    .home-icons-sprite{
-      position:absolute !important;
-      width:0 !important;
-      height:0 !important;
-      overflow:hidden !important;
-      left:-9999px !important;
-      top:-9999px !important;
-    }
-
-    /* ===== TOPO (fixo) ===== */
+    /* ===== TOPO ===== */
     .home-top{
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 64px;
+      top: 0; left: 0; right: 0;
+      height: calc(64px + env(safe-area-inset-top));
+      padding: calc(env(safe-area-inset-top)) 18px 0;
       display:flex;
       align-items:center;
       justify-content:flex-end;
-      padding: 0 18px;
       z-index: 50;
       background: transparent;
     }
+
     .home-top-actions{
       display:flex;
       align-items:center;
@@ -63,7 +50,7 @@
       position: relative;
     }
 
-    /* Botão sanduíche (claro + ícone escuro) */
+    /* Botão sanduíche */
     .icon-btn{
       width: 40px;
       height: 40px;
@@ -73,7 +60,7 @@
       display:grid;
       place-items:center;
       cursor:pointer;
-      color:#111; /* currentColor do SVG */
+      color:#111;
     }
     .icon-btn svg, .icon-btn svg use{
       width: 20px;
@@ -82,7 +69,7 @@
       stroke:#111;
     }
 
-    /* Avatar vira “Conta” (agora com ícone de usuário) */
+    /* Botão CONTA (resolve o “círculo preto sem função”) */
     .avatar{
       width: 40px;
       height: 40px;
@@ -136,21 +123,24 @@
       text-decoration:none;
       color: rgba(255,255,255,.92);
       font-weight: 500;
+      font-size: 14.5px;
     }
     .menu-item:hover{ background: rgba(255,255,255,.08); }
 
-    /* ===== CONTEÚDO CENTRAL (100% CENTRALIZADO) ===== */
+    /* ===== CENTRO (agora 100% centralizado e estável no mobile) ===== */
     .home-wrap{
       width: 100%;
       min-height: 100vh;
-      display:grid;
-      place-items:center;
-      padding: 68px 16px 86px; /* topo/rodapé */
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding: calc(68px + env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom));
     }
 
     .home-center{
-      width: min(980px, 100%);
-      margin: 0 auto;                 /* garante centralização */
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
       display:grid;
       justify-items:center;
       gap: 10px;
@@ -179,9 +169,10 @@
       color:#111;
     }
 
-    /* Pill frase */
+    /* Pill frase — agora SEM “min()” e sem estourar no mobile */
     .home-pill{
-      width: min(720px, 100%);
+      width: 100%;
+      max-width: 720px;
       height: 48px;
       border-radius: 999px;
       background: rgba(255,255,255,.72);
@@ -192,19 +183,25 @@
       justify-content:center;
       padding: 0 16px;
       text-align:center;
+      overflow:hidden;
     }
     .home-pill-text{
       font-weight: 400;
       font-size: 16px;
       font-style: italic;
       color: rgba(0,0,0,.72);
+      max-width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
     .home-pill-text::before{ content:"“"; }
     .home-pill-text::after{ content:"”"; }
 
-    /* Atalhos (6 itens) */
+    /* Atalhos */
     .home-shortcuts{
-      width: min(860px, 100%);
+      width: 100%;
+      max-width: 860px;
       display:grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 14px;
@@ -230,8 +227,6 @@
       place-items:center;
       box-shadow: 0 10px 18px rgba(0,0,0,.05);
     }
-
-    /* Ícones oliva + 10% maior */
     .shortcut-ico svg{
       width: 26px;
       height: 26px;
@@ -241,9 +236,10 @@
     .shortcut-ico svg [fill]:not([fill="none"]){ fill: var(--olive); }
     .shortcut-ico svg *{ stroke-width: 1.9; }
 
-    /* ===== PROVA SOCIAL: MARQUEE ===== */
+    /* ===== PROVA SOCIAL (marquee) ===== */
     .home-proof{
-      width: min(920px, 100%);
+      width: 100%;
+      max-width: 920px;
       margin-top: 8px;
       padding: 10px 0 8px;
       border: 1px solid rgba(0,0,0,.12);
@@ -282,10 +278,10 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* chips claros + logos maiores, compensando “margem interna” do PNG */
+    /* chips claros + LOGO maior (compensando margem branca do arquivo) */
     .client-chip{
-      height: 48px;                 /* 40% maior que o original */
-      padding: 8px 12px;
+      height: 48px;                 /* mantém o card */
+      padding: 6px 10px;            /* MAIS espaço útil pro logo */
       border-radius: 12px;
       background: rgba(255,255,255,.92);
       border: 1px solid rgba(0,0,0,.10);
@@ -297,15 +293,11 @@
       overflow: hidden;
     }
     .client-logo{
-      height: 34px;
+      height: 36px;
       width:auto;
       object-fit: contain;
-
-      /* P&B sem “escurecer” demais */
       filter: grayscale(1) contrast(1.08);
-
-      /* COMPENSA o “respiro branco” das imagens: aumenta visual */
-      transform: scale(1.25);
+      transform: scale(1.55);       /* <<< AUMENTA BEM no desktop */
       transform-origin: center;
     }
 
@@ -327,11 +319,12 @@
       background: rgba(255,255,255,.70);
       border-top: 1px solid rgba(0,0,0,.10);
       backdrop-filter: blur(10px);
-      padding: 10px 16px;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
       z-index: 40;
     }
     .footer-row{
-      width: min(1100px, 100%);
+      width: 100%;
+      max-width: 1100px;
       margin: 0 auto;
       display:flex;
       align-items:center;
@@ -346,24 +339,53 @@
     }
     .footer-links a:hover{ text-decoration: underline; }
 
-    /* ===== RESPONSIVO (MOBILE CORRIGE DESLOCAMENTO) ===== */
+    /* ===== RESPONSIVO (MOBILE: alinhado, próximo e sem deslocar) ===== */
     @media (max-width: 980px){
-      .home-wrap{ padding: 64px 14px 86px; }
-      .home-shortcuts{ grid-template-columns: repeat(3, minmax(0,1fr)); width:min(720px,100%); }
-      .client-chip{ height: 44px; }
-      .client-logo{ height: 30px; transform: scale(1.22); }
+      .home-wrap{
+        padding: calc(64px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
+      }
+      .home-shortcuts{
+        grid-template-columns: repeat(3, minmax(0,1fr));
+        max-width: 720px;
+      }
+      .client-logo{ transform: scale(1.35); }
     }
+
     @media (max-width: 520px){
-      /* Em mobile: tudo ocupa 100% e fica central */
-      .home-wrap{ padding: 60px 14px 86px; }
-      .home-center{ width: 100%; }
+      /* no mobile, começa mais “no topo” e fica harmônico */
+      .home-wrap{
+        align-items:flex-start;
+        padding: calc(74px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
+      }
 
-      .home-pill{ height: 46px; width: 100%; }
-      .home-shortcuts{ grid-template-columns: repeat(2, minmax(0,1fr)); width: 100%; gap: 12px; }
+      .brand-logo{ height: 68px; }
+      .home-brand{ font-size: 54px; }
 
-      .home-proof{ width: 100%; }
-      .client-chip{ height: 40px; padding: 8px 10px; }
-      .client-logo{ height: 26px; transform: scale(1.22); }
+      .home-pill{
+        max-width: 100%;
+        height: 46px;
+      }
+      .home-pill-text{
+        font-size: 15px;
+      }
+
+      /* Ícones bem alinhados e próximos (3 colunas = 2 linhas) */
+      .home-shortcuts{
+        grid-template-columns: repeat(3, minmax(0,1fr));
+        gap: 10px;
+        max-width: 100%;
+      }
+      .shortcut{ padding: 6px 4px; gap: 8px; }
+      .shortcut-ico{ width: 50px; height: 50px; }
+      .shortcut-ico svg{ width: 25px; height: 25px; }
+      .shortcut-label{ font-size: 13px !important; }
+
+      .home-proof{ max-width: 100%; }
+      .client-chip{ height: 42px; }
+      .client-logo{
+        height: 30px;
+        transform: scale(1.32);
+      }
 
       .home-tagline{ font-size: 20px; }
     }
@@ -397,19 +419,16 @@
       <path d="M8.5 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
 
-    <!-- CONSULTORIA (substitui o wrench) — engrenagem + pessoa -->
+    <!-- Consultoria: engrenagem + pessoa (mais próximo do seu anexo) -->
     <symbol id="i-wrench" viewBox="0 0 24 24">
-      <!-- gear (simples e premium) -->
-      <circle cx="10" cy="11" r="3.1" fill="none" stroke="currentColor" stroke-width="1.8"/>
-      <circle cx="10" cy="11" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8" opacity="1"/>
-      <path d="M10 2.8v2.1M10 19.1v2.1M2.9 11h2.1M15 11h2.1M4.5 5.5l1.5 1.5M13.9 15l1.5 1.5M4.5 16.5l1.5-1.5M13.9 7l1.5-1.5"
+      <circle cx="12" cy="12" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M12 2.8v2.1M12 19.1v2.1M2.9 12h2.1M19 12h2.1M4.5 5.5l1.5 1.5M18 18l1.5 1.5M4.5 18.5l1.5-1.5M18 6l1.5-1.5"
             fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-
-      <!-- person (direita) -->
-      <path d="M18.3 10.2a2.2 2.2 0 1 0-2.2-2.2a2.2 2.2 0 0 0 2.2 2.2Z"
-            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M22 20.4a4.6 4.6 0 0 0-7.4 0"
-            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M12 13.2a2.1 2.1 0 1 0-2.1-2.1a2.1 2.1 0 0 0 2.1 2.1Z"
+            fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M15.2 17.2a4.1 4.1 0 0 0-6.4 0"
+            fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
     </symbol>
 
     <symbol id="i-grad" viewBox="0 0 24 24">
@@ -431,17 +450,17 @@
     </symbol>
   </svg>
 
-  <!-- Topo direito: menu + conta -->
+  <!-- Topo: menu + conta -->
   <header class="home-top" aria-label="Topo">
     <div class="home-top-actions">
       <button class="icon-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="homeMenu">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"></use></svg>
       </button>
 
-      <!-- CTA Conta (linkável via account.href no main.py) -->
+      <!-- IMPORTANTE: este link precisa apontar para sua página de login/cadastro -->
       <a class="avatar" href="{{ account.href }}" aria-label="Conta">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-user"></use></svg>
-        <span class="sr-only">{{ account.initials }}</span>
+        <span class="sr-only">Conta</span>
       </a>
 
       <div class="menu" id="homeMenu" role="menu" aria-label="Menu principal">
