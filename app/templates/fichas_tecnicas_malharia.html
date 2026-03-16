@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}STEGIE | Fichas Técnicas de Malharia{% endblock %}
-{% block meta_description %}Fichas Técnicas de Malharia com base estruturada para consulta, compra e aplicação em desenvolvimento, engenharia, qualidade e comercial técnico.{% endblock %}
+{% block meta_description %}Fichas Técnicas de Malharia com base estruturada para consulta, busca, compra por ficha e aplicação em desenvolvimento, engenharia, qualidade e comercial técnico.{% endblock %}
 
 {% block content %}
 
@@ -66,7 +66,7 @@
       linear-gradient(135deg, #6e6440 0%, #94885d 18%, #c8bc8a 40%, #e7dec1 62%, #d2c69b 80%, #b4aa7a 100%);
     box-shadow:0 20px 50px rgba(0,0,0,.10);
   }
-  
+
   .ftm-slide::before{
     content:"";
     position:absolute;
@@ -77,7 +77,7 @@
       radial-gradient(circle at 86% 74%, rgba(210,245,150,.12) 0, transparent 14%);
     pointer-events:none;
   }
-  
+
   .ftm-slide::after{
     content:"";
     position:absolute;
@@ -89,7 +89,7 @@
     mix-blend-mode:screen;
     pointer-events:none;
   }
-  
+
   .ftm-slide__grid{
     position:relative;
     z-index:2;
@@ -102,12 +102,12 @@
     margin:0 auto;
     padding:56px 0 64px;
   }
-  
+
   .ftm-slide__content{
     color:#fff;
     max-width:760px;
   }
-  
+
   .ftm-brow{
     display:inline-flex;
     align-items:center;
@@ -123,7 +123,7 @@
     text-transform:uppercase;
     backdrop-filter:blur(10px);
   }
-  
+
   .ftm-slide h1{
     margin:18px 0 14px;
     font-size:clamp(2.5rem, 5vw, 4.9rem);
@@ -132,11 +132,11 @@
     font-weight:700;
     max-width:10ch;
   }
-  
+
   .ftm-slide h1 .ftm-em{
     color:#efe29a;
   }
-  
+
   .ftm-slide__lead{
     margin:0 0 24px;
     max-width:21ch;
@@ -144,7 +144,7 @@
     line-height:1.5;
     color:rgba(255,255,255,.96);
   }
-  
+
   .ftm-actions{
     display:flex;
     flex-wrap:wrap;
@@ -264,7 +264,7 @@
     color:rgba(255,255,255,.78);
     line-height:1.55;
     font-size:.95rem;
-  }  
+  }
 
   .ftm-section-nav{
     position:sticky;
@@ -858,12 +858,12 @@
           <h1>Fichas Técnicas de <span class="ftm-em">Malharia</span></h1>
 
           <p class="ftm-slide__lead">
-            Uma base estruturada para consultar, comparar e adquirir fichas técnicas com mais clareza sobre construção, aplicação e leitura do produto.
+            Uma base estruturada para consultar, buscar, comparar e adquirir fichas técnicas com mais clareza sobre construção, aplicação e leitura do produto.
           </p>
 
           <div class="ftm-actions">
-            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--primary">Acessar área de fichas</a>
-            <a href="#visao-geral" class="ftm-btn ftm-btn--ghost">Entender o serviço</a>
+            <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}" class="ftm-btn ftm-btn--primary">Explorar catálogo de fichas</a>
+            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--ghost">Entrar / minhas compras</a>
           </div>
 
           <p class="ftm-hero__dynamic">
@@ -877,16 +877,16 @@
           <h3>“Transformar necessidade de consulta em acesso técnico rápido, filtrável e mais aplicável.”</h3>
 
           <ul class="ftm-focus-list">
-            <li>Fichas com leitura mais clara para desenvolvimento, engenharia e comercial</li>
+            <li>Catálogo com acesso livre para busca e leitura inicial das fichas</li>
             <li>Base organizada para busca por tipo, aplicação e características técnicas</li>
-            <li>Botão direto para a área de login e compra das fichas</li>
+            <li>Fluxo preparado para login, compra por ficha e acesso ao histórico do cliente</li>
           </ul>
 
           <div class="ftm-focus-note">
-            Esta página apresenta o serviço. A experiência de compra e acesso pode ficar em um ambiente próprio, protegido por login.
+            Esta página apresenta o serviço. O catálogo pode ser acessado livremente, e o login entra no fluxo de compra e no acesso posterior às fichas adquiridas.
           </div>
         </aside>
-      </div>      
+      </div>
     </div>
   </section>
 
@@ -896,7 +896,7 @@
       <a href="#o-que-entrega">O que entrega</a>
       <a href="#aplicacoes">Aplicações</a>
       <a href="#como-funciona">Como funciona</a>
-      <a href="#acesso">Área de compra</a>
+      <a href="#acesso">Catálogo e compra</a>
       <a href="#resultados">Resultados</a>
       <a href="#fale-conosco">Fale conosco</a>
     </div>
@@ -916,18 +916,18 @@
 
           <p class="ftm-lead">
             Essa frente apoia profissionais e empresas que precisam enxergar melhor construção, composição, aplicação, comportamento e lógica técnica da malha,
-            além de criar uma experiência mais objetiva para busca, comparação e compra.
+            além de criar uma experiência mais objetiva para busca, comparação e compra por ficha.
           </p>
 
           <ul class="ftm-list">
             <li>Fichas estruturadas para consulta técnica mais rápida.</li>
             <li>Base útil para desenvolvimento, engenharia, qualidade e comercial técnico.</li>
             <li>Organização melhor do conhecimento sobre tipos e aplicações de malha.</li>
-            <li>Ambiente preparado para acesso via login e compra por clientes.</li>
+            <li>Ambiente preparado para navegação livre, compra por ficha e acesso do cliente.</li>
           </ul>
 
           <div class="ftm-actions" style="margin-top:24px; margin-bottom:0;">
-            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--primary">Entrar na área de fichas</a>
+            <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}" class="ftm-btn ftm-btn--primary">Ver catálogo de fichas</a>
             <a href="/servicos" class="ftm-btn ftm-btn--ghost" style="color:#121212;border-color:rgba(18,18,18,.14);background:#fff;">Voltar aos serviços</a>
           </div>
         </div>
@@ -938,7 +938,7 @@
             <span class="ftm-side-card__tag">O que entrega</span>
             <h3>Mais clareza técnica para consultar, comparar e selecionar bases de malha.</h3>
             <p>
-              A proposta é transformar informação técnica em uma experiência mais organizada, reduzindo atrito entre dúvida, busca e tomada de decisão.
+              A proposta é transformar informação técnica em uma experiência mais organizada, reduzindo atrito entre dúvida, busca, compra e tomada de decisão.
             </p>
 
             <div class="ftm-mini-metrics">
@@ -948,7 +948,7 @@
               </div>
               <div class="ftm-mini-metric">
                 <strong>1</strong>
-                <span>base digital alinhada ao ecossistema Stegie</span>
+                <span>catálogo digital alinhado ao ecossistema Stegie</span>
               </div>
               <div class="ftm-mini-metric">
                 <strong>−</strong>
@@ -956,7 +956,7 @@
               </div>
               <div class="ftm-mini-metric">
                 <strong>↑</strong>
-                <span>clareza sobre aplicação e leitura técnica</span>
+                <span>clareza sobre aplicação, leitura e compra técnica</span>
               </div>
             </div>
           </div>
@@ -993,13 +993,13 @@
         <article class="ftm-card ftm-reveal">
           <div class="ftm-card__icon">03</div>
           <h3>Busca por filtros</h3>
-          <p>Estrutura pronta para trabalhar filtros como composição, gramatura, construção, aplicação e outras variáveis.</p>
+          <p>Estrutura pronta para trabalhar filtros como composição, gramatura, construção, aplicação e outras variáveis do sistema.</p>
         </article>
 
         <article class="ftm-card ftm-reveal">
           <div class="ftm-card__icon">04</div>
-          <h3>Acesso comercializável</h3>
-          <p>Uma frente preparada para login, compra, entrega digital e evolução futura do catálogo.</p>
+          <h3>Compra por ficha</h3>
+          <p>Uma frente preparada para catálogo aberto, compra individual, histórico de pedidos e evolução futura do acervo.</p>
         </article>
       </div>
     </div>
@@ -1081,7 +1081,7 @@
         <article class="ftm-step ftm-reveal">
           <div class="ftm-step__num">01</div>
           <h3>Entrada no catálogo</h3>
-          <p>O usuário acessa a base e entra em um ambiente preparado para navegar pelas fichas.</p>
+          <p>O usuário acessa a base livremente e entra em um ambiente preparado para navegar pelas fichas.</p>
         </article>
 
         <article class="ftm-step ftm-reveal">
@@ -1098,8 +1098,8 @@
 
         <article class="ftm-step ftm-reveal">
           <div class="ftm-step__num">04</div>
-          <h3>Compra e acesso</h3>
-          <p>Com login e fluxo próprio, o cliente pode comprar, organizar e acessar suas fichas com mais autonomia.</p>
+          <h3>Compra e acesso posterior</h3>
+          <p>Ao decidir comprar, o cliente entra com login, conclui o pedido e depois acessa suas fichas pelo histórico.</p>
         </article>
       </div>
     </div>
@@ -1109,25 +1109,25 @@
     <div class="ftm-container">
       <div class="ftm-topline ftm-reveal">
         <div>
-          <div class="ftm-kicker">Área de compra e login</div>
-          <h2 class="ftm-heading">Esta página apresenta o serviço. O ambiente de compra pode ficar em uma área separada.</h2>
+          <div class="ftm-kicker">Catálogo, compra e login</div>
+          <h2 class="ftm-heading">O catálogo pode ser aberto. O login entra quando o cliente quiser comprar ou acessar suas fichas.</h2>
         </div>
         <p>
-          Como você comentou, o cliente terá uma área própria para entrar, comprar e acessar fichas. Esta seção já nasce preparada para esse fluxo.
+          Como você definiu, a navegação pode ser livre. O fluxo de cadastro e login entra na etapa de compra e também no acesso posterior ao material adquirido.
         </p>
       </div>
 
       <div class="ftm-shop-panel ftm-reveal">
         <div class="ftm-shop-panel__body">
           <div class="ftm-kicker">Ambiente do cliente</div>
-          <h3>Botão pronto para direcionar o usuário para a área de login e compras das fichas.</h3>
+          <h3>Catálogo público para explorar. Área do cliente para comprar, acompanhar pedidos e baixar as fichas adquiridas.</h3>
           <p>
-            Hoje o botão pode apontar para uma rota temporária. Depois, quando o ambiente de vendas estiver pronto,
-            basta trocar o destino pelo link final sem precisar refazer a página institucional.
+            Com isso, a experiência fica mais leve para quem está conhecendo o acervo e mais organizada para quem já comprou.
+            A página institucional continua apresentando o serviço, enquanto o catálogo e a área do cliente assumem a operação.
           </p>
           <div class="ftm-actions" style="margin-bottom:0;">
-            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--primary">Entrar na área de fichas</a>
-            <a href="/contato" class="ftm-btn ftm-btn--ghost">Falar sobre o catálogo</a>
+            <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}" class="ftm-btn ftm-btn--primary">Explorar catálogo</a>
+            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--ghost">Entrar / minhas compras</a>
           </div>
         </div>
 
@@ -1135,10 +1135,11 @@
           <span>já previsto no layout</span>
           <h4>O que pode existir dentro dessa área</h4>
           <ul>
-            <li>Login do cliente</li>
-            <li>Catálogo filtrável de fichas</li>
+            <li>Catálogo aberto e filtrável</li>
             <li>Página individual de cada ficha</li>
-            <li>Compra, histórico e acesso ao material adquirido</li>
+            <li>Compra por ficha</li>
+            <li>Login e cadastro no momento da compra</li>
+            <li>Histórico, pedidos e downloads</li>
           </ul>
         </aside>
       </div>
@@ -1179,7 +1180,7 @@
         <article class="ftm-result ftm-reveal">
           <div class="ftm-result__num">4</div>
           <h3>Mais valor comercial</h3>
-          <p>O conteúdo passa a existir também como produto digital de acesso controlado.</p>
+          <p>O conteúdo passa a existir também como produto digital de compra individual e acesso controlado.</p>
         </article>
 
         <article class="ftm-result ftm-reveal">
@@ -1203,12 +1204,12 @@
             <div class="ftm-kicker">Fale conosco</div>
             <h2>Vamos estruturar sua frente de Fichas Técnicas de Malharia.</h2>
             <p>
-              Para projetos que querem organizar conhecimento técnico, criar uma base consultável e abrir uma experiência própria de compra e acesso por clientes.
+              Para projetos que querem organizar conhecimento técnico, criar uma base consultável e abrir uma experiência própria de catálogo, compra e acesso por clientes.
             </p>
           </div>
 
           <div class="ftm-actions" style="margin:0;">
-            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--primary">Acessar área de fichas</a>
+            <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}" class="ftm-btn ftm-btn--primary">Explorar catálogo</a>
             <a href="/contato" class="ftm-btn ftm-btn--ghost">Falar com a Stegie</a>
           </div>
         </div>
@@ -1224,7 +1225,7 @@
       "comparação entre bases",
       "busca por filtros",
       "acesso ao catálogo",
-      "compra com login",
+      "compra por ficha",
       "repertório técnico escalável"
     ];
 
