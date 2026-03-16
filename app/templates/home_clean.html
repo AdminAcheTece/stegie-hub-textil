@@ -5,31 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stegie</title>
 
-  <!-- Fonte clean (feeling “Google-like”) -->
+  <!-- Inter base + Manrope (wordmark) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Inter base + Manrope (wordmark) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}?v={{ config.get('ASSET_VERSION','1') }}">
 
-  <!-- Overrides somente para a home (preto/branco + ajustes pontuais) -->
+  <!-- Overrides somente para a home (limpo/sem duplicação) -->
   <style>
-    /* Paleta preto/branco (sem verde) */
-    .home-clean{
-      --primary: #111;
-      --text: #111;
-      --muted: rgba(0,0,0,.68);
-      --border: rgba(0,0,0,.12);
-      --surface: rgba(255,255,255,.78);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: #111;
+    :root{
+      --olive:#7B7424; /* oliva fechado (referência Falconi) */
     }
 
-    /* Fontes um pouco maiores (sem mexer no “Stegie”) */
-    .shortcut-label{ font-size: 14px !important; }
-    .menu-item{ font-size: 14.5px !important; }
-    .footer-links a{ font-size: 13.5px !important; }
+    /* Paleta preto/branco + tipografia */
+    .home-clean{
+      --primary:#111;
+      --text:#111;
+      --muted:rgba(0,0,0,.68);
+      --border:rgba(0,0,0,.12);
+      --surface:rgba(255,255,255,.78);
+
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:#111;
+    }
+
+    /* Tipos um pouco maiores */
+    .shortcut-label{ font-size:14px !important; }
+    .menu-item{ font-size:14.5px !important; }
+    .footer-links a{ font-size:13.5px !important; }
 
     /* Sprite de ícones nunca aparece */
     .home-icons-sprite{
@@ -41,118 +45,118 @@
       top:-9999px !important;
     }
 
-    /* 1) Aumentar distância: logo/wordmark ↔ campo da frase */
-    .brand-lockup{
-      margin-bottom: 18px !important;
-    }
+    /* Mais distância entre marca e pill */
+    .brand-lockup{ margin-bottom:18px !important; }
 
-    /* 2) Remover o “ponto” do campo da frase (não renderiza e não reserva espaço) */
-    .home-pill-dot{ display:none !important; }
-
-    /* Reforça centralização do texto no pill */
+    /* Pill: somente texto central (sem ponto) */
     .home-pill{
-      justify-content: center !important;
-      gap: 0 !important;
-      padding: 0 18px !important;
+      justify-content:center !important;
+      gap:0 !important;
+      padding:0 18px !important;
     }
 
-    /* 3) Tagline 2x e em verde oliva (igual vibe Falconi) */
+    /* Tagline: 2x e oliva */
     .home-tagline{
-      margin-top: 10px;
-      text-align: center;
-      font-size: clamp(22px, 2.4vw, 36px); /* ~2x */
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      line-height: 1.18;
-      color: var(--fnav-accent, #5b5a1b);
+      margin-top:10px;
+      text-align:center;
+      font-size:clamp(22px, 2.4vw, 36px);
+      font-weight:500;
+      letter-spacing:-0.01em;
+      line-height:1.18;
+      color:var(--olive) !important;
     }
 
-    /* 4) Menu (dropdown) preto com fonte branca */
+    /* Dropdown menu: preto com fonte branca */
     .home-clean .menu{
-      background: #0b0b0b !important;
-      border-color: rgba(255,255,255,.18) !important;
-      box-shadow: 0 18px 40px rgba(0,0,0,.22) !important;
+      background:#0b0b0b !important;
+      border-color:rgba(255,255,255,.18) !important;
+      box-shadow:0 18px 40px rgba(0,0,0,.22) !important;
     }
     .home-clean .menu-item{
-      color: rgba(255,255,255,.92) !important;
-      font-weight: 500 !important;
+      color:rgba(255,255,255,.92) !important;
+      font-weight:500 !important;
     }
     .home-clean .menu-item:hover{
-      background: rgba(255,255,255,.08) !important;
+      background:rgba(255,255,255,.08) !important;
     }
 
-    /* Avatar mantém preto, mas texto já é branco */
-    .avatar{ background:#111 !important; color:#fff !important; }
-
-    /* Ícones em preto (sem verde) */
-    .shortcut-ico svg{ color: #111 !important; }
-
-    /* (mantém o “subir um pouco” do conteúdo para caber a tagline) */
-    .home-wrap{
-      padding-top: 80px !important;
-      padding-bottom: 120px !important;
+    /* ===== CORREÇÃO DO SEU PRINT (ícones sumidos no topo direito) =====
+       O botão está CLARO, então o ícone precisa ser ESCURO. */
+    .home-clean .icon-btn{
+      color:#111 !important;                  /* controla currentColor do SVG */
+      background:rgba(255,255,255,.85) !important;
+      border:1px solid rgba(0,0,0,.14) !important;
     }
-    .home-center{ gap: 14px !important; }
-
-    .home-tagline{
-      margin-top: 10px;
-      text-align: center;
-      font-size: clamp(22px, 2.4vw, 36px);
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      line-height: 1.18;
-    
-      /* OLIVA FECHADO (igual “Atuação global”) */
-      color: #7B7424 !important;
-    }
-
-    /* ÍCONES: cor oliva + 10% maior (sem mexer no card) */
-    .home-clean .shortcut-ico svg{
-      color: #7B7424 !important;     /* oliva fechado (igual Falconi) */
-      width: 26px !important;        /* antes ~24px */
-      height: 26px !important;       /* antes ~24px */
-    }
-    
-    /* Opcional: deixa o traço com aparência ainda mais “premium” */
-    .home-clean .shortcut-ico svg *{
-      stroke-width: 1.9;             /* se achar “grosso”, volte para 1.8 */
-    }
-    
-    /* Garante que o hover não altere a cor */
-    .home-clean .shortcut:hover .shortcut-ico svg{
-      color: #7B7424 !important;
-    }
-
-    /* Compatibilidade: caso algum símbolo use fill */
-    .home-clean .shortcut-ico svg [fill]:not([fill="none"]){
-      fill: #7B7424 !important;
-    }
-    .home-clean .shortcut-ico svg [stroke]{
-      stroke: #7B7424 !important;
-    }
-
-    /* Botão sanduíche: ícone interno branco (mantém o botão premium) */
     .home-clean .icon-btn svg,
     .home-clean .icon-btn svg use{
-      color: #fff !important;
-      stroke: #fff !important;
+      color:#111 !important;
+      stroke:#111 !important;
     }
-    
-    /* Se o ícone for desenhado via currentColor, garante */
-    .home-clean .icon-btn{
-      color: #fff !important;
+
+    /* Avatar (garante inicial visível) */
+    .avatar{
+      background:#111 !important;
+      color:#fff !important;
+      font-weight:700 !important;
+      font-size:14px !important;
+      line-height:1 !important;
+    }
+    .avatar span{ display:block; transform: translateY(1px); }
+
+    /* ÍCONES dos atalhos: oliva + ~10% maior */
+    .home-clean .shortcut-ico svg{
+      width:26px !important;
+      height:26px !important;
+      color:var(--olive) !important;
+    }
+    .home-clean .shortcut-ico svg [stroke]{ stroke:var(--olive) !important; }
+    .home-clean .shortcut-ico svg [fill]:not([fill="none"]){ fill:var(--olive) !important; }
+    .home-clean .shortcut-ico svg *{ stroke-width:1.9; }
+
+    /* (mantém “subir um pouco” o conteúdo) */
+    .home-wrap{
+      padding-top:80px !important;
+      padding-bottom:120px !important;
+    }
+    .home-center{ gap:14px !important; }
+
+    /* Grid preparado para 6 atalhos (Home/Consultoria/Cursos/Fichas/Conteúdos/Agente) */
+    .home-shortcuts{
+      grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    }
+    @media (max-width: 920px){
+      .home-shortcuts{ grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
+    }
+    @media (max-width: 520px){
+      .home-shortcuts{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
     }
   </style>
 </head>
 
 <body class="home-clean">
 
-  <!-- SVG sprite (DEVE ficar invisível) -->
+  <!-- SVG sprite (fica invisível) -->
   <svg class="home-icons-sprite" aria-hidden="true" focusable="false">
     <symbol id="i-menu" viewBox="0 0 24 24">
       <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
 
+    <!-- NOVOS ícones (para Home e Agente Têxtil) -->
+    <symbol id="i-home" viewBox="0 0 24 24">
+      <path d="M3 10.5 12 3l9 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5.5 10.5V21h13V10.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 21v-6h4v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <symbol id="i-bot" viewBox="0 0 24 24">
+      <path d="M12 3v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M9.5 5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <rect x="5" y="7" width="14" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M9 12h.01M15 12h.01" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M8.5 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- ícones existentes -->
     <symbol id="i-wrench" viewBox="0 0 24 24">
       <path d="M14.7 6.3a5 5 0 0 0-6.5 6.5L3 18l3 3 5.2-5.2a5 5 0 0 0 6.5-6.5l-2.2 2.2-2.8-2.8 2-2.3Z"
             fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -174,13 +178,6 @@
       <path d="M4 19a2 2 0 0 0 2 2h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M4 5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2V5Z"
             fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-    </symbol>
-
-    <symbol id="i-briefcase" viewBox="0 0 24 24">
-      <path d="M10 6V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M4 7h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"
-            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M2 12h20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
   </svg>
 
@@ -245,7 +242,7 @@
     </section>
   </main>
 
-  <!-- Rodapé (links expostos) -->
+  <!-- Rodapé -->
   <footer class="home-footer" aria-label="Rodapé">
     <div class="footer-row footer-links">
       {% for l in nav_links %}
