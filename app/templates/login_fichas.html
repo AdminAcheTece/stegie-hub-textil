@@ -1,0 +1,488 @@
+{% extends "base.html" %}
+{% block title %}STEGIE | Login das Fichas Técnicas{% endblock %}
+{% block meta_description %}Acesse sua área de fichas técnicas de malharia para entrar, acompanhar compras e acessar seus materiais adquiridos.{% endblock %}
+
+{% block content %}
+
+<style>
+  .fichas-login{
+    --fl-bg:#f3f1eb;
+    --fl-surface:#ffffff;
+    --fl-text:#121212;
+    --fl-muted:#5f5f5f;
+    --fl-border:#ddd7cb;
+    --fl-accent:#8E8420;
+    --fl-accent-2:#B7F238;
+    --fl-dark:#111111;
+    --fl-radius-xl:30px;
+    --fl-radius-lg:22px;
+    --fl-shadow:0 18px 44px rgba(0,0,0,.08);
+    background:linear-gradient(180deg, #f6f4ef 0%, #f3f1eb 100%);
+    padding:36px 0 90px;
+  }
+
+  .fichas-login__container{
+    width:min(1120px, calc(100% - 32px));
+    margin:0 auto;
+  }
+
+  .fichas-login__hero{
+    position:relative;
+    overflow:hidden;
+    border-radius:0 0 30px 30px;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.66) 0%, rgba(0,0,0,.42) 36%, rgba(0,0,0,.14) 72%, rgba(0,0,0,.08) 100%),
+      radial-gradient(circle at 78% 18%, rgba(255,214,102,.22), transparent 18%),
+      radial-gradient(circle at 84% 62%, rgba(200,235,120,.16), transparent 16%),
+      linear-gradient(135deg, #6e6440 0%, #94885d 18%, #c8bc8a 40%, #e7dec1 62%, #d2c69b 80%, #b4aa7a 100%);
+    box-shadow:0 20px 50px rgba(0,0,0,.10);
+    margin-bottom:34px;
+  }
+
+  .fichas-login__hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 74% 22%, rgba(255,245,190,.30) 0, rgba(255,245,190,.08) 10%, transparent 24%),
+      radial-gradient(circle at 70% 48%, rgba(255,225,140,.14) 0, transparent 16%),
+      radial-gradient(circle at 86% 74%, rgba(210,245,150,.10) 0, transparent 14%);
+    pointer-events:none;
+  }
+
+  .fichas-login__hero-grid{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:28px;
+    align-items:center;
+    padding:54px 38px;
+  }
+
+  .fichas-login__brow{
+    display:inline-flex;
+    align-items:center;
+    min-height:40px;
+    padding:0 16px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.12);
+    color:rgba(255,255,255,.90);
+    font-size:.86rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    backdrop-filter:blur(10px);
+  }
+
+  .fichas-login__hero h1{
+    margin:16px 0 14px;
+    color:#fff;
+    font-size:clamp(2.2rem, 4vw, 4.1rem);
+    line-height:1;
+    letter-spacing:-.05em;
+    max-width:11ch;
+  }
+
+  .fichas-login__hero p{
+    margin:0;
+    max-width:56ch;
+    color:rgba(255,255,255,.92);
+    font-size:1.08rem;
+    line-height:1.7;
+  }
+
+  .fichas-login__hero-card{
+    border-radius:28px;
+    padding:26px 24px;
+    background:rgba(255,255,255,.20);
+    border:1px solid rgba(255,255,255,.22);
+    box-shadow:0 18px 44px rgba(0,0,0,.14);
+    backdrop-filter:blur(16px);
+    color:#fff;
+  }
+
+  .fichas-login__hero-card span{
+    display:block;
+    margin-bottom:10px;
+    color:rgba(255,255,255,.72);
+    font-size:.88rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .fichas-login__hero-card h3{
+    margin:0 0 14px;
+    font-size:1.22rem;
+    line-height:1.28;
+    letter-spacing:-.02em;
+  }
+
+  .fichas-login__hero-card ul{
+    margin:0;
+    padding-left:18px;
+  }
+
+  .fichas-login__hero-card li{
+    margin:0 0 8px;
+    color:rgba(255,255,255,.9);
+    line-height:1.55;
+  }
+
+  .fichas-login__panel{
+    display:grid;
+    grid-template-columns:minmax(0, 460px) minmax(0, 1fr);
+    gap:28px;
+    align-items:start;
+  }
+
+  .fichas-login__box{
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(18,18,18,.08);
+    border-radius:var(--fl-radius-xl);
+    box-shadow:var(--fl-shadow);
+    padding:30px;
+  }
+
+  .fichas-login__title{
+    margin:0 0 10px;
+    font-size:2rem;
+    line-height:1.05;
+    letter-spacing:-.04em;
+    color:var(--fl-text);
+  }
+
+  .fichas-login__lead{
+    margin:0 0 24px;
+    color:var(--fl-muted);
+    line-height:1.7;
+    font-size:1rem;
+  }
+
+  .fichas-login__form{
+    display:grid;
+    gap:14px;
+  }
+
+  .fichas-login__field{
+    display:grid;
+    gap:7px;
+  }
+
+  .fichas-login__field label{
+    font-size:.95rem;
+    font-weight:700;
+    color:#1c1c1c;
+  }
+
+  .fichas-login__field input{
+    width:100%;
+    min-height:54px;
+    border-radius:16px;
+    border:1px solid var(--fl-border);
+    background:#fff;
+    padding:0 16px;
+    font-size:1rem;
+    color:#121212;
+    outline:none;
+    transition:border-color .2s ease, box-shadow .2s ease;
+    box-sizing:border-box;
+  }
+
+  .fichas-login__field input:focus{
+    border-color:var(--fl-accent);
+    box-shadow:0 0 0 4px rgba(142,132,32,.12);
+  }
+
+  .fichas-login__row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+
+  .fichas-login__check{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    color:var(--fl-muted);
+    font-size:.95rem;
+    line-height:1.5;
+  }
+
+  .fichas-login__check input{
+    margin-top:3px;
+  }
+
+  .fichas-login__link{
+    color:var(--fl-accent);
+    text-decoration:none;
+    font-weight:700;
+  }
+
+  .fichas-login__link:hover{
+    text-decoration:underline;
+  }
+
+  .fichas-login__btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:56px;
+    border:none;
+    border-radius:999px;
+    background:#b29f1f;
+    color:#fff;
+    text-decoration:none;
+    font-weight:800;
+    font-size:1rem;
+    cursor:pointer;
+    transition:transform .22s ease, box-shadow .22s ease, background .22s ease;
+    box-shadow:0 10px 24px rgba(178,159,31,.24);
+  }
+
+  .fichas-login__btn:hover{
+    transform:translateY(-2px);
+  }
+
+  .fichas-login__btn--ghost{
+    background:#fff;
+    color:#121212;
+    border:1px solid rgba(18,18,18,.10);
+    box-shadow:none;
+  }
+
+  .fichas-login__note{
+    margin-top:16px;
+    color:#666;
+    font-size:.94rem;
+    line-height:1.6;
+  }
+
+  .fichas-login__side{
+    display:grid;
+    gap:18px;
+  }
+
+  .fichas-login__info{
+    background:linear-gradient(180deg, #141414 0%, #1f1f1f 100%);
+    color:#fff;
+    border-radius:28px;
+    padding:26px;
+    box-shadow:0 24px 52px rgba(0,0,0,.16);
+  }
+
+  .fichas-login__info-tag{
+    display:inline-flex;
+    align-items:center;
+    min-height:30px;
+    padding:0 12px;
+    border-radius:999px;
+    background:rgba(183,242,56,.14);
+    color:#B7F238;
+    font-size:.84rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-bottom:14px;
+  }
+
+  .fichas-login__info h3{
+    margin:0 0 12px;
+    font-size:1.35rem;
+    line-height:1.18;
+    letter-spacing:-.03em;
+  }
+
+  .fichas-login__info p{
+    margin:0 0 14px;
+    color:rgba(255,255,255,.82);
+    line-height:1.7;
+  }
+
+  .fichas-login__info ul{
+    margin:0;
+    padding-left:18px;
+  }
+
+  .fichas-login__info li{
+    margin:0 0 8px;
+    color:rgba(255,255,255,.9);
+    line-height:1.55;
+  }
+
+  .fichas-login__actions{
+    display:grid;
+    gap:14px;
+  }
+
+  .fichas-login__action-card{
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(18,18,18,.08);
+    border-radius:24px;
+    padding:22px;
+    box-shadow:0 10px 28px rgba(0,0,0,.05);
+  }
+
+  .fichas-login__action-card h4{
+    margin:0 0 10px;
+    font-size:1.12rem;
+    line-height:1.25;
+    letter-spacing:-.02em;
+  }
+
+  .fichas-login__action-card p{
+    margin:0 0 14px;
+    color:var(--fl-muted);
+    line-height:1.65;
+  }
+
+  .fichas-login__action-card a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:46px;
+    padding:0 18px;
+    border-radius:999px;
+    background:#111;
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+  }
+
+  .fichas-login__action-card a:hover{
+    opacity:.92;
+  }
+
+  @media (max-width: 980px){
+    .fichas-login__hero-grid,
+    .fichas-login__panel{
+      grid-template-columns:1fr;
+    }
+  }
+
+  @media (max-width: 720px){
+    .fichas-login{
+      padding:24px 0 70px;
+    }
+
+    .fichas-login__container{
+      width:min(100% - 24px, 1120px);
+    }
+
+    .fichas-login__hero-grid{
+      padding:34px 20px 40px;
+    }
+
+    .fichas-login__box,
+    .fichas-login__info,
+    .fichas-login__action-card{
+      padding:22px;
+    }
+
+    .fichas-login__hero h1{
+      max-width:100%;
+      font-size:2.5rem;
+    }
+  }
+</style>
+
+<section class="fichas-login">
+  <div class="fichas-login__container">
+
+    <div class="fichas-login__hero">
+      <div class="fichas-login__hero-grid">
+        <div>
+          <div class="fichas-login__brow">ÁREA DO CLIENTE • FICHAS TÉCNICAS</div>
+          <h1>Acesse sua área de fichas</h1>
+          <p>
+            Entre para acompanhar pedidos, acessar materiais comprados e centralizar sua experiência dentro da frente de Fichas Técnicas de Malharia.
+          </p>
+        </div>
+
+        <aside class="fichas-login__hero-card">
+          <span>nesta área</span>
+          <h3>O login será o ponto de entrada do cliente após a etapa de compra e para o histórico das fichas adquiridas.</h3>
+          <ul>
+            <li>Acompanhamento das compras realizadas</li>
+            <li>Acesso posterior às fichas compradas</li>
+            <li>Organização do histórico do cliente</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+
+    <div class="fichas-login__panel">
+      <section class="fichas-login__box">
+        <h2 class="fichas-login__title">Entrar</h2>
+        <p class="fichas-login__lead">
+          Nesta etapa, vamos deixar o layout pronto. O processamento real do login entra depois, quando ligarmos banco de dados e autenticação.
+        </p>
+
+        <form class="fichas-login__form" method="post" action="#">
+          <div class="fichas-login__field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="Digite seu e-mail">
+          </div>
+
+          <div class="fichas-login__field">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+          </div>
+
+          <div class="fichas-login__row">
+            <label class="fichas-login__check">
+              <input type="checkbox" name="lembrar">
+              <span>Manter acesso neste dispositivo</span>
+            </label>
+
+            <a href="#" class="fichas-login__link">Esqueci minha senha</a>
+          </div>
+
+          <button type="button" class="fichas-login__btn">Entrar</button>
+          <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}" class="fichas-login__btn fichas-login__btn--ghost">Voltar ao catálogo</a>
+        </form>
+
+        <p class="fichas-login__note">
+          Nesta fase, o botão ainda não autentica. Estamos primeiro estruturando visualmente a área para depois ligar a lógica real.
+        </p>
+      </section>
+
+      <aside class="fichas-login__side">
+        <div class="fichas-login__info">
+          <div class="fichas-login__info-tag">como funciona</div>
+          <h3>Catálogo aberto para explorar. Área do cliente para entrar depois da compra ou acompanhar histórico.</h3>
+          <p>
+            O fluxo ideal fica assim: o usuário conhece o catálogo, escolhe a ficha, compra, e depois passa a acessar tudo com login em sua área.
+          </p>
+          <ul>
+            <li>Catálogo com busca e navegação</li>
+            <li>Página individual da ficha</li>
+            <li>Compra por ficha</li>
+            <li>Histórico de pedidos e downloads</li>
+          </ul>
+        </div>
+
+        <div class="fichas-login__actions">
+          <div class="fichas-login__action-card">
+            <h4>Quero explorar o catálogo primeiro</h4>
+            <p>Perfeito. O catálogo é a porta de entrada mais natural para quem ainda está conhecendo o acervo.</p>
+            <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}">Explorar catálogo</a>
+          </div>
+
+          <div class="fichas-login__action-card">
+            <h4>Preciso falar com a Stegie</h4>
+            <p>Se você quer estruturar essa frente de forma mais completa, use o contato direto da página institucional.</p>
+            <a href="{{ url_for('contato') }}">Falar com a Stegie</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
