@@ -1,0 +1,551 @@
+{% extends "base.html" %}
+{% block title %}STEGIE | Catálogo de Fichas Técnicas{% endblock %}
+{% block meta_description %}Explore o catálogo de fichas técnicas de malharia da Stegie com busca, filtros e acesso organizado por tipo, aplicação e características da malha.{% endblock %}
+
+{% block content %}
+
+<style>
+  .fc-page{
+    --fc-bg:#f3f1eb;
+    --fc-surface:#ffffff;
+    --fc-text:#121212;
+    --fc-muted:#5b5b5b;
+    --fc-border:#ddd7cb;
+    --fc-accent:#8E8420;
+    --fc-accent-2:#B7F238;
+    --fc-dark:#111111;
+    --fc-radius-xl:30px;
+    --fc-radius-lg:24px;
+    --fc-radius-md:18px;
+    --fc-shadow:0 18px 44px rgba(0,0,0,.08);
+    --fc-shadow-soft:0 10px 28px rgba(0,0,0,.05);
+    background:linear-gradient(180deg, #f6f4ef 0%, #f3f1eb 100%);
+    padding:34px 0 90px;
+    color:var(--fc-text);
+  }
+
+  .fc-container{
+    width:min(1180px, calc(100% - 32px));
+    margin:0 auto;
+  }
+
+  .fc-hero{
+    position:relative;
+    overflow:hidden;
+    border-radius:0 0 30px 30px;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.64) 0%, rgba(0,0,0,.40) 36%, rgba(0,0,0,.14) 72%, rgba(0,0,0,.08) 100%),
+      radial-gradient(circle at 78% 18%, rgba(255,214,102,.22), transparent 18%),
+      radial-gradient(circle at 84% 62%, rgba(200,235,120,.16), transparent 16%),
+      linear-gradient(135deg, #6e6440 0%, #94885d 18%, #c8bc8a 40%, #e7dec1 62%, #d2c69b 80%, #b4aa7a 100%);
+    box-shadow:0 20px 50px rgba(0,0,0,.10);
+    margin-bottom:30px;
+  }
+
+  .fc-hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 74% 22%, rgba(255,245,190,.30) 0, rgba(255,245,190,.08) 10%, transparent 24%),
+      radial-gradient(circle at 70% 48%, rgba(255,225,140,.14) 0, transparent 16%),
+      radial-gradient(circle at 86% 74%, rgba(210,245,150,.10) 0, transparent 14%);
+    pointer-events:none;
+  }
+
+  .fc-hero__grid{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:28px;
+    align-items:center;
+    padding:52px 38px;
+  }
+
+  .fc-brow{
+    display:inline-flex;
+    align-items:center;
+    min-height:40px;
+    padding:0 16px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.12);
+    color:rgba(255,255,255,.90);
+    font-size:.86rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    backdrop-filter:blur(10px);
+  }
+
+  .fc-hero h1{
+    margin:16px 0 14px;
+    color:#fff;
+    font-size:clamp(2.3rem, 4vw, 4.2rem);
+    line-height:1;
+    letter-spacing:-.05em;
+    max-width:12ch;
+  }
+
+  .fc-hero p{
+    margin:0;
+    max-width:58ch;
+    color:rgba(255,255,255,.92);
+    font-size:1.08rem;
+    line-height:1.7;
+  }
+
+  .fc-hero__card{
+    border-radius:28px;
+    padding:26px 24px;
+    background:rgba(255,255,255,.20);
+    border:1px solid rgba(255,255,255,.22);
+    box-shadow:0 18px 44px rgba(0,0,0,.14);
+    backdrop-filter:blur(16px);
+    color:#fff;
+  }
+
+  .fc-hero__card span{
+    display:block;
+    margin-bottom:10px;
+    color:rgba(255,255,255,.72);
+    font-size:.88rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .fc-hero__card h3{
+    margin:0 0 12px;
+    font-size:1.22rem;
+    line-height:1.25;
+    letter-spacing:-.02em;
+  }
+
+  .fc-hero__card ul{
+    margin:0;
+    padding-left:18px;
+  }
+
+  .fc-hero__card li{
+    margin:0 0 8px;
+    color:rgba(255,255,255,.9);
+    line-height:1.55;
+  }
+
+  .fc-filters{
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(18,18,18,.08);
+    border-radius:var(--fc-radius-xl);
+    box-shadow:var(--fc-shadow-soft);
+    padding:24px;
+    margin-bottom:24px;
+  }
+
+  .fc-filters__grid{
+    display:grid;
+    grid-template-columns:minmax(0, 1.3fr) minmax(240px, .6fr) auto;
+    gap:14px;
+    align-items:end;
+  }
+
+  .fc-field{
+    display:grid;
+    gap:8px;
+  }
+
+  .fc-field label{
+    font-size:.94rem;
+    font-weight:700;
+    color:#1d1d1d;
+  }
+
+  .fc-field input,
+  .fc-field select{
+    width:100%;
+    min-height:54px;
+    border-radius:16px;
+    border:1px solid var(--fc-border);
+    background:#fff;
+    padding:0 16px;
+    font-size:1rem;
+    color:#121212;
+    outline:none;
+    box-sizing:border-box;
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+
+  .fc-field input:focus,
+  .fc-field select:focus{
+    border-color:var(--fc-accent);
+    box-shadow:0 0 0 4px rgba(142,132,32,.12);
+  }
+
+  .fc-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:54px;
+    padding:0 24px;
+    border-radius:999px;
+    border:none;
+    text-decoration:none;
+    font-weight:800;
+    font-size:1rem;
+    cursor:pointer;
+    transition:transform .22s ease, box-shadow .22s ease, opacity .22s ease;
+  }
+
+  .fc-btn:hover{
+    transform:translateY(-2px);
+  }
+
+  .fc-btn--primary{
+    background:#b29f1f;
+    color:#fff;
+    box-shadow:0 10px 24px rgba(178,159,31,.24);
+  }
+
+  .fc-btn--ghost{
+    background:#fff;
+    color:#121212;
+    border:1px solid rgba(18,18,18,.10);
+  }
+
+  .fc-toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+
+  .fc-toolbar h2{
+    margin:0;
+    font-size:2rem;
+    line-height:1.08;
+    letter-spacing:-.04em;
+  }
+
+  .fc-toolbar p{
+    margin:0;
+    color:var(--fc-muted);
+    line-height:1.6;
+  }
+
+  .fc-grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .fc-card{
+    position:relative;
+    overflow:hidden;
+    background:rgba(255,255,255,.86);
+    border:1px solid rgba(18,18,18,.08);
+    border-radius:26px;
+    box-shadow:var(--fc-shadow-soft);
+    transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+  }
+
+  .fc-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--fc-shadow);
+    border-color:rgba(142,132,32,.22);
+  }
+
+  .fc-card__top{
+    position:relative;
+    min-height:160px;
+    padding:22px;
+    background:
+      radial-gradient(circle at 20% 25%, rgba(183,242,56,.70) 0, rgba(183,242,56,.06) 18%, transparent 30%),
+      radial-gradient(circle at 78% 26%, rgba(255,255,255,.12) 0, transparent 20%),
+      radial-gradient(circle at 72% 74%, rgba(142,132,32,.50) 0, transparent 24%),
+      linear-gradient(135deg, #231f12 0%, #0f0f0f 48%, #1b1b1b 100%);
+    color:#fff;
+  }
+
+  .fc-badge{
+    display:inline-flex;
+    align-items:center;
+    min-height:28px;
+    padding:0 12px;
+    border-radius:999px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.12);
+    color:rgba(255,255,255,.92);
+    font-size:.82rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+
+  .fc-card__top h3{
+    margin:16px 0 8px;
+    font-size:1.35rem;
+    line-height:1.15;
+    letter-spacing:-.03em;
+  }
+
+  .fc-card__top p{
+    margin:0;
+    color:rgba(255,255,255,.82);
+    line-height:1.55;
+    font-size:.96rem;
+  }
+
+  .fc-card__body{
+    padding:22px;
+  }
+
+  .fc-meta{
+    display:grid;
+    gap:10px;
+    margin-bottom:16px;
+  }
+
+  .fc-meta__item{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size:.95rem;
+    line-height:1.45;
+    padding-bottom:10px;
+    border-bottom:1px solid rgba(18,18,18,.06);
+  }
+
+  .fc-meta__item:last-child{
+    border-bottom:none;
+    padding-bottom:0;
+  }
+
+  .fc-meta__label{
+    color:#6b6b6b;
+    font-weight:600;
+  }
+
+  .fc-meta__value{
+    color:#181818;
+    font-weight:700;
+    text-align:right;
+  }
+
+  .fc-price{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:14px;
+    margin:18px 0 16px;
+  }
+
+  .fc-price__label{
+    display:block;
+    color:#6b6b6b;
+    font-size:.9rem;
+    margin-bottom:4px;
+  }
+
+  .fc-price strong{
+    font-size:1.8rem;
+    line-height:1;
+    letter-spacing:-.04em;
+    color:#111;
+  }
+
+  .fc-card__actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .fc-card__actions a{
+    text-decoration:none;
+    text-align:center;
+  }
+
+  .fc-empty{
+    background:rgba(255,255,255,.82);
+    border:1px solid rgba(18,18,18,.08);
+    border-radius:26px;
+    box-shadow:var(--fc-shadow-soft);
+    padding:32px;
+  }
+
+  .fc-empty h3{
+    margin:0 0 10px;
+    font-size:1.4rem;
+    line-height:1.2;
+  }
+
+  .fc-empty p{
+    margin:0;
+    color:var(--fc-muted);
+    line-height:1.7;
+  }
+
+  @media (max-width: 1040px){
+    .fc-grid{
+      grid-template-columns:repeat(2, minmax(0,1fr));
+    }
+  }
+
+  @media (max-width: 980px){
+    .fc-hero__grid,
+    .fc-filters__grid{
+      grid-template-columns:1fr;
+    }
+  }
+
+  @media (max-width: 720px){
+    .fc-page{
+      padding:24px 0 70px;
+    }
+
+    .fc-container{
+      width:min(100% - 24px, 1180px);
+    }
+
+    .fc-hero__grid{
+      padding:34px 20px 40px;
+    }
+
+    .fc-filters,
+    .fc-empty{
+      padding:20px;
+    }
+
+    .fc-grid{
+      grid-template-columns:1fr;
+    }
+
+    .fc-toolbar h2{
+      font-size:1.7rem;
+    }
+
+    .fc-card__actions{
+      grid-template-columns:1fr;
+    }
+  }
+</style>
+
+<section class="fc-page">
+  <div class="fc-container">
+
+    <div class="fc-hero">
+      <div class="fc-hero__grid">
+        <div>
+          <div class="fc-brow">CATÁLOGO • FICHAS TÉCNICAS • MALHARIA</div>
+          <h1>Explore o catálogo de fichas</h1>
+          <p>
+            Busque por tipo, aplicação e características técnicas para encontrar fichas de malharia com leitura mais clara e acesso organizado.
+          </p>
+        </div>
+
+        <aside class="fc-hero__card">
+          <span>nesta etapa</span>
+          <h3>O catálogo já funciona como base visual de consulta e pode crescer depois para compra, histórico e downloads.</h3>
+          <ul>
+            <li>Busca simples por texto</li>
+            <li>Filtro por categoria</li>
+            <li>Cards organizados por ficha</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+
+    <form method="get" class="fc-filters">
+      <div class="fc-filters__grid">
+        <div class="fc-field">
+          <label for="q">Buscar ficha</label>
+          <input
+            type="text"
+            id="q"
+            name="q"
+            value="{{ q }}"
+            placeholder="Ex.: meia malha, piquet, ribana, algodão, viscose..."
+          >
+        </div>
+
+        <div class="fc-field">
+          <label for="categoria">Categoria</label>
+          <select id="categoria" name="categoria">
+            <option value="">Todas</option>
+            {% for item in categorias %}
+              <option value="{{ item }}" {% if categoria == item %}selected{% endif %}>{{ item }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button type="submit" class="fc-btn fc-btn--primary">Aplicar filtros</button>
+      </div>
+    </form>
+
+    <div class="fc-toolbar">
+      <div>
+        <h2>Catálogo disponível</h2>
+        <p>{{ fichas|length }} ficha(s) encontrada(s) nesta visualização.</p>
+      </div>
+
+      <a href="{{ url_for('fichas_tecnicas_malharia') }}" class="fc-btn fc-btn--ghost">Voltar para a página institucional</a>
+    </div>
+
+    {% if fichas %}
+      <div class="fc-grid">
+        {% for ficha in fichas %}
+          <article class="fc-card">
+            <div class="fc-card__top">
+              <div class="fc-badge">{{ ficha.categoria }}</div>
+              <h3>{{ ficha.nome }}</h3>
+              <p>{{ ficha.resumo }}</p>
+            </div>
+
+            <div class="fc-card__body">
+              <div class="fc-meta">
+                <div class="fc-meta__item">
+                  <span class="fc-meta__label">Composição</span>
+                  <span class="fc-meta__value">{{ ficha.composicao }}</span>
+                </div>
+
+                <div class="fc-meta__item">
+                  <span class="fc-meta__label">Gramatura</span>
+                  <span class="fc-meta__value">{{ ficha.gramatura }}</span>
+                </div>
+
+                <div class="fc-meta__item">
+                  <span class="fc-meta__label">Aplicação</span>
+                  <span class="fc-meta__value">{{ ficha.aplicacao }}</span>
+                </div>
+              </div>
+
+              <div class="fc-price">
+                <div>
+                  <span class="fc-price__label">Valor por ficha</span>
+                  <strong>R$ {{ ficha.preco }}</strong>
+                </div>
+              </div>
+
+              <div class="fc-card__actions">
+                <a href="{{ url_for('fichas_detalhe', slug=ficha.slug) }}" class="fc-btn fc-btn--ghost">Ver detalhes</a>
+                <a href="{{ url_for('fichas_login') }}" class="fc-btn fc-btn--primary">Comprar ficha</a>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="fc-empty">
+        <h3>Nenhuma ficha encontrada</h3>
+        <p>
+          Ajuste a busca ou o filtro de categoria para visualizar novamente o catálogo.
+        </p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}
