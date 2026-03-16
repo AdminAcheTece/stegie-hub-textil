@@ -7,6 +7,7 @@ from flask import (
     url_for,
     flash,
     abort,
+    session,
 )
 from jinja2 import ChoiceLoader, FileSystemLoader, FunctionLoader
 
@@ -435,10 +436,9 @@ FICHAS_CATALOGO = [
 # -----------------------------
 @app.route("/", endpoint="home")
 def home_page():
-    # Link exato pedido (com âncora)
-    conteudos_qualidade = url_for("conteudos_tema_qualidade") + "#quality-collections"
+    # Atalhos (ícones devem existir no sprite do home_clean.html)
+    conteudos_qualidade = "/conteudos/temas/qualidade#quality-collections"
 
-    # ÍCONES/CARDS do meio da página (NOVO MENU)
     shortcuts = [
         {"label": "Home", "href": url_for("servicos"), "icon": "i-home"},
         {"label": "Consultoria", "href": url_for("consultoria_textil"), "icon": "i-consult"},
@@ -448,14 +448,19 @@ def home_page():
         {"label": "Agente Têxtil", "href": url_for("agente_tecnico_textil_ia"), "icon": "i-bot"},
     ]
 
-    # LINKS do rodapé (abaixo) e também do menu sanduíche (homeMenu)
-    # >>> VOLTANDO para: Quem somos + Contato + Política + Termos (como você pediu)
+    # LINKS do rodapé + menu sanduíche (mantém como você pediu)
     nav_links = [
         {"label": "Quem somos", "href": url_for("quem_somos")},
         {"label": "Contato", "href": url_for("contato")},
         {"label": "Política", "href": url_for("politica")},
         {"label": "Termos", "href": url_for("termos")},
     ]
+
+    # CTA conta (círculo preto)
+    if session.get("user_email"):
+        account = {"href": url_for("conta"), "initials": (session.get("user_email","U")[:1]).upper()}
+    else:
+        account = {"href": url_for("login"), "initials": "?"}
 
     # LISTA DE LOGOS (prova social) — você só coloca os arquivos nessa pasta
     # Caminho sugerido: static/img/clientes/cliente-01.png ... cliente-12.png
@@ -477,7 +482,7 @@ def home_page():
         shortcuts=shortcuts,
         nav_links=nav_links,
         account=account,
-        clientes=clientes,
+        clientes=CLIENTES_ATENDIDOS,  # <<< mantenha seu nome atual aqui
     )
 
 @app.route("/home", endpoint="home_redirect")
@@ -781,6 +786,56 @@ def fichas_detalhe(slug):
       </body>
     </html>
     """
+
+@app.route("/login", methods=["GET", "POST"], endpoint="login")
+def login():
+    if request.method == "POST":
+        email = (request.form.get("email") or "").strip().lower()
+        password = request.form.get("password") or ""
+
+        if not email or not password:
+            flash("Preencha email e senha.", "error")
+            return redirect(url_for("login"))
+
+        # MVP: autenticação simples (sem banco ainda)
+        session["user_email"] = email
+        flash("Login realizado com sucesso.", "success")
+        return redirect(url_for("home"))
+
+    return render_template("login.html")
+
+
+@app.route("/cadastro", methods=["GET", "POST"], endpoint="cadastro")
+def cadastro():
+    if request.method == "POST":
+        nome = (request.form.get("nome") or "").strip()
+        email = (request.form.get("email") or "").strip().lower()
+        password = request.form.get("password") or ""
+
+        if not nome or not email or not password:
+            flash("Preencha todos os campos.", "error")
+            return redirect(url_for("cadastro"))
+
+        # MVP: cria sessão direto (persistência vem depois)
+        session["user_email"] = email
+        flash("Conta criada com sucesso. Você já está logado.", "success")
+        return redirect(url_for("home"))
+
+    return render_template("cadastro.html")
+
+
+@app.route("/conta", endpoint="conta")
+def conta():
+    if not session.get("user_email"):
+        return redirect(url_for("login"))
+    return render_template("conta.html", user_email=session.get("user_email"))
+
+
+@app.route("/logout", endpoint="logout")
+def logout():
+    session.pop("user_email", None)
+    flash("Você saiu da sua conta.", "success")
+    return redirect(url_for("home"))
 
 # -----------------------------
 # Error handlers
