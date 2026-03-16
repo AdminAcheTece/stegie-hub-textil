@@ -17,14 +17,24 @@
       --bg:#F7F6F3;
     }
 
+    /* trava qualquer “arrasto lateral” */
     *,*::before,*::after{ box-sizing:border-box; }
     html,body{ width:100%; overflow-x:hidden; }
+
     body.home-clean{
       background:var(--bg);
       color:#111;
       font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       min-height:100vh;
       overflow-x:hidden;
+    }
+
+    /* Sprite nunca pode ser display:none no iOS (senão o <use> pode falhar) */
+    .home-icons-sprite{
+      position:absolute;
+      width:0; height:0;
+      overflow:hidden;
+      left:-9999px; top:-9999px;
     }
 
     /* ===== TOPO ===== */
@@ -34,12 +44,17 @@
       height:calc(64px + env(safe-area-inset-top));
       padding:calc(env(safe-area-inset-top)) 18px 0;
       display:flex;
-      justify-content:flex-end;
       align-items:center;
+      justify-content:flex-end;
       z-index:50;
       background:transparent;
     }
-    .home-top-actions{ display:flex; align-items:center; gap:12px; position:relative; }
+    .home-top-actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      position:relative;
+    }
 
     .icon-btn{
       width:40px;height:40px;border-radius:999px;
@@ -59,7 +74,11 @@
       box-shadow:0 10px 22px rgba(0,0,0,.08);
     }
     .avatar svg{ width:18px;height:18px; stroke:#fff; fill:none; }
-    .sr-only{ position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;padding:0;margin:-1px; }
+    .sr-only{
+      position:absolute;width:1px;height:1px;
+      padding:0;margin:-1px;overflow:hidden;
+      clip:rect(0,0,0,0);white-space:nowrap;border:0;
+    }
 
     .menu{
       position:absolute; top:52px; right:0;
@@ -85,7 +104,7 @@
     }
     .menu-item:hover{ background:rgba(255,255,255,.08); }
 
-    /* ===== WRAP ===== */
+    /* ===== CONTEÚDO ===== */
     .home-wrap{
       width:100%;
       min-height:100vh;
@@ -95,7 +114,6 @@
       padding:calc(68px + env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom));
     }
 
-    /* Frame central (desktop) */
     .home-center{
       width:100%;
       max-width:980px;
@@ -105,8 +123,13 @@
       gap:10px;
     }
 
-    /* Marca */
-    .brand-lockup{ display:grid; justify-items:center; text-align:center; gap:6px; margin-bottom:10px; }
+    .brand-lockup{
+      display:grid;
+      justify-items:center;
+      text-align:center;
+      gap:6px;
+      margin-bottom:10px;
+    }
     .brand-logo{ height:clamp(72px, 9vw, 150px); width:auto; display:block; }
     .home-brand{
       font-family:Manrope, Inter, system-ui, sans-serif;
@@ -115,9 +138,9 @@
       font-size:clamp(46px, 7vw, 84px);
       line-height:.92;
       margin-top:-6px;
+      color:#111;
     }
 
-    /* Pill */
     .home-pill{
       width:100%;
       max-width:720px;
@@ -126,7 +149,7 @@
       background:rgba(255,255,255,.72);
       border:1px solid rgba(0,0,0,.12);
       box-shadow:0 12px 22px rgba(0,0,0,.06);
-      display:flex; align-items:center; justify-content:center;
+      display:flex;align-items:center;justify-content:center;
       padding:0 16px;
       overflow:hidden;
       text-align:center;
@@ -144,7 +167,6 @@
     .home-pill-text::before{ content:"“"; }
     .home-pill-text::after{ content:"”"; }
 
-    /* Atalhos */
     .home-shortcuts{
       width:100%;
       max-width:860px;
@@ -154,7 +176,15 @@
       justify-items:center;
       margin-top:2px;
     }
-    .shortcut{ text-decoration:none; color:#111; display:grid; justify-items:center; gap:10px; padding:8px 6px; border-radius:16px; }
+    .shortcut{
+      text-decoration:none;
+      color:#111;
+      display:grid;
+      justify-items:center;
+      gap:10px;
+      padding:8px 6px;
+      border-radius:16px;
+    }
     .shortcut:hover{ background:rgba(0,0,0,.03); }
     .shortcut-ico{
       width:54px;height:54px;border-radius:16px;
@@ -163,7 +193,11 @@
       display:grid;place-items:center;
       box-shadow:0 10px 18px rgba(0,0,0,.05);
     }
-    .shortcut-ico svg{ width:26px;height:26px;color:var(--olive); }
+    .shortcut-ico svg{
+      width:26px;height:26px;
+      display:block;
+      color:var(--olive);
+    }
     .shortcut-ico svg [stroke]{ stroke:var(--olive); }
     .shortcut-ico svg [fill]:not([fill="none"]){ fill:var(--olive); }
     .shortcut-ico svg *{ stroke-width:1.9; }
@@ -187,15 +221,27 @@
       color:rgba(0,0,0,.55);
       margin-bottom:8px;
     }
-    .marquee{ position:relative; overflow:hidden; width:100%; padding:4px 10px;
+    .marquee{
+      position:relative;
+      overflow:hidden;
+      width:100%;
+      padding:4px 10px;
       mask-image:linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
       -webkit-mask-image:linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
     }
-    .marquee__track{ display:inline-flex; align-items:center; gap:18px; will-change:transform; animation:marquee 26s linear infinite; }
+    .marquee__track{
+      display:inline-flex;
+      align-items:center;
+      gap:18px;
+      will-change:transform;
+      animation:marquee 26s linear infinite;
+    }
     @keyframes marquee{ 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
     .client-chip{
-      height:48px; padding:6px 10px; border-radius:12px;
+      height:48px;
+      padding:6px 10px;
+      border-radius:12px;
       background:rgba(255,255,255,.92);
       border:1px solid rgba(0,0,0,.10);
       box-shadow:0 8px 18px rgba(0,0,0,.05);
@@ -206,7 +252,7 @@
     .client-logo{
       height:36px;width:auto;object-fit:contain;
       filter:grayscale(1) contrast(1.08);
-      transform:scale(1.75);  /* maior no desktop */
+      transform:scale(1.75);
       transform-origin:center;
     }
 
@@ -238,57 +284,70 @@
       gap:18px;
       flex-wrap:wrap;
     }
-    .footer-links a{ color:rgba(0,0,0,.72); font-weight:600; text-decoration:none; }
+    .footer-links a{
+      color:rgba(0,0,0,.72);
+      font-weight:600;
+      text-decoration:none;
+    }
     .footer-links a:hover{ text-decoration:underline; }
 
-    /* ===== MOBILE: CENTRALIZAÇÃO “FORÇADA” ===== */
+    /* ===== MOBILE: CENTRALIZAÇÃO DEFINITIVA (sem mexer no desktop) ===== */
     @media (max-width: 520px){
-      /* cria um frame central real e impede qualquer offset visual */
-      .home-wrap{ align-items:flex-start; padding:calc(74px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom)); }
-
-      .home-center{
-        position:relative;
-        left:50%;
-        transform:translateX(-50%);
-        width: min(420px, 100%);
-        max-width: 420px;
-        margin: 0;
+      .home-wrap{
+        align-items:flex-start;
+        justify-content:center;
+        padding:calc(74px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
       }
 
-      /* tudo dentro acompanha o frame */
+      /* ANULA qualquer offset externo e força centro real */
+      .home-center{
+        width: min(420px, 100%) !important;
+        max-width: 420px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        left: auto !important;
+        transform: none !important;
+        justify-items: center !important;
+      }
+
+      /* garante que cada bloco “cole” no centro */
+      .brand-lockup,
       .home-pill,
       .home-shortcuts,
       .home-proof,
       .home-tagline{
-        width:100%;
-        max-width:100%;
-        margin-left:auto;
-        margin-right:auto;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
       }
 
-      /* atalhos em 3 colunas e próximos */
-      .home-shortcuts{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
-      .shortcut{ padding:6px 4px; gap:8px; }
-      .shortcut-ico{ width:50px;height:50px; }
-      .shortcut-ico svg{ width:25px;height:25px; }
-      .shortcut-label{ font-size:13px; }
+      /* atalhos em 2 colunas (fica mais harmônico no seu print) */
+      .home-shortcuts{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .shortcut{ padding: 6px 4px; gap: 8px; }
+      .shortcut-ico{ width: 52px; height: 52px; }
+      .shortcut-ico svg{ width: 26px; height: 26px; }
+      .shortcut-label{ font-size: 14px; }
 
-      .home-pill{ height:46px; }
-      .home-pill-text{ font-size:15px; }
+      .home-pill{ height: 46px; }
+      .home-pill-text{ font-size: 15px; }
 
-      .client-chip{ height:42px; }
-      .client-logo{ height:30px; transform:scale(1.35); }
+      .client-chip{ height: 42px; }
+      .client-logo{ height: 30px; transform: scale(1.35); }
 
-      .home-tagline{ font-size:20px; }
+      .home-tagline{ font-size: 20px; }
     }
   </style>
 </head>
 
 <body class="home-clean">
-  <!-- TESTE: MOBILE-CENTER-FORCE (deixe este comentário por enquanto) -->
 
-  <!-- SVG sprite -->
+  <!-- SVG sprite (NÃO remover) -->
   <svg class="home-icons-sprite" aria-hidden="true" focusable="false">
+    <!-- topo -->
     <symbol id="i-menu" viewBox="0 0 24 24">
       <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
@@ -296,16 +355,65 @@
       <path d="M20 21a8 8 0 0 0-16 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
+
+    <!-- ÍCONES DOS ATALHOS (precisa bater com s.icon do main.py) -->
+    <symbol id="i-home" viewBox="0 0 24 24">
+      <path d="M3 10.5 12 3l9 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5.5 10.5V21h13V10.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 21v-6h4v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Consultoria (engrenagem + pessoa) -->
+    <symbol id="i-wrench" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M12 2.8v2.1M12 19.1v2.1M2.9 12h2.1M19 12h2.1M4.5 5.5l1.5 1.5M18 18l1.5 1.5M4.5 18.5l1.5-1.5M18 6l1.5-1.5"
+            fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M12 13.2a2.1 2.1 0 1 0-2.1-2.1a2.1 2.1 0 0 0 2.1 2.1Z"
+            fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M15.2 17.2a4.1 4.1 0 0 0-6.4 0"
+            fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="i-grad" viewBox="0 0 24 24">
+      <path d="M12 3 2 8l10 5 10-5-10-5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M6 10v6c0 1.7 2.7 3 6 3s6-1.3 6-3v-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="i-file" viewBox="0 0 24 24">
+      <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-6Z"
+            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M14 2v6h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M8 13h8M8 17h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="i-book" viewBox="0 0 24 24">
+      <path d="M4 19a2 2 0 0 0 2 2h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M4 5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2V5Z"
+            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+
+    <symbol id="i-bot" viewBox="0 0 24 24">
+      <path d="M12 3v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M9.5 5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <rect x="5" y="7" width="14" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M9 12h.01M15 12h.01" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M8.5 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
   </svg>
 
   <header class="home-top" aria-label="Topo">
     <div class="home-top-actions">
       <button class="icon-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="homeMenu">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"></use></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <use href="#i-menu" xlink:href="#i-menu"></use>
+        </svg>
       </button>
 
       <a class="avatar" href="{{ account.href }}" aria-label="Conta">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-user"></use></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <use href="#i-user" xlink:href="#i-user"></use>
+        </svg>
         <span class="sr-only">Conta</span>
       </a>
 
@@ -335,7 +443,9 @@
         {% for s in shortcuts %}
           <a class="shortcut" href="{{ s.href }}" aria-label="{{ s.label }}">
             <span class="shortcut-ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><use href="#{{ s.icon }}"></use></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#{{ s.icon }}" xlink:href="#{{ s.icon }}"></use>
+              </svg>
             </span>
             <span class="shortcut-label">{{ s.label }}</span>
           </a>
