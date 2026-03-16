@@ -435,19 +435,27 @@ FICHAS_CATALOGO = [
 # -----------------------------
 @app.route("/", endpoint="home")
 def home_page():
+    # Link exato pedido (com âncora)
+    conteudos_qualidade = url_for("conteudos_tema_qualidade") + "#quality-collections"
+
+    # ÍCONES/CARDS do meio da página
     shortcuts = [
-        {"label": "Serviços", "href": url_for("servicos"), "icon": "i-wrench"},
-        {"label": "Educação", "href": url_for("educacao"), "icon": "i-grad"},
-        {"label": "Fichas técnicas", "href": url_for("fichas_tecnicas"), "icon": "i-file"},
-        {"label": "Conteúdos", "href": url_for("conteudos"), "icon": "i-book"},
-        {"label": "Cases", "href": url_for("cases"), "icon": "i-briefcase"},
+        {"label": "Home", "href": url_for("servicos"), "icon": "i-home"},
+        {"label": "Consultoria", "href": url_for("consultoria_textil"), "icon": "i-wrench"},
+        {"label": "Cursos", "href": url_for("educacao"), "icon": "i-grad"},
+        {"label": "Fichas Técnicas", "href": url_for("fichas_tecnicas_malharia"), "icon": "i-file"},
+        {"label": "Conteúdos", "href": conteudos_qualidade, "icon": "i-book"},
+        {"label": "Agente Têxtil", "href": url_for("agente_tecnico_textil_ia"), "icon": "i-bot"},
     ]
 
+    # LINKS do rodapé (abaixo) e também do menu sanduíche (homeMenu)
     nav_links = [
-        {"label": "Quem somos", "href": url_for("quem_somos")},
-        {"label": "Contato", "href": url_for("contato")},
-        {"label": "Política", "href": url_for("politica")},
-        {"label": "Termos", "href": url_for("termos")},
+        {"label": "Home", "href": url_for("servicos")},
+        {"label": "Consultoria", "href": url_for("consultoria_textil")},
+        {"label": "Cursos", "href": url_for("educacao")},
+        {"label": "Fichas Técnicas", "href": url_for("fichas_tecnicas_malharia")},
+        {"label": "Conteúdos", "href": conteudos_qualidade},
+        {"label": "Agente Têxtil", "href": url_for("agente_tecnico_textil_ia")},
     ]
 
     account = {"href": url_for("home"), "initials": "V"}
