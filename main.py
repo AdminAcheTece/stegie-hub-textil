@@ -367,6 +367,69 @@ QUALITY_SHELVES = [
     },
 ]
 
+FICHAS_CATALOGO = [
+    {
+        "slug": "meia-malha-algodao-30-1",
+        "nome": "Meia Malha Algodão 30/1",
+        "categoria": "Meia Malha",
+        "resumo": "Base clássica e versátil para camisetas, com leitura objetiva de composição, gramatura e aplicação.",
+        "composicao": "100% Algodão",
+        "gramatura": "160 g/m²",
+        "aplicacao": "Camisetas básicas",
+        "preco": "29,90",
+    },
+    {
+        "slug": "ribana-algodao-elastano",
+        "nome": "Ribana Algodão com Elastano",
+        "categoria": "Ribana",
+        "resumo": "Ficha voltada para bases elásticas aplicadas em punhos, golas e peças com maior ajuste ao corpo.",
+        "composicao": "96% Algodão / 4% Elastano",
+        "gramatura": "220 g/m²",
+        "aplicacao": "Golas, punhos e moda casual",
+        "preco": "34,90",
+    },
+    {
+        "slug": "piquet-poliester-viscose",
+        "nome": "Piquet Poliéster e Viscose",
+        "categoria": "Piquet",
+        "resumo": "Estrutura indicada para leitura de bases com textura e aplicação em polos e linhas casuais.",
+        "composicao": "65% Poliéster / 35% Viscose",
+        "gramatura": "185 g/m²",
+        "aplicacao": "Polos e camisaria casual",
+        "preco": "32,90",
+    },
+    {
+        "slug": "moletom-p-a-peluciado",
+        "nome": "Moletom P.A. Peluciado",
+        "categoria": "Moletom",
+        "resumo": "Ficha com foco em bases de maior corpo e conforto térmico para linhas de inverno e casual.",
+        "composicao": "50% Algodão / 50% Poliéster",
+        "gramatura": "300 g/m²",
+        "aplicacao": "Moletons e jaquetas leves",
+        "preco": "39,90",
+    },
+    {
+        "slug": "suedine-algodao-fino",
+        "nome": "Suedine Algodão Fino",
+        "categoria": "Suedine",
+        "resumo": "Base com leitura interessante para moda infantil, underwear e peças com toque mais delicado.",
+        "composicao": "100% Algodão",
+        "gramatura": "145 g/m²",
+        "aplicacao": "Moda infantil e underwear",
+        "preco": "27,90",
+    },
+    {
+        "slug": "jacquard-misto-moda",
+        "nome": "Jacquard Misto Moda",
+        "categoria": "Jacquard",
+        "resumo": "Ficha pensada para bases com desenho e valor agregado em linhas diferenciadas de moda.",
+        "composicao": "58% Poliéster / 40% Viscose / 2% Elastano",
+        "gramatura": "210 g/m²",
+        "aplicacao": "Moda diferenciada",
+        "preco": "44,90",
+    },
+]
+
 # -----------------------------
 # Rotas principais
 # -----------------------------
@@ -554,60 +617,150 @@ def fichas_login():
 
 @app.route("/fichas/catalogo", endpoint="fichas_catalogo")
 def fichas_catalogo():
-    return """
+    q = request.args.get("q", "").strip()
+    categoria = request.args.get("categoria", "").strip()
+
+    fichas = FICHAS_CATALOGO
+
+    if q:
+        termo = q.lower()
+        fichas = [
+            ficha for ficha in fichas
+            if termo in ficha["nome"].lower()
+            or termo in ficha["categoria"].lower()
+            or termo in ficha["resumo"].lower()
+            or termo in ficha["composicao"].lower()
+            or termo in ficha["aplicacao"].lower()
+        ]
+
+    if categoria:
+        fichas = [
+            ficha for ficha in fichas
+            if ficha["categoria"].lower() == categoria.lower()
+        ]
+
+    categorias = sorted({f["categoria"] for f in FICHAS_CATALOGO})
+
+    return render_template(
+        "catalogo_fichas.html",
+        fichas=fichas,
+        categorias=categorias,
+        q=q,
+        categoria=categoria,
+    )
+
+@app.route("/fichas/<slug>", endpoint="fichas_detalhe")
+def fichas_detalhe(slug):
+    ficha = next((f for f in FICHAS_CATALOGO if f["slug"] == slug), None)
+
+    if not ficha:
+        abort(404)
+
+    return f"""
     <html lang='pt-br'>
       <head>
         <meta charset='utf-8'>
-        <title>Catálogo | Fichas Técnicas</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>{ficha["nome"]} | Fichas Técnicas</title>
         <style>
-          body{
+          body{{
             font-family:Arial,sans-serif;
+            margin:0;
             background:#f3f1eb;
             color:#121212;
+          }}
+          .wrap{{
+            width:min(900px, calc(100% - 32px));
+            margin:40px auto;
+          }}
+          .box{{
+            background:#fff;
+            border-radius:24px;
+            padding:32px;
+            box-shadow:0 10px 30px rgba(0,0,0,.08);
+          }}
+          .badge{{
+            display:inline-block;
+            padding:8px 12px;
+            border-radius:999px;
+            background:#111;
+            color:#fff;
+            font-size:12px;
+            font-weight:700;
+            text-transform:uppercase;
+            letter-spacing:.05em;
+          }}
+          h1{{
+            margin:16px 0 10px;
+            font-size:38px;
+            line-height:1.05;
+          }}
+          p{{
+            color:#555;
+            line-height:1.7;
+          }}
+          .meta{{
+            display:grid;
+            gap:12px;
+            margin:24px 0;
+          }}
+          .meta div{{
+            padding:14px 0;
+            border-bottom:1px solid #ece7dc;
+          }}
+          strong{{
+            color:#121212;
+          }}
+          .actions{{
             display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+            margin-top:24px;
+          }}
+          a{{
+            display:inline-flex;
             align-items:center;
             justify-content:center;
-            min-height:100vh;
-            margin:0;
-          }
-          .box{
-            background:#fff;
-            padding:32px;
-            border-radius:18px;
-            box-shadow:0 10px 30px rgba(0,0,0,.08);
-            max-width:560px;
-            width:calc(100% - 32px);
-          }
-          h1{
-            margin-top:0;
-            font-size:28px;
-          }
-          p{
-            line-height:1.6;
-            color:#4f4f4f;
-          }
-          a{
-            display:inline-block;
-            margin-top:18px;
-            padding:12px 20px;
+            min-height:48px;
+            padding:0 18px;
             border-radius:999px;
-            background:#8E8420;
-            color:#fff;
             text-decoration:none;
             font-weight:700;
-          }
+          }}
+          .primary{{
+            background:#8E8420;
+            color:#fff;
+          }}
+          .ghost{{
+            background:#fff;
+            color:#121212;
+            border:1px solid rgba(18,18,18,.12);
+          }}
         </style>
       </head>
       <body>
-        <div class='box'>
-          <h1>Catálogo de fichas</h1>
-          <p>O botão do catálogo já está funcionando. Na próxima etapa vamos transformar esta tela em uma página real com layout da Stegie.</p>
-          <a href='/fichas-tecnicas-malharia'>Voltar para a página de Fichas Técnicas</a>
+        <div class='wrap'>
+          <div class='box'>
+            <span class='badge'>{ficha["categoria"]}</span>
+            <h1>{ficha["nome"]}</h1>
+            <p>{ficha["resumo"]}</p>
+
+            <div class='meta'>
+              <div><strong>Composição:</strong> {ficha["composicao"]}</div>
+              <div><strong>Gramatura:</strong> {ficha["gramatura"]}</div>
+              <div><strong>Aplicação:</strong> {ficha["aplicacao"]}</div>
+              <div><strong>Preço:</strong> R$ {ficha["preco"]}</div>
+            </div>
+
+            <div class='actions'>
+              <a href='/fichas/login' class='primary'>Comprar esta ficha</a>
+              <a href='/fichas/catalogo' class='ghost'>Voltar ao catálogo</a>
+            </div>
+          </div>
         </div>
       </body>
     </html>
     """
-
 
 # -----------------------------
 # Error handlers
