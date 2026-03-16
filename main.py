@@ -549,59 +549,7 @@ def fichas_tecnicas_malharia_catalogo():
 
 @app.route("/fichas/login", endpoint="fichas_login")
 def fichas_login():
-    return """
-    <html lang='pt-br'>
-      <head>
-        <meta charset='utf-8'>
-        <title>Login | Fichas Técnicas</title>
-        <style>
-          body{
-            font-family:Arial,sans-serif;
-            background:#f3f1eb;
-            color:#121212;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            min-height:100vh;
-            margin:0;
-          }
-          .box{
-            background:#fff;
-            padding:32px;
-            border-radius:18px;
-            box-shadow:0 10px 30px rgba(0,0,0,.08);
-            max-width:520px;
-            width:calc(100% - 32px);
-          }
-          h1{
-            margin-top:0;
-            font-size:28px;
-          }
-          p{
-            line-height:1.6;
-            color:#4f4f4f;
-          }
-          a{
-            display:inline-block;
-            margin-top:18px;
-            padding:12px 20px;
-            border-radius:999px;
-            background:#8E8420;
-            color:#fff;
-            text-decoration:none;
-            font-weight:700;
-          }
-        </style>
-      </head>
-      <body>
-        <div class='box'>
-          <h1>Área de login das fichas</h1>
-          <p>Esta área será a próxima etapa. Por enquanto, o link já está funcionando corretamente dentro do site.</p>
-          <a href='/fichas-tecnicas-malharia'>Voltar para a página de Fichas Técnicas</a>
-        </div>
-      </body>
-    </html>
-    """
+    return render_template("login_fichas.html")
 
 
 @app.route("/fichas/catalogo", endpoint="fichas_catalogo")
