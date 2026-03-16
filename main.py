@@ -441,7 +441,7 @@ def home_page():
     # ÍCONES/CARDS do meio da página (NOVO MENU)
     shortcuts = [
         {"label": "Home", "href": url_for("servicos"), "icon": "i-home"},
-        {"label": "Consultoria", "href": url_for("consultoria_textil"), "icon": "i-wrench"},
+        {"label": "Consultoria", "href": url_for("consultoria_textil"), "icon": "i-consult"},
         {"label": "Cursos", "href": url_for("educacao"), "icon": "i-grad"},
         {"label": "Fichas Técnicas", "href": url_for("fichas_tecnicas_malharia"), "icon": "i-file"},
         {"label": "Conteúdos", "href": conteudos_qualidade, "icon": "i-book"},
