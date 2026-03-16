@@ -436,7 +436,6 @@ FICHAS_CATALOGO = [
 # -----------------------------
 @app.route("/", endpoint="home")
 def home_page():
-    # Atalhos (ícones devem existir no sprite do home_clean.html)
     conteudos_qualidade = "/conteudos/temas/qualidade#quality-collections"
 
     shortcuts = [
@@ -448,7 +447,7 @@ def home_page():
         {"label": "Agente Têxtil", "href": url_for("agente_tecnico_textil_ia"), "icon": "i-bot"},
     ]
 
-    # LINKS do rodapé + menu sanduíche (mantém como você pediu)
+    # Rodapé + menu sanduíche (mantém como você pediu)
     nav_links = [
         {"label": "Quem somos", "href": url_for("quem_somos")},
         {"label": "Contato", "href": url_for("contato")},
@@ -456,11 +455,8 @@ def home_page():
         {"label": "Termos", "href": url_for("termos")},
     ]
 
-    # CTA conta (círculo preto)
-    if session.get("user_email"):
-        account = {"href": url_for("conta"), "initials": (session.get("user_email","U")[:1]).upper()}
-    else:
-        account = {"href": url_for("login"), "initials": "?"}
+    # CTA conta (círculo preto) — se tiver login no futuro, ajusta aqui
+    account = {"href": url_for("login"), "initials": "?"}
 
     # LISTA DE LOGOS (prova social) — você só coloca os arquivos nessa pasta
     # Caminho sugerido: static/img/clientes/cliente-01.png ... cliente-12.png
@@ -482,7 +478,7 @@ def home_page():
         shortcuts=shortcuts,
         nav_links=nav_links,
         account=account,
-        clientes=CLIENTES_ATENDIDOS,  # <<< mantenha seu nome atual aqui
+        clientes=clientes,
     )
 
 @app.route("/home", endpoint="home_redirect")
