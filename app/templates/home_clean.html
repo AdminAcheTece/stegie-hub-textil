@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stegie</title>
 
-  <!-- Inter base + Manrope (wordmark) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
@@ -14,7 +13,8 @@
 
   <style>
     :root{
-      --olive:#7B7424; /* oliva fechado */
+      --olive:#7B7424;         /* oliva fechado */
+      --bg:#F7F6F3;
     }
 
     .home-clean{
@@ -26,6 +26,8 @@
 
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:#111;
+      background: var(--bg);
+      min-height: 100vh;
     }
 
     /* Tipos um pouco maiores */
@@ -33,7 +35,7 @@
     .menu-item{ font-size:14.5px !important; }
     .footer-links a{ font-size:13.5px !important; }
 
-    /* Sprite de ícones nunca aparece */
+    /* Sprite nunca aparece */
     .home-icons-sprite{
       position:absolute !important;
       width:0 !important;
@@ -43,46 +45,10 @@
       top:-9999px !important;
     }
 
-    /* Mais distância entre marca e pill */
-    .brand-lockup{ margin-bottom:18px !important; }
-
-    /* Pill: texto central (sem ponto) */
-    .home-pill{
-      justify-content:center !important;
-      gap:0 !important;
-      padding:0 18px !important;
-    }
-
-    /* Tagline */
-    .home-tagline{
-      margin-top:10px;
-      text-align:center;
-      font-size:clamp(22px, 2.4vw, 36px);
-      font-weight:500;
-      letter-spacing:-0.01em;
-      line-height:1.18;
-      color:var(--olive) !important;
-    }
-
-    /* Dropdown menu: preto com fonte branca */
-    .home-clean .menu{
-      background:#0b0b0b !important;
-      border-color:rgba(255,255,255,.18) !important;
-      box-shadow:0 18px 40px rgba(0,0,0,.22) !important;
-    }
-    .home-clean .menu-item{
-      color:rgba(255,255,255,.92) !important;
-      font-weight:500 !important;
-    }
-    .home-clean .menu-item:hover{
-      background:rgba(255,255,255,.08) !important;
-    }
-
-    /* ===== FIX ícone do menu (não aparecia) =====
-       Botão claro -> ícone escuro */
+    /* ===== TOPO ===== */
     .home-clean .icon-btn{
       color:#111 !important;
-      background:rgba(255,255,255,.85) !important;
+      background:rgba(255,255,255,.90) !important;
       border:1px solid rgba(0,0,0,.14) !important;
     }
     .home-clean .icon-btn svg,
@@ -90,8 +56,6 @@
       color:#111 !important;
       stroke:#111 !important;
     }
-
-    /* Avatar: garante inicial visível */
     .avatar{
       background:#111 !important;
       color:#fff !important;
@@ -101,7 +65,68 @@
     }
     .avatar span{ display:block; transform: translateY(1px); }
 
-    /* ÍCONES dos atalhos: oliva + ~10% maior */
+    /* ===== ENQUADRAR TUDO NA MESMA TELA =====
+       (compacta espaços verticais) */
+    .home-wrap{
+      min-height: 100vh;
+      display:grid;
+      place-items:center;
+      padding: 68px 16px 86px !important; /* topo menor + rodapé fixo */
+    }
+    .home-center{
+      width: min(980px, 100%);
+      display:grid;
+      justify-items:center;
+      gap: 10px !important; /* antes 14 */
+    }
+
+    .brand-lockup{ margin-bottom: 10px !important; } /* menos espaço */
+    .home-brand{ margin-top: -6px; }                 /* aproxima */
+
+    /* Pill: texto central */
+    .home-pill{
+      width: min(720px, 100%);
+      height: 48px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(0,0,0,.12);
+      box-shadow: 0 12px 22px rgba(0,0,0,.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 0 16px;
+    }
+    .home-pill-text{
+      font-weight: 400;
+      font-size: 16px;
+      font-style: italic;
+      text-align:center;
+      color: rgba(0,0,0,.70);
+    }
+    .home-pill-text::before{ content:"“"; }
+    .home-pill-text::after{ content:"”"; }
+
+    /* Atalhos (6 colunas) */
+    .home-shortcuts{
+      width: min(820px, 100%);
+      display:grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+      gap: 14px !important; /* menos espaço */
+      margin-top: 2px !important;
+    }
+    .shortcut{ padding: 8px 6px; }
+    .shortcut-ico{
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.80);
+      display:grid;
+      place-items:center;
+      box-shadow: 0 10px 18px rgba(0,0,0,.05);
+    }
+
+    /* ÍCONES: oliva + 10% maior */
     .home-clean .shortcut-ico svg{
       width:26px !important;
       height:26px !important;
@@ -111,63 +136,121 @@
     .home-clean .shortcut-ico svg [fill]:not([fill="none"]){ fill:var(--olive) !important; }
     .home-clean .shortcut-ico svg *{ stroke-width:1.9; }
 
-    /* Subir um pouco o conteúdo */
-    .home-wrap{
-      padding-top:80px !important;
-      padding-bottom:120px !important;
-    }
-    .home-center{ gap:14px !important; }
-
-    /* Grid para 6 atalhos */
-    .home-shortcuts{ grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
-    @media (max-width: 920px){
-      .home-shortcuts{ grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
-    }
-    @media (max-width: 520px){
-      .home-shortcuts{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+    /* Tagline (mantém) */
+    .home-tagline{
+      margin-top: 6px;
+      text-align:center;
+      font-size: clamp(20px, 2.2vw, 32px);
+      font-weight: 500;
+      letter-spacing:-0.01em;
+      line-height: 1.12;
+      color: var(--olive);
     }
 
-    /* ===== PROVA SOCIAL (faixa de logos) ===== */
+    /* ===== EMPRESAS ATENDIDAS (marquee infinito) ===== */
     .home-proof{
-      width: min(980px, 100%);
-      margin-top: 18px;
-      padding: 16px 0;
+      width: min(920px, 100%);
+      margin-top: 8px;
+      padding: 10px 0 8px;
       border-top: 1px solid rgba(0,0,0,.12);
       border-bottom: 1px solid rgba(0,0,0,.12);
-      background: rgba(255,255,255,.25);
+      background: rgba(255,255,255,.22);
+      border-radius: 14px;
     }
     .home-proof__title{
       text-align:center;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: .14em;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .18em;
       text-transform: uppercase;
       color: rgba(0,0,0,.55);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
-    .home-proof__rail{
+
+    /* container do movimento */
+    .marquee{
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding: 4px 10px;
+      mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    }
+    .marquee__track{
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      will-change: transform;
+      animation: marquee 26s linear infinite;
+    }
+
+    /* pausa ao passar o mouse (opcional premium) */
+    .marquee:hover .marquee__track{ animation-play-state: paused; }
+
+    @keyframes marquee{
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* chip claro atrás do logo + 40% maior */
+    .client-chip{
+      height: 48px;                 /* ~40% maior (era 34px) */
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.10);
+      box-shadow: 0 8px 18px rgba(0,0,0,.05);
       display:flex;
       align-items:center;
-      gap: 26px;
-      overflow-x:auto;
-      padding: 6px 10px;
       justify-content:center;
-      scrollbar-width: none; /* Firefox */
+      flex: 0 0 auto;
     }
-    .home-proof__rail::-webkit-scrollbar{ display:none; } /* Chrome */
-
-    .home-proof__logo{
-      height: 34px;
+    .client-logo{
+      height: 32px;                 /* logo dentro do chip */
       width:auto;
       object-fit: contain;
-      /* força P&B mesmo se subir colorido */
-      filter: grayscale(1) contrast(1.2) brightness(0.25);
-      opacity: .95;
+      filter: grayscale(1) contrast(1.1); /* P&B sem escurecer demais */
+      opacity: .98;
+    }
+
+    /* responsivo */
+    @media (max-width: 980px){
+      .home-wrap{ padding: 64px 14px 86px !important; }
+      .home-shortcuts{ grid-template-columns: repeat(3, minmax(0,1fr)) !important; width:min(720px,100%); }
+      .client-chip{ height: 44px; }
+      .client-logo{ height: 30px; }
     }
     @media (max-width: 520px){
-      .home-proof__logo{ height: 28px; }
-      .home-proof__rail{ justify-content:flex-start; }
+      .home-shortcuts{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+      .home-tagline{ font-size: 20px; }
+      .client-chip{ height: 40px; padding: 8px 12px; }
+      .client-logo{ height: 26px; }
+      .marquee__track{ gap: 14px; }
     }
+
+    /* Rodapé fixo (mantém) */
+    .home-footer{
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,.70);
+      border-top: 1px solid rgba(0,0,0,.10);
+      backdrop-filter: blur(10px);
+      padding: 10px 16px;
+      z-index: 40;
+    }
+    .footer-row{
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      justify-content: center;
+    }
+    .footer-links a{
+      color: rgba(0,0,0,.72);
+      font-weight: 600;
+    }
+    .footer-links a:hover{ text-decoration: underline; }
   </style>
 </head>
 
@@ -179,14 +262,12 @@
       <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
 
-    <!-- Home -->
     <symbol id="i-home" viewBox="0 0 24 24">
       <path d="M3 10.5 12 3l9 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M5.5 10.5V21h13V10.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M10 21v-6h4v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
 
-    <!-- Agente -->
     <symbol id="i-bot" viewBox="0 0 24 24">
       <path d="M12 3v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M9.5 5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -243,24 +324,17 @@
   <main class="home-wrap">
     <section class="home-center" aria-label="Home Stegie">
 
-      <!-- Marca -->
       <div class="brand-lockup" aria-label="Marca Stegie">
-        <img
-          class="brand-logo"
-          src="{{ url_for('static', filename='img/logo-stegie.png') }}?v={{ config.get('ASSET_VERSION','1') }}"
-          alt="Stegie"
-          loading="eager"
-          decoding="async"
-        />
+        <img class="brand-logo"
+             src="{{ url_for('static', filename='img/logo-stegie.png') }}?v={{ config.get('ASSET_VERSION','1') }}"
+             alt="Stegie" loading="eager" decoding="async" />
         <div class="home-brand" aria-label="Stegie">Stegie</div>
       </div>
 
-      <!-- Barra central (frase do dia) -->
-      <div class="home-pill" aria-label="Acesso rápido">
+      <div class="home-pill" aria-label="Frase do dia">
         <span class="home-pill-text" id="dailyPhrase">Acesso rápido aos recursos da plataforma</span>
       </div>
 
-      <!-- Atalhos -->
       <nav class="home-shortcuts" aria-label="Atalhos">
         {% for s in shortcuts %}
           <a class="shortcut" href="{{ s.href }}" aria-label="{{ s.label }}">
@@ -272,17 +346,23 @@
         {% endfor %}
       </nav>
 
-      <!-- PROVA SOCIAL: empresas atendidas -->
+      <!-- PROVA SOCIAL: marquee infinito -->
       <section class="home-proof" aria-label="Empresas atendidas">
         <div class="home-proof__title">Empresas atendidas</div>
-        <div class="home-proof__rail">
-          {% for c in clientes %}
-            <img class="home-proof__logo" src="{{ c.src }}" alt="{{ c.alt }}" loading="lazy" decoding="async">
-          {% endfor %}
+
+        <div class="marquee">
+          <div class="marquee__track" id="clientsTrack">
+            {% for c in clientes %}
+              <div class="client-chip">
+                <img class="client-logo" src="{{ c.src }}" alt="{{ c.alt }}" loading="lazy" decoding="async">
+              </div>
+            {% endfor %}
+
+            <!-- duplicação via JS (garante loop perfeito) -->
+          </div>
         </div>
       </section>
 
-      <!-- Tagline -->
       <div class="home-tagline" aria-label="Tagline">
         Stegie - Inteligência para performance em malharia.
       </div>
@@ -290,7 +370,6 @@
     </section>
   </main>
 
-  <!-- Rodapé (links expostos) -->
   <footer class="home-footer" aria-label="Rodapé">
     <div class="footer-row footer-links">
       {% for l in nav_links %}
@@ -301,7 +380,7 @@
 
   <script>
     (function(){
-      // -------- Menu sanduíche --------
+      // Menu sanduíche
       const btn = document.getElementById('menuBtn');
       const menu = document.getElementById('homeMenu');
 
@@ -314,18 +393,13 @@
         btn.setAttribute('aria-expanded', String(!open));
         menu.classList.toggle('is-open', !open);
       }
-
       btn.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
-
       document.addEventListener('click', (e) => {
         if (!menu.contains(e.target) && e.target !== btn) closeMenu();
       });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
-      });
-
-      // -------- Frase do dia (15 frases, alterna diariamente) --------
+      // Frase do dia
       const phrases = [
         "Qualidade que vira padrão — todo dia.",
         "Eficiência nasce de rotina bem feita.",
@@ -343,16 +417,34 @@
         "Do problema ao plano: ação objetiva.",
         "Controle diário, melhoria contínua."
       ];
-
       function dayOfYear(d){
         const start = new Date(d.getFullYear(), 0, 0);
         return Math.floor((d - start) / 86400000);
       }
-
       const el = document.getElementById("dailyPhrase");
       if (el){
         const idx = dayOfYear(new Date()) % phrases.length;
         el.textContent = phrases[idx];
+      }
+
+      // Marquee infinito perfeito: duplica os itens até passar de 2x largura
+      const track = document.getElementById("clientsTrack");
+      if (track){
+        const items = Array.from(track.children);
+        // duplica uma vez (mínimo)
+        items.forEach(node => track.appendChild(node.cloneNode(true)));
+
+        // se ainda estiver curto, duplica mais
+        const ensureLoop = () => {
+          const parentW = track.parentElement.getBoundingClientRect().width;
+          const trackW = track.getBoundingClientRect().width;
+          if (trackW < parentW * 2){
+            const now = Array.from(track.children).slice(0, items.length);
+            now.forEach(node => track.appendChild(node.cloneNode(true)));
+          }
+        };
+        ensureLoop();
+        window.addEventListener("resize", ensureLoop);
       }
     })();
   </script>
