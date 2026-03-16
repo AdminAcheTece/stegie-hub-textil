@@ -113,6 +113,17 @@
       transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
     }
 
+    .account-btn svg{
+      width:18px;
+      height:18px;
+      display:block;
+      color:#fff;
+    }
+    
+    .account-btn svg *{
+      stroke:#fff !important;
+      fill:none;
+    }
     .account-btn:hover{
       transform:translateY(-1px);
       box-shadow:0 14px 26px rgba(0,0,0,.16);
@@ -237,8 +248,8 @@
       min-height:100vh;
       display:flex;
       justify-content:center;
-      align-items:center;
-      padding:calc(72px + env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom));
+      align-items:flex-start;
+      padding:calc(44px + env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom));
       overflow-x:hidden;
     }
 
@@ -313,7 +324,7 @@
       gap:14px;
       justify-items:center;
       margin-top:8px;
-      margin-bottom:34px; /* MAIS DISTÂNCIA ATÉ A FAIXA DE EMPRESAS */
+      margin-bottom:54px; /* MAIS DISTÂNCIA ATÉ A FAIXA DE EMPRESAS */
     }
 
     .shortcut{
@@ -494,7 +505,7 @@
       .home-wrap{
         align-items:flex-start;
         justify-content:center;
-        padding:calc(74px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
+        padding:calc(52px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
       }
 
       .home-center{
@@ -520,7 +531,7 @@
         grid-template-columns:repeat(3, minmax(0,1fr));
         gap:12px;
         margin-top:10px;
-        margin-bottom:30px; /* MAIS DISTÂNCIA NO MOBILE */
+        margin-bottom:46px;
       }
 
       .shortcut{
@@ -656,6 +667,9 @@
           aria-label="Conta ou cadastre-se"
           aria-expanded="false"
           aria-controls="accountMenu">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <use href="#i-user" xlink:href="#i-user"></use>
+          </svg>
           <span class="sr-only">Conta ou cadastre-se</span>
         </button>
 
