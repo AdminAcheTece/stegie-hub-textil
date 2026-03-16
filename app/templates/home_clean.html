@@ -12,13 +12,11 @@
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}?v={{ config.get('ASSET_VERSION','1') }}">
 
-  <!-- Overrides somente para a home (limpo/sem duplicação) -->
   <style>
     :root{
-      --olive:#7B7424; /* oliva fechado (referência Falconi) */
+      --olive:#7B7424; /* oliva fechado */
     }
 
-    /* Paleta preto/branco + tipografia */
     .home-clean{
       --primary:#111;
       --text:#111;
@@ -48,14 +46,14 @@
     /* Mais distância entre marca e pill */
     .brand-lockup{ margin-bottom:18px !important; }
 
-    /* Pill: somente texto central (sem ponto) */
+    /* Pill: texto central (sem ponto) */
     .home-pill{
       justify-content:center !important;
       gap:0 !important;
       padding:0 18px !important;
     }
 
-    /* Tagline: 2x e oliva */
+    /* Tagline */
     .home-tagline{
       margin-top:10px;
       text-align:center;
@@ -80,10 +78,10 @@
       background:rgba(255,255,255,.08) !important;
     }
 
-    /* ===== CORREÇÃO DO SEU PRINT (ícones sumidos no topo direito) =====
-       O botão está CLARO, então o ícone precisa ser ESCURO. */
+    /* ===== FIX ícone do menu (não aparecia) =====
+       Botão claro -> ícone escuro */
     .home-clean .icon-btn{
-      color:#111 !important;                  /* controla currentColor do SVG */
+      color:#111 !important;
       background:rgba(255,255,255,.85) !important;
       border:1px solid rgba(0,0,0,.14) !important;
     }
@@ -93,7 +91,7 @@
       stroke:#111 !important;
     }
 
-    /* Avatar (garante inicial visível) */
+    /* Avatar: garante inicial visível */
     .avatar{
       background:#111 !important;
       color:#fff !important;
@@ -113,41 +111,82 @@
     .home-clean .shortcut-ico svg [fill]:not([fill="none"]){ fill:var(--olive) !important; }
     .home-clean .shortcut-ico svg *{ stroke-width:1.9; }
 
-    /* (mantém “subir um pouco” o conteúdo) */
+    /* Subir um pouco o conteúdo */
     .home-wrap{
       padding-top:80px !important;
       padding-bottom:120px !important;
     }
     .home-center{ gap:14px !important; }
 
-    /* Grid preparado para 6 atalhos (Home/Consultoria/Cursos/Fichas/Conteúdos/Agente) */
-    .home-shortcuts{
-      grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-    }
+    /* Grid para 6 atalhos */
+    .home-shortcuts{ grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
     @media (max-width: 920px){
       .home-shortcuts{ grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
     }
     @media (max-width: 520px){
       .home-shortcuts{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
     }
+
+    /* ===== PROVA SOCIAL (faixa de logos) ===== */
+    .home-proof{
+      width: min(980px, 100%);
+      margin-top: 18px;
+      padding: 16px 0;
+      border-top: 1px solid rgba(0,0,0,.12);
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.25);
+    }
+    .home-proof__title{
+      text-align:center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,.55);
+      margin-bottom: 12px;
+    }
+    .home-proof__rail{
+      display:flex;
+      align-items:center;
+      gap: 26px;
+      overflow-x:auto;
+      padding: 6px 10px;
+      justify-content:center;
+      scrollbar-width: none; /* Firefox */
+    }
+    .home-proof__rail::-webkit-scrollbar{ display:none; } /* Chrome */
+
+    .home-proof__logo{
+      height: 34px;
+      width:auto;
+      object-fit: contain;
+      /* força P&B mesmo se subir colorido */
+      filter: grayscale(1) contrast(1.2) brightness(0.25);
+      opacity: .95;
+    }
+    @media (max-width: 520px){
+      .home-proof__logo{ height: 28px; }
+      .home-proof__rail{ justify-content:flex-start; }
+    }
   </style>
 </head>
 
 <body class="home-clean">
 
-  <!-- SVG sprite (fica invisível) -->
+  <!-- SVG sprite (invisível) -->
   <svg class="home-icons-sprite" aria-hidden="true" focusable="false">
     <symbol id="i-menu" viewBox="0 0 24 24">
       <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
 
-    <!-- NOVOS ícones (para Home e Agente Têxtil) -->
+    <!-- Home -->
     <symbol id="i-home" viewBox="0 0 24 24">
       <path d="M3 10.5 12 3l9 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M5.5 10.5V21h13V10.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M10 21v-6h4v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
 
+    <!-- Agente -->
     <symbol id="i-bot" viewBox="0 0 24 24">
       <path d="M12 3v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M9.5 5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -156,7 +195,6 @@
       <path d="M8.5 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
 
-    <!-- ícones existentes -->
     <symbol id="i-wrench" viewBox="0 0 24 24">
       <path d="M14.7 6.3a5 5 0 0 0-6.5 6.5L3 18l3 3 5.2-5.2a5 5 0 0 0 6.5-6.5l-2.2 2.2-2.8-2.8 2-2.3Z"
             fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -234,6 +272,16 @@
         {% endfor %}
       </nav>
 
+      <!-- PROVA SOCIAL: empresas atendidas -->
+      <section class="home-proof" aria-label="Empresas atendidas">
+        <div class="home-proof__title">Empresas atendidas</div>
+        <div class="home-proof__rail">
+          {% for c in clientes %}
+            <img class="home-proof__logo" src="{{ c.src }}" alt="{{ c.alt }}" loading="lazy" decoding="async">
+          {% endfor %}
+        </div>
+      </section>
+
       <!-- Tagline -->
       <div class="home-tagline" aria-label="Tagline">
         Stegie - Inteligência para performance em malharia.
@@ -242,7 +290,7 @@
     </section>
   </main>
 
-  <!-- Rodapé -->
+  <!-- Rodapé (links expostos) -->
   <footer class="home-footer" aria-label="Rodapé">
     <div class="footer-row footer-links">
       {% for l in nav_links %}
