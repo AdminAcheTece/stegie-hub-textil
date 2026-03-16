@@ -14,15 +14,18 @@
   <style>
     :root{
       --olive:#7B7424;
+      --olive-soft:#8e8730;
       --bg:#F7F6F3;
     }
 
     *,*::before,*::after{ box-sizing:border-box; }
+
     html,body{
       width:100%;
       max-width:100%;
       overflow-x:hidden;
     }
+
     body.home-clean{
       margin:0;
       background:var(--bg);
@@ -53,6 +56,7 @@
       z-index:50;
       background:transparent;
     }
+
     .home-top-actions{
       display:flex;
       align-items:center;
@@ -60,50 +64,171 @@
       position:relative;
     }
 
+    .top-menu-wrap,
+    .account-wrap{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
     .icon-btn{
-      width:40px;height:40px;border-radius:999px;
+      width:40px;
+      height:40px;
+      border-radius:999px;
       border:1px solid rgba(0,0,0,.14);
       background:rgba(255,255,255,.92);
-      display:grid;place-items:center;
+      display:grid;
+      place-items:center;
       cursor:pointer;
       color:#111;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
     }
-    .icon-btn svg{ width:20px;height:20px; color:#111; stroke:#111; }
 
-    .avatar{
-      width:40px;height:40px;border-radius:999px;
-      background:#111;color:#fff;
-      display:grid;place-items:center;
-      text-decoration:none;
-      box-shadow:0 10px 22px rgba(0,0,0,.08);
+    .icon-btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 10px 18px rgba(0,0,0,.08);
+      background:#fff;
     }
-    .avatar svg{ width:18px;height:18px; stroke:#fff; fill:none; }
-    .sr-only{ position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;padding:0;margin:-1px; }
 
+    .icon-btn svg{
+      width:20px;
+      height:20px;
+      color:#111;
+      stroke:#111;
+    }
+
+    /* botão circular preto */
+    .account-btn{
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      border:0;
+      background:#111;
+      color:#fff;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      box-shadow:0 10px 22px rgba(0,0,0,.10);
+      transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+
+    .account-btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 26px rgba(0,0,0,.16);
+    }
+
+    .account-btn:focus-visible,
+    .icon-btn:focus-visible{
+      outline:2px solid rgba(123,116,36,.35);
+      outline-offset:2px;
+    }
+
+    .sr-only{
+      position:absolute;
+      width:1px;
+      height:1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+      padding:0;
+      margin:-1px;
+    }
+
+    /* ===== MENU PRETO ===== */
     .menu{
-      position:absolute; top:52px; right:0;
+      position:absolute;
+      top:52px;
+      right:0;
       min-width:220px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.18);
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
       background:#0b0b0b;
       box-shadow:0 18px 40px rgba(0,0,0,.22);
       padding:8px;
-      opacity:0; pointer-events:none;
+      opacity:0;
+      pointer-events:none;
       transform:translateY(-6px);
-      transition:.16s ease;
+      transition:opacity .16s ease, transform .16s ease;
+      z-index:80;
     }
-    .menu.is-open{ opacity:1; pointer-events:auto; transform:translateY(0); }
-    .menu-item{
+
+    .menu.is-open{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0);
+    }
+
+    .menu-item,
+    .menu-item:visited{
       display:block;
       padding:11px 12px;
       border-radius:10px;
       text-decoration:none;
-      color:#fff !important;
+      color:#ffffff !important;
+      -webkit-text-fill-color:#ffffff !important;
       opacity:1 !important;
       font-weight:500;
       font-size:14.5px;
+      line-height:1.2;
+      transition:background .16s ease, color .16s ease, transform .16s ease;
     }
-    .menu-item:hover{ background:rgba(255,255,255,.08); }
+
+    .menu-item:hover,
+    .menu-item:focus-visible{
+      background:rgba(255,255,255,.08);
+      color:#ffffff !important;
+      -webkit-text-fill-color:#ffffff !important;
+      transform:translateX(1px);
+      outline:none;
+    }
+
+    /* ===== MENU CONTA / CADASTRO ===== */
+    .account-menu{
+      position:absolute;
+      top:52px;
+      right:0;
+      min-width:190px;
+      border-radius:16px;
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.98);
+      box-shadow:0 18px 40px rgba(0,0,0,.16);
+      padding:8px;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(-6px);
+      transition:opacity .16s ease, transform .16s ease;
+      z-index:82;
+    }
+
+    .account-menu.is-open{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0);
+    }
+
+    .account-item,
+    .account-item:visited{
+      display:block;
+      padding:11px 12px;
+      border-radius:10px;
+      text-decoration:none;
+      color:#111 !important;
+      -webkit-text-fill-color:#111 !important;
+      font-weight:600;
+      font-size:14.5px;
+      line-height:1.2;
+      transition:background .16s ease, color .16s ease;
+    }
+
+    .account-item:hover,
+    .account-item:focus-visible{
+      background:rgba(123,116,36,.08);
+      color:var(--olive) !important;
+      -webkit-text-fill-color:var(--olive) !important;
+      outline:none;
+    }
 
     /* ===== CONTEÚDO ===== */
     .home-wrap{
@@ -114,8 +239,9 @@
       justify-content:center;
       align-items:center;
       padding:calc(72px + env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom));
-      overflow-x:hidden; /* trava a home */
+      overflow-x:hidden;
     }
+
     .home-center{
       width:100%;
       max-width:980px;
@@ -132,7 +258,13 @@
       gap:6px;
       margin-bottom:10px;
     }
-    .brand-logo{ height:clamp(72px, 9vw, 150px); width:auto; display:block; }
+
+    .brand-logo{
+      height:clamp(72px, 9vw, 150px);
+      width:auto;
+      display:block;
+    }
+
     .home-brand{
       font-family:Manrope, Inter, system-ui, sans-serif;
       font-weight:800;
@@ -151,11 +283,14 @@
       background:rgba(255,255,255,.72);
       border:1px solid rgba(0,0,0,.12);
       box-shadow:0 12px 22px rgba(0,0,0,.06);
-      display:flex;align-items:center;justify-content:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       padding:0 16px;
       overflow:hidden;
       text-align:center;
     }
+
     .home-pill-text{
       font-weight:400;
       font-size:16px;
@@ -166,6 +301,7 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
+
     .home-pill-text::before{ content:"“"; }
     .home-pill-text::after{ content:"”"; }
 
@@ -176,8 +312,10 @@
       grid-template-columns:repeat(6, minmax(0,1fr));
       gap:14px;
       justify-items:center;
-      margin-top:2px;
+      margin-top:8px;
+      margin-bottom:34px; /* MAIS DISTÂNCIA ATÉ A FAIXA DE EMPRESAS */
     }
+
     .shortcut{
       text-decoration:none;
       color:#111;
@@ -186,27 +324,39 @@
       gap:10px;
       padding:8px 6px;
       border-radius:16px;
+      transition:background .16s ease, transform .16s ease;
     }
-    .shortcut:hover{ background:rgba(0,0,0,.03); }
+
+    .shortcut:hover{
+      background:rgba(0,0,0,.03);
+      transform:translateY(-1px);
+    }
+
     .shortcut-ico{
-      width:54px;height:54px;border-radius:16px;
+      width:54px;
+      height:54px;
+      border-radius:16px;
       border:1px solid rgba(0,0,0,.12);
       background:rgba(255,255,255,.80);
-      display:grid;place-items:center;
+      display:grid;
+      place-items:center;
       box-shadow:0 10px 18px rgba(0,0,0,.05);
     }
 
-    /* FORÇA ícones aparecerem (mesmo se algum CSS externo mexer) */
+    /* FORÇA ícones aparecerem */
     .shortcut-ico svg{
-      width:26px;height:26px;
+      width:26px;
+      height:26px;
       display:block;
       color:var(--olive) !important;
     }
+
     .shortcut-ico svg *{
       stroke:var(--olive) !important;
       fill:none;
       stroke-width:1.9;
     }
+
     .shortcut-ico svg [fill]:not([fill="none"]){
       fill:var(--olive) !important;
       stroke:none !important;
@@ -220,17 +370,18 @@
       line-height:1.15;
     }
 
-    /* ===== PROVA SOCIAL (marquee fora do flow para NÃO “alargar” a página no iOS) ===== */
+    /* ===== PROVA SOCIAL ===== */
     .home-proof{
       width:100%;
       max-width:920px;
-      margin-top:8px;
+      margin-top:0;
       padding:10px 0 8px;
       border:1px solid rgba(0,0,0,.12);
       background:rgba(255,255,255,.22);
       border-radius:14px;
       overflow:hidden;
     }
+
     .home-proof__title{
       text-align:center;
       font-size:11px;
@@ -250,9 +401,11 @@
       mask-image:linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
       -webkit-mask-image:linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
     }
+
     .marquee__track{
-      position:absolute; /* <- tira do layout */
-      left:0; top:0;
+      position:absolute;
+      left:0;
+      top:0;
       height:100%;
       display:inline-flex;
       align-items:center;
@@ -260,6 +413,7 @@
       will-change:transform;
       animation:marquee 26s linear infinite;
     }
+
     @keyframes marquee{
       0%{ transform:translateX(0); }
       100%{ transform:translateX(-50%); }
@@ -272,19 +426,24 @@
       background:rgba(255,255,255,.92);
       border:1px solid rgba(0,0,0,.10);
       box-shadow:0 8px 18px rgba(0,0,0,.05);
-      display:flex;align-items:center;justify-content:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       overflow:hidden;
       flex:0 0 auto;
     }
+
     .client-logo{
-      height:36px;width:auto;object-fit:contain;
+      height:36px;
+      width:auto;
+      object-fit:contain;
       filter:grayscale(1) contrast(1.08);
       transform:scale(1.85);
       transform-origin:center;
     }
 
     .home-tagline{
-      margin-top:6px;
+      margin-top:12px;
       text-align:center;
       font-size:clamp(20px,2.2vw,32px);
       font-weight:500;
@@ -295,13 +454,17 @@
 
     /* Rodapé */
     .home-footer{
-      position:fixed;left:0;right:0;bottom:0;
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
       background:rgba(255,255,255,.70);
       border-top:1px solid rgba(0,0,0,.10);
       backdrop-filter:blur(10px);
       padding:10px 16px calc(10px + env(safe-area-inset-bottom));
       z-index:40;
     }
+
     .footer-row{
       width:100%;
       max-width:1100px;
@@ -311,15 +474,23 @@
       gap:18px;
       flex-wrap:wrap;
     }
+
     .footer-links a{
       color:rgba(0,0,0,.72);
       font-weight:600;
       text-decoration:none;
     }
-    .footer-links a:hover{ text-decoration:underline; }
 
-    /* ===== MOBILE: CENTRALIZAÇÃO REAL ===== */
+    .footer-links a:hover{
+      text-decoration:underline;
+    }
+
+    /* ===== MOBILE ===== */
     @media (max-width: 520px){
+      .home-top{
+        padding:calc(env(safe-area-inset-top)) 14px 0;
+      }
+
       .home-wrap{
         align-items:flex-start;
         justify-content:center;
@@ -335,30 +506,74 @@
         left:auto !important;
       }
 
-      .home-pill, .home-shortcuts, .home-proof, .home-tagline{
+      .home-pill,
+      .home-shortcuts,
+      .home-proof,
+      .home-tagline{
         width:100% !important;
         max-width:100% !important;
         margin-left:auto !important;
         margin-right:auto !important;
       }
 
-      /* 6 atalhos = 3 colunas (2 linhas) mais harmônico */
       .home-shortcuts{
         grid-template-columns:repeat(3, minmax(0,1fr));
         gap:12px;
+        margin-top:10px;
+        margin-bottom:30px; /* MAIS DISTÂNCIA NO MOBILE */
       }
-      .shortcut{ padding:6px 4px; gap:8px; }
-      .shortcut-ico{ width:52px;height:52px; }
-      .shortcut-ico svg{ width:26px;height:26px; }
-      .shortcut-label{ font-size:13px; }
 
-      .home-pill{ height:46px; }
-      .home-pill-text{ font-size:15px; }
+      .shortcut{
+        padding:6px 4px;
+        gap:8px;
+      }
 
-      .client-chip{ height:42px; }
-      .client-logo{ height:30px; transform:scale(1.45); }
+      .shortcut-ico{
+        width:52px;
+        height:52px;
+      }
 
-      .home-tagline{ font-size:20px; }
+      .shortcut-ico svg{
+        width:26px;
+        height:26px;
+      }
+
+      .shortcut-label{
+        font-size:13px;
+      }
+
+      .home-pill{
+        height:46px;
+      }
+
+      .home-pill-text{
+        font-size:15px;
+      }
+
+      .client-chip{
+        height:42px;
+      }
+
+      .client-logo{
+        height:30px;
+        transform:scale(1.45);
+      }
+
+      .home-tagline{
+        font-size:20px;
+      }
+
+      .menu{
+        top:50px;
+        right:0;
+        min-width:200px;
+      }
+
+      .account-menu{
+        top:50px;
+        right:0;
+        min-width:170px;
+      }
     }
   </style>
 </head>
@@ -383,7 +598,6 @@
       <path d="M10 21v-6h4v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
 
-    <!-- consultoria (substitui o antigo, conforme teu anexo) -->
     <symbol id="i-consult" viewBox="0 0 24 24">
       <path d="M12 12.5a3.2 3.2 0 1 0-3.2-3.2a3.2 3.2 0 0 0 3.2 3.2Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
       <path d="M6.2 19.2a6.6 6.6 0 0 1 11.6 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -419,24 +633,38 @@
 
   <header class="home-top" aria-label="Topo">
     <div class="home-top-actions">
-      <button class="icon-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="homeMenu">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <use href="#i-menu" xlink:href="#i-menu"></use>
-        </svg>
-      </button>
 
-      <a class="avatar" href="{{ account.href }}" aria-label="Conta / Cadastro">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <use href="#i-user" xlink:href="#i-user"></use>
-        </svg>
-        <span class="sr-only">Conta</span>
-      </a>
+      <div class="top-menu-wrap">
+        <button class="icon-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="homeMenu">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <use href="#i-menu" xlink:href="#i-menu"></use>
+          </svg>
+        </button>
 
-      <div class="menu" id="homeMenu" role="menu" aria-label="Menu principal">
-        {% for l in nav_links %}
-          <a class="menu-item" role="menuitem" href="{{ l.href }}">{{ l.label }}</a>
-        {% endfor %}
+        <div class="menu" id="homeMenu" role="menu" aria-label="Menu principal">
+          {% for l in nav_links %}
+            <a class="menu-item" role="menuitem" href="{{ l.href }}">{{ l.label }}</a>
+          {% endfor %}
+        </div>
       </div>
+
+      <div class="account-wrap">
+        <button
+          class="account-btn"
+          id="accountBtn"
+          type="button"
+          aria-label="Conta ou cadastre-se"
+          aria-expanded="false"
+          aria-controls="accountMenu">
+          <span class="sr-only">Conta ou cadastre-se</span>
+        </button>
+
+        <div class="account-menu" id="accountMenu" role="menu" aria-label="Conta e cadastro">
+          <a class="account-item" role="menuitem" href="{{ account.login_href or '/login' }}">Conta</a>
+          <a class="account-item" role="menuitem" href="{{ account.register_href or '/cadastro' }}">Cadastre-se</a>
+        </div>
+      </div>
+
     </div>
   </header>
 
@@ -497,7 +725,7 @@
 
   <script>
     (function(){
-      // 1) reset horizontal (iOS às vezes “fica preso” no scrollLeft antigo)
+      // reset horizontal
       function hardResetX(){
         try{ window.scrollTo(0, 0); }catch(e){}
         try{ document.documentElement.scrollLeft = 0; }catch(e){}
@@ -507,23 +735,83 @@
       requestAnimationFrame(hardResetX);
       setTimeout(hardResetX, 80);
 
-      // menu sanduíche
-      const btn = document.getElementById('menuBtn');
-      const menu = document.getElementById('homeMenu');
-      function closeMenu(){
-        btn.setAttribute('aria-expanded', 'false');
-        menu.classList.remove('is-open');
+      // menu principal
+      const menuBtn = document.getElementById('menuBtn');
+      const homeMenu = document.getElementById('homeMenu');
+
+      // menu conta
+      const accountBtn = document.getElementById('accountBtn');
+      const accountMenu = document.getElementById('accountMenu');
+
+      function closeMainMenu(){
+        if (!menuBtn || !homeMenu) return;
+        menuBtn.setAttribute('aria-expanded', 'false');
+        homeMenu.classList.remove('is-open');
       }
-      function toggleMenu(){
-        const open = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!open));
-        menu.classList.toggle('is-open', !open);
+
+      function openMainMenu(){
+        if (!menuBtn || !homeMenu) return;
+        closeAccountMenu();
+        menuBtn.setAttribute('aria-expanded', 'true');
+        homeMenu.classList.add('is-open');
       }
-      btn.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
-      document.addEventListener('click', (e) => {
-        if (!menu.contains(e.target) && e.target !== btn) closeMenu();
+
+      function toggleMainMenu(){
+        if (!menuBtn || !homeMenu) return;
+        const isOpen = homeMenu.classList.contains('is-open');
+        if (isOpen) closeMainMenu();
+        else openMainMenu();
+      }
+
+      function closeAccountMenu(){
+        if (!accountBtn || !accountMenu) return;
+        accountBtn.setAttribute('aria-expanded', 'false');
+        accountMenu.classList.remove('is-open');
+      }
+
+      function openAccountMenu(){
+        if (!accountBtn || !accountMenu) return;
+        closeMainMenu();
+        accountBtn.setAttribute('aria-expanded', 'true');
+        accountMenu.classList.add('is-open');
+      }
+
+      function toggleAccountMenu(){
+        if (!accountBtn || !accountMenu) return;
+        const isOpen = accountMenu.classList.contains('is-open');
+        if (isOpen) closeAccountMenu();
+        else openAccountMenu();
+      }
+
+      if (menuBtn){
+        menuBtn.addEventListener('click', function(e){
+          e.stopPropagation();
+          toggleMainMenu();
+        });
+      }
+
+      if (accountBtn){
+        accountBtn.addEventListener('click', function(e){
+          e.stopPropagation();
+          toggleAccountMenu();
+        });
+      }
+
+      document.addEventListener('click', function(e){
+        if (homeMenu && menuBtn && !homeMenu.contains(e.target) && !menuBtn.contains(e.target)){
+          closeMainMenu();
+        }
+        if (accountMenu && accountBtn && !accountMenu.contains(e.target) && !accountBtn.contains(e.target)){
+          closeAccountMenu();
+        }
       });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape'){
+          closeMainMenu();
+          closeAccountMenu();
+        }
+      });
 
       // frase do dia
       const phrases = [
@@ -543,17 +831,19 @@
         "Do problema ao plano: ação objetiva.",
         "Controle diário, melhoria contínua."
       ];
+
       function dayOfYear(d){
         const start = new Date(d.getFullYear(), 0, 0);
         return Math.floor((d - start) / 86400000);
       }
-      const el = document.getElementById("dailyPhrase");
-      if (el){
+
+      const phraseEl = document.getElementById("dailyPhrase");
+      if (phraseEl){
         const idx = dayOfYear(new Date()) % phrases.length;
-        el.textContent = phrases[idx];
+        phraseEl.textContent = phrases[idx];
       }
 
-      // marquee infinito (duplica)
+      // marquee infinito
       const track = document.getElementById("clientsTrack");
       if (track){
         const original = Array.from(track.children);
