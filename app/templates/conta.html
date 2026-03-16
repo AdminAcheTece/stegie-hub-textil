@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Minha conta | STEGIE{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="auth">
+      <div class="auth-card card">
+        <h3>Minha conta</h3>
+        <p class="muted">Você está logado como <strong>{{ user_email }}</strong>.</p>
+
+        <div class="form-actions">
+          <a class="btn btn--primary" href="{{ url_for('servicos') }}">Ir para Serviços</a>
+          <a class="btn btn--ghost" href="{{ url_for('logout') }}">Sair</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
