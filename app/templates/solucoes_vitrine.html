@@ -5,7 +5,7 @@
 {% block content %}
 
 {# =========================
-   AJUSTE APENAS ESTES LINKS
+   AJUSTE ESTES LINKS
    se alguma rota do seu site
    estiver diferente.
    ========================= #}
@@ -13,49 +13,56 @@
 {% set l_desenvolvimento = '/desenvolvimento-de-malhas' %}
 {% set l_pericia = '/pericia-tecnica-textil' %}
 {% set l_educacao = '/educacao' %}
-{% set l_fichas = '/fichas-tecnicas-malharia' %}
+{% set l_fichas = '/fichas-tecnicas' %}
 {% set l_agente = '/agente-tecnico-textil-ia' %}
-{% set l_achetece = 'https://achetece.com.br' %}
+{% set l_achetece = 'https://achetece.replit.app' %}
 
 {# =========================
-   FOTOS DO VANDRÉ
-   Salvar em:
-   static/img/foto_vandre_01.jpg
-   static/img/foto_vandre_02.jpg
-   ...
-   static/img/foto_vandre_07.jpg
+   SUAS FOTOS ORIGINAIS
+   salvar em static/img/
    ========================= #}
-{% set foto_01 = url_for('static', filename='img/foto_vandre_01.jpg') %}
-{% set foto_02 = url_for('static', filename='img/foto_vandre_02.jpg') %}
-{% set foto_03 = url_for('static', filename='img/foto_vandre_03.jpg') %}
-{% set foto_04 = url_for('static', filename='img/foto_vandre_04.jpg') %}
-{% set foto_05 = url_for('static', filename='img/foto_vandre_05.jpg') %}
-{% set foto_06 = url_for('static', filename='img/foto_vandre_06.jpg') %}
-{% set foto_07 = url_for('static', filename='img/foto_vandre_07.jpg') %}
+{% set foto_01 = url_for('static', filename='img/foto_vandre_01.png') %}
+{% set foto_02 = url_for('static', filename='img/foto_vandre_02.png') %}
+{% set foto_03 = url_for('static', filename='img/foto_vandre_03.png') %}
+{% set foto_04 = url_for('static', filename='img/foto_vandre_04.png') %}
+{% set foto_05 = url_for('static', filename='img/foto_vandre_05.png') %}
+{% set foto_06 = url_for('static', filename='img/foto_vandre_06.png') %}
+{% set foto_07 = url_for('static', filename='img/foto_vandre_07.png') %}
+
+{# =========================
+   IMAGENS DE FUNDO DOS CARDS
+   salvar em static/img/cards/
+   ========================= #}
+{% set bg_consultoria = url_for('static', filename='img/cards/bg_consultoria_textil.png') %}
+{% set bg_desenvolvimento = url_for('static', filename='img/cards/bg_desenvolvimento_malhas.png') %}
+{% set bg_pericia = url_for('static', filename='img/cards/bg_pericia_tecnica_textil.png') %}
+{% set bg_educacao = url_for('static', filename='img/cards/bg_educacao_textil.png') %}
+{% set bg_fichas = url_for('static', filename='img/cards/bg_fichas_tecnicas_malharia.png') %}
+{% set bg_agente = url_for('static', filename='img/cards/bg_agente_tecnico_ia.png') %}
+{% set bg_achetece = url_for('static', filename='img/cards/bg_achetece.png') %}
 
 <style>
-  .sv3-page{
-    --sv3-bg:#050505;
-    --sv3-bg-2:#0b0b0b;
-    --sv3-surface:#101010;
-    --sv3-surface-2:#151515;
-    --sv3-text:#f7f7f7;
-    --sv3-muted:#cccccc;
-    --sv3-line:rgba(255,255,255,.09);
-    --sv3-line-soft:rgba(255,255,255,.05);
-    --sv3-accent:#8E8420;
-    --sv3-accent-2:#B6F34D;
-    --sv3-shadow:0 20px 52px rgba(0,0,0,.34);
-    color:var(--sv3-text);
+  .sv4-page{
+    --sv4-bg:#050505;
+    --sv4-bg-2:#0b0b0b;
+    --sv4-surface:#101010;
+    --sv4-text:#f7f7f7;
+    --sv4-muted:#d0d0d0;
+    --sv4-line:rgba(255,255,255,.09);
+    --sv4-line-soft:rgba(255,255,255,.05);
+    --sv4-accent:#8E8420;
+    --sv4-accent-2:#B6F34D;
+    --sv4-shadow:0 20px 52px rgba(0,0,0,.34);
+    color:var(--sv4-text);
     background:
-      radial-gradient(circle at 8% 0%, rgba(182,243,77,.08), transparent 18%),
-      radial-gradient(circle at 92% 14%, rgba(142,132,32,.12), transparent 18%),
+      radial-gradient(circle at 8% 0%, rgba(182,243,77,.07), transparent 18%),
+      radial-gradient(circle at 92% 14%, rgba(142,132,32,.10), transparent 18%),
       linear-gradient(180deg, #040404 0%, #080808 36%, #0a0a0a 100%);
     position:relative;
     overflow:hidden;
   }
 
-  .sv3-page::before{
+  .sv4-page::before{
     content:"";
     position:absolute;
     inset:0;
@@ -64,55 +71,55 @@
       linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
     background-size:34px 34px;
-    mask-image:linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,0));
+    mask-image:linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,0));
   }
 
-  .sv3-wrap{
+  .sv4-wrap{
     width:min(1520px, calc(100% - 42px));
     margin:0 auto;
-    padding:20px 0 64px;
+    padding:18px 0 64px;
     position:relative;
     z-index:1;
   }
 
   /* =========================
-     TOPO MAIS ENXUTO
+     TOPO
      ========================= */
-  .sv3-top{
+  .sv4-top{
     display:flex;
     align-items:end;
     justify-content:space-between;
     gap:22px;
-    padding:6px 0 14px;
+    padding:8px 0 14px;
     margin-bottom:10px;
   }
 
-  .sv3-top__copy{
+  .sv4-top__copy{
     max-width:760px;
   }
 
-  .sv3-top__eyebrow{
+  .sv4-top__eyebrow{
     display:inline-flex;
     align-items:center;
     gap:10px;
     margin:0 0 10px;
-    color:var(--sv3-accent-2);
+    color:var(--sv4-accent-2);
     font-size:.80rem;
     font-weight:800;
     letter-spacing:.10em;
     text-transform:uppercase;
   }
 
-  .sv3-top__eyebrow::before{
+  .sv4-top__eyebrow::before{
     content:"";
     width:18px;
     height:2px;
     border-radius:999px;
-    background:var(--sv3-accent-2);
+    background:var(--sv4-accent-2);
     box-shadow:0 0 0 5px rgba(182,243,77,.10);
   }
 
-  .sv3-top__copy h1{
+  .sv4-top__copy h1{
     margin:0;
     font-size:clamp(1.7rem, 2.6vw, 2.5rem);
     line-height:1.02;
@@ -122,14 +129,14 @@
     text-shadow:0 2px 16px rgba(0,0,0,.26);
   }
 
-  .sv3-top__copy p{
+  .sv4-top__copy p{
     margin:8px 0 0;
     color:#dddddd;
     font-size:.98rem;
     line-height:1.5;
   }
 
-  .sv3-quicknav{
+  .sv4-quicknav{
     display:flex;
     align-items:center;
     gap:10px;
@@ -138,7 +145,7 @@
     padding-bottom:2px;
   }
 
-  .sv3-quicknav a{
+  .sv4-quicknav a{
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -158,7 +165,7 @@
     white-space:nowrap;
   }
 
-  .sv3-quicknav a:hover{
+  .sv4-quicknav a:hover{
     border-color:rgba(182,243,77,.24);
     color:#ffffff;
     transform:translateY(-2px);
@@ -168,11 +175,11 @@
   /* =========================
      SHELVES
      ========================= */
-  .sv3-shelf{
+  .sv4-shelf{
     margin-top:26px;
   }
 
-  .sv3-shelf__head{
+  .sv4-shelf__head{
     display:flex;
     align-items:end;
     justify-content:space-between;
@@ -180,7 +187,7 @@
     margin-bottom:12px;
   }
 
-  .sv3-shelf__head h2{
+  .sv4-shelf__head h2{
     margin:0;
     font-size:1.18rem;
     line-height:1.1;
@@ -189,17 +196,17 @@
     font-weight:760;
   }
 
-  .sv3-shelf__head p{
+  .sv4-shelf__head p{
     margin:5px 0 0;
     color:#c9c9c9;
     font-size:.92rem;
     line-height:1.45;
   }
 
-  .sv3-row{
+  .sv4-row{
     display:grid;
     grid-auto-flow:column;
-    grid-auto-columns:minmax(270px, 320px);
+    grid-auto-columns:minmax(280px, 340px);
     gap:18px;
     overflow-x:auto;
     padding:6px 2px 16px;
@@ -208,76 +215,82 @@
     scrollbar-color:rgba(255,255,255,.18) transparent;
   }
 
-  .sv3-row::-webkit-scrollbar{
+  .sv4-row::-webkit-scrollbar{
     height:10px;
   }
 
-  .sv3-row::-webkit-scrollbar-thumb{
+  .sv4-row::-webkit-scrollbar-thumb{
     background:rgba(255,255,255,.18);
     border-radius:999px;
   }
 
-  .sv3-row::-webkit-scrollbar-track{
+  .sv4-row::-webkit-scrollbar-track{
     background:transparent;
   }
 
   /* =========================
-     CARD NETFLIX
+     CARD
      ========================= */
-  .sv3-card{
+  .sv4-card{
     position:relative;
     display:block;
-    min-height:470px;
+    min-height:485px;
     border-radius:26px;
     overflow:hidden;
     text-decoration:none;
     color:#ffffff;
     background:#0f0f0f;
     border:1px solid rgba(255,255,255,.08);
-    box-shadow:var(--sv3-shadow);
+    box-shadow:var(--sv4-shadow);
     isolation:isolate;
     scroll-snap-align:start;
     transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
   }
 
-  .sv3-card:hover{
+  .sv4-card:hover{
     transform:translateY(-8px) scale(1.012);
     border-color:rgba(182,243,77,.22);
     box-shadow:0 24px 58px rgba(0,0,0,.42);
   }
 
-  .sv3-card__art{
+  .sv4-card__art{
     position:absolute;
     inset:0;
     z-index:0;
+    background-image:var(--cardbg);
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    filter:saturate(.94) contrast(1.03) brightness(.92);
+    transform:scale(1.02);
   }
 
-  .sv3-card__art::before{
+  .sv4-card__art::before{
     content:"";
     position:absolute;
     inset:0;
     background:
       repeating-linear-gradient(
         135deg,
-        rgba(255,255,255,.04) 0 2px,
+        rgba(255,255,255,.035) 0 2px,
         transparent 2px 16px
       );
-    opacity:.62;
+    opacity:.28;
   }
 
-  .sv3-card__art::after{
+  .sv4-card__art::after{
     content:"";
     position:absolute;
     inset:0;
     background:
-      linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.10) 30%, rgba(0,0,0,.48) 62%, rgba(0,0,0,.92) 100%);
+      linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.16) 28%, rgba(0,0,0,.48) 58%, rgba(0,0,0,.92) 100%);
   }
 
-  .sv3-card__badge{
+  .sv4-card__badge{
     position:absolute;
     top:16px;
     left:16px;
-    z-index:3;
+    z-index:4;
     display:inline-flex;
     align-items:center;
     min-height:38px;
@@ -293,17 +306,17 @@
     backdrop-filter:blur(8px);
   }
 
-  .sv3-card__photo{
+  .sv4-card__photo{
     position:absolute;
-    top:56px;
+    top:58px;
     right:14px;
-    bottom:78px;
-    width:43%;
-    min-width:128px;
+    bottom:82px;
+    width:44%;
+    min-width:132px;
     border-radius:28px 28px 22px 22px;
-    z-index:1;
+    z-index:2;
     background:
-      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.02)),
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
       var(--person);
     background-size:cover;
     background-position:center top;
@@ -311,58 +324,58 @@
     border:1px solid rgba(255,255,255,.11);
     box-shadow:
       0 18px 34px rgba(0,0,0,.32),
-      inset 0 1px 0 rgba(255,255,255,.08);
+      inset 0 1px 0 rgba(255,255,255,.07);
     overflow:hidden;
   }
 
-  .sv3-card__photo::before{
+  .sv4-card__photo::before{
     content:"";
     position:absolute;
     inset:0;
     background:
-      linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.22)),
-      radial-gradient(circle at 50% 8%, rgba(255,255,255,.12), transparent 18%);
+      linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.20)),
+      radial-gradient(circle at 50% 8%, rgba(255,255,255,.10), transparent 18%);
   }
 
-  .sv3-card__content{
+  .sv4-card__content{
     position:absolute;
     inset:auto 0 0 0;
-    z-index:3;
+    z-index:4;
     padding:20px 18px 18px;
     background:
-      linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.16) 16%, rgba(0,0,0,.70) 42%, rgba(0,0,0,.93) 100%);
+      linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.14) 16%, rgba(0,0,0,.68) 42%, rgba(0,0,0,.94) 100%);
   }
 
-  .sv3-card__copy{
-    max-width:calc(100% - 116px);
+  .sv4-card__copy{
+    max-width:calc(100% - 112px);
   }
 
-  .sv3-card__title{
+  .sv4-card__title{
     margin:0 0 8px;
-    font-size:1.32rem;
-    line-height:1.05;
+    font-size:1.34rem;
+    line-height:1.04;
     letter-spacing:-.02em;
     font-weight:800;
     color:#ffffff !important;
     text-shadow:0 2px 16px rgba(0,0,0,.34);
   }
 
-  .sv3-card__desc{
+  .sv4-card__desc{
     margin:0;
-    font-size:.96rem;
+    font-size:.97rem;
     line-height:1.5;
     color:#f1f1f1 !important;
     text-shadow:0 2px 14px rgba(0,0,0,.30);
   }
 
-  .sv3-card__meta{
+  .sv4-card__meta{
     display:flex;
     flex-wrap:wrap;
     gap:8px;
     margin-top:13px;
   }
 
-  .sv3-card__tag{
+  .sv4-card__tag{
     display:inline-flex;
     align-items:center;
     min-height:34px;
@@ -376,142 +389,31 @@
     box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
   }
 
-  .sv3-card__cta{
+  .sv4-card__cta{
     display:inline-flex;
     align-items:center;
     gap:8px;
     margin-top:14px;
-    color:var(--sv3-accent-2);
+    color:var(--sv4-accent-2);
     font-size:.92rem;
     font-weight:800;
     letter-spacing:.01em;
-    text-shadow:none;
   }
 
-  .sv3-card__cta::after{
+  .sv4-card__cta::after{
     content:"→";
     transition:transform .22s ease;
   }
 
-  .sv3-card:hover .sv3-card__cta::after{
+  .sv4-card:hover .sv4-card__cta::after{
     transform:translateX(4px);
   }
 
-  /* =========================
-     FUNDOS TEMÁTICOS
-     ========================= */
-
-  /* CONSULTORIA */
-  .sv3-card--consultoria .sv3-card__art{
-    background:
-      radial-gradient(circle at 18% 72%, rgba(182,243,77,.24), transparent 18%),
-      radial-gradient(circle at 78% 18%, rgba(255,255,255,.12), transparent 18%),
-      linear-gradient(145deg, #0f1711 0%, #17231a 38%, #2b2a14 100%);
-  }
-  .sv3-card--consultoria .sv3-card__art::before{
-    background:
-      linear-gradient(90deg, transparent 0 17%, rgba(255,255,255,.04) 17.2%, transparent 17.4%, transparent 33%, rgba(255,255,255,.04) 33.2%, transparent 33.4%, transparent 49%, rgba(255,255,255,.04) 49.2%, transparent 49.4%, transparent 65%, rgba(255,255,255,.04) 65.2%, transparent 65.4%, transparent 100%),
-      repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 2px, transparent 2px 16px);
-    opacity:.70;
-  }
-
-  /* DESENVOLVIMENTO */
-  .sv3-card--desenvolvimento .sv3-card__art{
-    background:
-      radial-gradient(circle at 22% 76%, rgba(65,145,255,.18), transparent 18%),
-      radial-gradient(circle at 76% 22%, rgba(255,255,255,.10), transparent 18%),
-      linear-gradient(145deg, #0f1318 0%, #162132 42%, #3b2c16 100%);
-  }
-  .sv3-card--desenvolvimento .sv3-card__art::before{
-    background:
-      linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px),
-      repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 2px, transparent 2px 16px);
-    background-size:22px 22px, 22px 22px, auto;
-    opacity:.55;
-  }
-
-  /* PERÍCIA */
-  .sv3-card--pericia .sv3-card__art{
-    background:
-      radial-gradient(circle at 26% 62%, rgba(255,255,255,.10) 0 8%, transparent 9%),
-      radial-gradient(circle at 26% 62%, transparent 0 13%, rgba(255,255,255,.10) 14%, transparent 15%),
-      radial-gradient(circle at 76% 18%, rgba(255,255,255,.09), transparent 16%),
-      linear-gradient(145deg, #141414 0%, #232323 46%, #392221 100%);
-  }
-  .sv3-card--pericia .sv3-card__art::before{
-    background:
-      repeating-linear-gradient(135deg, rgba(255,255,255,.045) 0 2px, transparent 2px 16px),
-      linear-gradient(90deg, transparent 0 20%, rgba(255,255,255,.05) 20.2%, transparent 20.4%, transparent 100%);
-    opacity:.55;
-  }
-
-  /* EDUCAÇÃO */
-  .sv3-card--educacao .sv3-card__art{
-    background:
-      radial-gradient(circle at 18% 74%, rgba(182,243,77,.20), transparent 18%),
-      radial-gradient(circle at 74% 18%, rgba(255,255,255,.11), transparent 16%),
-      linear-gradient(145deg, #101510 0%, #18211a 42%, #353116 100%);
-  }
-  .sv3-card--educacao .sv3-card__art::before{
-    background:
-      linear-gradient(180deg, transparent 0 18%, rgba(255,255,255,.05) 18.3%, transparent 18.6%, transparent 36%, rgba(255,255,255,.05) 36.3%, transparent 36.6%, transparent 54%, rgba(255,255,255,.05) 54.3%, transparent 54.6%, transparent 100%),
-      repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 2px, transparent 2px 16px);
-    opacity:.62;
-  }
-
-  /* FICHAS */
-  .sv3-card--fichas .sv3-card__art{
-    background:
-      radial-gradient(circle at 18% 72%, rgba(182,243,77,.18), transparent 17%),
-      radial-gradient(circle at 76% 20%, rgba(255,255,255,.10), transparent 16%),
-      linear-gradient(145deg, #101318 0%, #19212a 42%, #373119 100%);
-  }
-  .sv3-card--fichas .sv3-card__art::before{
-    background:
-      linear-gradient(180deg, transparent 0 20%, rgba(255,255,255,.05) 20.2%, transparent 20.4%, transparent 41%, rgba(255,255,255,.05) 41.2%, transparent 41.4%, transparent 62%, rgba(255,255,255,.05) 62.2%, transparent 62.4%, transparent 100%),
-      linear-gradient(90deg, transparent 0 14%, rgba(255,255,255,.045) 14.2%, transparent 14.4%, transparent 100%),
-      repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 2px, transparent 2px 16px);
-    opacity:.58;
-  }
-
-  /* AGENTE IA */
-  .sv3-card--agente .sv3-card__art{
-    background:
-      radial-gradient(circle at 20% 72%, rgba(182,243,77,.22), transparent 18%),
-      radial-gradient(circle at 74% 16%, rgba(67,209,255,.18), transparent 18%),
-      linear-gradient(145deg, #09141a 0%, #10262f 42%, #334118 100%);
-  }
-  .sv3-card--agente .sv3-card__art::before{
-    background:
-      linear-gradient(90deg, transparent 0 12%, rgba(255,255,255,.05) 12.2%, transparent 12.4%, transparent 34%, rgba(255,255,255,.05) 34.2%, transparent 34.4%, transparent 58%, rgba(255,255,255,.05) 58.2%, transparent 58.4%, transparent 100%),
-      linear-gradient(180deg, transparent 0 18%, rgba(255,255,255,.045) 18.2%, transparent 18.4%, transparent 50%, rgba(255,255,255,.045) 50.2%, transparent 50.4%, transparent 100%),
-      repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 2px, transparent 2px 16px);
-    opacity:.56;
-  }
-
-  /* ACHETECE */
-  .sv3-card--achetece .sv3-card__art{
-    background:
-      radial-gradient(circle at 18% 74%, rgba(182,243,77,.18), transparent 16%),
-      radial-gradient(circle at 80% 18%, rgba(255,255,255,.10), transparent 16%),
-      linear-gradient(145deg, #101010 0%, #1c1c1c 42%, #393311 100%);
-  }
-  .sv3-card--achetece .sv3-card__art::before{
-    background:
-      radial-gradient(circle at 20% 66%, rgba(255,255,255,.08) 0 2%, transparent 2.4%),
-      radial-gradient(circle at 42% 54%, rgba(255,255,255,.08) 0 2%, transparent 2.4%),
-      radial-gradient(circle at 62% 70%, rgba(255,255,255,.08) 0 2%, transparent 2.4%),
-      linear-gradient(145deg, transparent 0 30%, rgba(255,255,255,.04) 30.2%, transparent 30.5%, transparent 100%),
-      repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 2px, transparent 2px 16px);
-    opacity:.56;
-  }
-
-  .sv3-bottom-note{
+  .sv4-bottom-note{
     margin-top:28px;
     padding:16px 18px;
     border-radius:18px;
-    border:1px solid var(--sv3-line);
+    border:1px solid var(--sv4-line);
     background:
       linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
       linear-gradient(135deg, #111, #0c0c0c);
@@ -520,16 +422,13 @@
     line-height:1.55;
   }
 
-  /* =========================
-     RESPONSIVO
-     ========================= */
   @media (max-width: 980px){
-    .sv3-top{
+    .sv4-top{
       flex-direction:column;
       align-items:flex-start;
     }
 
-    .sv3-quicknav{
+    .sv4-quicknav{
       justify-content:flex-start;
       overflow-x:auto;
       width:100%;
@@ -538,36 +437,36 @@
   }
 
   @media (max-width: 760px){
-    .sv3-wrap{
+    .sv4-wrap{
       width:min(100% - 24px, 1520px);
       padding:16px 0 48px;
     }
 
-    .sv3-top{
+    .sv4-top{
       gap:14px;
       padding-bottom:12px;
       margin-bottom:4px;
     }
 
-    .sv3-top__copy h1{
+    .sv4-top__copy h1{
       font-size:1.8rem;
     }
 
-    .sv3-top__copy p{
+    .sv4-top__copy p{
       font-size:.94rem;
     }
 
-    .sv3-row{
+    .sv4-row{
       grid-auto-columns:minmax(240px, 78vw);
       gap:14px;
     }
 
-    .sv3-card{
-      min-height:430px;
+    .sv4-card{
+      min-height:438px;
       border-radius:22px;
     }
 
-    .sv3-card__photo{
+    .sv4-card__photo{
       width:40%;
       right:12px;
       top:58px;
@@ -575,20 +474,20 @@
       border-radius:24px 24px 18px 18px;
     }
 
-    .sv3-card__copy{
+    .sv4-card__copy{
       max-width:calc(100% - 98px);
     }
 
-    .sv3-card__title{
+    .sv4-card__title{
       font-size:1.16rem;
     }
 
-    .sv3-card__desc{
+    .sv4-card__desc{
       font-size:.90rem;
       line-height:1.45;
     }
 
-    .sv3-card__tag{
+    .sv4-card__tag{
       min-height:32px;
       font-size:.74rem;
       padding:0 10px;
@@ -596,177 +495,177 @@
   }
 </style>
 
-<section class="sv3-page">
-  <div class="sv3-wrap">
+<section class="sv4-page">
+  <div class="sv4-wrap">
 
-    <header class="sv3-top">
-      <div class="sv3-top__copy">
-        <p class="sv3-top__eyebrow">Catálogo Stegie</p>
+    <header class="sv4-top">
+      <div class="sv4-top__copy">
+        <p class="sv4-top__eyebrow">Catálogo Stegie</p>
         <h1>Escolha a solução certa para sua necessidade.</h1>
         <p>Consultoria, desenvolvimento, educação, materiais técnicos e tecnologia para o universo da malharia.</p>
       </div>
 
-      <nav class="sv3-quicknav" aria-label="Navegação rápida">
+      <nav class="sv4-quicknav" aria-label="Navegação rápida">
         <a href="#consultoria">Consultoria e especialidades</a>
         <a href="#educacao">Educação e materiais</a>
         <a href="#tecnologia">Plataformas e tecnologia</a>
       </nav>
     </header>
 
-    <section class="sv3-shelf" id="consultoria">
-      <div class="sv3-shelf__head">
+    <section class="sv4-shelf" id="consultoria">
+      <div class="sv4-shelf__head">
         <div>
           <h2>Consultoria e especialidades</h2>
           <p>Diagnóstico, produto, causa técnica e apoio à decisão.</p>
         </div>
       </div>
 
-      <div class="sv3-row">
-        <a class="sv3-card sv3-card--consultoria" href="{{ l_consultoria }}" style="--person:url('{{ foto_01 }}');">
-          <span class="sv3-card__art"></span>
-          <span class="sv3-card__badge">Consultoria</span>
-          <span class="sv3-card__photo"></span>
-          <div class="sv3-card__content">
-            <div class="sv3-card__copy">
-              <h3 class="sv3-card__title">Consultoria Têxtil</h3>
-              <p class="sv3-card__desc">Perdas, rotina, qualidade e produtividade na malharia.</p>
-              <div class="sv3-card__meta">
-                <span class="sv3-card__tag">Diagnóstico técnico</span>
-                <span class="sv3-card__tag">Chão de fábrica</span>
+      <div class="sv4-row">
+        <a class="sv4-card" href="{{ l_consultoria }}" style="--person:url('{{ foto_01 }}'); --cardbg:url('{{ bg_consultoria }}');">
+          <span class="sv4-card__art"></span>
+          <span class="sv4-card__badge">Consultoria</span>
+          <span class="sv4-card__photo"></span>
+          <div class="sv4-card__content">
+            <div class="sv4-card__copy">
+              <h3 class="sv4-card__title">Consultoria Têxtil</h3>
+              <p class="sv4-card__desc">Perdas, rotina, qualidade e produtividade na malharia.</p>
+              <div class="sv4-card__meta">
+                <span class="sv4-card__tag">Diagnóstico técnico</span>
+                <span class="sv4-card__tag">Chão de fábrica</span>
               </div>
-              <span class="sv3-card__cta">Abrir solução</span>
+              <span class="sv4-card__cta">Abrir solução</span>
             </div>
           </div>
         </a>
 
-        <a class="sv3-card sv3-card--desenvolvimento" href="{{ l_desenvolvimento }}" style="--person:url('{{ foto_02 }}');">
-          <span class="sv3-card__art"></span>
-          <span class="sv3-card__badge">Especialidade</span>
-          <span class="sv3-card__photo"></span>
-          <div class="sv3-card__content">
-            <div class="sv3-card__copy">
-              <h3 class="sv3-card__title">Desenvolvimento de Malhas</h3>
-              <p class="sv3-card__desc">Estrutura, artigo e direção técnica para novos desenvolvimentos.</p>
-              <div class="sv3-card__meta">
-                <span class="sv3-card__tag">Produto</span>
-                <span class="sv3-card__tag">Viabilidade</span>
+        <a class="sv4-card" href="{{ l_desenvolvimento }}" style="--person:url('{{ foto_02 }}'); --cardbg:url('{{ bg_desenvolvimento }}');">
+          <span class="sv4-card__art"></span>
+          <span class="sv4-card__badge">Especialidade</span>
+          <span class="sv4-card__photo"></span>
+          <div class="sv4-card__content">
+            <div class="sv4-card__copy">
+              <h3 class="sv4-card__title">Desenvolvimento de Malhas</h3>
+              <p class="sv4-card__desc">Estrutura, artigo e direção técnica para novos desenvolvimentos.</p>
+              <div class="sv4-card__meta">
+                <span class="sv4-card__tag">Produto</span>
+                <span class="sv4-card__tag">Viabilidade</span>
               </div>
-              <span class="sv3-card__cta">Abrir solução</span>
+              <span class="sv4-card__cta">Abrir solução</span>
             </div>
           </div>
         </a>
 
-        <a class="sv3-card sv3-card--pericia" href="{{ l_pericia }}" style="--person:url('{{ foto_03 }}');">
-          <span class="sv3-card__art"></span>
-          <span class="sv3-card__badge">Especialidade</span>
-          <span class="sv3-card__photo"></span>
-          <div class="sv3-card__content">
-            <div class="sv3-card__copy">
-              <h3 class="sv3-card__title">Perícia Técnica Têxtil</h3>
-              <p class="sv3-card__desc">Falha, evidência e análise técnica com base objetiva.</p>
-              <div class="sv3-card__meta">
-                <span class="sv3-card__tag">Investigação</span>
-                <span class="sv3-card__tag">Parecer técnico</span>
+        <a class="sv4-card" href="{{ l_pericia }}" style="--person:url('{{ foto_03 }}'); --cardbg:url('{{ bg_pericia }}');">
+          <span class="sv4-card__art"></span>
+          <span class="sv4-card__badge">Especialidade</span>
+          <span class="sv4-card__photo"></span>
+          <div class="sv4-card__content">
+            <div class="sv4-card__copy">
+              <h3 class="sv4-card__title">Perícia Técnica Têxtil</h3>
+              <p class="sv4-card__desc">Falha, evidência e análise técnica com base objetiva.</p>
+              <div class="sv4-card__meta">
+                <span class="sv4-card__tag">Investigação</span>
+                <span class="sv4-card__tag">Parecer técnico</span>
               </div>
-              <span class="sv3-card__cta">Abrir solução</span>
+              <span class="sv4-card__cta">Abrir solução</span>
             </div>
           </div>
         </a>
       </div>
     </section>
 
-    <section class="sv3-shelf" id="educacao">
-      <div class="sv3-shelf__head">
+    <section class="sv4-shelf" id="educacao">
+      <div class="sv4-shelf__head">
         <div>
           <h2>Educação e materiais técnicos</h2>
           <p>Capacitação aplicada e base estruturada para agir melhor.</p>
         </div>
       </div>
 
-      <div class="sv3-row">
-        <a class="sv3-card sv3-card--educacao" href="{{ l_educacao }}" style="--person:url('{{ foto_04 }}');">
-          <span class="sv3-card__art"></span>
-          <span class="sv3-card__badge">Educação</span>
-          <span class="sv3-card__photo"></span>
-          <div class="sv3-card__content">
-            <div class="sv3-card__copy">
-              <h3 class="sv3-card__title">Educação Têxtil</h3>
-              <p class="sv3-card__desc">Cursos, imersões e formação técnica com aplicação prática.</p>
-              <div class="sv3-card__meta">
-                <span class="sv3-card__tag">Capacitação</span>
-                <span class="sv3-card__tag">Aprendizado técnico</span>
+      <div class="sv4-row">
+        <a class="sv4-card" href="{{ l_educacao }}" style="--person:url('{{ foto_04 }}'); --cardbg:url('{{ bg_educacao }}');">
+          <span class="sv4-card__art"></span>
+          <span class="sv4-card__badge">Educação</span>
+          <span class="sv4-card__photo"></span>
+          <div class="sv4-card__content">
+            <div class="sv4-card__copy">
+              <h3 class="sv4-card__title">Educação Têxtil</h3>
+              <p class="sv4-card__desc">Cursos, imersões e formação técnica com aplicação prática.</p>
+              <div class="sv4-card__meta">
+                <span class="sv4-card__tag">Capacitação</span>
+                <span class="sv4-card__tag">Aprendizado técnico</span>
               </div>
-              <span class="sv3-card__cta">Abrir solução</span>
+              <span class="sv4-card__cta">Abrir solução</span>
             </div>
           </div>
         </a>
 
-        <a class="sv3-card sv3-card--fichas" href="{{ l_fichas }}" style="--person:url('{{ foto_05 }}');">
-          <span class="sv3-card__art"></span>
-          <span class="sv3-card__badge">Material técnico</span>
-          <span class="sv3-card__photo"></span>
-          <div class="sv3-card__content">
-            <div class="sv3-card__copy">
-              <h3 class="sv3-card__title">Fichas Técnicas de Malharia</h3>
-              <p class="sv3-card__desc">Consulta estruturada para desenvolver, comprar e padronizar.</p>
-              <div class="sv3-card__meta">
-                <span class="sv3-card__tag">Base técnica</span>
-                <span class="sv3-card__tag">Consulta rápida</span>
+        <a class="sv4-card" href="{{ l_fichas }}" style="--person:url('{{ foto_05 }}'); --cardbg:url('{{ bg_fichas }}');">
+          <span class="sv4-card__art"></span>
+          <span class="sv4-card__badge">Material técnico</span>
+          <span class="sv4-card__photo"></span>
+          <div class="sv4-card__content">
+            <div class="sv4-card__copy">
+              <h3 class="sv4-card__title">Fichas Técnicas de Malharia</h3>
+              <p class="sv4-card__desc">Consulta estruturada para desenvolver, comprar e padronizar.</p>
+              <div class="sv4-card__meta">
+                <span class="sv4-card__tag">Base técnica</span>
+                <span class="sv4-card__tag">Consulta rápida</span>
               </div>
-              <span class="sv3-card__cta">Abrir solução</span>
+              <span class="sv4-card__cta">Abrir solução</span>
             </div>
           </div>
         </a>
       </div>
     </section>
 
-    <section class="sv3-shelf" id="tecnologia">
-      <div class="sv3-shelf__head">
+    <section class="sv4-shelf" id="tecnologia">
+      <div class="sv4-shelf__head">
         <div>
           <h2>Plataformas e tecnologia</h2>
           <p>Soluções digitais para ampliar acesso, agilidade e conexão.</p>
         </div>
       </div>
 
-      <div class="sv3-row">
-        <a class="sv3-card sv3-card--agente" href="{{ l_agente }}" style="--person:url('{{ foto_06 }}');">
-          <span class="sv3-card__art"></span>
-          <span class="sv3-card__badge">IA aplicada</span>
-          <span class="sv3-card__photo"></span>
-          <div class="sv3-card__content">
-            <div class="sv3-card__copy">
-              <h3 class="sv3-card__title">Agente Técnico Têxtil com IA</h3>
-              <p class="sv3-card__desc">Consulta técnica rápida para acelerar análise e decisão.</p>
-              <div class="sv3-card__meta">
-                <span class="sv3-card__tag">Agilidade</span>
-                <span class="sv3-card__tag">Apoio técnico</span>
+      <div class="sv4-row">
+        <a class="sv4-card" href="{{ l_agente }}" style="--person:url('{{ foto_06 }}'); --cardbg:url('{{ bg_agente }}');">
+          <span class="sv4-card__art"></span>
+          <span class="sv4-card__badge">IA aplicada</span>
+          <span class="sv4-card__photo"></span>
+          <div class="sv4-card__content">
+            <div class="sv4-card__copy">
+              <h3 class="sv4-card__title">Agente Técnico Têxtil com IA</h3>
+              <p class="sv4-card__desc">Consulta técnica rápida para acelerar análise e decisão.</p>
+              <div class="sv4-card__meta">
+                <span class="sv4-card__tag">Agilidade</span>
+                <span class="sv4-card__tag">Apoio técnico</span>
               </div>
-              <span class="sv3-card__cta">Abrir solução</span>
+              <span class="sv4-card__cta">Abrir solução</span>
             </div>
           </div>
         </a>
 
-        <a class="sv3-card sv3-card--achetece" href="{{ l_achetece }}" target="_blank" rel="noopener noreferrer" style="--person:url('{{ foto_07 }}');">
-          <span class="sv3-card__art"></span>
-          <span class="sv3-card__badge">Plataforma</span>
-          <span class="sv3-card__photo"></span>
-          <div class="sv3-card__content">
-            <div class="sv3-card__copy">
-              <h3 class="sv3-card__title">AcheTece</h3>
-              <p class="sv3-card__desc">Busca, conexão e visibilidade para quem atua no setor têxtil.</p>
-              <div class="sv3-card__meta">
-                <span class="sv3-card__tag">Conexão de mercado</span>
-                <span class="sv3-card__tag">Plataforma</span>
+        <a class="sv4-card" href="{{ l_achetece }}" target="_blank" rel="noopener noreferrer" style="--person:url('{{ foto_07 }}'); --cardbg:url('{{ bg_achetece }}');">
+          <span class="sv4-card__art"></span>
+          <span class="sv4-card__badge">Plataforma</span>
+          <span class="sv4-card__photo"></span>
+          <div class="sv4-card__content">
+            <div class="sv4-card__copy">
+              <h3 class="sv4-card__title">AcheTece</h3>
+              <p class="sv4-card__desc">Busca, conexão e visibilidade para quem atua no setor têxtil.</p>
+              <div class="sv4-card__meta">
+                <span class="sv4-card__tag">Conexão de mercado</span>
+                <span class="sv4-card__tag">Plataforma</span>
               </div>
-              <span class="sv3-card__cta">Abrir solução</span>
+              <span class="sv4-card__cta">Abrir solução</span>
             </div>
           </div>
         </a>
       </div>
     </section>
 
-    <div class="sv3-bottom-note">
-      Esta versão já está pronta para receber suas fotos reais e sustentar uma apresentação mais autoral. O próximo refinamento será calibrar qual foto combina melhor com cada solução e, se desejar, incluir fundos têxteis fotográficos específicos em vez de fundos gráficos abstratos.
+    <div class="sv4-bottom-note">
+      Cada card agora está preparado para receber sua própria imagem de fundo, mantendo sua foto original em primeiro plano. Isso permite tratar cada solução como uma peça visual única, sem perder coerência de marca.
     </div>
 
   </div>
