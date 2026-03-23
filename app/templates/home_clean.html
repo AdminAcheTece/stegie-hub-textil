@@ -119,11 +119,12 @@
       display:block;
       color:#fff;
     }
-    
+
     .account-btn svg *{
       stroke:#fff !important;
       fill:none;
     }
+
     .account-btn:hover{
       transform:translateY(-1px);
       box-shadow:0 14px 26px rgba(0,0,0,.16);
@@ -255,7 +256,7 @@
 
     .home-center{
       width:100%;
-      max-width:980px;
+      max-width:1040px;
       margin:0 auto;
       display:grid;
       justify-items:center;
@@ -318,9 +319,9 @@
 
     .home-shortcuts{
       width:100%;
-      max-width:860px;
+      max-width:980px;
       display:grid;
-      grid-template-columns:repeat(6, minmax(0,1fr));
+      grid-template-columns:repeat(7, minmax(0,1fr));
       gap:14px;
       justify-items:center;
       margin-top:8px;
@@ -597,6 +598,7 @@
     <symbol id="i-menu" viewBox="0 0 24 24">
       <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </symbol>
+
     <symbol id="i-user" viewBox="0 0 24 24">
       <path d="M20 21a8 8 0 0 0-16 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -639,6 +641,15 @@
       <rect x="5" y="7" width="14" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
       <path d="M9 12h.01M15 12h.01" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
       <path d="M8.5 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- novo: perícia técnica -->
+    <symbol id="i-pericia" viewBox="0 0 24 24">
+      <path d="M8 3.75h6l4.25 4.25V19.5A1.75 1.75 0 0 1 16.5 21h-9A1.75 1.75 0 0 1 5.75 19.5v-14A1.75 1.75 0 0 1 7.5 3.75H8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M14 3.75V8h4.25" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M9 11h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M9 14h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M9 17h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
     </symbol>
   </svg>
 
@@ -697,7 +708,12 @@
       </div>
 
       <nav class="home-shortcuts" aria-label="Atalhos">
+        {% set ns = namespace(has_pericia=false) %}
+
         {% for s in shortcuts %}
+          {% if s.label == 'Perícia Técnica' or s.label == 'Pericia Técnica' %}
+            {% set ns.has_pericia = true %}
+          {% endif %}
           <a class="shortcut" href="{{ s.href }}" aria-label="{{ s.label }}">
             <span class="shortcut-ico" aria-hidden="true">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -707,6 +723,17 @@
             <span class="shortcut-label">{{ s.label }}</span>
           </a>
         {% endfor %}
+
+        {% if not ns.has_pericia %}
+          <a class="shortcut" href="{{ url_for('pericia_tecnica_textil') }}" aria-label="Perícia Técnica">
+            <span class="shortcut-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="#i-pericia" xlink:href="#i-pericia"></use>
+              </svg>
+            </span>
+            <span class="shortcut-label">Perícia Técnica</span>
+          </a>
+        {% endif %}
       </nav>
 
       <section class="home-proof" aria-label="Empresas atendidas">
