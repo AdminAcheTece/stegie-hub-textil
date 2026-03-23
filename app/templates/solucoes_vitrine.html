@@ -1,700 +1,605 @@
 {% extends "base.html" %}
-{% block title %}STEGIE | Soluções em Vitrine{% endblock %}
-{% block meta_description %}Explore os serviços, produtos e plataformas da Stegie em uma vitrine visual premium, organizada por objetivos, especialidades e tecnologia.{% endblock %}
+{% block title %}STEGIE | Soluções{% endblock %}
+{% block meta_description %}Explore as soluções da Stegie em uma vitrine visual premium, com foco em consultoria, desenvolvimento, educação, materiais técnicos e tecnologia têxtil.{% endblock %}
 
 {% block content %}
+{% set l_consultoria = '/consultoria-textil' %}
+{% set l_desenvolvimento = '/desenvolvimento-malhas' %}
+{% set l_pericia = '/pericia-tecnica-textil' %}
+{% set l_educacao = '/educacao-textil' %}
+{% set l_fichas = '/fichas-tecnicas-malharia' %}
+{% set l_agente = '/agente-tecnico-textil' %}
+{% set l_achetece = 'https://achetece.replit.app' %}
+
 <style>
-  .sv-page{
-    --sv-bg:#050505;
-    --sv-surface:#0f0f0f;
-    --sv-surface-2:#161616;
-    --sv-card:#111111;
-    --sv-text:#f5f5f5;
-    --sv-muted:#c8c8c8;
-    --sv-border:rgba(255,255,255,.08);
-    --sv-accent:#8E8420;
-    --sv-accent-2:#B6F34D;
-    --sv-shadow:0 18px 45px rgba(0,0,0,.28);
+  .sv2-page{
+    --sv2-bg:#050505;
+    --sv2-surface:#0d0d0d;
+    --sv2-surface-2:#131313;
+    --sv2-card:#111111;
+    --sv2-text:#f7f7f7;
+    --sv2-muted:#cfcfcf;
+    --sv2-line:rgba(255,255,255,.08);
+    --sv2-accent:#8E8420;
+    --sv2-accent-2:#B6F34D;
+    --sv2-shadow:0 18px 46px rgba(0,0,0,.34);
+    color:var(--sv2-text);
     background:
-      radial-gradient(circle at top left, rgba(182,243,77,.08), transparent 22%),
-      radial-gradient(circle at 85% 10%, rgba(142,132,32,.10), transparent 18%),
-      linear-gradient(180deg, #060606 0%, #090909 28%, #0c0c0c 100%);
-    color:var(--sv-text);
+      radial-gradient(circle at 12% 0%, rgba(182,243,77,.08), transparent 20%),
+      radial-gradient(circle at 88% 12%, rgba(142,132,32,.12), transparent 18%),
+      linear-gradient(180deg, #050505 0%, #090909 45%, #0b0b0b 100%);
     position:relative;
     overflow:hidden;
   }
 
-  .sv-page::before{
+  .sv2-page::before{
     content:"";
     position:absolute;
     inset:0;
     pointer-events:none;
     background:
-      linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
-    background-size:32px 32px;
-    mask-image:linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,0));
+      linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+    background-size:34px 34px;
+    mask-image:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,0));
   }
 
-  .sv-wrap{
-    width:min(1400px, calc(100% - 48px));
+  .sv2-wrap{
+    width:min(1480px, calc(100% - 42px));
     margin:0 auto;
-    padding:40px 0 72px;
+    padding:24px 0 64px;
     position:relative;
     z-index:1;
   }
 
-  .sv-hero{
-    display:grid;
-    grid-template-columns:1.2fr .8fr;
-    gap:28px;
-    align-items:stretch;
-    margin-bottom:42px;
-  }
-
-  .sv-hero__main{
-    min-height:340px;
-    border:1px solid var(--sv-border);
-    border-radius:28px;
-    overflow:hidden;
-    position:relative;
-    background:
-      linear-gradient(90deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.55) 44%, rgba(0,0,0,.22) 100%),
-      radial-gradient(circle at 80% 18%, rgba(182,243,77,.18), transparent 17%),
-      radial-gradient(circle at 78% 72%, rgba(142,132,32,.22), transparent 18%),
-      linear-gradient(135deg, #111 0%, #181818 32%, #232323 58%, #121212 100%);
-    box-shadow:var(--sv-shadow);
-  }
-
-  .sv-hero__main::after{
-    content:"";
-    position:absolute;
-    right:-60px;
-    bottom:-30px;
-    width:360px;
-    height:360px;
-    border-radius:50%;
-    background:
-      radial-gradient(circle at 35% 35%, rgba(255,255,255,.18), transparent 22%),
-      linear-gradient(135deg, rgba(182,243,77,.14), rgba(142,132,32,.18));
-    filter:blur(8px);
-    opacity:.9;
-  }
-
-  .sv-hero__content{
-    position:relative;
-    z-index:2;
-    max-width:620px;
-    padding:42px 38px 38px;
-  }
-
-  .sv-kicker{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    margin:0 0 14px;
-    color:var(--sv-accent-2);
-    font-size:.92rem;
-    font-weight:700;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-  }
-
-  .sv-kicker::before{
-    content:"";
-    width:22px;
-    height:2px;
-    border-radius:999px;
-    background:var(--sv-accent-2);
-    box-shadow:0 0 0 5px rgba(182,243,77,.10);
-  }
-
-  .sv-title{
-    margin:0 0 12px;
-    font-size:clamp(2rem, 4vw, 3.5rem);
-    line-height:1.02;
-    letter-spacing:-.03em;
-  }
-
-  .sv-title strong{
-    color:var(--sv-accent-2);
-    font-weight:800;
-  }
-
-  .sv-intro{
-    margin:0 0 20px;
-    max-width:560px;
-    font-size:1.03rem;
-    line-height:1.7;
-    color:var(--sv-muted);
-  }
-
-  .sv-pills{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-  }
-
-  .sv-pill{
-    display:inline-flex;
-    align-items:center;
-    padding:10px 14px;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,.10);
-    background:rgba(255,255,255,.04);
-    font-size:.92rem;
-    color:#ededed;
-    backdrop-filter:blur(8px);
-  }
-
-  .sv-hero__side{
-    display:grid;
-    gap:18px;
-  }
-
-  .sv-note{
-    border:1px solid var(--sv-border);
-    border-radius:22px;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
-      linear-gradient(135deg, #121212, #0d0d0d);
-    box-shadow:var(--sv-shadow);
-    padding:24px 22px;
-  }
-
-  .sv-note h3{
-    margin:0 0 10px;
-    font-size:1.05rem;
-  }
-
-  .sv-note p{
-    margin:0;
-    line-height:1.7;
-    color:var(--sv-muted);
-  }
-
-  .sv-note--accent{
-    background:
-      linear-gradient(180deg, rgba(182,243,77,.08), rgba(255,255,255,.02)),
-      linear-gradient(135deg, #141414, #0c0c0c);
-    border-color:rgba(182,243,77,.20);
-  }
-
-  .sv-shelf{
-    margin-top:34px;
-  }
-
-  .sv-shelf__head{
+  .sv2-top{
     display:flex;
     align-items:end;
     justify-content:space-between;
-    gap:16px;
-    margin-bottom:16px;
+    gap:18px;
+    padding:6px 2px 8px;
+    margin-bottom:18px;
   }
 
-  .sv-shelf__titles h2{
-    margin:0 0 6px;
-    font-size:1.6rem;
-    letter-spacing:-.02em;
-  }
-
-  .sv-shelf__titles p{
+  .sv2-top__left h1{
     margin:0;
-    color:var(--sv-muted);
-    line-height:1.6;
+    font-size:clamp(1.65rem, 3vw, 2.35rem);
+    line-height:1;
+    letter-spacing:-.03em;
+    font-weight:800;
   }
 
-  .sv-row{
+  .sv2-top__left p{
+    margin:8px 0 0;
+    color:var(--sv2-muted);
+    font-size:.98rem;
+    line-height:1.45;
+  }
+
+  .sv2-top__right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+
+  .sv2-pill{
+    display:inline-flex;
+    align-items:center;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:.84rem;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.04);
+    color:#efefef;
+    backdrop-filter:blur(8px);
+  }
+
+  .sv2-shelf{
+    margin-top:26px;
+  }
+
+  .sv2-shelf__head{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:14px;
+    margin-bottom:12px;
+  }
+
+  .sv2-shelf__head h2{
+    margin:0;
+    font-size:1.22rem;
+    letter-spacing:-.02em;
+    font-weight:750;
+  }
+
+  .sv2-shelf__head p{
+    margin:4px 0 0;
+    color:#bdbdbd;
+    font-size:.93rem;
+    line-height:1.4;
+  }
+
+  .sv2-row{
     display:grid;
     grid-auto-flow:column;
-    grid-auto-columns:minmax(250px, 280px);
+    grid-auto-columns:minmax(255px, 285px);
     gap:18px;
     overflow-x:auto;
-    padding:8px 2px 14px;
+    padding:6px 2px 16px;
     scroll-snap-type:x proximity;
     scrollbar-width:thin;
-    scrollbar-color:rgba(255,255,255,.20) transparent;
+    scrollbar-color:rgba(255,255,255,.16) transparent;
   }
 
-  .sv-row::-webkit-scrollbar{ height:10px; }
-  .sv-row::-webkit-scrollbar-thumb{
+  .sv2-row::-webkit-scrollbar{
+    height:10px;
+  }
+
+  .sv2-row::-webkit-scrollbar-thumb{
     background:rgba(255,255,255,.18);
     border-radius:999px;
   }
-  .sv-row::-webkit-scrollbar-track{ background:transparent; }
 
-  .sv-card{
+  .sv2-row::-webkit-scrollbar-track{
+    background:transparent;
+  }
+
+  .sv2-card{
     position:relative;
-    display:flex;
-    min-height:420px;
+    display:block;
+    min-height:430px;
     border-radius:24px;
     overflow:hidden;
-    border:1px solid rgba(255,255,255,.08);
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
-      linear-gradient(160deg, #141414 0%, #101010 100%);
-    box-shadow:var(--sv-shadow);
+    color:#fff;
     text-decoration:none;
-    color:var(--sv-text);
-    transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
-    scroll-snap-align:start;
+    border:1px solid rgba(255,255,255,.07);
+    background:#0f0f0f;
+    box-shadow:var(--sv2-shadow);
     isolation:isolate;
+    scroll-snap-align:start;
+    transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
   }
 
-  .sv-card:hover{
-    transform:translateY(-8px) scale(1.01);
+  .sv2-card:hover{
+    transform:translateY(-8px) scale(1.012);
     border-color:rgba(182,243,77,.22);
-    box-shadow:0 24px 52px rgba(0,0,0,.38);
+    box-shadow:0 24px 56px rgba(0,0,0,.42);
   }
 
-  .sv-card::before{
+  .sv2-card::before{
     content:"";
     position:absolute;
     inset:0;
     background:
-      linear-gradient(180deg, rgba(0,0,0,.06) 0%, rgba(0,0,0,.18) 40%, rgba(0,0,0,.88) 100%),
-      radial-gradient(circle at 76% 18%, rgba(255,255,255,.16), transparent 18%),
-      radial-gradient(circle at 82% 75%, rgba(182,243,77,.12), transparent 17%),
-      linear-gradient(135deg, var(--tone-1) 0%, var(--tone-2) 58%, var(--tone-3) 100%);
+      linear-gradient(180deg, rgba(0,0,0,.06) 0%, rgba(0,0,0,.18) 28%, rgba(0,0,0,.84) 72%, rgba(0,0,0,.95) 100%),
+      linear-gradient(140deg, var(--bg1) 0%, var(--bg2) 52%, var(--bg3) 100%);
     z-index:0;
   }
 
-  .sv-card::after{
+  .sv2-card::after{
     content:"";
     position:absolute;
     inset:0;
     background:
+      radial-gradient(circle at 82% 18%, rgba(255,255,255,.14), transparent 16%),
+      radial-gradient(circle at 78% 74%, rgba(182,243,77,.14), transparent 17%),
       repeating-linear-gradient(
         135deg,
-        rgba(255,255,255,.04) 0 2px,
-        transparent 2px 12px
+        rgba(255,255,255,.035) 0 2px,
+        transparent 2px 13px
       );
-    opacity:.28;
-    mix-blend-mode:screen;
+    opacity:.9;
     z-index:0;
   }
 
-  .sv-card__badge{
+  .sv2-card__glow{
     position:absolute;
-    top:16px;
-    left:16px;
-    z-index:3;
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:8px 12px;
-    border-radius:999px;
-    font-size:.76rem;
-    font-weight:700;
-    letter-spacing:.05em;
-    text-transform:uppercase;
-    color:#fff;
-    border:1px solid rgba(255,255,255,.12);
-    background:rgba(0,0,0,.42);
-    backdrop-filter:blur(10px);
-  }
-
-  .sv-card__figure{
-    position:absolute;
-    inset:auto 22px 116px auto;
-    width:116px;
-    height:116px;
+    inset:auto auto 115px 18px;
+    width:120px;
+    height:120px;
     border-radius:50%;
-    z-index:2;
-    border:1px solid rgba(255,255,255,.12);
     background:
-      radial-gradient(circle at 35% 30%, rgba(255,255,255,.26), transparent 20%),
-      linear-gradient(135deg, rgba(182,243,77,.20), rgba(255,255,255,.04) 42%, rgba(142,132,32,.28));
-    box-shadow:0 18px 40px rgba(0,0,0,.34);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:14px;
+      radial-gradient(circle at 38% 30%, rgba(255,255,255,.18), transparent 22%),
+      linear-gradient(135deg, rgba(182,243,77,.22), rgba(255,255,255,.05), rgba(142,132,32,.30));
+    filter:blur(4px);
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 12px 28px rgba(0,0,0,.35);
+    z-index:1;
   }
 
-  .sv-card__figure span{
-    font-size:.86rem;
-    line-height:1.2;
-    font-weight:700;
-    color:#fff;
+  .sv2-card__portrait{
+    position:absolute;
+    right:-18px;
+    top:40px;
+    width:152px;
+    height:250px;
+    border-radius:90px 90px 26px 26px;
+    background:
+      radial-gradient(circle at 50% 22%, rgba(255,255,255,.16), transparent 22%),
+      linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02)),
+      linear-gradient(135deg, rgba(0,0,0,.10), rgba(0,0,0,.38));
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:0 18px 34px rgba(0,0,0,.30);
+    z-index:1;
     opacity:.92;
   }
 
-  .sv-card__content{
-    position:relative;
+  .sv2-card__portrait::before{
+    content:"";
+    position:absolute;
+    top:28px;
+    left:50%;
+    width:74px;
+    height:74px;
+    border-radius:50%;
+    transform:translateX(-50%);
+    background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.07));
+  }
+
+  .sv2-card__portrait::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:20px;
+    width:94px;
+    height:122px;
+    transform:translateX(-50%);
+    border-radius:48px 48px 18px 18px;
+    background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+  }
+
+  .sv2-card__badge{
+    position:absolute;
+    top:16px;
+    left:16px;
     z-index:2;
-    margin-top:auto;
-    padding:22px 20px 20px;
-  }
-
-  .sv-card__title{
-    display:block;
-    margin:0 0 8px;
-    font-size:1.35rem;
-    line-height:1.08;
-    letter-spacing:-.02em;
-  }
-
-  .sv-card__desc{
-    display:block;
-    margin:0 0 14px;
-    color:#e8e8e8;
-    line-height:1.55;
-    font-size:.95rem;
-    max-width:90%;
-  }
-
-  .sv-card__cta{
     display:inline-flex;
     align-items:center;
-    gap:10px;
+    padding:8px 12px;
+    border-radius:999px;
+    background:rgba(0,0,0,.42);
+    border:1px solid rgba(255,255,255,.12);
+    color:#fff;
+    font-size:.74rem;
     font-weight:700;
-    color:var(--sv-accent-2);
-    letter-spacing:.01em;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    backdrop-filter:blur(8px);
   }
 
-  .sv-card__cta::after{
+  .sv2-card__content{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:2;
+    padding:18px 18px 18px;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.18) 12%, rgba(0,0,0,.78) 42%, rgba(0,0,0,.92) 100%);
+  }
+
+  .sv2-card__title{
+    margin:0 0 8px;
+    font-size:1.28rem;
+    line-height:1.06;
+    letter-spacing:-.02em;
+    font-weight:800;
+    max-width:88%;
+  }
+
+  .sv2-card__desc{
+    margin:0;
+    font-size:.94rem;
+    line-height:1.5;
+    color:#ededed;
+    max-width:92%;
+  }
+
+  .sv2-card__meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:12px;
+  }
+
+  .sv2-card__tag{
+    display:inline-flex;
+    align-items:center;
+    padding:7px 10px;
+    border-radius:999px;
+    font-size:.74rem;
+    line-height:1;
+    color:#f0f0f0;
+    border:1px solid rgba(255,255,255,.11);
+    background:rgba(255,255,255,.06);
+  }
+
+  .sv2-card__cta{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:14px;
+    color:var(--sv2-accent-2);
+    font-size:.9rem;
+    font-weight:700;
+  }
+
+  .sv2-card__cta::after{
     content:"→";
-    transform:translateX(0);
     transition:transform .22s ease;
   }
 
-  .sv-card:hover .sv-card__cta::after{
+  .sv2-card:hover .sv2-card__cta::after{
     transform:translateX(4px);
   }
 
-  .sv-card--consultoria{
-    --tone-1:#0f1712;
-    --tone-2:#1a1a1a;
-    --tone-3:#302b12;
+  .sv2-card--consultoria{
+    --bg1:#111612;
+    --bg2:#1d2417;
+    --bg3:#3a2f16;
   }
 
-  .sv-card--desenvolvimento{
-    --tone-1:#101218;
-    --tone-2:#17202b;
-    --tone-3:#3d2d17;
+  .sv2-card--desenvolvimento{
+    --bg1:#101318;
+    --bg2:#182231;
+    --bg3:#433118;
   }
 
-  .sv-card--pericia{
-    --tone-1:#151515;
-    --tone-2:#222;
-    --tone-3:#3b201f;
+  .sv2-card--pericia{
+    --bg1:#151515;
+    --bg2:#242424;
+    --bg3:#3a2322;
   }
 
-  .sv-card--educacao{
-    --tone-1:#101612;
-    --tone-2:#172117;
-    --tone-3:#2e2c14;
+  .sv2-card--educacao{
+    --bg1:#111512;
+    --bg2:#18211a;
+    --bg3:#383417;
   }
 
-  .sv-card--fichas{
-    --tone-1:#111315;
-    --tone-2:#1b2024;
-    --tone-3:#363118;
+  .sv2-card--fichas{
+    --bg1:#111316;
+    --bg2:#1b2128;
+    --bg3:#38321a;
   }
 
-  .sv-card--agente{
-    --tone-1:#091318;
-    --tone-2:#11232a;
-    --tone-3:#2b3b19;
+  .sv2-card--agente{
+    --bg1:#09151a;
+    --bg2:#0f2730;
+    --bg3:#334318;
   }
 
-  .sv-card--achetece{
-    --tone-1:#0d0d0d;
-    --tone-2:#1c1c1c;
-    --tone-3:#353010;
+  .sv2-card--achetece{
+    --bg1:#101010;
+    --bg2:#1d1d1d;
+    --bg3:#3a3412;
   }
 
-  .sv-card--trilhas{
-    --tone-1:#111214;
-    --tone-2:#1b1f24;
-    --tone-3:#302716;
-  }
-
-  .sv-foot{
-    margin-top:48px;
-    padding:24px 26px;
-    border-radius:24px;
-    border:1px solid var(--sv-border);
+  .sv2-small-note{
+    margin-top:26px;
+    padding:16px 18px;
+    border-radius:18px;
+    border:1px solid var(--sv2-line);
     background:
       linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
-      linear-gradient(135deg, #121212, #0d0d0d);
-    box-shadow:var(--sv-shadow);
+      linear-gradient(135deg, #111, #0c0c0c);
+    color:#dadada;
+    font-size:.93rem;
+    line-height:1.55;
   }
 
-  .sv-foot h3{
-    margin:0 0 10px;
-    font-size:1.2rem;
-  }
+  @media (max-width: 900px){
+    .sv2-top{
+      flex-direction:column;
+      align-items:flex-start;
+    }
 
-  .sv-foot p{
-    margin:0;
-    color:var(--sv-muted);
-    line-height:1.75;
-  }
-
-  @media (max-width: 1100px){
-    .sv-hero{
-      grid-template-columns:1fr;
+    .sv2-top__right{
+      justify-content:flex-start;
     }
   }
 
-  @media (max-width: 768px){
-    .sv-wrap{
-      width:min(100% - 28px, 1400px);
-      padding:28px 0 56px;
+  @media (max-width: 760px){
+    .sv2-wrap{
+      width:min(100% - 24px, 1480px);
+      padding:18px 0 48px;
     }
 
-    .sv-hero__content{
-      padding:30px 22px 26px;
-    }
-
-    .sv-title{
-      font-size:2.2rem;
-    }
-
-    .sv-row{
-      grid-auto-columns:minmax(220px, 76vw);
+    .sv2-row{
+      grid-auto-columns:minmax(225px, 78vw);
       gap:14px;
     }
 
-    .sv-card{
-      min-height:390px;
+    .sv2-card{
+      min-height:400px;
       border-radius:20px;
     }
 
-    .sv-card__figure{
-      width:92px;
-      height:92px;
-      inset:auto 18px 112px auto;
+    .sv2-card__portrait{
+      width:130px;
+      height:220px;
+      top:44px;
+      right:-16px;
     }
 
-    .sv-shelf__head{
-      align-items:start;
-      flex-direction:column;
+    .sv2-card__glow{
+      width:98px;
+      height:98px;
+      bottom:114px;
+    }
+
+    .sv2-card__title{
+      max-width:100%;
+      font-size:1.16rem;
+    }
+
+    .sv2-card__desc{
+      max-width:100%;
+      font-size:.9rem;
     }
   }
 </style>
 
-<section class="sv-page">
-  <div class="sv-wrap">
+<section class="sv2-page">
+  <div class="sv2-wrap">
 
-    <section class="sv-hero">
-      <div class="sv-hero__main">
-        <div class="sv-hero__content">
-          <p class="sv-kicker">Vitrine Stegie</p>
-          <h1 class="sv-title">Uma nova forma de apresentar suas <strong>soluções têxteis</strong></h1>
-          <p class="sv-intro">
-            Em vez de uma lista comum de links, esta página transforma seus serviços, produtos e plataformas
-            em uma vitrine visual mais forte, memorável e fácil de explorar — com linguagem premium e identidade técnica.
-          </p>
+    <header class="sv2-top">
+      <div class="sv2-top__left">
+        <h1>Soluções Stegie</h1>
+        <p>Escolha a frente que melhor atende sua necessidade.</p>
+      </div>
 
-          <div class="sv-pills">
-            <span class="sv-pill">Consultoria</span>
-            <span class="sv-pill">Educação</span>
-            <span class="sv-pill">Fichas técnicas</span>
-            <span class="sv-pill">IA aplicada</span>
-            <span class="sv-pill">Plataformas</span>
-          </div>
+      <div class="sv2-top__right">
+        <span class="sv2-pill">Consultoria</span>
+        <span class="sv2-pill">Educação</span>
+        <span class="sv2-pill">Materiais</span>
+        <span class="sv2-pill">Tecnologia</span>
+      </div>
+    </header>
+
+    <section class="sv2-shelf">
+      <div class="sv2-shelf__head">
+        <div>
+          <h2>Consultoria e especialidades</h2>
+          <p>Diagnóstico, produto, análise técnica e apoio à decisão.</p>
         </div>
       </div>
 
-      <div class="sv-hero__side">
-        <div class="sv-note sv-note--accent">
-          <h3>Por que esse formato funciona bem?</h3>
-          <p>
-            Porque ele valoriza o visual, organiza a navegação por interesse e faz cada solução parecer
-            um ativo premium, não apenas mais um item de menu.
-          </p>
-        </div>
-
-        <div class="sv-note">
-          <h3>Primeiro teste</h3>
-          <p>
-            Nesta versão, o foco está no conceito visual e na estrutura. Depois de aprovado,
-            o próximo passo é inserir sua foto real, fundos temáticos de cada área e os links finais.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="sv-shelf">
-      <div class="sv-shelf__head">
-        <div class="sv-shelf__titles">
-          <p class="sv-kicker">Comece por aqui</p>
-          <h2>Escolha por objetivo</h2>
-          <p>Uma leitura rápida para a pessoa entender o que faz mais sentido para a necessidade dela.</p>
-        </div>
-      </div>
-
-      <div class="sv-row">
-        <a class="sv-card sv-card--consultoria" href="#">
-          <span class="sv-card__badge">Diagnóstico e melhoria</span>
-          <div class="sv-card__figure"><span>Processo<br>e chão de fábrica</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Melhorar qualidade e produtividade</strong>
-            <span class="sv-card__desc">Para malharias que precisam atacar causa, rotina, desperdício, método e desempenho.</span>
-            <span class="sv-card__cta">Ver soluções</span>
+      <div class="sv2-row">
+        <a class="sv2-card sv2-card--consultoria" href="{{ l_consultoria }}">
+          <span class="sv2-card__badge">Consultoria</span>
+          <span class="sv2-card__glow"></span>
+          <span class="sv2-card__portrait"></span>
+          <div class="sv2-card__content">
+            <h3 class="sv2-card__title">Consultoria Têxtil</h3>
+            <p class="sv2-card__desc">Perdas, rotina, qualidade e produtividade na malharia.</p>
+            <div class="sv2-card__meta">
+              <span class="sv2-card__tag">Diagnóstico técnico</span>
+              <span class="sv2-card__tag">Chão de fábrica</span>
+            </div>
+            <span class="sv2-card__cta">Abrir solução</span>
           </div>
         </a>
 
-        <a class="sv-card sv-card--desenvolvimento" href="#">
-          <span class="sv-card__badge">Produto e engenharia</span>
-          <div class="sv-card__figure"><span>Estrutura<br>e viabilidade</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Desenvolver malhas com mais assertividade</strong>
-            <span class="sv-card__desc">Para quem quer transformar ideia em produto com base técnica e direção mais segura.</span>
-            <span class="sv-card__cta">Ver soluções</span>
+        <a class="sv2-card sv2-card--desenvolvimento" href="{{ l_desenvolvimento }}">
+          <span class="sv2-card__badge">Especialidade</span>
+          <span class="sv2-card__glow"></span>
+          <span class="sv2-card__portrait"></span>
+          <div class="sv2-card__content">
+            <h3 class="sv2-card__title">Desenvolvimento de Malhas</h3>
+            <p class="sv2-card__desc">Da ideia ao artigo com direção técnica e viabilidade.</p>
+            <div class="sv2-card__meta">
+              <span class="sv2-card__tag">Produto</span>
+              <span class="sv2-card__tag">Estrutura</span>
+            </div>
+            <span class="sv2-card__cta">Abrir solução</span>
           </div>
         </a>
 
-        <a class="sv-card sv-card--educacao" href="#">
-          <span class="sv-card__badge">Capacitação</span>
-          <div class="sv-card__figure"><span>Equipe<br>mais preparada</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Treinar equipes e elevar repertório</strong>
-            <span class="sv-card__desc">Para empresas e profissionais que querem formação técnica aplicada, clara e consistente.</span>
-            <span class="sv-card__cta">Ver soluções</span>
-          </div>
-        </a>
-
-        <a class="sv-card sv-card--agente" href="#">
-          <span class="sv-card__badge">Escala digital</span>
-          <div class="sv-card__figure"><span>Conhecimento<br>com IA</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Ganhar agilidade com tecnologia têxtil</strong>
-            <span class="sv-card__desc">Para quem quer consulta técnica, apoio inteligente e novas formas de acessar conhecimento.</span>
-            <span class="sv-card__cta">Ver soluções</span>
+        <a class="sv2-card sv2-card--pericia" href="{{ l_pericia }}">
+          <span class="sv2-card__badge">Especialidade</span>
+          <span class="sv2-card__glow"></span>
+          <span class="sv2-card__portrait"></span>
+          <div class="sv2-card__content">
+            <h3 class="sv2-card__title">Perícia Técnica Têxtil</h3>
+            <p class="sv2-card__desc">Causa, evidência e análise técnica com base objetiva.</p>
+            <div class="sv2-card__meta">
+              <span class="sv2-card__tag">Investigação</span>
+              <span class="sv2-card__tag">Parecer técnico</span>
+            </div>
+            <span class="sv2-card__cta">Abrir solução</span>
           </div>
         </a>
       </div>
     </section>
 
-    <section class="sv-shelf">
-      <div class="sv-shelf__head">
-        <div class="sv-shelf__titles">
-          <p class="sv-kicker">Consultoria e Especialidades</p>
-          <h2>Atuação técnica de campo e profundidade aplicada</h2>
-          <p>Os serviços que aproximam método, operação e resultado dentro da realidade da malharia.</p>
+    <section class="sv2-shelf">
+      <div class="sv2-shelf__head">
+        <div>
+          <h2>Educação e materiais técnicos</h2>
+          <p>Capacitação aplicada e base técnica para agir melhor.</p>
         </div>
       </div>
 
-      <div class="sv-row">
-        <a class="sv-card sv-card--consultoria" href="#">
-          <span class="sv-card__badge">Consultoria</span>
-          <div class="sv-card__figure"><span>Visão<br>técnica</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Consultoria Têxtil (Malharia)</strong>
-            <span class="sv-card__desc">Diagnóstico, rotina, perdas, produtividade, qualidade, treinamento e estruturação do processo.</span>
-            <span class="sv-card__cta">Explorar</span>
+      <div class="sv2-row">
+        <a class="sv2-card sv2-card--educacao" href="{{ l_educacao }}">
+          <span class="sv2-card__badge">Educação</span>
+          <span class="sv2-card__glow"></span>
+          <span class="sv2-card__portrait"></span>
+          <div class="sv2-card__content">
+            <h3 class="sv2-card__title">Educação Têxtil</h3>
+            <p class="sv2-card__desc">Cursos, imersões e formação técnica com aplicação prática.</p>
+            <div class="sv2-card__meta">
+              <span class="sv2-card__tag">Capacitação</span>
+              <span class="sv2-card__tag">Aprendizado técnico</span>
+            </div>
+            <span class="sv2-card__cta">Abrir solução</span>
           </div>
         </a>
 
-        <a class="sv-card sv-card--desenvolvimento" href="#">
-          <span class="sv-card__badge">Especialidade</span>
-          <div class="sv-card__figure"><span>Produto<br>e projeto</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Desenvolvimento de Malhas</strong>
-            <span class="sv-card__desc">Conceito, construção, análise técnica, adequação de estrutura e suporte ao desenvolvimento.</span>
-            <span class="sv-card__cta">Explorar</span>
-          </div>
-        </a>
-
-        <a class="sv-card sv-card--pericia" href="#">
-          <span class="sv-card__badge">Especialidade</span>
-          <div class="sv-card__figure"><span>Análise<br>e evidência</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Perícia Técnica Têxtil</strong>
-            <span class="sv-card__desc">Avaliação técnica, investigação de causa, leitura de evidências e suporte analítico especializado.</span>
-            <span class="sv-card__cta">Explorar</span>
+        <a class="sv2-card sv2-card--fichas" href="{{ l_fichas }}">
+          <span class="sv2-card__badge">Material técnico</span>
+          <span class="sv2-card__glow"></span>
+          <span class="sv2-card__portrait"></span>
+          <div class="sv2-card__content">
+            <h3 class="sv2-card__title">Fichas Técnicas de Malharia</h3>
+            <p class="sv2-card__desc">Consulta estruturada para desenvolvimento, compra e padrão.</p>
+            <div class="sv2-card__meta">
+              <span class="sv2-card__tag">Base técnica</span>
+              <span class="sv2-card__tag">Consulta rápida</span>
+            </div>
+            <span class="sv2-card__cta">Abrir solução</span>
           </div>
         </a>
       </div>
     </section>
 
-    <section class="sv-shelf">
-      <div class="sv-shelf__head">
-        <div class="sv-shelf__titles">
-          <p class="sv-kicker">Educação e Materiais Técnicos</p>
-          <h2>Conhecimento aplicado para formar, padronizar e acelerar</h2>
-          <p>Uma área pensada para desenvolver pessoas, reforçar repertório e apoiar decisões com base técnica.</p>
+    <section class="sv2-shelf">
+      <div class="sv2-shelf__head">
+        <div>
+          <h2>Plataformas e tecnologia</h2>
+          <p>Soluções digitais para ampliar acesso, agilidade e conexão.</p>
         </div>
       </div>
 
-      <div class="sv-row">
-        <a class="sv-card sv-card--educacao" href="#">
-          <span class="sv-card__badge">Educação</span>
-          <div class="sv-card__figure"><span>Aulas<br>e trilhas</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Educação Têxtil</strong>
-            <span class="sv-card__desc">Cursos, imersões, materiais e experiências de aprendizado com foco em aplicação real.</span>
-            <span class="sv-card__cta">Explorar</span>
+      <div class="sv2-row">
+        <a class="sv2-card sv2-card--agente" href="{{ l_agente }}">
+          <span class="sv2-card__badge">IA aplicada</span>
+          <span class="sv2-card__glow"></span>
+          <span class="sv2-card__portrait"></span>
+          <div class="sv2-card__content">
+            <h3 class="sv2-card__title">Agente Técnico Têxtil com IA</h3>
+            <p class="sv2-card__desc">Apoio rápido para dúvidas, leitura técnica e agilidade no setor.</p>
+            <div class="sv2-card__meta">
+              <span class="sv2-card__tag">Consulta técnica</span>
+              <span class="sv2-card__tag">Mais velocidade</span>
+            </div>
+            <span class="sv2-card__cta">Abrir solução</span>
           </div>
         </a>
 
-        <a class="sv-card sv-card--fichas" href="#">
-          <span class="sv-card__badge">Material técnico</span>
-          <div class="sv-card__figure"><span>Base<br>estruturada</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Fichas Técnicas de Malharia</strong>
-            <span class="sv-card__desc">Informações organizadas para apoiar desenvolvimento, consulta, padrão e decisão técnica.</span>
-            <span class="sv-card__cta">Explorar</span>
-          </div>
-        </a>
-
-        <a class="sv-card sv-card--trilhas" href="#">
-          <span class="sv-card__badge">Evolução</span>
-          <div class="sv-card__figure"><span>Aprendizado<br>contínuo</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Trilhas e Conteúdos Estratégicos</strong>
-            <span class="sv-card__desc">Uma forma de mostrar futuras frentes, séries técnicas, coleções de aulas e jornadas por tema.</span>
-            <span class="sv-card__cta">Explorar</span>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <section class="sv-shelf">
-      <div class="sv-shelf__head">
-        <div class="sv-shelf__titles">
-          <p class="sv-kicker">Plataformas e Tecnologia</p>
-          <h2>Soluções digitais com visão prática para o setor</h2>
-          <p>Tecnologia aplicada para organizar conhecimento, conectar mercado e ampliar acesso à informação têxtil.</p>
-        </div>
-      </div>
-
-      <div class="sv-row">
-        <a class="sv-card sv-card--agente" href="#">
-          <span class="sv-card__badge">IA aplicada</span>
-          <div class="sv-card__figure"><span>Assistência<br>inteligente</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">Agente Técnico Têxtil com IA</strong>
-            <span class="sv-card__desc">Consulta rápida, apoio técnico, interpretação e agilidade para rotinas e dúvidas do setor.</span>
-            <span class="sv-card__cta">Explorar</span>
-          </div>
-        </a>
-
-        <a class="sv-card sv-card--achetece" href="#">
-          <span class="sv-card__badge">Plataforma</span>
-          <div class="sv-card__figure"><span>Conexão<br>de mercado</span></div>
-          <div class="sv-card__content">
-            <strong class="sv-card__title">AcheTece</strong>
-            <span class="sv-card__desc">Plataforma para aproximar buscas, soluções, empresas e oportunidades dentro do universo têxtil.</span>
-            <span class="sv-card__cta">Explorar</span>
+        <a class="sv2-card sv2-card--achetece" href="{{ l_achetece }}" target="_blank" rel="noopener noreferrer">
+          <span class="sv2-card__badge">Plataforma</span>
+          <span class="sv2-card__glow"></span>
+          <span class="sv2-card__portrait"></span>
+          <div class="sv2-card__content">
+            <h3 class="sv2-card__title">AcheTece</h3>
+            <p class="sv2-card__desc">Busca, conexão e visibilidade para quem atua no universo têxtil.</p>
+            <div class="sv2-card__meta">
+              <span class="sv2-card__tag">Marketplace</span>
+              <span class="sv2-card__tag">Conexão de mercado</span>
+            </div>
+            <span class="sv2-card__cta">Abrir solução</span>
           </div>
         </a>
       </div>
     </section>
 
-    <section class="sv-foot">
-      <h3>Leitura estratégica desta proposta visual</h3>
-      <p>
-        Esta estrutura ajuda seu site a sair de uma lógica apenas institucional e entrar em uma lógica de
-        experiência. A pessoa não vê só “menus”: ela percebe categorias, valor, especialidade e profundidade.
-        Para a Stegie, isso combina muito bem com posicionamento premium, técnico e autoral.
-      </p>
-    </section>
+    <div class="sv2-small-note">
+      Nesta versão, o topo foi reduzido ao mínimo para que o foco fique nos cards. O próximo salto de qualidade será trocar os retratos abstratos por sua foto real e inserir fundos visuais específicos de cada solução.
+    </div>
 
   </div>
 </section>
