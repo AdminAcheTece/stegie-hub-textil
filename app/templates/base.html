@@ -121,21 +121,23 @@
         </div>
 
         <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:0 0 6px;">
-          Serviços
+          Consultoria e Especialidades
         </div>
         <a href="{{ url_for('consultoria_textil') }}">Consultoria Têxtil (Malharia)</a>
-        <a href="{{ url_for('educacao') }}">Educação Têxtil</a>
         <a href="{{ url_for('desenvolvimento_malhas') }}">Desenvolvimento de Malhas</a>
+        <a href="/pericia-tecnica-textil">Perícia Técnica Têxtil</a>
 
         <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 6px;">
-          Tecnologia
+          Educação e Materiais Técnicos
+        </div>
+        <a href="{{ url_for('educacao') }}">Educação Têxtil</a>
+        <a href="{{ url_for('fichas_tecnicas_malharia') }}">Fichas Técnicas de Malharia</a>
+
+        <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 6px;">
+          Plataformas e Tecnologia
         </div>
         <a href="{{ url_for('agente_tecnico_textil_ia') }}">Agente Técnico Têxtil com IA</a>
-
-        <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 6px;">
-          Padronagens
-        </div>
-        <a href="{{ url_for('fichas_tecnicas_malharia') }}">Fichas Técnicas de Malharia</a>
+        <a href="https://www.achetece.com.br/" target="_blank" rel="noopener noreferrer">AcheTece ↗</a>
       </div>
 
       <hr style="opacity:.25; margin:14px 0;">
@@ -195,20 +197,22 @@
   <section class="st-mega" id="mega-solucoes" aria-label="Soluções">
     <div class="st-mega__inner st-mega__cols-3">
       <div class="st-mega__col">
-        <div class="st-mega__title">Serviços</div>
+        <div class="st-mega__title">Consultoria e Especialidades</div>
         <a class="st-mega__item" href="{{ url_for('consultoria_textil') }}">Consultoria Têxtil (Malharia)</a>
-        <a class="st-mega__item" href="{{ url_for('educacao') }}">Educação Têxtil</a>
         <a class="st-mega__item" href="{{ url_for('desenvolvimento_malhas') }}">Desenvolvimento de Malhas</a>
+        <a class="st-mega__item" href="/pericia-tecnica-textil">Perícia Técnica Têxtil</a>
       </div>
 
       <div class="st-mega__col">
-        <div class="st-mega__title">Tecnologia</div>
-        <a class="st-mega__item" href="{{ url_for('agente_tecnico_textil_ia') }}">Agente Técnico Têxtil com IA</a>
-      </div>
-
-      <div class="st-mega__col">
-        <div class="st-mega__title">Padronagens</div>
+        <div class="st-mega__title">Educação e Materiais Técnicos</div>
+        <a class="st-mega__item" href="{{ url_for('educacao') }}">Educação Têxtil</a>
         <a class="st-mega__item" href="{{ url_for('fichas_tecnicas_malharia') }}">Fichas Técnicas de Malharia</a>
+      </div>
+
+      <div class="st-mega__col">
+        <div class="st-mega__title">Plataformas e Tecnologia</div>
+        <a class="st-mega__item" href="{{ url_for('agente_tecnico_textil_ia') }}">Agente Técnico Têxtil com IA</a>
+        <a class="st-mega__item" href="https://www.achetece.com.br/" target="_blank" rel="noopener noreferrer">AcheTece ↗</a>
       </div>
     </div>
   </section>
@@ -401,28 +405,28 @@
     (function () {
       const root = document.getElementById("stTopbar");
       if (!root) return;
-  
+
       const burger = root.querySelector(".st-fnav__burger");
       const mobile = document.getElementById("st-fnav-mobile");
       if (!burger || !mobile) return;
-  
+
       function setMobileDimensions() {
         const rootRect = root.getBoundingClientRect();
         const topOffset = Math.round(rootRect.bottom);
         const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
         const menuHeight = Math.max(0, viewportHeight - topOffset);
-  
+
         mobile.style.top = topOffset + "px";
         mobile.style.height = menuHeight + "px";
       }
-  
+
       function closeMenu() {
         burger.setAttribute("aria-expanded", "false");
         mobile.hidden = true;
         mobile.classList.remove("is-open");
         document.body.style.overflow = "";
       }
-  
+
       function openMenu() {
         setMobileDimensions();
         burger.setAttribute("aria-expanded", "true");
@@ -430,7 +434,7 @@
         mobile.classList.add("is-open");
         document.body.style.overflow = "hidden";
       }
-  
+
       burger.addEventListener("click", function (e) {
         e.stopPropagation();
         const isOpen = burger.getAttribute("aria-expanded") === "true";
@@ -440,31 +444,31 @@
           openMenu();
         }
       });
-  
+
       document.addEventListener("click", function (e) {
         if (!mobile.contains(e.target) && !burger.contains(e.target)) {
           closeMenu();
         }
       });
-  
+
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") {
           closeMenu();
         }
       });
-  
+
       window.addEventListener("resize", function () {
         if (burger.getAttribute("aria-expanded") === "true") {
           setMobileDimensions();
         }
       });
-  
+
       window.addEventListener("orientationchange", function () {
         if (burger.getAttribute("aria-expanded") === "true") {
           setMobileDimensions();
         }
       });
-  
+
       mobile.querySelectorAll("a").forEach(function(link) {
         link.addEventListener("click", function() {
           closeMenu();
