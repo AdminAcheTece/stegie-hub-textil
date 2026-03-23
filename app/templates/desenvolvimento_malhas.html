@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}STEGIE | Desenvolvimento de Malhas{% endblock %}
 {% block meta_description %}Desenvolvimento de malhas com base técnica: da leitura da referência à definição de tear, padronagem, fio, composição, acabamento, testes e aprovação final.{% endblock %}
+
 {% block content %}
 
 <style>
@@ -171,32 +172,100 @@
   }
 
   .ctx-hero__visual{
-    position:relative;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
     min-height:560px;
   }
 
-  .ctx-orbit{
+  .ctx-hero-diagram{
+    position:relative;
+    width:min(100%, 620px);
+    display:grid;
+    justify-items:center;
+    align-items:start;
+    gap:24px;
+    --ctx-connector-v-top:322px;
+    --ctx-connector-v-height:30px;
+    --ctx-connector-h-top:368px;
+  }
+
+  .ctx-hero-diagram::before{
+    content:"";
     position:absolute;
-    inset:0;
+    left:50%;
+    top:var(--ctx-connector-v-top);
+    transform:translateX(-50%);
+    width:1px;
+    height:var(--ctx-connector-v-height);
+    background:linear-gradient(180deg, rgba(142,132,32,.28) 0%, rgba(142,132,32,.08) 100%);
+    z-index:0;
+    pointer-events:none;
+  }
+
+  .ctx-hero-diagram::after{
+    content:"";
+    position:absolute;
+    left:16%;
+    right:16%;
+    top:var(--ctx-connector-h-top);
+    height:1px;
+    background:linear-gradient(
+      90deg,
+      rgba(142,132,32,0) 0%,
+      rgba(142,132,32,.12) 18%,
+      rgba(142,132,32,.26) 50%,
+      rgba(142,132,32,.12) 82%,
+      rgba(142,132,32,0) 100%
+    );
+    z-index:0;
+    pointer-events:none;
+  }
+
+  .ctx-orbit{
+    position:relative;
+    width:100%;
+    min-height:360px;
     display:grid;
     place-items:center;
+    isolation:isolate;
+  }
+
+  .ctx-orbit::before{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:520px;
+    height:520px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(183,242,56,.08) 0%, rgba(183,242,56,0) 70%);
+    z-index:0;
+  }
+
+  .ctx-orbit::after{
+    display:none;
   }
 
   .ctx-orbit__ring{
     position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
     border-radius:999px;
     border:1px solid rgba(18,18,18,.10);
   }
 
   .ctx-orbit__ring--1{ width:460px; height:460px; }
-  .ctx-orbit__ring--2{ width:360px; height:360px; }
-  .ctx-orbit__ring--3{ width:250px; height:250px; }
+  .ctx-orbit__ring--2{ width:350px; height:350px; }
+  .ctx-orbit__ring--3{ width:240px; height:240px; }
 
   .ctx-orbit__core{
     position:relative;
     z-index:2;
-    width:250px;
-    height:250px;
+    width:240px;
+    height:240px;
     border-radius:50%;
     background:linear-gradient(160deg, #121212 0%, #1e1e1e 100%);
     color:#fff;
@@ -205,7 +274,7 @@
     flex-direction:column;
     justify-content:center;
     text-align:center;
-    padding:28px;
+    padding:26px;
   }
 
   .ctx-orbit__core span{
@@ -218,48 +287,70 @@
   }
 
   .ctx-orbit__core strong{
-    font-size:1.7rem;
-    line-height:1.15;
+    font-size:1.58rem;
+    line-height:1.14;
     font-weight:700;
     letter-spacing:-.03em;
   }
 
+  .ctx-floating-grid{
+    position:relative;
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:18px;
+    padding-top:26px;
+  }
+
+  .ctx-floating-grid::before,
+  .ctx-floating-grid::after{
+    display:none;
+  }
+
   .ctx-floating-card{
-    position:absolute;
-    z-index:3;
-    min-width:170px;
-    padding:16px 18px;
-    border-radius:18px;
+    position:relative;
+    z-index:1;
+    min-width:0;
+    width:100%;
+    padding:24px 22px;
+    border-radius:24px;
     background:rgba(255,255,255,.88);
     border:1px solid rgba(18,18,18,.08);
     box-shadow:var(--ctx-shadow-soft);
     backdrop-filter:blur(16px);
-    animation:ctxFloat 6.5s ease-in-out infinite;
+    overflow:hidden;
+    transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+  }
+
+  .ctx-floating-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--ctx-shadow);
+    border-color:rgba(142,132,32,.22);
+  }
+
+  .ctx-floating-card::before{
+    content:"";
+    position:absolute;
+    inset:0 auto auto 0;
+    width:100%;
+    height:4px;
+    background:linear-gradient(90deg, var(--ctx-accent-2), var(--ctx-accent));
   }
 
   .ctx-floating-card small{
     display:block;
-    margin-bottom:6px;
+    margin-bottom:12px;
     color:var(--ctx-accent);
     font-weight:700;
     letter-spacing:.03em;
     text-transform:uppercase;
+    font-size:.95rem;
   }
 
   .ctx-floating-card strong{
     display:block;
     font-size:1.02rem;
-    line-height:1.35;
-  }
-
-  .ctx-floating-card--a{ top:36px; right:18px; animation-delay:0s; }
-  .ctx-floating-card--b{ top:168px; left:6px; animation-delay:1s; }
-  .ctx-floating-card--c{ right:6px; bottom:184px; animation-delay:2.1s; }
-  .ctx-floating-card--d{ left:44px; bottom:52px; animation-delay:2.9s; }
-
-  @keyframes ctxFloat{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(-10px); }
+    line-height:1.36;
   }
 
   .ctx-section-nav{
@@ -375,34 +466,23 @@
     height:200px;
     position:relative;
     overflow:hidden;
-    background:
-      radial-gradient(circle at 20% 30%, rgba(183,242,56,.85) 0, rgba(183,242,56,.06) 18%, transparent 30%),
-      radial-gradient(circle at 78% 34%, rgba(255,255,255,.12) 0, transparent 20%),
-      radial-gradient(circle at 72% 72%, rgba(142,132,32,.55) 0, transparent 24%),
+    background-image:
+      linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.42) 100%),
+      url("/static/img/desenvolvimento-malhas.jpg"),
       linear-gradient(135deg, #231f12 0%, #0f0f0f 48%, #1b1b1b 100%);
+    background-size:cover, cover, cover;
+    background-position:center, center, center;
+    background-repeat:no-repeat;
   }
 
-  .ctx-side-card__visual::before,
   .ctx-side-card__visual::after{
     content:"";
     position:absolute;
-    inset:auto;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,.18);
-  }
-
-  .ctx-side-card__visual::before{
-    width:220px;
-    height:220px;
-    top:-30px;
-    right:-40px;
-  }
-
-  .ctx-side-card__visual::after{
-    width:110px;
-    height:110px;
-    bottom:18px;
-    left:24px;
+    left:0;
+    right:0;
+    bottom:0;
+    height:54px;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(19,19,19,.72) 100%);
   }
 
   .ctx-side-card__body{
@@ -430,6 +510,7 @@
     line-height:1.12;
     letter-spacing:-.03em;
     font-weight:700;
+    color:#8E8420;
   }
 
   .ctx-side-card p{
@@ -803,7 +884,45 @@
     }
 
     .ctx-hero__visual{
-      min-height:460px;
+      min-height:auto;
+      margin-top:10px;
+    }
+
+    .ctx-hero-diagram{
+      width:min(100%, 620px);
+      gap:20px;
+      --ctx-connector-v-top:286px;
+      --ctx-connector-v-height:26px;
+      --ctx-connector-h-top:332px;
+    }
+
+    .ctx-orbit{
+      min-height:320px;
+    }
+
+    .ctx-orbit::before{
+      width:420px;
+      height:420px;
+    }
+
+    .ctx-orbit__ring--1{ width:390px; height:390px; }
+    .ctx-orbit__ring--2{ width:300px; height:300px; }
+    .ctx-orbit__ring--3{ width:210px; height:210px; }
+
+    .ctx-orbit__core{
+      width:210px;
+      height:210px;
+      padding:22px;
+    }
+
+    .ctx-orbit__core strong{
+      font-size:1.34rem;
+    }
+
+    .ctx-floating-grid{
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:16px;
+      padding-top:22px;
     }
 
     .ctx-grid-5,
@@ -842,37 +961,65 @@
     }
 
     .ctx-hero__visual{
-      min-height:420px;
-      margin-top:10px;
+      min-height:auto;
+      margin-top:14px;
     }
 
-    .ctx-orbit__ring--1{ width:330px; height:330px; }
-    .ctx-orbit__ring--2{ width:250px; height:250px; }
-    .ctx-orbit__ring--3{ width:180px; height:180px; }
+    .ctx-hero-diagram{
+      gap:18px;
+      --ctx-connector-v-top:226px;
+      --ctx-connector-v-height:20px;
+      --ctx-connector-h-top:258px;
+    }
+
+    .ctx-orbit{
+      min-height:250px;
+    }
+
+    .ctx-orbit::before{
+      width:300px;
+      height:300px;
+    }
+
+    .ctx-orbit__ring--1{ width:280px; height:280px; }
+    .ctx-orbit__ring--2{ width:210px; height:210px; }
+    .ctx-orbit__ring--3{ width:150px; height:150px; }
 
     .ctx-orbit__core{
-      width:180px;
-      height:180px;
-      padding:18px;
+      width:150px;
+      height:150px;
+      padding:16px;
+    }
+
+    .ctx-orbit__core span{
+      font-size:.76rem;
+      margin-bottom:8px;
     }
 
     .ctx-orbit__core strong{
-      font-size:1.2rem;
+      font-size:1.04rem;
+      line-height:1.15;
+    }
+
+    .ctx-floating-grid{
+      grid-template-columns:1fr;
+      gap:14px;
+      padding-top:18px;
+    }
+
+    .ctx-hero-diagram::after{
+      display:none;
     }
 
     .ctx-floating-card{
-      min-width:140px;
-      padding:12px 14px;
+      padding:22px 18px;
+      border-radius:24px;
     }
 
     .ctx-floating-card strong{
-      font-size:.92rem;
+      font-size:.98rem;
+      line-height:1.36;
     }
-
-    .ctx-floating-card--a{ top:6px; right:0; }
-    .ctx-floating-card--b{ top:140px; left:0; }
-    .ctx-floating-card--c{ right:0; bottom:130px; }
-    .ctx-floating-card--d{ left:20px; bottom:12px; }
 
     .ctx-block{
       padding:62px 0;
@@ -923,11 +1070,11 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .ctx-floating-card,
     .ctx-reveal,
     .ctx-btn,
     .ctx-step,
-    .ctx-card{
+    .ctx-card,
+    .ctx-floating-card{
       animation:none !important;
       transition:none !important;
     }
@@ -940,7 +1087,7 @@
       <div class="ctx-reveal">
         <div class="ctx-kicker">Desenvolvimento de Malhas</div>
         <h1>Desenvolvimento de malhas com base técnica, visão de produto e viabilidade real.</h1>
-        
+
         <p class="ctx-hero__lead">
           A Stegie estrutura o desenvolvimento de malhas desde a leitura da referência até a definição técnica necessária para transformar uma ideia em produto viável.
           O objetivo não é apenas criar uma malha bonita, mas uma malha que feche em tear, fio, composição, acabamento, custo, prazo e repetibilidade.
@@ -965,35 +1112,39 @@
       </div>
 
       <div class="ctx-hero__visual ctx-reveal">
-        <div class="ctx-orbit">
-          <div class="ctx-orbit__ring ctx-orbit__ring--1"></div>
-          <div class="ctx-orbit__ring ctx-orbit__ring--2"></div>
-          <div class="ctx-orbit__ring ctx-orbit__ring--3"></div>
+        <div class="ctx-hero-diagram">
+          <div class="ctx-orbit">
+            <div class="ctx-orbit__ring ctx-orbit__ring--1"></div>
+            <div class="ctx-orbit__ring ctx-orbit__ring--2"></div>
+            <div class="ctx-orbit__ring ctx-orbit__ring--3"></div>
 
-          <div class="ctx-orbit__core">
-            <span>Do conceito à execução</span>
-            <strong>Ideia criativa + engenharia têxtil + repetibilidade</strong>
+            <div class="ctx-orbit__core">
+              <span>Do conceito à execução</span>
+              <strong>Ideia criativa + engenharia têxtil + repetibilidade</strong>
+            </div>
           </div>
-        </div>
 
-        <div class="ctx-floating-card ctx-floating-card--a">
-          <small>01</small>
-          <strong>Tear e estrutura compatíveis com o objetivo do produto.</strong>
-        </div>
+          <div class="ctx-floating-grid">
+            <div class="ctx-floating-card">
+              <small>01</small>
+              <strong>Tear e estrutura compatíveis com o objetivo do produto.</strong>
+            </div>
 
-        <div class="ctx-floating-card ctx-floating-card--b">
-          <small>02</small>
-          <strong>Fio, composição e toque alinhados ao uso final.</strong>
-        </div>
+            <div class="ctx-floating-card">
+              <small>02</small>
+              <strong>Fio, composição e toque alinhados ao uso final.</strong>
+            </div>
 
-        <div class="ctx-floating-card ctx-floating-card--c">
-          <small>03</small>
-          <strong>Beneficiamento pensado para sustentar o efeito desejado.</strong>
-        </div>
+            <div class="ctx-floating-card">
+              <small>03</small>
+              <strong>Beneficiamento pensado para sustentar o efeito desejado.</strong>
+            </div>
 
-        <div class="ctx-floating-card ctx-floating-card--d">
-          <small>04</small>
-          <strong>Critérios de aprovação para reduzir retrabalho e erro tardio.</strong>
+            <div class="ctx-floating-card">
+              <small>04</small>
+              <strong>Critérios de aprovação para reduzir retrabalho e erro tardio.</strong>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1017,11 +1168,11 @@
         <div>
           <div class="ctx-kicker">Visão geral</div>
           <h2>Da referência criativa à malha aprovada para produção.</h2>
-          
+
           <p class="ctx-lead">
             O desenvolvimento de malhas exige muito mais do que uma boa ideia visual. É preciso traduzir intenção estética em uma base técnica consistente, capaz de sustentar produção, qualidade, beneficiamento e repetibilidade.
           </p>
-          
+
           <p class="ctx-lead">
             A Stegie atua organizando essa construção: leitura da amostra ou briefing, definição dos parâmetros críticos, avaliação de viabilidade e orientação técnica para reduzir ruído entre criação, compras, tecelagem, qualidade e acabamento.
           </p>
@@ -1218,7 +1369,7 @@
         </div>
         <p>
           Em muitos casos o problema não é a proposta em si, e sim a forma como ela foi pedida.
-          O papel da consultoria é ajustar o caminho antes que o erro fique caro.
+          O papel dessa atuação técnica é ajustar o caminho antes que o erro fique caro.
         </p>
       </div>
 
@@ -1277,7 +1428,7 @@
       <div class="ctx-topline ctx-reveal">
         <div>
           <div class="ctx-kicker">Resultados esperados</div>
-          <h2 class="ctx-heading">O que essa consultoria entrega na prática.</h2>
+          <h2 class="ctx-heading">O que esse trabalho entrega na prática.</h2>
         </div>
         <p>
           O ganho maior está em reduzir erro tardio, dar direção técnica ao desenvolvimento e aproximar criação, produção e qualidade.
@@ -1315,7 +1466,7 @@
               esta é a conversa certa para começar.
             </p>
           </div>
-          
+
           <div class="ctx-actions" style="margin:0;">
             <a href="/contato" class="ctx-btn ctx-btn--primary">Iniciar conversa</a>
             <a href="/servicos" class="ctx-btn ctx-btn--ghost" style="color:#fff;border-color:rgba(255,255,255,.25);">Voltar aos serviços</a>
