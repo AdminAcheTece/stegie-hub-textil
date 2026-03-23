@@ -1,26 +1,13 @@
 {% extends "base.html" %}
 {% block title %}STEGIE | Consultoria Têxtil{% endblock %}
-{% block meta_description %}Consultoria têxtil para malharias com diagnóstico técnico, leitura de processo, definição de prioridades, critérios de aceite e direção prática para execução.{% endblock %}
+{% block meta_description %}Consultoria têxtil para malharias com diagnóstico técnico, leitura de processo, priorização e direção prática para execução.{% endblock %}
 
 {% block content %}
 
 <style>
   .ctz-page{
-    --ctz-bg:#f3f1eb;
-    --ctz-surface:#ffffff;
-    --ctz-text:#121212;
-    --ctz-muted:#5b5b5b;
-    --ctz-border:#ddd7cb;
-    --ctz-accent:#8E8420;
-    --ctz-accent-2:#B7F238;
-    --ctz-dark:#0d0d0d;
-    --ctz-radius-xl:30px;
-    --ctz-radius-lg:24px;
-    --ctz-radius-md:18px;
-    --ctz-shadow:0 18px 44px rgba(0,0,0,.08);
-    --ctz-shadow-soft:0 10px 28px rgba(0,0,0,.05);
-    background:var(--ctz-bg);
-    color:var(--ctz-text);
+    background:#f3f1eb;
+    color:#121212;
     overflow:hidden;
   }
 
@@ -29,31 +16,10 @@
     margin:0 auto;
   }
 
-  .ctz-kicker{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    font-size:.92rem;
-    font-weight:700;
-    letter-spacing:.02em;
-    color:var(--ctz-accent);
-  }
-
-  .ctz-kicker::before{
-    content:"";
-    width:10px;
-    height:10px;
-    border-radius:999px;
-    background:var(--ctz-accent-2);
-    box-shadow:0 0 0 5px rgba(183,242,56,.14);
-  }
-
   .ctz-hero{
-    position:relative;
-    padding:56px 0 36px;
+    padding:56px 0 70px;
     background:
       radial-gradient(circle at 84% 18%, rgba(183,242,56,.16), transparent 24%),
-      radial-gradient(circle at 10% 88%, rgba(142,132,32,.12), transparent 24%),
       linear-gradient(180deg, #f5f3ee 0%, #f3f1eb 100%);
   }
 
@@ -64,48 +30,45 @@
     align-items:center;
   }
 
+  .ctz-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:.95rem;
+    font-weight:700;
+    color:#8E8420;
+  }
+
+  .ctz-kicker::before{
+    content:"";
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#B7F238;
+    box-shadow:0 0 0 5px rgba(183,242,56,.14);
+  }
+
   .ctz-hero h1{
     margin:18px 0 18px;
-    font-size:clamp(2.2rem, 4vw, 4.2rem);
+    font-size:clamp(2.3rem, 4vw, 4.2rem);
     line-height:1.02;
     letter-spacing:-.04em;
     max-width:10.5ch;
-    font-weight:700;
   }
 
-  .ctz-hero__lead{
-    margin:0 0 22px;
+  .ctz-hero p{
+    margin:0 0 18px;
     max-width:62ch;
-    font-size:1.14rem;
-    line-height:1.78;
+    font-size:1.1rem;
+    line-height:1.75;
     color:#232323;
-  }
-
-  .ctz-hero__dynamic{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:8px;
-    margin:0 0 26px;
-    color:var(--ctz-muted);
-    font-size:1rem;
-  }
-
-  .ctz-hero__dynamic strong{
-    color:var(--ctz-text);
-  }
-
-  .ctz-word-rotator{
-    min-width:200px;
-    color:var(--ctz-accent);
-    font-weight:800;
   }
 
   .ctz-actions{
     display:flex;
     flex-wrap:wrap;
     gap:14px;
-    margin:0 0 26px;
+    margin-top:22px;
   }
 
   .ctz-btn{
@@ -118,57 +81,26 @@
     text-decoration:none;
     font-weight:700;
     font-size:1rem;
-    transition:transform .24s ease, box-shadow .24s ease, background .24s ease, color .24s ease, border-color .24s ease;
+    transition:.2s ease;
     border:1px solid transparent;
   }
 
-  .ctz-btn:hover{ transform:translateY(-2px); }
-
   .ctz-btn--primary{
-    background:var(--ctz-accent-2);
+    background:#B7F238;
     color:#141414;
-    box-shadow:var(--ctz-shadow-soft);
   }
 
   .ctz-btn--ghost{
-    border-color:var(--ctz-accent);
-    color:var(--ctz-accent);
+    border-color:#8E8420;
+    color:#8E8420;
     background:transparent;
   }
 
-  .ctz-btn--ghost:hover{
-    background:rgba(142,132,32,.08);
+  .ctz-btn:hover{
+    transform:translateY(-2px);
   }
 
-  .ctz-chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-  }
-
-  .ctz-chip{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    min-height:40px;
-    padding:0 14px;
-    border-radius:999px;
-    background:rgba(255,255,255,.72);
-    border:1px solid rgba(18,18,18,.08);
-    backdrop-filter:blur(10px);
-    color:#262626;
-    font-size:.94rem;
-  }
-
-  .ctz-chip::before{
-    content:"";
-    width:7px;
-    height:7px;
-    border-radius:999px;
-    background:var(--ctz-accent);
-  }
-
-  /* ===== HERO VISUAL AJUSTADO ===== */
+  /* HERO VISUAL AJUSTADO */
   .ctz-hero__visual{
     min-height:620px;
     display:flex;
@@ -199,21 +131,12 @@
     place-items:center;
   }
 
-  .ctz-orbit::before{
-    content:"";
-    position:absolute;
-    inset:12%;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(183,242,56,.08) 0%, rgba(183,242,56,0) 72%);
-    z-index:0;
-  }
-
   .ctz-orbit__ring{
     position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
-    border-radius:999px;
+    border-radius:50%;
     border:1px solid rgba(18,18,18,.10);
   }
 
@@ -224,8 +147,8 @@
   .ctz-orbit__core{
     position:relative;
     z-index:2;
-    width:min(100%, 210px);
-    height:min(100%, 210px);
+    width:210px;
+    height:210px;
     border-radius:50%;
     background:linear-gradient(160deg, #121212 0%, #1e1e1e 100%);
     color:#fff;
@@ -242,575 +165,214 @@
     color:rgba(255,255,255,.7);
     font-size:.88rem;
     margin-bottom:10px;
-    letter-spacing:.04em;
     text-transform:uppercase;
   }
 
   .ctz-orbit__core strong{
-    font-size:1.55rem;
-    line-height:1.14;
-    font-weight:700;
-    letter-spacing:-.03em;
+    font-size:1.45rem;
+    line-height:1.15;
   }
 
   .ctz-floating-card{
-    position:relative;
-    z-index:3;
     width:100%;
     max-width:255px;
     padding:16px 18px;
     border-radius:18px;
-    background:rgba(255,255,255,.9);
+    background:rgba(255,255,255,.92);
     border:1px solid rgba(18,18,18,.08);
-    box-shadow:var(--ctz-shadow-soft);
-    backdrop-filter:blur(16px);
-    animation:ctzFloat 6.5s ease-in-out infinite;
+    box-shadow:0 10px 28px rgba(0,0,0,.05);
   }
 
   .ctz-floating-card small{
     display:block;
     margin-bottom:6px;
-    color:var(--ctz-accent);
+    color:#8E8420;
     font-weight:700;
-    letter-spacing:.03em;
     text-transform:uppercase;
   }
 
   .ctz-floating-card strong{
     display:block;
-    font-size:1.02rem;
+    font-size:1rem;
     line-height:1.35;
   }
 
-  .ctz-floating-card--a{
-    grid-area:top;
-    align-self:end;
-    animation-delay:0s;
+  .ctz-floating-card--a{ grid-area:top; }
+  .ctz-floating-card--b{ grid-area:left; justify-self:end; }
+  .ctz-floating-card--c{ grid-area:right; justify-self:start; }
+  .ctz-floating-card--d{ grid-area:bottom; max-width:320px; }
+
+  .ctz-simple{
+    padding:0 0 80px;
   }
 
-  .ctz-floating-card--b{
-    grid-area:left;
-    justify-self:end;
-    animation-delay:1s;
-  }
-
-  .ctz-floating-card--c{
-    grid-area:right;
-    justify-self:start;
-    animation-delay:2.1s;
-  }
-
-  .ctz-floating-card--d{
-    grid-area:bottom;
-    max-width:320px;
-    align-self:start;
-    animation-delay:2.9s;
-  }
-
-  @keyframes ctzFloat{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(-8px); }
-  }
-
-  .ctz-section-nav{
-    position:sticky;
-    top:0;
-    z-index:20;
-    background:rgba(243,241,235,.92);
-    backdrop-filter:blur(14px);
-    border-top:1px solid rgba(18,18,18,.06);
-    border-bottom:1px solid rgba(18,18,18,.08);
-  }
-
-  .ctz-section-nav__inner{
-    width:min(1180px, calc(100% - 40px));
-    margin:0 auto;
-    display:flex;
-    gap:30px;
-    overflow:auto;
-    scrollbar-width:none;
-    -ms-overflow-style:none;
-  }
-
-  .ctz-section-nav__inner::-webkit-scrollbar{ display:none; }
-
-  .ctz-section-nav a{
-    position:relative;
-    display:inline-flex;
-    align-items:center;
-    height:66px;
-    white-space:nowrap;
-    text-decoration:none;
-    color:#5f5f5f;
-    font-weight:600;
-    transition:color .22s ease;
-  }
-
-  .ctz-section-nav a::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:0;
-    width:100%;
-    height:3px;
-    border-radius:999px;
-    background:transparent;
-    transition:background .22s ease;
-  }
-
-  .ctz-section-nav a:hover,
-  .ctz-section-nav a.is-active{
-    color:var(--ctz-accent);
-  }
-
-  .ctz-section-nav a.is-active::after{
-    background:var(--ctz-accent-2);
-  }
-
-  .ctz-block{
-    padding:84px 0;
-  }
-
-  .ctz-panel{
-    display:grid;
-    grid-template-columns:minmax(0, 1.15fr) minmax(340px, .85fr);
-    gap:32px;
-    background:rgba(255,255,255,.72);
-    border:1px solid rgba(18,18,18,.08);
-    border-radius:var(--ctz-radius-xl);
-    padding:36px;
-    box-shadow:var(--ctz-shadow-soft);
-  }
-
-  .ctz-heading{
-    margin:12px 0 14px;
-    font-size:clamp(2rem, 3.4vw, 3.2rem);
-    line-height:1.08;
-    letter-spacing:-.04em;
-    font-weight:700;
-  }
-
-  .ctz-lead{
-    margin:0 0 22px;
-    max-width:62ch;
-    font-size:1.12rem;
-    line-height:1.8;
-    color:#222;
-  }
-
-  .ctz-list{
-    margin:18px 0 0;
-    padding-left:22px;
-  }
-
-  .ctz-list li{
-    margin:0 0 12px;
-    font-size:1.05rem;
-    line-height:1.66;
-    color:#1f1f1f;
-  }
-
-  .ctz-side-card{
-    position:relative;
-    overflow:hidden;
-    border-radius:26px;
-    background:linear-gradient(180deg, #131313 0%, #1f1f1f 100%);
-    color:#fff;
-    min-height:100%;
-    box-shadow:0 24px 52px rgba(0,0,0,.18);
-  }
-
-  .ctz-side-card__visual{
-    height:200px;
-    position:relative;
-    overflow:hidden;
-    background:
-      radial-gradient(circle at 20% 30%, rgba(183,242,56,.85) 0, rgba(183,242,56,.06) 18%, transparent 30%),
-      radial-gradient(circle at 78% 34%, rgba(255,255,255,.12) 0, transparent 20%),
-      radial-gradient(circle at 72% 72%, rgba(142,132,32,.55) 0, transparent 24%),
-      linear-gradient(135deg, #231f12 0%, #0f0f0f 48%, #1b1b1b 100%);
-  }
-
-  .ctz-side-card__body{ padding:24px 24px 26px; }
-
-  .ctz-side-card__tag{
-    display:inline-flex;
-    min-height:30px;
-    padding:0 12px;
-    align-items:center;
-    border-radius:999px;
-    background:rgba(183,242,56,.14);
-    color:var(--ctz-accent-2);
-    font-size:.84rem;
-    font-weight:700;
-    letter-spacing:.04em;
-    text-transform:uppercase;
-    margin-bottom:14px;
-  }
-
-  .ctz-side-card h3{
-    margin:0 0 14px;
-    font-size:1.55rem;
-    line-height:1.12;
-    letter-spacing:-.03em;
-    font-weight:700;
-  }
-
-  .ctz-side-card p{
-    margin:0 0 18px;
-    color:rgba(255,255,255,.82);
-    line-height:1.72;
-  }
-
-  .ctz-mini-metrics{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:12px;
-    margin-top:18px;
-  }
-
-  .ctz-mini-metric{
-    padding:16px 14px;
-    border-radius:18px;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.08);
-  }
-
-  .ctz-mini-metric strong{
-    display:block;
-    font-size:1.22rem;
-    font-weight:800;
-    margin-bottom:5px;
-  }
-
-  .ctz-mini-metric span{
-    color:rgba(255,255,255,.74);
-    line-height:1.45;
-    font-size:.92rem;
-  }
-
-  .ctz-topline{
-    display:flex;
-    align-items:end;
-    justify-content:space-between;
-    gap:20px;
-    margin-bottom:26px;
-  }
-
-  .ctz-topline p{
-    max-width:62ch;
-    margin:0;
-    color:var(--ctz-muted);
-    line-height:1.7;
-    font-size:1.04rem;
-  }
-
-  .ctz-grid-4{
-    display:grid;
-    grid-template-columns:repeat(4, minmax(0,1fr));
-    gap:18px;
-  }
-
-  .ctz-grid-3{
-    display:grid;
-    grid-template-columns:repeat(3, minmax(0,1fr));
-    gap:18px;
-  }
-
-  .ctz-card{
-    position:relative;
-    border-radius:24px;
-    padding:24px 22px;
-    background:rgba(255,255,255,.82);
-    border:1px solid rgba(18,18,18,.08);
-    box-shadow:var(--ctz-shadow-soft);
-    overflow:hidden;
-    transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
-  }
-
-  .ctz-card:hover{
-    transform:translateY(-6px);
-    box-shadow:var(--ctz-shadow);
-    border-color:rgba(142,132,32,.22);
-  }
-
-  .ctz-card::before{
-    content:"";
-    position:absolute;
-    inset:0 auto auto 0;
-    width:100%;
-    height:4px;
-    background:linear-gradient(90deg, var(--ctz-accent-2), var(--ctz-accent));
-  }
-
-  .ctz-card__icon{
-    width:50px;
-    height:50px;
-    border-radius:16px;
-    display:grid;
-    place-items:center;
-    background:rgba(142,132,32,.08);
-    color:var(--ctz-accent);
-    font-size:1.18rem;
-    font-weight:800;
-    margin-bottom:16px;
-  }
-
-  .ctz-card h3{
-    margin:0 0 12px;
-    font-size:1.16rem;
-    letter-spacing:-.02em;
-    line-height:1.24;
-    font-weight:700;
-  }
-
-  .ctz-card p{
-    margin:0 0 14px;
-    color:#505050;
-    line-height:1.68;
-    font-size:.98rem;
-  }
-
-  .ctz-bullets{
-    margin:0;
-    padding-left:18px;
-  }
-
-  .ctz-bullets li{
-    margin:0 0 8px;
-    color:#5a5a5a;
-    line-height:1.56;
-    font-size:.94rem;
-  }
-
-  .ctz-steps{
-    display:grid;
-    grid-template-columns:repeat(4, minmax(0,1fr));
-    gap:18px;
-  }
-
-  .ctz-step{
-    position:relative;
-    background:rgba(255,255,255,.8);
-    border:1px solid rgba(18,18,18,.08);
-    border-radius:24px;
-    padding:24px 22px;
-    box-shadow:var(--ctz-shadow-soft);
-    transition:transform .24s ease, box-shadow .24s ease;
-  }
-
-  .ctz-step:hover{
-    transform:translateY(-6px);
-    box-shadow:var(--ctz-shadow);
-  }
-
-  .ctz-step__num{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:48px;
-    height:48px;
-    border-radius:14px;
-    background:linear-gradient(145deg, #161616 0%, #2b2b2b 100%);
-    color:#fff;
-    font-weight:800;
-    margin-bottom:18px;
-  }
-
-  .ctz-step h3{
-    margin:0 0 12px;
-    font-size:1.14rem;
-    line-height:1.25;
-    letter-spacing:-.02em;
-    font-weight:700;
-  }
-
-  .ctz-step p{
-    margin:0;
-    color:#4f4f4f;
-    line-height:1.66;
-    font-size:.97rem;
-  }
-
-  .ctz-results{
-    display:grid;
-    grid-template-columns:repeat(5, minmax(0,1fr));
-    gap:18px;
-  }
-
-  .ctz-result{
-    border-radius:22px;
-    padding:22px 20px;
+  .ctz-simple__box{
     background:#fff;
     border:1px solid rgba(18,18,18,.08);
-    box-shadow:var(--ctz-shadow-soft);
+    border-radius:28px;
+    padding:34px;
+    box-shadow:0 10px 28px rgba(0,0,0,.05);
   }
 
-  .ctz-result__num{
-    display:inline-flex;
-    width:38px;
-    height:38px;
-    border-radius:12px;
-    align-items:center;
-    justify-content:center;
-    margin-bottom:14px;
-    background:rgba(183,242,56,.18);
-    color:#191919;
-    font-weight:800;
-  }
-
-  .ctz-result h3{
-    margin:0 0 10px;
-    font-size:1.06rem;
-    line-height:1.3;
-    font-weight:700;
-    letter-spacing:-.02em;
-  }
-
-  .ctz-result p{
-    margin:0;
-    color:#555;
-    line-height:1.64;
-    font-size:.96rem;
-  }
-
-  .ctz-pill-grid{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:18px;
-  }
-
-  .ctz-pill-card{
-    border-radius:24px;
-    padding:26px 24px;
-    background:rgba(255,255,255,.82);
-    border:1px solid rgba(18,18,18,.08);
-    box-shadow:var(--ctz-shadow-soft);
-  }
-
-  .ctz-pill-card h3{
-    margin:0 0 10px;
-    font-size:1.4rem;
-    line-height:1.15;
-    letter-spacing:-.03em;
-    font-weight:700;
-  }
-
-  .ctz-pill-card p{
-    margin:0 0 16px;
-    color:var(--ctz-muted);
-    line-height:1.68;
-  }
-
-  .ctz-badges{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-  }
-
-  .ctz-badge{
-    display:inline-flex;
-    align-items:center;
-    min-height:38px;
-    padding:0 14px;
-    border-radius:999px;
-    background:#f7f5ef;
-    border:1px solid rgba(18,18,18,.08);
-    color:#202020;
-    font-size:.94rem;
-  }
-
-  .ctz-quote{
-    margin-top:28px;
-    padding:24px 26px;
-    border-radius:24px;
-    background:linear-gradient(135deg, #171717 0%, #232323 100%);
-    color:#fff;
-    box-shadow:var(--ctz-shadow);
-  }
-
-  .ctz-quote p{
-    margin:0;
-    font-size:1.18rem;
-    line-height:1.7;
-    letter-spacing:-.02em;
-  }
-
-  .ctz-quote strong{
-    color:var(--ctz-accent-2);
-  }
-
-  .ctz-cta{
-    position:relative;
-    padding:0 0 94px;
-  }
-
-  .ctz-cta__box{
-    position:relative;
-    overflow:hidden;
-    background:linear-gradient(135deg, #121212 0%, #202020 100%);
-    border-radius:32px;
-    padding:42px;
-    color:#fff;
-    box-shadow:0 28px 64px rgba(0,0,0,.18);
-  }
-
-  .ctz-cta__box::before{
-    content:"";
-    position:absolute;
-    width:340px;
-    height:340px;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(183,242,56,.22) 0%, rgba(183,242,56,0) 72%);
-    top:-120px;
-    right:-80px;
-  }
-
-  .ctz-cta__grid{
-    position:relative;
-    z-index:1;
-    display:grid;
-    grid-template-columns:minmax(0,1.2fr) auto;
-    gap:24px;
-    align-items:center;
-  }
-
-  .ctz-cta h2{
-    margin:0 0 12px;
-    font-size:clamp(2rem, 3.4vw, 3.1rem);
-    line-height:1.05;
+  .ctz-simple h2{
+    margin:0 0 14px;
+    font-size:clamp(1.9rem, 3vw, 3rem);
+    line-height:1.08;
     letter-spacing:-.04em;
-    font-weight:700;
   }
 
-  .ctz-cta p{
+  .ctz-simple p{
     margin:0;
-    max-width:62ch;
-    color:rgba(255,255,255,.78);
+    max-width:65ch;
     line-height:1.8;
-    font-size:1.08rem;
+    color:#4f4f4f;
+    font-size:1.05rem;
   }
 
-  .ctz-reveal{
-    opacity:0;
-    transform:translateY(28px);
-    transition:opacity .7s ease, transform .7s ease;
-  }
-
-  .ctz-reveal.is-visible{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-  @media (max-width: 1180px){
-    .ctz-grid-4{ grid-template-columns:repeat(2, minmax(0,1fr)); }
-    .ctz-steps{ grid-template-columns:repeat(2, minmax(0,1fr)); }
-    .ctz-results{ grid-template-columns:repeat(3, minmax(0,1fr)); }
-
-    .ctz-orbit-layout{
-      grid-template-columns:minmax(150px, 1fr) minmax(230px, 300px) minmax(150px, 1fr);
-      gap:16px;
+  @media (max-width: 980px){
+    .ctz-hero__grid{
+      grid-template-columns:1fr;
     }
 
-    .ctz-floating-card{
-      max-width:
+    .ctz-orbit-layout{
+      width:min(100%, 560px);
+      grid-template-columns:1fr 1fr;
+      grid-template-rows:auto auto auto auto;
+      grid-template-areas:
+        "top top"
+        "center center"
+        "left right"
+        "bottom bottom";
+      gap:16px;
+    }
+  }
+
+  @media (max-width: 720px){
+    .ctz-container{
+      width:min(100% - 24px, 1180px);
+    }
+
+    .ctz-hero{
+      padding:34px 0 48px;
+    }
+
+    .ctz-hero h1{
+      max-width:100%;
+      font-size:2.4rem;
+    }
+
+    .ctz-hero__visual{
+      min-height:auto;
+      margin-top:12px;
+    }
+
+    .ctz-orbit-layout{
+      width:100%;
+      grid-template-columns:1fr;
+      grid-template-rows:auto auto auto auto auto;
+      grid-template-areas:
+        "top"
+        "center"
+        "left"
+        "right"
+        "bottom";
+      gap:14px;
+    }
+
+    .ctz-orbit{
+      width:min(100%, 260px);
+    }
+
+    .ctz-orbit__core{
+      width:170px;
+      height:170px;
+      padding:18px;
+    }
+
+    .ctz-orbit__core strong{
+      font-size:1.15rem;
+    }
+
+    .ctz-actions{
+      flex-direction:column;
+      align-items:stretch;
+    }
+
+    .ctz-btn{
+      width:100%;
+    }
+
+    .ctz-simple__box{
+      padding:24px;
+    }
+  }
+</style>
+
+<div class="ctz-page">
+  <section class="ctz-hero">
+    <div class="ctz-container ctz-hero__grid">
+      <div>
+        <div class="ctz-kicker">Consultoria Têxtil</div>
+        <h1>Critério técnico para estabilizar e decidir melhor.</h1>
+        <p>
+          A Stegie entra onde a malharia precisa de mais leitura, menos ruído e uma direção prática de execução.
+          A consultoria organiza prioridades, fecha variáveis críticas, reduz subjetividade e fortalece a previsibilidade do processo.
+        </p>
+
+        <div class="ctz-actions">
+          <a href="/contato" class="ctz-btn ctz-btn--primary">Agendar diagnóstico</a>
+          <a href="/servicos" class="ctz-btn ctz-btn--ghost">Voltar aos serviços</a>
+        </div>
+      </div>
+
+      <div class="ctz-hero__visual">
+        <div class="ctz-orbit-layout">
+          <div class="ctz-floating-card ctz-floating-card--a">
+            <small>01</small>
+            <strong>Leitura do cenário e dos desvios críticos.</strong>
+          </div>
+
+          <div class="ctz-floating-card ctz-floating-card--b">
+            <small>02</small>
+            <strong>Critérios objetivos para decidir melhor.</strong>
+          </div>
+
+          <div class="ctz-orbit">
+            <div class="ctz-orbit__ring ctz-orbit__ring--1"></div>
+            <div class="ctz-orbit__ring ctz-orbit__ring--2"></div>
+            <div class="ctz-orbit__ring ctz-orbit__ring--3"></div>
+
+            <div class="ctz-orbit__core">
+              <span>Consultoria aplicada</span>
+              <strong>Diagnóstico + prioridade + direção técnica</strong>
+            </div>
+          </div>
+
+          <div class="ctz-floating-card ctz-floating-card--c">
+            <small>03</small>
+            <strong>Plano de prioridade com sequência prática.</strong>
+          </div>
+
+          <div class="ctz-floating-card ctz-floating-card--d">
+            <small>04</small>
+            <strong>Sustentação para reduzir recaída e ruído operacional.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ctz-simple">
+    <div class="ctz-container">
+      <div class="ctz-simple__box">
+        <h2>Leitura técnica com prioridade clara.</h2>
+        <p>
+          Esta versão foi reduzida para garantir que a página abra corretamente. Depois que ela estiver funcionando,
+          seguimos para a próxima etapa e refinamos o restante da estrutura da página com segurança.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
