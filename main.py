@@ -837,6 +837,10 @@ def logout():
 def pericia_tecnica_textil():
     return render_template("pericia_tecnica_textil.html")
 
+@app.route("/solucoes-vitrine")
+def solucoes_vitrine():
+    return render_template("solucoes_vitrine.html")
+
 # -----------------------------
 # Error handlers
 # -----------------------------
