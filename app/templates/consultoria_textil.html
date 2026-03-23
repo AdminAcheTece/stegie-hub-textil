@@ -348,6 +348,14 @@
     line-height:1.36;
   }
 
+  /* limpa qualquer linha/conector residual do bloco do infográfico */
+  .ctz-orbit::after,
+  .ctz-floating-grid::before,
+  .ctz-floating-grid::after{
+    content:none !important;
+    display:none !important;
+  }
+  
   .ctz-section-nav{
     position:sticky;
     top:0;
@@ -829,6 +837,7 @@
     line-height:1.05;
     letter-spacing:-.04em;
     font-weight:700;
+    color:#8E8420;
   }
 
   .ctz-cta p{
