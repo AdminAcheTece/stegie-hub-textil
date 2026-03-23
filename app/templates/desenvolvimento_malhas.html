@@ -185,41 +185,11 @@
     justify-items:center;
     align-items:start;
     gap:24px;
-    --ctx-connector-v-top:322px;
-    --ctx-connector-v-height:30px;
-    --ctx-connector-h-top:368px;
   }
-
-  .ctx-hero-diagram::before{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:var(--ctx-connector-v-top);
-    transform:translateX(-50%);
-    width:1px;
-    height:var(--ctx-connector-v-height);
-    background:linear-gradient(180deg, rgba(142,132,32,.28) 0%, rgba(142,132,32,.08) 100%);
-    z-index:0;
-    pointer-events:none;
-  }
-
+  
+  .ctx-hero-diagram::before,
   .ctx-hero-diagram::after{
-    content:"";
-    position:absolute;
-    left:16%;
-    right:16%;
-    top:var(--ctx-connector-h-top);
-    height:1px;
-    background:linear-gradient(
-      90deg,
-      rgba(142,132,32,0) 0%,
-      rgba(142,132,32,.12) 18%,
-      rgba(142,132,32,.26) 50%,
-      rgba(142,132,32,.12) 82%,
-      rgba(142,132,32,0) 100%
-    );
-    z-index:0;
-    pointer-events:none;
+    content:none;
   }
 
   .ctx-orbit{
@@ -299,12 +269,39 @@
     display:grid;
     grid-template-columns:repeat(2, minmax(0,1fr));
     gap:18px;
-    padding-top:26px;
+    padding-top:34px;
   }
-
-  .ctx-floating-grid::before,
+  
+  .ctx-floating-grid::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    transform:translateX(-50%);
+    width:1px;
+    height:22px;
+    background:linear-gradient(180deg, rgba(142,132,32,.24) 0%, rgba(142,132,32,.08) 100%);
+    z-index:0;
+    pointer-events:none;
+  }
+  
   .ctx-floating-grid::after{
-    display:none;
+    content:"";
+    position:absolute;
+    left:14%;
+    right:14%;
+    top:22px;
+    height:1px;
+    background:linear-gradient(
+      90deg,
+      rgba(142,132,32,0) 0%,
+      rgba(142,132,32,.10) 18%,
+      rgba(142,132,32,.22) 50%,
+      rgba(142,132,32,.10) 82%,
+      rgba(142,132,32,0) 100%
+    );
+    z-index:0;
+    pointer-events:none;
   }
 
   .ctx-floating-card{
@@ -859,6 +856,15 @@
     font-size:1.08rem;
   }
 
+  .ctx-cta .ctx-kicker{
+    color:var(--ctx-accent-2);
+  }
+
+  .ctx-cta .ctx-kicker::before{
+    background:var(--ctx-accent-2);
+    box-shadow:0 0 0 5px rgba(183,242,56,.14);
+  }
+  
   .ctx-reveal{
     opacity:0;
     transform:translateY(28px);
@@ -967,9 +973,6 @@
 
     .ctx-hero-diagram{
       gap:18px;
-      --ctx-connector-v-top:226px;
-      --ctx-connector-v-height:20px;
-      --ctx-connector-h-top:258px;
     }
 
     .ctx-orbit{
@@ -1004,10 +1007,14 @@
     .ctx-floating-grid{
       grid-template-columns:1fr;
       gap:14px;
-      padding-top:18px;
+      padding-top:20px;
     }
-
-    .ctx-hero-diagram::after{
+    
+    .ctx-floating-grid::before{
+      height:16px;
+    }
+    
+    .ctx-floating-grid::after{
       display:none;
     }
 
