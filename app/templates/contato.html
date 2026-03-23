@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}STEGIE | Fale Conosco{% endblock %}
-{% block meta_description %}Entre em contato com a STEGIE para consultoria, parceria, carreira ou outros assuntos.{% endblock %}
+{% block meta_description %}Entre em contato com a STEGIE para consultoria, perícia técnica, parceria, carreira ou outros assuntos.{% endblock %}
 
 {% block content %}
 
@@ -13,6 +13,7 @@
 
     <div class="st-contact-tabs" data-reveal>
       <button type="button" class="st-contact-tab" data-tab="Consultoria">Consultoria</button>
+      <button type="button" class="st-contact-tab" data-tab="Perícia Técnica">Perícia Técnica</button>
       <button type="button" class="st-contact-tab" data-tab="Parceria">Parceria</button>
       <button type="button" class="st-contact-tab" data-tab="Carreira">Carreira</button>
       <button type="button" class="st-contact-tab is-active" data-tab="Outros Assuntos">Outros Assuntos</button>
@@ -42,12 +43,12 @@
         </div>
 
         <div class="st-field">
-          <label for="empresa">Empresa / Malharia</label>
+          <label for="empresa">Empresa / Malharia / Escritório</label>
           <input id="empresa" name="empresa" type="text">
         </div>
 
         <div class="st-field st-field--full">
-          <label for="mensagem" class="sr-only">Como podemos ajudá-lo?</label>
+          <label for="mensagem" class="sr-only" id="stMensagemLabel">Como podemos ajudá-lo?</label>
           <textarea id="mensagem" name="mensagem" rows="3" placeholder="Como podemos ajudá-lo?"></textarea>
         </div>
       </div>
@@ -100,12 +101,12 @@
   }
 
   .st-contact-tabs{
-    width:min(100%, 900px);
+    width:min(100%, 1040px);
     margin:0 auto 34px;
     border:1.4px solid var(--st-olive);
     border-radius:999px;
     display:grid;
-    grid-template-columns:repeat(4, 1fr);
+    grid-template-columns:repeat(5, 1fr);
     overflow:hidden;
     background:transparent;
   }
@@ -269,7 +270,7 @@
     border:0 !important;
   }
 
-  @media (max-width: 900px){
+  @media (max-width: 980px){
     .st-contact-page{
       padding:56px 0 28px;
     }
@@ -279,7 +280,7 @@
     }
 
     .st-contact-tabs{
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:repeat(3, 1fr);
       border-radius:28px;
     }
 
@@ -314,7 +315,23 @@
     }
   }
 
-  @media (max-width: 560px){
+  @media (max-width: 640px){
+    .st-contact-tabs{
+      grid-template-columns:1fr 1fr;
+      border-radius:24px;
+    }
+
+    .st-contact-copy{
+      margin-bottom:18px;
+      font-size:15px;
+    }
+
+    .st-contact-grid{
+      gap:22px;
+    }
+  }
+
+  @media (max-width: 420px){
     .st-contact-header{
       margin-bottom:28px;
     }
@@ -331,15 +348,6 @@
     .st-contact-tab{
       min-height:52px;
     }
-
-    .st-contact-copy{
-      margin-bottom:18px;
-      font-size:15px;
-    }
-
-    .st-contact-grid{
-      gap:22px;
-    }
   }
 </style>
 
@@ -349,15 +357,53 @@
     const assuntoInput = document.getElementById('stContactAssunto');
     const categoriaInput = document.getElementById('stContactCategoria');
     const copyBox = document.getElementById('stContactCopy');
+    const mensagem = document.getElementById('mensagem');
+    const mensagemLabel = document.getElementById('stMensagemLabel');
 
-    const texts = {
-      "Consultoria": "Gostaria de receber uma proposta comercial? Receba o contato de um dos nossos especialistas e saiba como podemos lhe ajudar. Abaixo, conte-nos um pouco mais sobre você e o seu desafio.",
-      "Parceria": "Se você deseja estabelecer uma parceria com a Stegie, envie-nos as informações abaixo para avaliarmos a melhor forma de conexão.",
-      "Carreira": "Se você deseja fazer parte da Stegie em oportunidades futuras, envie-nos as informações abaixo.",
-      "Outros Assuntos": ""
+    const configs = {
+      "Consultoria": {
+        copy: "Gostaria de receber uma proposta comercial? Receba o contato de um dos nossos especialistas e saiba como podemos lhe ajudar. Abaixo, conte-nos um pouco mais sobre você e o seu desafio.",
+        placeholder: "Como podemos ajudá-lo?",
+        label: "Como podemos ajudá-lo?"
+      },
+      "Perícia Técnica": {
+        copy: "Se você precisa de apoio em perícia técnica têxtil, análise de laudos, investigação de causa raiz, avaliação de fio, malha ou processo, envie abaixo um resumo do caso para direcionarmos o atendimento com mais precisão.",
+        placeholder: "Descreva brevemente o caso, o material envolvido, o problema identificado e o tipo de apoio técnico desejado.",
+        label: "Descreva brevemente o caso, o material envolvido, o problema identificado e o tipo de apoio técnico desejado."
+      },
+      "Parceria": {
+        copy: "Se você deseja estabelecer uma parceria com a Stegie, envie-nos as informações abaixo para avaliarmos a melhor forma de conexão.",
+        placeholder: "Conte-nos brevemente sobre a proposta de parceria.",
+        label: "Conte-nos brevemente sobre a proposta de parceria."
+      },
+      "Carreira": {
+        copy: "Se você deseja fazer parte da Stegie em oportunidades futuras, envie-nos as informações abaixo.",
+        placeholder: "Conte-nos brevemente sobre seu perfil, experiência e interesse.",
+        label: "Conte-nos brevemente sobre seu perfil, experiência e interesse."
+      },
+      "Outros Assuntos": {
+        copy: "",
+        placeholder: "Como podemos ajudá-lo?",
+        label: "Como podemos ajudá-lo?"
+      }
     };
 
+    function normalize(value) {
+      return (value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+        .toLowerCase();
+    }
+
+    function findMatchingTab(value) {
+      const normalized = normalize(value);
+      return Object.keys(configs).find((key) => normalize(key) === normalized);
+    }
+
     function activateTab(tabName) {
+      const config = configs[tabName] || configs["Outros Assuntos"];
+
       tabs.forEach((tab) => {
         const isActive = tab.dataset.tab === tabName;
         tab.classList.toggle('is-active', isActive);
@@ -366,7 +412,9 @@
 
       assuntoInput.value = tabName;
       categoriaInput.value = tabName;
-      copyBox.innerHTML = texts[tabName] ? `<p>${texts[tabName]}</p>` : '';
+      copyBox.innerHTML = config.copy ? `<p>${config.copy}</p>` : '';
+      mensagem.placeholder = config.placeholder;
+      mensagemLabel.textContent = config.label;
     }
 
     tabs.forEach((tab) => {
@@ -375,7 +423,13 @@
       });
     });
 
-    activateTab('Outros Assuntos');
+    const params = new URLSearchParams(window.location.search);
+    const requestedTab =
+      findMatchingTab(params.get('assunto')) ||
+      findMatchingTab(params.get('categoria')) ||
+      findMatchingTab(window.location.hash.replace('#', ''));
+
+    activateTab(requestedTab || 'Outros Assuntos');
   })();
 </script>
 
