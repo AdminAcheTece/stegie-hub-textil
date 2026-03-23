@@ -833,6 +833,10 @@ def logout():
     flash("Você saiu da sua conta.", "success")
     return redirect(url_for("home"))
 
+@app.route("/pericia-tecnica-textil")
+def pericia_tecnica_textil():
+    return render_template("pericia_tecnica_textil.html")
+
 # -----------------------------
 # Error handlers
 # -----------------------------
