@@ -249,23 +249,37 @@
 
   @media (max-width: 720px){
     .ctz-container{
-      width:min(100% - 24px, 1180px);
+      width:calc(100% - 28px);
     }
-
+  
     .ctz-hero{
-      padding:34px 0 48px;
+      padding:30px 0 70px;
     }
-
+  
+    .ctz-hero__grid{
+      grid-template-columns:1fr;
+      gap:28px;
+      align-items:start;
+    }
+  
     .ctz-hero h1{
       max-width:100%;
-      font-size:2.4rem;
+      font-size:2.35rem;
+      line-height:1.04;
+      margin:16px 0 16px;
     }
-
+  
+    .ctz-hero p{
+      font-size:1rem;
+      line-height:1.7;
+    }
+  
     .ctz-hero__visual{
       min-height:auto;
-      margin-top:12px;
+      margin-top:0;
+      padding-top:10px;
     }
-
+  
     .ctz-orbit-layout{
       width:100%;
       grid-template-columns:1fr;
@@ -276,34 +290,79 @@
         "left"
         "right"
         "bottom";
-      gap:14px;
+      gap:18px;
+      justify-items:center;
+      align-items:center;
     }
-
+  
     .ctz-orbit{
-      width:min(100%, 260px);
+      width:240px;
     }
-
+  
     .ctz-orbit__core{
-      width:170px;
-      height:170px;
-      padding:18px;
+      width:160px;
+      height:160px;
+      padding:16px;
     }
-
+  
+    .ctz-orbit__core span{
+      font-size:.78rem;
+      margin-bottom:8px;
+    }
+  
     .ctz-orbit__core strong{
-      font-size:1.15rem;
+      font-size:1.08rem;
+      line-height:1.15;
     }
-
+  
+    .ctz-floating-card{
+      width:100%;
+      max-width:340px;
+      padding:18px 18px;
+      border-radius:20px;
+      margin:0 auto;
+    }
+  
+    .ctz-floating-card small{
+      margin-bottom:8px;
+      font-size:.9rem;
+    }
+  
+    .ctz-floating-card strong{
+      font-size:1rem;
+      line-height:1.35;
+    }
+  
+    .ctz-floating-card--a,
+    .ctz-floating-card--b,
+    .ctz-floating-card--c,
+    .ctz-floating-card--d{
+      justify-self:center;
+      max-width:340px;
+    }
+  
     .ctz-actions{
       flex-direction:column;
       align-items:stretch;
+      gap:12px;
     }
-
+  
     .ctz-btn{
       width:100%;
     }
-
+  
+    .ctz-simple{
+      padding:0 0 60px;
+    }
+  
     .ctz-simple__box{
-      padding:24px;
+      padding:24px 20px;
+      border-radius:24px;
+    }
+  
+    .ctz-simple h2{
+      font-size:1.8rem;
+      line-height:1.08;
     }
   }
 </style>
