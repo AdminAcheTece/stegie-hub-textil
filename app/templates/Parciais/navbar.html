@@ -2,7 +2,6 @@
 <nav class="st-fnav" aria-label="Navegação principal">
   <div class="st-fnav__inner">
     <a class="st-fnav__brand" href="{{ url_for('home') }}" aria-label="Ir para a home">
-      {# Logo opcional no header (recomendado ser branco) #}
       <img
         class="st-fnav__logo"
         src="{{ url_for('static', filename='img/logo-stegie-branca.png') }}"
@@ -15,9 +14,32 @@
 
     <!-- Menu desktop -->
     <div class="st-fnav__menu" role="menubar" aria-label="Menu">
-      <a class="st-fnav__item" role="menuitem" href="{{ url_for('servicos') }}">Soluções</a>
-      <a class="st-fnav__item" role="menuitem" href="{{ url_for('conteudos') }}">Conteúdos</a>
-      <a class="st-fnav__item" role="menuitem" href="{{ url_for('quem_somos') }}">Sobre</a>
+      <button
+        class="st-fnav__item"
+        type="button"
+        data-mega-trigger="solucoes"
+        aria-expanded="false"
+        aria-controls="mega-solucoes">
+        Soluções
+      </button>
+
+      <button
+        class="st-fnav__item"
+        type="button"
+        data-mega-trigger="conteudos"
+        aria-expanded="false"
+        aria-controls="mega-conteudos">
+        Conteúdos
+      </button>
+
+      <button
+        class="st-fnav__item"
+        type="button"
+        data-mega-trigger="sobre"
+        aria-expanded="false"
+        aria-controls="mega-sobre">
+        Sobre
+      </button>
     </div>
 
     <!-- Lado direito -->
@@ -37,11 +59,95 @@
 
   <div class="st-fnav__accent" aria-hidden="true"></div>
 
-  <!-- Menu mobile (fica ESCONDIDO por padrão via atributo hidden) -->
+  <!-- Menu mobile -->
   <div class="st-fnav__mobile" id="fnavMobile" hidden>
-    <a href="{{ url_for('servicos') }}">Soluções</a>
-    <a href="{{ url_for('conteudos') }}">Conteúdos</a>
-    <a href="{{ url_for('quem_somos') }}">Sobre</a>
-    <a href="{{ url_for('contato') }}">Contato</a>
+    <div class="st-fnav__mobile-group">
+      <div class="st-fnav__mobile-heading" style="color:#fff; font-weight:700; font-size:1.02rem; margin:0 0 10px;">
+        Soluções
+      </div>
+
+      <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:0 0 6px;">
+        Consultoria e Especialidades
+      </div>
+      <a href="{{ url_for('consultoria_textil') }}">Consultoria Têxtil (Malharia)</a>
+      <a href="{{ url_for('desenvolvimento_malhas') }}">Desenvolvimento de Malhas</a>
+      <a href="/pericia-tecnica-textil">Perícia Técnica Têxtil</a>
+
+      <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 6px;">
+        Educação e Materiais Técnicos
+      </div>
+      <a href="{{ url_for('educacao') }}">Educação Têxtil</a>
+      <a href="{{ url_for('fichas_tecnicas_malharia') }}">Fichas Técnicas de Malharia</a>
+
+      <div class="st-fnav__mobile-subheading" style="color:#8E8420; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 6px;">
+        Plataformas e Tecnologia
+      </div>
+      <a href="{{ url_for('agente_tecnico_textil_ia') }}">Agente Técnico Têxtil com IA</a>
+      <a href="https://www.achetece.com.br/" target="_blank" rel="noopener noreferrer">AcheTece ↗</a>
+    </div>
+
+    <hr style="opacity:.25; margin:14px 0;">
+
+    <div class="st-fnav__mobile-group">
+      <div class="st-fnav__mobile-heading" style="color:#fff; font-weight:700; font-size:1.02rem; margin:0 0 10px;">
+        Conteúdos
+      </div>
+      <a href="{{ url_for('conteudos') }}">Conteúdos</a>
+    </div>
+
+    <hr style="opacity:.25; margin:14px 0;">
+
+    <div class="st-fnav__mobile-group">
+      <div class="st-fnav__mobile-heading" style="color:#fff; font-weight:700; font-size:1.02rem; margin:0 0 10px;">
+        Sobre
+      </div>
+      <a href="{{ url_for('quem_somos') }}">Quem somos</a>
+      <a href="{{ url_for('contato') }}">Contato</a>
+    </div>
   </div>
 </nav>
+
+<!-- Mega menu: Soluções -->
+<section class="st-mega" id="mega-solucoes" aria-label="Soluções">
+  <div class="st-mega__inner st-mega__cols-3">
+    <div class="st-mega__col">
+      <div class="st-mega__title">Consultoria e Especialidades</div>
+      <a class="st-mega__item" href="{{ url_for('consultoria_textil') }}">Consultoria Têxtil (Malharia)</a>
+      <a class="st-mega__item" href="{{ url_for('desenvolvimento_malhas') }}">Desenvolvimento de Malhas</a>
+      <a class="st-mega__item" href="/pericia-tecnica-textil">Perícia Técnica Têxtil</a>
+    </div>
+
+    <div class="st-mega__col">
+      <div class="st-mega__title">Educação e Materiais Técnicos</div>
+      <a class="st-mega__item" href="{{ url_for('educacao') }}">Educação Têxtil</a>
+      <a class="st-mega__item" href="{{ url_for('fichas_tecnicas_malharia') }}">Fichas Técnicas de Malharia</a>
+    </div>
+
+    <div class="st-mega__col">
+      <div class="st-mega__title">Plataformas e Tecnologia</div>
+      <a class="st-mega__item" href="{{ url_for('agente_tecnico_textil_ia') }}">Agente Técnico Têxtil com IA</a>
+      <a class="st-mega__item" href="https://www.achetece.com.br/" target="_blank" rel="noopener noreferrer">AcheTece ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- Mega menu: Conteúdos -->
+<section class="st-mega" id="mega-conteudos" aria-label="Conteúdos">
+  <div class="st-mega__inner st-mega__cols-1">
+    <div class="st-mega__col">
+      <div class="st-mega__title">Conteúdos</div>
+      <a class="st-mega__item" href="{{ url_for('conteudos') }}">Acessar conteúdos</a>
+    </div>
+  </div>
+</section>
+
+<!-- Mega menu: Sobre -->
+<section class="st-mega" id="mega-sobre" aria-label="Sobre">
+  <div class="st-mega__inner st-mega__cols-1">
+    <div class="st-mega__col">
+      <div class="st-mega__title">Institucional</div>
+      <a class="st-mega__item" href="{{ url_for('quem_somos') }}">Quem somos</a>
+      <a class="st-mega__item" href="{{ url_for('contato') }}">Contato</a>
+    </div>
+  </div>
+</section>
