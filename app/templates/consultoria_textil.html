@@ -169,32 +169,58 @@
   }
 
   .ctz-hero__visual{
-    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     min-height:560px;
   }
-
+  
+  .ctz-hero-diagram{
+    width:min(100%, 620px);
+    display:grid;
+    gap:22px;
+    align-items:center;
+  }
+  
   .ctz-orbit{
-    position:absolute;
-    inset:0;
+    position:relative;
+    min-height:330px;
     display:grid;
     place-items:center;
+    isolation:isolate;
   }
-
+  
+  .ctz-orbit::before{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:520px;
+    height:520px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(183,242,56,.08) 0%, rgba(183,242,56,0) 70%);
+    z-index:0;
+  }
+  
   .ctz-orbit__ring{
     position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
     border-radius:999px;
     border:1px solid rgba(18,18,18,.10);
   }
-
+  
   .ctz-orbit__ring--1{ width:460px; height:460px; }
-  .ctz-orbit__ring--2{ width:360px; height:360px; }
-  .ctz-orbit__ring--3{ width:250px; height:250px; }
-
+  .ctz-orbit__ring--2{ width:350px; height:350px; }
+  .ctz-orbit__ring--3{ width:240px; height:240px; }
+  
   .ctz-orbit__core{
     position:relative;
     z-index:2;
-    width:250px;
-    height:250px;
+    width:240px;
+    height:240px;
     border-radius:50%;
     background:linear-gradient(160deg, #121212 0%, #1e1e1e 100%);
     color:#fff;
@@ -203,9 +229,9 @@
     flex-direction:column;
     justify-content:center;
     text-align:center;
-    padding:28px;
+    padding:26px;
   }
-
+  
   .ctz-orbit__core span{
     display:block;
     color:rgba(255,255,255,.7);
@@ -214,50 +240,67 @@
     letter-spacing:.04em;
     text-transform:uppercase;
   }
-
+  
   .ctz-orbit__core strong{
-    font-size:1.7rem;
-    line-height:1.15;
+    font-size:1.58rem;
+    line-height:1.14;
     font-weight:700;
     letter-spacing:-.03em;
   }
-
+  
+  .ctz-floating-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:16px;
+  }
+  
   .ctz-floating-card{
-    position:absolute;
-    z-index:3;
-    min-width:170px;
-    padding:16px 18px;
-    border-radius:18px;
-    background:rgba(255,255,255,.88);
+    position:relative;
+    z-index:2;
+    min-width:0;
+    width:100%;
+    min-height:128px;
+    padding:18px 18px 20px;
+    border-radius:20px;
+    background:rgba(255,255,255,.9);
     border:1px solid rgba(18,18,18,.08);
     box-shadow:var(--ctz-shadow-soft);
     backdrop-filter:blur(16px);
-    animation:ctzFloat 6.5s ease-in-out infinite;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
   }
-
+  
+  .ctz-floating-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--ctz-shadow);
+    border-color:rgba(142,132,32,.18);
+  }
+  
+  .ctz-floating-card::before{
+    content:"";
+    position:absolute;
+    inset:0 auto auto 0;
+    width:100%;
+    height:4px;
+    border-radius:20px 20px 0 0;
+    background:linear-gradient(90deg, var(--ctz-accent-2), var(--ctz-accent));
+  }
+  
   .ctz-floating-card small{
     display:block;
-    margin-bottom:6px;
+    margin-bottom:8px;
     color:var(--ctz-accent);
     font-weight:700;
     letter-spacing:.03em;
     text-transform:uppercase;
   }
-
+  
   .ctz-floating-card strong{
     display:block;
     font-size:1.02rem;
-    line-height:1.35;
-  }
-
-  .ctz-floating-card--a{ top:36px; right:18px; animation-delay:0s; }
-  .ctz-floating-card--b{ top:168px; left:6px; animation-delay:1s; }
-  .ctz-floating-card--c{ right:6px; bottom:184px; animation-delay:2.1s; }
-  .ctz-floating-card--d{ left:44px; bottom:52px; animation-delay:2.9s; }
-
-  @keyframes ctzFloat{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(-10px); }
+    line-height:1.38;
   }
 
   .ctz-section-nav{
@@ -762,8 +805,45 @@
     .ctz-cta__grid{
       grid-template-columns:1fr;
     }
-
-    .ctz-hero__visual{ min-height:460px; }
+  
+    .ctz-hero__visual{
+      min-height:auto;
+      margin-top:10px;
+    }
+  
+    .ctz-hero-diagram{
+      width:min(100%, 560px);
+      gap:18px;
+    }
+  
+    .ctz-orbit{
+      min-height:290px;
+    }
+  
+    .ctz-orbit::before{
+      width:420px;
+      height:420px;
+    }
+  
+    .ctz-orbit__ring--1{ width:390px; height:390px; }
+    .ctz-orbit__ring--2{ width:300px; height:300px; }
+    .ctz-orbit__ring--3{ width:210px; height:210px; }
+  
+    .ctz-orbit__core{
+      width:210px;
+      height:210px;
+      padding:22px;
+    }
+  
+    .ctz-orbit__core strong{
+      font-size:1.34rem;
+    }
+  
+    .ctz-floating-grid{
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:14px;
+    }
+  
     .ctz-grid-3{ grid-template-columns:1fr; }
     .ctz-pill-grid{ grid-template-columns:1fr; }
     .ctz-results{ grid-template-columns:repeat(2, minmax(0,1fr)); }
@@ -773,95 +853,116 @@
     .ctz-container{
       width:min(100% - 24px, 1180px);
     }
-
+  
     .ctz-hero{
       padding:34px 0 24px;
     }
-
+  
     .ctz-hero h1{
       max-width:100%;
       font-size:2.4rem;
     }
-
+  
     .ctz-hero__lead{
       font-size:1.02rem;
       line-height:1.75;
     }
-
+  
     .ctz-hero__visual{
-      min-height:420px;
-      margin-top:10px;
+      min-height:auto;
+      margin-top:14px;
     }
-
-    .ctz-orbit__ring--1{ width:330px; height:330px; }
-    .ctz-orbit__ring--2{ width:250px; height:250px; }
-    .ctz-orbit__ring--3{ width:180px; height:180px; }
-
+  
+    .ctz-hero-diagram{
+      gap:14px;
+    }
+  
+    .ctz-orbit{
+      min-height:240px;
+    }
+  
+    .ctz-orbit::before{
+      width:300px;
+      height:300px;
+    }
+  
+    .ctz-orbit__ring--1{ width:280px; height:280px; }
+    .ctz-orbit__ring--2{ width:210px; height:210px; }
+    .ctz-orbit__ring--3{ width:150px; height:150px; }
+  
     .ctz-orbit__core{
-      width:180px;
-      height:180px;
-      padding:18px;
+      width:150px;
+      height:150px;
+      padding:16px;
     }
-
+  
+    .ctz-orbit__core span{
+      font-size:.76rem;
+      margin-bottom:8px;
+    }
+  
     .ctz-orbit__core strong{
-      font-size:1.2rem;
+      font-size:1.04rem;
+      line-height:1.15;
     }
-
+  
+    .ctz-floating-grid{
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+  
     .ctz-floating-card{
-      min-width:140px;
-      padding:12px 14px;
+      min-height:auto;
+      padding:16px 16px 18px;
+      border-radius:18px;
     }
-
+  
     .ctz-floating-card strong{
-      font-size:.92rem;
+      font-size:.96rem;
+      line-height:1.36;
     }
-
-    .ctz-floating-card--a{ top:6px; right:0; }
-    .ctz-floating-card--b{ top:140px; left:0; }
-    .ctz-floating-card--c{ right:0; bottom:130px; }
-    .ctz-floating-card--d{ left:20px; bottom:12px; }
-
+  
     .ctz-block{
       padding:62px 0;
     }
-
+  
     .ctz-panel,
     .ctz-side-card__body,
     .ctz-pill-card,
     .ctz-cta__box{
       padding:24px;
     }
-
+  
     .ctz-topline{
       display:block;
       margin-bottom:20px;
     }
-
+  
     .ctz-topline p{
       margin-top:10px;
     }
-
+  
     .ctz-grid-4,
     .ctz-steps,
     .ctz-results,
     .ctz-mini-metrics{
       grid-template-columns:1fr;
     }
-
+  
     .ctz-section-nav a{
       height:58px;
       font-size:.95rem;
     }
-
+  
     .ctz-actions{
       flex-direction:column;
       align-items:stretch;
     }
-
+  
     .ctz-btn{
       width:100%;
     }
-
+  
     .ctz-cta{
       padding-bottom:70px;
     }
@@ -910,35 +1011,39 @@
       </div>
 
       <div class="ctz-hero__visual ctz-reveal">
-        <div class="ctz-orbit">
-          <div class="ctz-orbit__ring ctz-orbit__ring--1"></div>
-          <div class="ctz-orbit__ring ctz-orbit__ring--2"></div>
-          <div class="ctz-orbit__ring ctz-orbit__ring--3"></div>
-
-          <div class="ctz-orbit__core">
-            <span>Consultoria aplicada</span>
-            <strong>Diagnóstico + prioridade + direção técnica</strong>
+        <div class="ctz-hero-diagram">
+          <div class="ctz-orbit">
+            <div class="ctz-orbit__ring ctz-orbit__ring--1"></div>
+            <div class="ctz-orbit__ring ctz-orbit__ring--2"></div>
+            <div class="ctz-orbit__ring ctz-orbit__ring--3"></div>
+      
+            <div class="ctz-orbit__core">
+              <span>Consultoria aplicada</span>
+              <strong>Diagnóstico + prioridade + direção técnica</strong>
+            </div>
           </div>
-        </div>
-
-        <div class="ctz-floating-card ctz-floating-card--a">
-          <small>01</small>
-          <strong>Leitura do cenário e dos desvios críticos.</strong>
-        </div>
-
-        <div class="ctz-floating-card ctz-floating-card--b">
-          <small>02</small>
-          <strong>Critérios objetivos para decidir melhor.</strong>
-        </div>
-
-        <div class="ctz-floating-card ctz-floating-card--c">
-          <small>03</small>
-          <strong>Plano de prioridade com sequência prática.</strong>
-        </div>
-
-        <div class="ctz-floating-card ctz-floating-card--d">
-          <small>04</small>
-          <strong>Sustentação para reduzir recaída e ruído operacional.</strong>
+      
+          <div class="ctz-floating-grid">
+            <div class="ctz-floating-card">
+              <small>01</small>
+              <strong>Leitura do cenário e dos desvios críticos.</strong>
+            </div>
+      
+            <div class="ctz-floating-card">
+              <small>02</small>
+              <strong>Critérios objetivos para decidir melhor.</strong>
+            </div>
+      
+            <div class="ctz-floating-card">
+              <small>03</small>
+              <strong>Plano de prioridade com sequência prática.</strong>
+            </div>
+      
+            <div class="ctz-floating-card">
+              <small>04</small>
+              <strong>Sustentação para reduzir recaída e ruído operacional.</strong>
+            </div>
+          </div>
         </div>
       </div>
     </div>
