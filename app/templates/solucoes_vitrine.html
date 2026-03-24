@@ -4,11 +4,6 @@
 
 {% block content %}
 
-{# =========================
-   AJUSTE ESTES LINKS
-   se alguma rota do seu site
-   estiver diferente.
-   ========================= #}
 {% set l_consultoria = '/consultoria-textil' %}
 {% set l_desenvolvimento = '/desenvolvimento-de-malhas' %}
 {% set l_pericia = '/pericia-tecnica-textil' %}
@@ -17,52 +12,33 @@
 {% set l_agente = '/agente-tecnico-textil-ia' %}
 {% set l_achetece = 'https://achetece.replit.app' %}
 
-{# =========================
-   SUAS FOTOS ORIGINAIS
-   salvar em static/img/
-   ========================= #}
-{% set foto_01 = url_for('static', filename='img/foto_vandre_01.jpg') %}
-{% set foto_02 = url_for('static', filename='img/foto_vandre_02.jpg') %}
-{% set foto_03 = url_for('static', filename='img/foto_vandre_03.jpg') %}
-{% set foto_04 = url_for('static', filename='img/foto_vandre_04.jpg') %}
-{% set foto_05 = url_for('static', filename='img/foto_vandre_05.jpg') %}
-{% set foto_06 = url_for('static', filename='img/foto_vandre_06.jpg') %}
-{% set foto_07 = url_for('static', filename='img/foto_vandre_07.jpg') %}
-
-{# =========================
-   IMAGENS DE FUNDO DOS CARDS
-   salvar em static/img/cards/
-   ========================= #}
-{% set bg_consultoria = url_for('static', filename='img/bg_consultoria_textil.png') %}
-{% set bg_desenvolvimento = url_for('static', filename='img/bg_desenvolvimento_malhas.png') %}
-{% set bg_pericia = url_for('static', filename='img/bg_pericia_tecnica_textil.png') %}
-{% set bg_educacao = url_for('static', filename='img/bg_educacao_textil.png') %}
-{% set bg_fichas = url_for('static', filename='img/bg_fichas_tecnicas_malharia.png') %}
-{% set bg_agente = url_for('static', filename='img/bg_agente_tecnico_ia.png') %}
-{% set bg_achetece = url_for('static', filename='img/bg_achetece.png') %}
+{# FUNDOS DOS CARDS #}
+{% set bg_consultoria = url_for('static', filename='img/cards/bg_consultoria_textil.png') %}
+{% set bg_desenvolvimento = url_for('static', filename='img/cards/bg_desenvolvimento_malhas.png') %}
+{% set bg_pericia = url_for('static', filename='img/cards/bg_pericia_tecnica_textil.png') %}
+{% set bg_educacao = url_for('static', filename='img/cards/bg_educacao_textil.png') %}
+{% set bg_fichas = url_for('static', filename='img/cards/bg_fichas_tecnicas_malharia.png') %}
+{% set bg_agente = url_for('static', filename='img/cards/bg_agente_tecnico_ia.png') %}
+{% set bg_achetece = url_for('static', filename='img/cards/bg_achetece.png') %}
 
 <style>
-  .sv4-page{
-    --sv4-bg:#050505;
-    --sv4-bg-2:#0b0b0b;
-    --sv4-surface:#101010;
-    --sv4-text:#f7f7f7;
-    --sv4-muted:#d0d0d0;
-    --sv4-line:rgba(255,255,255,.09);
-    --sv4-line-soft:rgba(255,255,255,.05);
-    --sv4-accent:#8E8420;
-    --sv4-accent-2:#B6F34D;
-    --sv4-shadow:0 20px 52px rgba(0,0,0,.34);
-    color:var(--sv4-text);
+  .sv5-page{
+    --sv5-text:#f7f7f7;
+    --sv5-muted:#d3d3d3;
+    --sv5-line:rgba(255,255,255,.09);
+    --sv5-accent:#8E8420;
+    --sv5-accent-2:#B6F34D;
+    --sv5-shadow:0 22px 54px rgba(0,0,0,.34);
+    color:var(--sv5-text);
     background:
-      radial-gradient(circle at 8% 0%, rgba(182,243,77,.07), transparent 18%),
+      radial-gradient(circle at 8% 0%, rgba(182,243,77,.06), transparent 18%),
       radial-gradient(circle at 92% 14%, rgba(142,132,32,.10), transparent 18%),
       linear-gradient(180deg, #040404 0%, #080808 36%, #0a0a0a 100%);
     position:relative;
     overflow:hidden;
   }
 
-  .sv4-page::before{
+  .sv5-page::before{
     content:"";
     position:absolute;
     inset:0;
@@ -71,10 +47,10 @@
       linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
     background-size:34px 34px;
-    mask-image:linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,0));
+    mask-image:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,0));
   }
 
-  .sv4-wrap{
+  .sv5-wrap{
     width:min(1520px, calc(100% - 42px));
     margin:0 auto;
     padding:18px 0 64px;
@@ -82,10 +58,7 @@
     z-index:1;
   }
 
-  /* =========================
-     TOPO
-     ========================= */
-  .sv4-top{
+  .sv5-top{
     display:flex;
     align-items:end;
     justify-content:space-between;
@@ -94,32 +67,32 @@
     margin-bottom:10px;
   }
 
-  .sv4-top__copy{
+  .sv5-top__copy{
     max-width:760px;
   }
 
-  .sv4-top__eyebrow{
+  .sv5-top__eyebrow{
     display:inline-flex;
     align-items:center;
     gap:10px;
     margin:0 0 10px;
-    color:var(--sv4-accent-2);
+    color:var(--sv5-accent-2);
     font-size:.80rem;
     font-weight:800;
     letter-spacing:.10em;
     text-transform:uppercase;
   }
 
-  .sv4-top__eyebrow::before{
+  .sv5-top__eyebrow::before{
     content:"";
     width:18px;
     height:2px;
     border-radius:999px;
-    background:var(--sv4-accent-2);
+    background:var(--sv5-accent-2);
     box-shadow:0 0 0 5px rgba(182,243,77,.10);
   }
 
-  .sv4-top__copy h1{
+  .sv5-top__copy h1{
     margin:0;
     font-size:clamp(1.7rem, 2.6vw, 2.5rem);
     line-height:1.02;
@@ -129,14 +102,14 @@
     text-shadow:0 2px 16px rgba(0,0,0,.26);
   }
 
-  .sv4-top__copy p{
+  .sv5-top__copy p{
     margin:8px 0 0;
     color:#dddddd;
     font-size:.98rem;
     line-height:1.5;
   }
 
-  .sv4-quicknav{
+  .sv5-quicknav{
     display:flex;
     align-items:center;
     gap:10px;
@@ -145,7 +118,7 @@
     padding-bottom:2px;
   }
 
-  .sv4-quicknav a{
+  .sv5-quicknav a{
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -165,21 +138,18 @@
     white-space:nowrap;
   }
 
-  .sv4-quicknav a:hover{
+  .sv5-quicknav a:hover{
     border-color:rgba(182,243,77,.24);
     color:#ffffff;
     transform:translateY(-2px);
     box-shadow:0 12px 26px rgba(0,0,0,.20);
   }
 
-  /* =========================
-     SHELVES
-     ========================= */
-  .sv4-shelf{
+  .sv5-shelf{
     margin-top:26px;
   }
 
-  .sv4-shelf__head{
+  .sv5-shelf__head{
     display:flex;
     align-items:end;
     justify-content:space-between;
@@ -187,7 +157,7 @@
     margin-bottom:12px;
   }
 
-  .sv4-shelf__head h2{
+  .sv5-shelf__head h2{
     margin:0;
     font-size:1.18rem;
     line-height:1.1;
@@ -196,14 +166,14 @@
     font-weight:760;
   }
 
-  .sv4-shelf__head p{
+  .sv5-shelf__head p{
     margin:5px 0 0;
     color:#c9c9c9;
     font-size:.92rem;
     line-height:1.45;
   }
 
-  .sv4-row{
+  .sv5-row{
     display:grid;
     grid-auto-flow:column;
     grid-auto-columns:minmax(280px, 340px);
@@ -215,23 +185,20 @@
     scrollbar-color:rgba(255,255,255,.18) transparent;
   }
 
-  .sv4-row::-webkit-scrollbar{
+  .sv5-row::-webkit-scrollbar{
     height:10px;
   }
 
-  .sv4-row::-webkit-scrollbar-thumb{
+  .sv5-row::-webkit-scrollbar-thumb{
     background:rgba(255,255,255,.18);
     border-radius:999px;
   }
 
-  .sv4-row::-webkit-scrollbar-track{
+  .sv5-row::-webkit-scrollbar-track{
     background:transparent;
   }
 
-  /* =========================
-     CARD
-     ========================= */
-  .sv4-card{
+  .sv5-card{
     position:relative;
     display:block;
     min-height:485px;
@@ -241,19 +208,19 @@
     color:#ffffff;
     background:#0f0f0f;
     border:1px solid rgba(255,255,255,.08);
-    box-shadow:var(--sv4-shadow);
+    box-shadow:var(--sv5-shadow);
     isolation:isolate;
     scroll-snap-align:start;
-    transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    transition:transform .30s ease, box-shadow .30s ease, border-color .30s ease;
   }
 
-  .sv4-card:hover{
-    transform:translateY(-8px) scale(1.012);
+  .sv5-card:hover{
+    transform:translateY(-8px) scale(1.015);
     border-color:rgba(182,243,77,.22);
-    box-shadow:0 24px 58px rgba(0,0,0,.42);
+    box-shadow:0 26px 62px rgba(0,0,0,.44);
   }
 
-  .sv4-card__art{
+  .sv5-card__art{
     position:absolute;
     inset:0;
     z-index:0;
@@ -261,36 +228,48 @@
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
-    filter:saturate(.94) contrast(1.03) brightness(.92);
+    filter:saturate(.94) contrast(1.03) brightness(.90);
     transform:scale(1.02);
+    transition:transform .55s ease, filter .40s ease;
   }
 
-  .sv4-card__art::before{
+  .sv5-card:hover .sv5-card__art{
+    transform:scale(1.08);
+    filter:saturate(.98) contrast(1.05) brightness(.96);
+  }
+
+  .sv5-card__art::before{
     content:"";
     position:absolute;
     inset:0;
     background:
       repeating-linear-gradient(
         135deg,
-        rgba(255,255,255,.035) 0 2px,
+        rgba(255,255,255,.03) 0 2px,
         transparent 2px 16px
       );
-    opacity:.28;
+    opacity:.14;
   }
 
-  .sv4-card__art::after{
+  .sv5-card__art::after{
     content:"";
     position:absolute;
     inset:0;
     background:
-      linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.16) 28%, rgba(0,0,0,.48) 58%, rgba(0,0,0,.92) 100%);
+      linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.18) 24%, rgba(0,0,0,.40) 52%, rgba(0,0,0,.90) 100%);
+    transition:background .35s ease;
   }
 
-  .sv4-card__badge{
+  .sv5-card:hover .sv5-card__art::after{
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.14) 22%, rgba(0,0,0,.34) 48%, rgba(0,0,0,.88) 100%);
+  }
+
+  .sv5-card__badge{
     position:absolute;
     top:16px;
     left:16px;
-    z-index:4;
+    z-index:3;
     display:inline-flex;
     align-items:center;
     min-height:38px;
@@ -301,119 +280,69 @@
     letter-spacing:.05em;
     text-transform:uppercase;
     color:#ffffff;
-    background:rgba(0,0,0,.42);
+    background:rgba(0,0,0,.40);
     border:1px solid rgba(255,255,255,.12);
     backdrop-filter:blur(8px);
   }
 
-  .sv4-card__photo{
-     position:absolute;
-     top:70px;
-     right:18px;
-     bottom:98px;
-     width:35%;
-     min-width:110px;
-     border-radius:22px;
-     z-index:3;
-     background-image:var(--person);
-     background-size:cover;
-     background-position:center 12%;
-     background-repeat:no-repeat;
-     border:none;
-     box-shadow:0 10px 24px rgba(0,0,0,.18);
-     opacity:.96;
-     overflow:hidden;
-   
-     -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 16%, #000 100%);
-     mask-image:linear-gradient(90deg, transparent 0%, #000 16%, #000 100%);
-   }
-   
-   .sv4-card__photo::before{
-     content:"";
-     position:absolute;
-     inset:0;
-     background:
-       linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.10)),
-       linear-gradient(90deg, rgba(0,0,0,.20), transparent 26%);
-   }
-
-  .sv4-card__content{
+  .sv5-card__content{
     position:absolute;
     inset:auto 0 0 0;
-    z-index:4;
-    padding:20px 18px 18px;
+    z-index:3;
+    padding:22px 18px 20px;
     background:
-      linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.14) 16%, rgba(0,0,0,.68) 42%, rgba(0,0,0,.94) 100%);
+      linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.10) 12%, rgba(0,0,0,.60) 42%, rgba(0,0,0,.94) 100%);
   }
 
-  .sv4-card__copy{
-    max-width:calc(100% - 92px);
-  }
-
-  .sv4-card__title{
+  .sv5-card__title{
     margin:0 0 8px;
-    font-size:1.34rem;
-    line-height:1.04;
-    letter-spacing:-.02em;
+    font-size:1.40rem;
+    line-height:1.02;
+    letter-spacing:-.025em;
     font-weight:800;
-    color:#ffffff !important;
+    color:#ffffff;
     text-shadow:0 2px 16px rgba(0,0,0,.34);
+    transition:transform .28s ease;
   }
 
-  .sv4-card__desc{
+  .sv5-card:hover .sv5-card__title{
+    transform:translateY(-1px);
+  }
+
+  .sv5-card__desc{
     margin:0;
-    font-size:.97rem;
-    line-height:1.5;
-    color:#f1f1f1 !important;
+    max-width:92%;
+    font-size:.96rem;
+    line-height:1.48;
+    color:#f0f0f0;
     text-shadow:0 2px 14px rgba(0,0,0,.30);
   }
 
-  .sv4-card__meta{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-top:13px;
-  }
-
-  .sv4-card__tag{
-    display:inline-flex;
-    align-items:center;
-    min-height:34px;
-    padding:0 12px;
-    border-radius:999px;
-    color:#f3f3f3;
-    font-size:.78rem;
-    line-height:1;
-    border:1px solid rgba(255,255,255,.11);
-    background:rgba(255,255,255,.06);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
-  }
-
-  .sv4-card__cta{
+  .sv5-card__cta{
     display:inline-flex;
     align-items:center;
     gap:8px;
     margin-top:14px;
-    color:var(--sv4-accent-2);
+    color:var(--sv5-accent-2);
     font-size:.92rem;
     font-weight:800;
     letter-spacing:.01em;
   }
 
-  .sv4-card__cta::after{
+  .sv5-card__cta::after{
     content:"→";
     transition:transform .22s ease;
   }
 
-  .sv4-card:hover .sv4-card__cta::after{
+  .sv5-card:hover .sv5-card__cta::after{
     transform:translateX(4px);
   }
 
-  .sv4-bottom-note{
+  .sv5-bottom-note{
     margin-top:28px;
     padding:16px 18px;
     border-radius:18px;
-    border:1px solid var(--sv4-line);
+    border:1px solid var(--sv5-line);
     background:
       linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
       linear-gradient(135deg, #111, #0c0c0c);
@@ -423,12 +352,12 @@
   }
 
   @media (max-width: 980px){
-    .sv4-top{
+    .sv5-top{
       flex-direction:column;
       align-items:flex-start;
     }
 
-    .sv4-quicknav{
+    .sv5-quicknav{
       justify-content:flex-start;
       overflow-x:auto;
       width:100%;
@@ -437,236 +366,169 @@
   }
 
   @media (max-width: 760px){
-    .sv4-wrap{
+    .sv5-wrap{
       width:min(100% - 24px, 1520px);
       padding:16px 0 48px;
     }
 
-    .sv4-top{
+    .sv5-top{
       gap:14px;
       padding-bottom:12px;
       margin-bottom:4px;
     }
 
-    .sv4-top__copy h1{
+    .sv5-top__copy h1{
       font-size:1.8rem;
     }
 
-    .sv4-top__copy p{
+    .sv5-top__copy p{
       font-size:.94rem;
     }
 
-    .sv4-row{
+    .sv5-row{
       grid-auto-columns:minmax(240px, 78vw);
       gap:14px;
     }
 
-    .sv4-card{
-      min-height:438px;
+    .sv5-card{
+      min-height:430px;
       border-radius:22px;
     }
 
-    .sv4-card__photo{
-      width:33%;
-      min-width:96px;
-      right:10px;
-      top:62px;
-      bottom:92px;
-      border-radius:18px;
-    }
-   
-    .sv4-card__copy{
-      max-width:calc(100% - 82px);
+    .sv5-card__title{
+      font-size:1.18rem;
     }
 
-    .sv4-card__title{
-      font-size:1.16rem;
-    }
-
-    .sv4-card__desc{
+    .sv5-card__desc{
       font-size:.90rem;
       line-height:1.45;
-    }
-
-    .sv4-card__tag{
-      min-height:32px;
-      font-size:.74rem;
-      padding:0 10px;
+      max-width:100%;
     }
   }
 </style>
 
-<section class="sv4-page">
-  <div class="sv4-wrap">
+<section class="sv5-page">
+  <div class="sv5-wrap">
 
-    <header class="sv4-top">
-      <div class="sv4-top__copy">
-        <p class="sv4-top__eyebrow">Catálogo Stegie</p>
+    <header class="sv5-top">
+      <div class="sv5-top__copy">
+        <p class="sv5-top__eyebrow">Catálogo Stegie</p>
         <h1>Escolha a solução certa para sua necessidade.</h1>
         <p>Consultoria, desenvolvimento, educação, materiais técnicos e tecnologia para o universo da malharia.</p>
       </div>
 
-      <nav class="sv4-quicknav" aria-label="Navegação rápida">
+      <nav class="sv5-quicknav" aria-label="Navegação rápida">
         <a href="#consultoria">Consultoria e especialidades</a>
         <a href="#educacao">Educação e materiais</a>
         <a href="#tecnologia">Plataformas e tecnologia</a>
       </nav>
     </header>
 
-    <section class="sv4-shelf" id="consultoria">
-      <div class="sv4-shelf__head">
+    <section class="sv5-shelf" id="consultoria">
+      <div class="sv5-shelf__head">
         <div>
           <h2>Consultoria e especialidades</h2>
           <p>Diagnóstico, produto, causa técnica e apoio à decisão.</p>
         </div>
       </div>
 
-      <div class="sv4-row">
-        <a class="sv4-card" href="{{ l_consultoria }}" style="--person:url('{{ foto_01 }}'); --cardbg:url('{{ bg_consultoria }}');">
-          <span class="sv4-card__art"></span>
-          <span class="sv4-card__badge">Consultoria</span>
-          <span class="sv4-card__photo"></span>
-          <div class="sv4-card__content">
-            <div class="sv4-card__copy">
-              <h3 class="sv4-card__title">Consultoria Têxtil</h3>
-              <p class="sv4-card__desc">Perdas, rotina, qualidade e produtividade na malharia.</p>
-              <div class="sv4-card__meta">
-                <span class="sv4-card__tag">Diagnóstico técnico</span>
-                <span class="sv4-card__tag">Chão de fábrica</span>
-              </div>
-              <span class="sv4-card__cta">Abrir solução</span>
-            </div>
+      <div class="sv5-row">
+        <a class="sv5-card" href="{{ l_consultoria }}" style="--cardbg:url('{{ bg_consultoria }}');">
+          <span class="sv5-card__art"></span>
+          <span class="sv5-card__badge">Consultoria</span>
+          <div class="sv5-card__content">
+            <h3 class="sv5-card__title">Consultoria Têxtil</h3>
+            <p class="sv5-card__desc">Perdas, rotina, qualidade e produtividade na malharia.</p>
+            <span class="sv5-card__cta">Abrir solução</span>
           </div>
         </a>
 
-        <a class="sv4-card" href="{{ l_desenvolvimento }}" style="--person:url('{{ foto_02 }}'); --cardbg:url('{{ bg_desenvolvimento }}');">
-          <span class="sv4-card__art"></span>
-          <span class="sv4-card__badge">Especialidade</span>
-          <span class="sv4-card__photo"></span>
-          <div class="sv4-card__content">
-            <div class="sv4-card__copy">
-              <h3 class="sv4-card__title">Desenvolvimento de Malhas</h3>
-              <p class="sv4-card__desc">Estrutura, artigo e direção técnica para novos desenvolvimentos.</p>
-              <div class="sv4-card__meta">
-                <span class="sv4-card__tag">Produto</span>
-                <span class="sv4-card__tag">Viabilidade</span>
-              </div>
-              <span class="sv4-card__cta">Abrir solução</span>
-            </div>
+        <a class="sv5-card" href="{{ l_desenvolvimento }}" style="--cardbg:url('{{ bg_desenvolvimento }}');">
+          <span class="sv5-card__art"></span>
+          <span class="sv5-card__badge">Especialidade</span>
+          <div class="sv5-card__content">
+            <h3 class="sv5-card__title">Desenvolvimento de Malhas</h3>
+            <p class="sv5-card__desc">Estrutura, artigo e direção técnica para novos desenvolvimentos.</p>
+            <span class="sv5-card__cta">Abrir solução</span>
           </div>
         </a>
 
-        <a class="sv4-card" href="{{ l_pericia }}" style="--person:url('{{ foto_03 }}'); --cardbg:url('{{ bg_pericia }}');">
-          <span class="sv4-card__art"></span>
-          <span class="sv4-card__badge">Especialidade</span>
-          <span class="sv4-card__photo"></span>
-          <div class="sv4-card__content">
-            <div class="sv4-card__copy">
-              <h3 class="sv4-card__title">Perícia Técnica Têxtil</h3>
-              <p class="sv4-card__desc">Falha, evidência e análise técnica com base objetiva.</p>
-              <div class="sv4-card__meta">
-                <span class="sv4-card__tag">Investigação</span>
-                <span class="sv4-card__tag">Parecer técnico</span>
-              </div>
-              <span class="sv4-card__cta">Abrir solução</span>
-            </div>
+        <a class="sv5-card" href="{{ l_pericia }}" style="--cardbg:url('{{ bg_pericia }}');">
+          <span class="sv5-card__art"></span>
+          <span class="sv5-card__badge">Especialidade</span>
+          <div class="sv5-card__content">
+            <h3 class="sv5-card__title">Perícia Técnica Têxtil</h3>
+            <p class="sv5-card__desc">Falha, evidência e análise técnica com base objetiva.</p>
+            <span class="sv5-card__cta">Abrir solução</span>
           </div>
         </a>
       </div>
     </section>
 
-    <section class="sv4-shelf" id="educacao">
-      <div class="sv4-shelf__head">
+    <section class="sv5-shelf" id="educacao">
+      <div class="sv5-shelf__head">
         <div>
           <h2>Educação e materiais técnicos</h2>
           <p>Capacitação aplicada e base estruturada para agir melhor.</p>
         </div>
       </div>
 
-      <div class="sv4-row">
-        <a class="sv4-card" href="{{ l_educacao }}" style="--person:url('{{ foto_04 }}'); --cardbg:url('{{ bg_educacao }}');">
-          <span class="sv4-card__art"></span>
-          <span class="sv4-card__badge">Educação</span>
-          <span class="sv4-card__photo"></span>
-          <div class="sv4-card__content">
-            <div class="sv4-card__copy">
-              <h3 class="sv4-card__title">Educação Têxtil</h3>
-              <p class="sv4-card__desc">Cursos, imersões e formação técnica com aplicação prática.</p>
-              <div class="sv4-card__meta">
-                <span class="sv4-card__tag">Capacitação</span>
-                <span class="sv4-card__tag">Aprendizado técnico</span>
-              </div>
-              <span class="sv4-card__cta">Abrir solução</span>
-            </div>
+      <div class="sv5-row">
+        <a class="sv5-card" href="{{ l_educacao }}" style="--cardbg:url('{{ bg_educacao }}');">
+          <span class="sv5-card__art"></span>
+          <span class="sv5-card__badge">Educação</span>
+          <div class="sv5-card__content">
+            <h3 class="sv5-card__title">Educação Têxtil</h3>
+            <p class="sv5-card__desc">Cursos, imersões e formação técnica com aplicação prática.</p>
+            <span class="sv5-card__cta">Abrir solução</span>
           </div>
         </a>
 
-        <a class="sv4-card" href="{{ l_fichas }}" style="--person:url('{{ foto_05 }}'); --cardbg:url('{{ bg_fichas }}');">
-          <span class="sv4-card__art"></span>
-          <span class="sv4-card__badge">Material técnico</span>
-          <span class="sv4-card__photo"></span>
-          <div class="sv4-card__content">
-            <div class="sv4-card__copy">
-              <h3 class="sv4-card__title">Fichas Técnicas de Malharia</h3>
-              <p class="sv4-card__desc">Consulta estruturada para desenvolver, comprar e padronizar.</p>
-              <div class="sv4-card__meta">
-                <span class="sv4-card__tag">Base técnica</span>
-                <span class="sv4-card__tag">Consulta rápida</span>
-              </div>
-              <span class="sv4-card__cta">Abrir solução</span>
-            </div>
+        <a class="sv5-card" href="{{ l_fichas }}" style="--cardbg:url('{{ bg_fichas }}');">
+          <span class="sv5-card__art"></span>
+          <span class="sv5-card__badge">Material técnico</span>
+          <div class="sv5-card__content">
+            <h3 class="sv5-card__title">Fichas Técnicas de Malharia</h3>
+            <p class="sv5-card__desc">Consulta estruturada para desenvolver, comprar e padronizar.</p>
+            <span class="sv5-card__cta">Abrir solução</span>
           </div>
         </a>
       </div>
     </section>
 
-    <section class="sv4-shelf" id="tecnologia">
-      <div class="sv4-shelf__head">
+    <section class="sv5-shelf" id="tecnologia">
+      <div class="sv5-shelf__head">
         <div>
           <h2>Plataformas e tecnologia</h2>
           <p>Soluções digitais para ampliar acesso, agilidade e conexão.</p>
         </div>
       </div>
 
-      <div class="sv4-row">
-        <a class="sv4-card" href="{{ l_agente }}" style="--person:url('{{ foto_06 }}'); --cardbg:url('{{ bg_agente }}');">
-          <span class="sv4-card__art"></span>
-          <span class="sv4-card__badge">IA aplicada</span>
-          <span class="sv4-card__photo"></span>
-          <div class="sv4-card__content">
-            <div class="sv4-card__copy">
-              <h3 class="sv4-card__title">Agente Técnico Têxtil com IA</h3>
-              <p class="sv4-card__desc">Consulta técnica rápida para acelerar análise e decisão.</p>
-              <div class="sv4-card__meta">
-                <span class="sv4-card__tag">Agilidade</span>
-                <span class="sv4-card__tag">Apoio técnico</span>
-              </div>
-              <span class="sv4-card__cta">Abrir solução</span>
-            </div>
+      <div class="sv5-row">
+        <a class="sv5-card" href="{{ l_agente }}" style="--cardbg:url('{{ bg_agente }}');">
+          <span class="sv5-card__art"></span>
+          <span class="sv5-card__badge">IA aplicada</span>
+          <div class="sv5-card__content">
+            <h3 class="sv5-card__title">Agente Técnico Têxtil com IA</h3>
+            <p class="sv5-card__desc">Consulta técnica rápida para acelerar análise e decisão.</p>
+            <span class="sv5-card__cta">Abrir solução</span>
           </div>
         </a>
 
-        <a class="sv4-card" href="{{ l_achetece }}" target="_blank" rel="noopener noreferrer" style="--person:url('{{ foto_07 }}'); --cardbg:url('{{ bg_achetece }}');">
-          <span class="sv4-card__art"></span>
-          <span class="sv4-card__badge">Plataforma</span>
-          <span class="sv4-card__photo"></span>
-          <div class="sv4-card__content">
-            <div class="sv4-card__copy">
-              <h3 class="sv4-card__title">AcheTece</h3>
-              <p class="sv4-card__desc">Busca, conexão e visibilidade para quem atua no setor têxtil.</p>
-              <div class="sv4-card__meta">
-                <span class="sv4-card__tag">Conexão de mercado</span>
-                <span class="sv4-card__tag">Plataforma</span>
-              </div>
-              <span class="sv4-card__cta">Abrir solução</span>
-            </div>
+        <a class="sv5-card" href="{{ l_achetece }}" target="_blank" rel="noopener noreferrer" style="--cardbg:url('{{ bg_achetece }}');">
+          <span class="sv5-card__art"></span>
+          <span class="sv5-card__badge">Plataforma</span>
+          <div class="sv5-card__content">
+            <h3 class="sv5-card__title">AcheTece</h3>
+            <p class="sv5-card__desc">Busca, conexão e visibilidade para quem atua no setor têxtil.</p>
+            <span class="sv5-card__cta">Abrir solução</span>
           </div>
         </a>
       </div>
     </section>
 
-    <div class="sv4-bottom-note">
-      Cada card agora está preparado para receber sua própria imagem de fundo, mantendo sua foto original em primeiro plano. Isso permite tratar cada solução como uma peça visual única, sem perder coerência de marca.
+    <div class="sv5-bottom-note">
+      Os cards agora estão mais limpos e visuais: imagem de fundo, categoria, título, frase curta e ação principal. Isso reduz ruído e aproxima mais a experiência de um catálogo premium.
     </div>
 
   </div>
