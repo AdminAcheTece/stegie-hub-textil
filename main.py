@@ -439,7 +439,7 @@ def home_page():
     conteudos_qualidade = "/conteudos/temas/qualidade#quality-collections"
 
     shortcuts = [
-        {"label": "Home", "href": url_for("servicos"), "icon": "i-home"},
+        {"label": "Home", "href": url_for("solucoes_vitrine"), "icon": "i-home"},
         {"label": "Consultoria", "href": url_for("consultoria_textil"), "icon": "i-consult"},
         {"label": "Cursos", "href": url_for("educacao"), "icon": "i-grad"},
         {"label": "Fichas Técnicas", "href": url_for("fichas_tecnicas_malharia"), "icon": "i-file"},
