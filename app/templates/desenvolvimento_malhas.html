@@ -831,6 +831,31 @@
     font-size:1.08rem;
   }
 
+  .ctx-cta .ctx-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    color:#ffffff !important;
+    font-size:.92rem;
+    font-weight:800;
+    letter-spacing:.10em;
+    text-transform:uppercase;
+  }
+  
+  .ctx-cta .ctx-kicker::before{
+    content:none !important;
+    display:none !important;
+  }
+  
+  .ctx-cta .ctx-kicker::after{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:999px;
+    background:#8E8420;
+    box-shadow:0 0 0 4px rgba(142,132,32,.16);
+    flex:0 0 auto;
+  }
   .ctx-reveal{
     opacity:0;
     transform:translateY(28px);
@@ -1430,7 +1455,7 @@
       <div class="ctx-cta__box ctx-reveal">
         <div class="ctx-cta__grid">
           <div>
-            <div class="ctx-kicker">Fale conosco</div>
+            <div class="ctx-kicker">PRÓXIMO PASSO</div>
             <h2>Vamos estruturar seu desenvolvimento de malhas com mais clareza técnica.</h2>
             <p>
               Se sua empresa precisa transformar referência em padrão viável, reduzir retrabalho e decidir com mais segurança,
