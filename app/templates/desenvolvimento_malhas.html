@@ -186,7 +186,7 @@
     align-items:start;
     gap:42px;
   }
-  
+
   .ctx-hero-diagram::before,
   .ctx-hero-diagram::after{
     content:none;
@@ -271,7 +271,7 @@
     gap:18px;
     padding-top:34px;
   }
-  
+
   .ctx-floating-grid::before,
   .ctx-floating-grid::after{
     content:none !important;
@@ -626,6 +626,14 @@
     font-size:1.18rem;
     font-weight:800;
     margin-bottom:16px;
+    overflow:hidden;
+  }
+
+  .ctx-card__icon img{
+    width:28px;
+    height:28px;
+    object-fit:contain;
+    display:block;
   }
 
   .ctx-card h3{
@@ -691,35 +699,38 @@
 
   .ctx-grid-7{
     display:grid;
-    grid-template-columns:repeat(4, minmax(0,1fr));
-    gap:18px;
+    grid-template-columns:repeat(7, minmax(0,1fr));
+    gap:14px;
+    align-items:stretch;
   }
 
   .ctx-risk{
-    border-radius:22px;
-    padding:22px 20px;
+    border-radius:20px;
+    padding:18px 16px;
     background:#fff;
     border:1px solid rgba(18,18,18,.08);
     box-shadow:var(--ctx-shadow-soft);
+    min-height:100%;
   }
 
   .ctx-risk__num{
     display:inline-flex;
-    width:38px;
-    height:38px;
-    border-radius:12px;
+    width:34px;
+    height:34px;
+    border-radius:10px;
     align-items:center;
     justify-content:center;
-    margin-bottom:14px;
+    margin-bottom:12px;
     background:rgba(183,242,56,.18);
     color:#191919;
     font-weight:800;
+    font-size:.95rem;
   }
 
   .ctx-risk h3{
     margin:0 0 10px;
-    font-size:1.08rem;
-    line-height:1.3;
+    font-size:1rem;
+    line-height:1.24;
     font-weight:700;
     letter-spacing:-.02em;
   }
@@ -727,8 +738,8 @@
   .ctx-risk p{
     margin:0;
     color:#555;
-    line-height:1.66;
-    font-size:.96rem;
+    line-height:1.55;
+    font-size:.88rem;
   }
 
   .ctx-quote{
@@ -745,6 +756,7 @@
     font-size:1.18rem;
     line-height:1.7;
     letter-spacing:-.02em;
+    color:rgba(255,255,255,.92);
   }
 
   .ctx-quote strong{
@@ -816,9 +828,9 @@
 
   .ctx-cta h2{
     margin:0 0 12px;
-    font-size:clamp(2.3rem, 4.4vw, 4.1rem);
-    line-height:1.02;
-    letter-spacing:-.05em;
+    font-size:clamp(1.95rem, 3.2vw, 3.15rem);
+    line-height:1.05;
+    letter-spacing:-.04em;
     font-weight:700;
     color:#8E8420 !important;
   }
@@ -841,21 +853,17 @@
     letter-spacing:.10em;
     text-transform:uppercase;
   }
-  
+
   .ctx-cta .ctx-kicker::before{
     content:none !important;
     display:none !important;
   }
-  
+
   .ctx-cta .ctx-kicker::after{
-    content:"";
-    width:8px;
-    height:8px;
-    border-radius:999px;
-    background:#8E8420;
-    box-shadow:0 0 0 4px rgba(142,132,32,.16);
-    flex:0 0 auto;
+    content:none !important;
+    display:none !important;
   }
+
   .ctx-reveal{
     opacity:0;
     transform:translateY(28px);
@@ -870,7 +878,7 @@
   @media (max-width: 1180px){
     .ctx-steps{ grid-template-columns:repeat(3, minmax(0,1fr)); }
     .ctx-grid-5{ grid-template-columns:repeat(3, minmax(0,1fr)); }
-    .ctx-grid-7{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+    .ctx-grid-7{ grid-template-columns:repeat(4, minmax(0,1fr)); }
   }
 
   @media (max-width: 980px){
@@ -1000,7 +1008,7 @@
       gap:14px;
       padding-top:22px;
     }
-    
+
     .ctx-floating-grid::before,
     .ctx-floating-grid::after{
       content:none !important;
@@ -1228,8 +1236,9 @@
           <h2 class="ctx-heading">Como o desenvolvimento acontece.</h2>
         </div>
         <p>
-          A página foi pensada no formato Falconi: leitura rápida, organização por etapas e navegação clara.
-          Aqui, o processo foi adaptado para a realidade da malharia, do briefing até a aprovação final.
+          O processo de desenvolvimento transforma a referência em uma base técnica viável. Ele passa pela leitura do briefing,
+          pela definição dos parâmetros centrais, pela validação dos riscos e ajustes necessários e pelo fechamento dos critérios
+          que dão mais segurança para aprovar e repetir a malha.
         </p>
       </div>
 
@@ -1282,31 +1291,41 @@
 
       <div class="ctx-grid-5">
         <article class="ctx-card ctx-reveal">
-          <div class="ctx-card__icon">T</div>
+          <div class="ctx-card__icon">
+            <img src="{{ url_for('static', filename='IMG/criterio-tear.png') }}" alt="Ícone Tear">
+          </div>
           <h3>Tear</h3>
           <p>Leitura da plataforma mais adequada para a proposta: mono ou dupla frontura, capacidade real, limitações e compatibilidade com o efeito desejado.</p>
         </article>
 
         <article class="ctx-card ctx-reveal">
-          <div class="ctx-card__icon">P</div>
+          <div class="ctx-card__icon">
+            <img src="{{ url_for('static', filename='IMG/criterio-padronagem.png') }}" alt="Ícone Padronagem">
+          </div>
           <h3>Padronagem</h3>
           <p>A estrutura é a textura criada pelo tear. O desenho técnico precisa conversar com elasticidade, ventilação, corpo, aparência e comportamento da malha.</p>
         </article>
 
         <article class="ctx-card ctx-reveal">
-          <div class="ctx-card__icon">F</div>
+          <div class="ctx-card__icon">
+            <img src="{{ url_for('static', filename='IMG/criterio-fio.png') }}" alt="Ícone Fio">
+          </div>
           <h3>Fio</h3>
           <p>O fio define grande parte da identidade da malha. Título, construção, matéria-prima e qualidade influenciam toque, desempenho, regularidade e custo.</p>
         </article>
 
         <article class="ctx-card ctx-reveal">
-          <div class="ctx-card__icon">C</div>
+          <div class="ctx-card__icon">
+            <img src="{{ url_for('static', filename='IMG/criterio-composicao.png') }}" alt="Ícone Composição">
+          </div>
           <h3>Composição</h3>
           <p>A composição precisa responder ao uso final, ao caimento, ao conforto, à estabilidade, à costurabilidade e ao posicionamento do produto.</p>
         </article>
 
         <article class="ctx-card ctx-reveal">
-          <div class="ctx-card__icon">A</div>
+          <div class="ctx-card__icon">
+            <img src="{{ url_for('static', filename='IMG/criterio-acabamento.png') }}" alt="Ícone Acabamento">
+          </div>
           <h3>Acabamento</h3>
           <p>O beneficiamento sustenta a aparência final. Ele ajusta toque, estabiliza dimensões, controla cor e pode adicionar funcionalidades técnicas.</p>
         </article>
