@@ -591,7 +591,7 @@
   .ctx-card{
     position:relative;
     border-radius:24px;
-    padding:24px 22px;
+    padding:0;
     background:rgba(255,255,255,.82);
     border:1px solid rgba(18,18,18,.08);
     box-shadow:var(--ctx-shadow-soft);
@@ -617,12 +617,12 @@
 
   .ctx-card__icon{
     width:100%;
-    height:150px;
-    border-radius:18px;
+    height:170px;
     display:block;
     background:#e9e5db;
-    margin-bottom:18px;
+    margin:0;
     overflow:hidden;
+    border-radius:0;
   }
   
   .ctx-card__icon img{
@@ -632,6 +632,10 @@
     display:block;
   }
 
+  .ctx-card__body{
+    padding:22px 22px 24px;
+  }
+  
   .ctx-card h3{
     margin:0 0 12px;
     font-size:1.16rem;
@@ -1288,42 +1292,52 @@
       <div class="ctx-grid-5">
         <article class="ctx-card ctx-reveal">
           <div class="ctx-card__icon">
-            <img src="{{ url_for('static', filename='img/criterio-tear.png') }}" alt="Ícone Tear">
+            <img src="{{ url_for('static', filename='img/criterio-tear.png') }}" alt="Tear">
           </div>
-          <h3>Tear</h3>
-          <p>Leitura da plataforma mais adequada para a proposta: mono ou dupla frontura, capacidade real, limitações e compatibilidade com o efeito desejado.</p>
+          <div class="ctx-card__body">
+            <h3>Tear</h3>
+            <p>Leitura da plataforma mais adequada para a proposta: mono ou dupla frontura, capacidade real, limitações e compatibilidade com o efeito desejado.</p>
+          </div>
         </article>
-
+      
         <article class="ctx-card ctx-reveal">
           <div class="ctx-card__icon">
-            <img src="{{ url_for('static', filename='img/criterio-padronagem.png') }}" alt="Ícone Padronagem">
+            <img src="{{ url_for('static', filename='img/criterio-padronagem.png') }}" alt="Padronagem">
           </div>
-          <h3>Padronagem</h3>
-          <p>A estrutura é a textura criada pelo tear. O desenho técnico precisa conversar com elasticidade, ventilação, corpo, aparência e comportamento da malha.</p>
+          <div class="ctx-card__body">
+            <h3>Padronagem</h3>
+            <p>A estrutura é a textura criada pelo tear. O desenho técnico precisa conversar com elasticidade, ventilação, corpo, aparência e comportamento da malha.</p>
+          </div>
         </article>
-
+      
         <article class="ctx-card ctx-reveal">
           <div class="ctx-card__icon">
-            <img src="{{ url_for('static', filename='img/criterio-fio.png') }}" alt="Ícone Fio">
+            <img src="{{ url_for('static', filename='img/criterio-fio.png') }}" alt="Fio">
           </div>
-          <h3>Fio</h3>
-          <p>O fio define grande parte da identidade da malha. Título, construção, matéria-prima e qualidade influenciam toque, desempenho, regularidade e custo.</p>
+          <div class="ctx-card__body">
+            <h3>Fio</h3>
+            <p>O fio define grande parte da identidade da malha. Título, construção, matéria-prima e qualidade influenciam toque, desempenho, regularidade e custo.</p>
+          </div>
         </article>
-
+      
         <article class="ctx-card ctx-reveal">
           <div class="ctx-card__icon">
-            <img src="{{ url_for('static', filename='img/criterio-composicao.png') }}" alt="Ícone Composição">
+            <img src="{{ url_for('static', filename='img/criterio-composicao.png') }}" alt="Composição">
           </div>
-          <h3>Composição</h3>
-          <p>A composição precisa responder ao uso final, ao caimento, ao conforto, à estabilidade, à costurabilidade e ao posicionamento do produto.</p>
+          <div class="ctx-card__body">
+            <h3>Composição</h3>
+            <p>A composição precisa responder ao uso final, ao caimento, ao conforto, à estabilidade, à costurabilidade e ao posicionamento do produto.</p>
+          </div>
         </article>
-
+      
         <article class="ctx-card ctx-reveal">
           <div class="ctx-card__icon">
-            <img src="{{ url_for('static', filename='img/criterio-acabamento.png') }}" alt="Ícone Acabamento">
+            <img src="{{ url_for('static', filename='img/criterio-acabamento.png') }}" alt="Acabamento">
           </div>
-          <h3>Acabamento</h3>
-          <p>O beneficiamento sustenta a aparência final. Ele ajusta toque, estabiliza dimensões, controla cor e pode adicionar funcionalidades técnicas.</p>
+          <div class="ctx-card__body">
+            <h3>Acabamento</h3>
+            <p>O beneficiamento sustenta a aparência final. Ele ajusta toque, estabiliza dimensões, controla cor e pode adicionar funcionalidades técnicas.</p>
+          </div>
         </article>
       </div>
     </div>
