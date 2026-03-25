@@ -742,38 +742,45 @@
     background:rgba(255,255,255,.82);
     border:1px solid rgba(18,18,18,.08);
     box-shadow:var(--ctz-shadow-soft);
+    display:flex;
+    flex-direction:column;
+    min-height:100%;
   }
-
+  
   .ctz-pill-card h3{
     margin:0 0 10px;
-    font-size:1.4rem;
+    font-size:1.28rem;
     line-height:1.15;
     letter-spacing:-.03em;
     font-weight:700;
+    min-height:2.4em;
   }
-
+  
   .ctz-pill-card p{
     margin:0 0 16px;
     color:var(--ctz-muted);
-    line-height:1.68;
+    line-height:1.64;
+    font-size:1rem;
+    min-height:5.8em;
   }
-
+  
   .ctz-badges{
     display:flex;
     flex-wrap:wrap;
     gap:10px;
+    margin-top:auto;
   }
-
+  
   .ctz-badge{
     display:inline-flex;
     align-items:center;
-    min-height:38px;
-    padding:0 14px;
+    min-height:36px;
+    padding:0 12px;
     border-radius:999px;
     background:#f7f5ef;
     border:1px solid rgba(18,18,18,.08);
     color:#202020;
-    font-size:.94rem;
+    font-size:.88rem;
   }
 
   .ctz-quote{
@@ -790,6 +797,7 @@
     font-size:1.18rem;
     line-height:1.7;
     letter-spacing:-.02em;
+    color:rgba(255,255,255,.92);
   }
 
   .ctz-quote strong{
@@ -833,19 +841,40 @@
 
   .ctz-cta h2{
     margin:0 0 12px;
-    font-size:clamp(2rem, 3.4vw, 3.1rem);
+    font-size:clamp(1.95rem, 3.2vw, 3.15rem);
     line-height:1.05;
     letter-spacing:-.04em;
     font-weight:700;
-    color:#8E8420;
+    color:#8E8420 !important;
   }
-
+  
   .ctz-cta p{
     margin:0;
     max-width:62ch;
     color:rgba(255,255,255,.78);
     line-height:1.8;
     font-size:1.08rem;
+  }
+  
+  .ctz-cta .ctz-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    color:#ffffff !important;
+    font-size:.92rem;
+    font-weight:800;
+    letter-spacing:.10em;
+    text-transform:uppercase;
+  }
+  
+  .ctz-cta .ctz-kicker::before{
+    content:none !important;
+    display:none !important;
+  }
+  
+  .ctz-cta .ctz-kicker::after{
+    content:none !important;
+    display:none !important;
   }
 
   .ctz-reveal{
@@ -1265,7 +1294,7 @@
           <h2 class="ctz-heading">Onde a atuação ganha profundidade.</h2>
         </div>
         <p>
-          A página foi estruturada para vender melhor a lógica da consultoria: entender, priorizar, definir critério e sustentar.
+          Este bloco mostra as principais frentes em que a consultoria aprofunda a leitura técnica, organiza prioridades, define critérios de decisão e fortalece a sustentação do processo.
         </p>
       </div>
 
@@ -1325,7 +1354,7 @@
           <h2 class="ctz-heading">Uma sequência simples para gerar direção e ação.</h2>
         </div>
         <p>
-          Assim como na referência da Falconi, esta seção organiza o serviço em etapas claras, tornando a oferta mais tangível.
+          Este bloco apresenta a sequência prática da atuação: leitura do cenário, definição de foco, construção de critérios e sustentação da rotina para gerar direção e ação.
         </p>
       </div>
 
@@ -1415,7 +1444,7 @@
           <h2 class="ctz-heading">Como a consultoria pode acontecer.</h2>
         </div>
         <p>
-          Esta seção ajuda a vender escopo sem engessar a solução.
+          Este bloco apresenta as formas em que a consultoria pode acontecer, conforme a necessidade de profundidade, proximidade com a operação e continuidade do acompanhamento.
         </p>
       </div>
 
@@ -1448,13 +1477,13 @@
       <div class="ctz-cta__box ctz-reveal">
         <div class="ctz-cta__grid">
           <div>
-            <div class="ctz-kicker">Fale conosco</div>
+            <div class="ctz-kicker">PRÓXIMO PASSO</div>
             <h2>Vamos organizar sua consultoria têxtil com mais clareza técnica e direção prática.</h2>
             <p>
               Para malharias que precisam reduzir ruído, fechar variáveis críticas, priorizar melhor e fortalecer a sustentação do processo.
             </p>
           </div>
-
+  
           <div class="ctz-actions" style="margin:0;">
             <a href="/contato" class="ctz-btn ctz-btn--primary">Agendar conversa</a>
             <a href="/servicos" class="ctz-btn ctz-btn--ghost" style="color:#fff;border-color:rgba(255,255,255,.25);">Voltar aos serviços</a>
