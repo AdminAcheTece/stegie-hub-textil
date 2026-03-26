@@ -742,45 +742,38 @@
     background:rgba(255,255,255,.82);
     border:1px solid rgba(18,18,18,.08);
     box-shadow:var(--ctz-shadow-soft);
-    display:flex;
-    flex-direction:column;
-    min-height:100%;
   }
-  
+
   .ctz-pill-card h3{
     margin:0 0 10px;
-    font-size:1.28rem;
+    font-size:1.4rem;
     line-height:1.15;
     letter-spacing:-.03em;
     font-weight:700;
-    min-height:2.4em;
   }
-  
+
   .ctz-pill-card p{
     margin:0 0 16px;
     color:var(--ctz-muted);
-    line-height:1.64;
-    font-size:1rem;
-    min-height:5.8em;
+    line-height:1.68;
   }
-  
+
   .ctz-badges{
     display:flex;
     flex-wrap:wrap;
     gap:10px;
-    margin-top:auto;
   }
-  
+
   .ctz-badge{
     display:inline-flex;
     align-items:center;
-    min-height:36px;
-    padding:0 12px;
+    min-height:38px;
+    padding:0 14px;
     border-radius:999px;
     background:#f7f5ef;
     border:1px solid rgba(18,18,18,.08);
     color:#202020;
-    font-size:.88rem;
+    font-size:.94rem;
   }
 
   .ctz-quote{
@@ -797,7 +790,6 @@
     font-size:1.18rem;
     line-height:1.7;
     letter-spacing:-.02em;
-    color:rgba(255,255,255,.92);
   }
 
   .ctz-quote strong{
@@ -841,40 +833,19 @@
 
   .ctz-cta h2{
     margin:0 0 12px;
-    font-size:clamp(1.95rem, 3.2vw, 3.15rem);
+    font-size:clamp(2rem, 3.4vw, 3.1rem);
     line-height:1.05;
     letter-spacing:-.04em;
     font-weight:700;
-    color:#8E8420 !important;
+    color:#8E8420;
   }
-  
+
   .ctz-cta p{
     margin:0;
     max-width:62ch;
     color:rgba(255,255,255,.78);
     line-height:1.8;
     font-size:1.08rem;
-  }
-  
-  .ctz-cta .ctz-kicker{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    color:#ffffff !important;
-    font-size:.92rem;
-    font-weight:800;
-    letter-spacing:.10em;
-    text-transform:uppercase;
-  }
-  
-  .ctz-cta .ctz-kicker::before{
-    content:none !important;
-    display:none !important;
-  }
-  
-  .ctz-cta .ctz-kicker::after{
-    content:none !important;
-    display:none !important;
   }
 
   .ctz-reveal{
@@ -1260,21 +1231,25 @@
 
       <div class="ctz-grid-4">
         <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">01</div>
           <h3>Variabilidade alta</h3>
           <p>Quando largura, gramatura, estabilidade, defeitos ou comportamento do processo oscilam sem clareza suficiente sobre origem e prioridade.</p>
         </article>
 
         <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">02</div>
           <h3>Critério fraco de decisão</h3>
           <p>Quando o time discute muito, mas decide pouco, porque faltam parâmetros objetivos de aceite, limite e ação.</p>
         </article>
 
         <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">03</div>
           <h3>Prioridades embaralhadas</h3>
           <p>Quando há muitos sintomas ao mesmo tempo e a equipe perde força tentando resolver tudo sem sequência lógica.</p>
         </article>
 
         <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">04</div>
           <h3>Dificuldade de sustentar</h3>
           <p>Quando ações até acontecem, mas o processo volta atrás por falta de rotina, reforço técnico e padrão.</p>
         </article>
@@ -1290,56 +1265,49 @@
           <h2 class="ctz-heading">Onde a atuação ganha profundidade.</h2>
         </div>
         <p>
-          Algumas das principais frentes em que a consultoria aprofunda a leitura técnica,
-          organiza prioridades, define critérios de decisão e fortalece a sustentação do processo.
+          A página foi estruturada para vender melhor a lógica da consultoria: entender, priorizar, definir critério e sustentar.
         </p>
       </div>
-  
-      <div class="ctz-frontes-grid">
-        <article class="ctz-front-card ctz-reveal">
+
+      <div class="ctz-grid-4">
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">A</div>
           <h3>Diagnóstico técnico</h3>
-          <p>
-            Leitura do processo, das rotinas, dos desvios e dos pontos que mais geram ruído,
-            perda ou instabilidade.
-          </p>
-          <ul>
+          <p>Leitura do processo, das rotinas, dos desvios e dos pontos que mais geram ruído, perda ou instabilidade.</p>
+          <ul class="ctz-bullets">
             <li>Leitura de cenário</li>
             <li>Mapeamento dos pontos sensíveis</li>
             <li>Entendimento do contexto operacional</li>
           </ul>
         </article>
-  
-        <article class="ctz-front-card ctz-reveal">
+
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">B</div>
           <h3>Priorização técnica</h3>
-          <p>
-            Separação do que é sintoma e do que realmente merece foco, com base em impacto,
-            risco e viabilidade.
-          </p>
-          <ul>
+          <p>Separação do que é sintoma e do que realmente merece foco, com base em impacto, risco e viabilidade.</p>
+          <ul class="ctz-bullets">
             <li>Escolha do que atacar primeiro</li>
             <li>Sequência de ação mais racional</li>
             <li>Menos dispersão da equipe</li>
           </ul>
         </article>
-  
-        <article class="ctz-front-card ctz-reveal">
+
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">C</div>
           <h3>Critérios e padrão</h3>
-          <p>
-            Definição de parâmetros para reduzir subjetividade e dar base objetiva à decisão técnica.
-          </p>
-          <ul>
+          <p>Definição de parâmetros para reduzir subjetividade e dar base objetiva à decisão técnica.</p>
+          <ul class="ctz-bullets">
             <li>Critérios de aceite</li>
             <li>Leitura de limites e tolerâncias</li>
             <li>Menos decisão por sensação</li>
           </ul>
         </article>
-  
-        <article class="ctz-front-card ctz-reveal">
+
+        <article class="ctz-card ctz-reveal">
+          <div class="ctz-card__icon">D</div>
           <h3>Sustentação prática</h3>
-          <p>
-            Transformação do direcionamento em rotina possível de ser mantida pela operação.
-          </p>
-          <ul>
+          <p>Transformação do direcionamento em rotina possível de ser mantida pela operação.</p>
+          <ul class="ctz-bullets">
             <li>Checkpoints e reforços</li>
             <li>Organização da execução</li>
             <li>Continuidade após a leitura inicial</li>
@@ -1357,7 +1325,7 @@
           <h2 class="ctz-heading">Uma sequência simples para gerar direção e ação.</h2>
         </div>
         <p>
-          Sequência prática da atuação: leitura do cenário, definição de foco, construção de critérios e sustentação da rotina para gerar direção e ação.
+          Assim como na referência da Falconi, esta seção organiza o serviço em etapas claras, tornando a oferta mais tangível.
         </p>
       </div>
 
@@ -1403,26 +1371,31 @@
 
       <div class="ctz-results">
         <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">1</div>
           <h3>Mais clareza</h3>
           <p>O cenário deixa de parecer difuso e passa a ser lido com mais critério técnico.</p>
         </article>
 
         <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">2</div>
           <h3>Mais foco</h3>
           <p>As prioridades ficam mais bem definidas e a equipe ganha direção para agir.</p>
         </article>
 
         <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">3</div>
           <h3>Menos subjetividade</h3>
           <p>Critérios de aceite e decisão reduzem ruído e interpretação solta.</p>
         </article>
 
         <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">4</div>
           <h3>Mais consistência</h3>
           <p>O processo passa a contar com padrões mais claros para leitura e execução.</p>
         </article>
 
         <article class="ctz-result ctz-reveal">
+          <div class="ctz-result__num">5</div>
           <h3>Mais sustentação</h3>
           <p>As ações deixam de ser pontuais e ganham mais chance de permanecer úteis na rotina.</p>
         </article>
@@ -1442,7 +1415,7 @@
           <h2 class="ctz-heading">Como a consultoria pode acontecer.</h2>
         </div>
         <p>
-          As formas em que a consultoria pode acontecer, conforme a necessidade de profundidade, proximidade com a operação e continuidade do acompanhamento.
+          Esta seção ajuda a vender escopo sem engessar a solução.
         </p>
       </div>
 
@@ -1475,13 +1448,13 @@
       <div class="ctz-cta__box ctz-reveal">
         <div class="ctz-cta__grid">
           <div>
-            <div class="ctz-kicker">PRÓXIMO PASSO</div>
+            <div class="ctz-kicker">Fale conosco</div>
             <h2>Vamos organizar sua consultoria têxtil com mais clareza técnica e direção prática.</h2>
             <p>
               Para malharias que precisam reduzir ruído, fechar variáveis críticas, priorizar melhor e fortalecer a sustentação do processo.
             </p>
           </div>
-  
+
           <div class="ctz-actions" style="margin:0;">
             <a href="/contato" class="ctz-btn ctz-btn--primary">Agendar conversa</a>
             <a href="/servicos" class="ctz-btn ctz-btn--ghost" style="color:#fff;border-color:rgba(255,255,255,.25);">Voltar aos serviços</a>
