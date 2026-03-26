@@ -49,44 +49,50 @@
     </section>
 
     <!-- VISÃO GERAL -->
-    <section class="ptx-section">
-      <div class="ptx-section__head">
-        <p class="ptx-kicker">Visão geral</p>
-        <h2>Quando esta solução faz sentido</h2>
-        <p>
-          Indicada para situações em que é necessário investigar tecnicamente um problema,
-          sustentar uma posição com base em dados ou esclarecer se a origem da não conformidade
-          está no insumo, no processo, na regulagem, na armazenagem, no desenvolvimento do artigo
-          ou na combinação desses fatores.
-        </p>
-      </div>
+    <section id="visao-geral" class="ptx-overview-section">
+      <div class="ptx-overview">
+        <div class="ptx-overview__hero">
+          <div class="ptx-overview__overlay">
+            <div class="ptx-overview__kicker">VISÃO GERAL</div>
+            <h2>Quando esta solução faz sentido</h2>
+            <p>
+              Indicada para situações em que é necessário investigar tecnicamente um problema,
+              sustentar uma posição com base em dados ou esclarecer se a origem da não conformidade
+              está no insumo, no processo, na regulagem, na armazenagem, no desenvolvimento do artigo
+              ou na combinação desses fatores.
+            </p>
+          </div>
+        </div>
 
-      <div class="ptx-grid ptx-grid--3">
-        <article class="ptx-card">
-          <h3>Questionamento de qualidade</h3>
-          <p>
-            Quando há dúvida sobre desempenho de fios, malhas ou resultado final do artigo,
-            especialmente em casos com defeitos recorrentes, baixa performance ou divergência
-            entre expectativa e realidade de produção.
-          </p>
-        </article>
+        <div class="ptx-overview__content">
+          <div class="ptx-overview__grid">
+            <article class="ptx-overview__card">
+              <h3>Questionamento de qualidade</h3>
+              <p>
+                Quando há dúvida sobre desempenho de fios, malhas ou resultado final do artigo,
+                especialmente em casos com defeitos recorrentes, baixa performance ou divergência
+                entre expectativa e realidade de produção.
+              </p>
+            </article>
 
-        <article class="ptx-card">
-          <h3>Conflito entre produção e laboratório</h3>
-          <p>
-            Quando ensaios, laudos, relatórios internos e comportamento em máquina parecem
-            apontar para direções diferentes e a empresa precisa de leitura técnica consistente
-            para conectar os fatos.
-          </p>
-        </article>
+            <article class="ptx-overview__card">
+              <h3>Conflito entre produção e laboratório</h3>
+              <p>
+                Quando ensaios, laudos, relatórios internos e comportamento em máquina parecem
+                apontar para direções diferentes e a empresa precisa de leitura técnica consistente
+                para conectar os fatos.
+              </p>
+            </article>
 
-        <article class="ptx-card">
-          <h3>Demanda judicial ou extrajudicial</h3>
-          <p>
-            Quando o caso exige apoio técnico para quesitos, pareceres, diligências, análise
-            documental, construção de raciocínio técnico e avaliação de evidências.
-          </p>
-        </article>
+            <article class="ptx-overview__card">
+              <h3>Demanda judicial ou extrajudicial</h3>
+              <p>
+                Quando o caso exige apoio técnico para quesitos, pareceres, diligências, análise
+                documental, construção de raciocínio técnico e avaliação de evidências.
+              </p>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -663,6 +669,123 @@
     border:1px solid var(--ptx-border);
   }
 
+  /* ===== VISÃO GERAL | faixa premium ===== */
+  .ptx-overview-section{
+    margin-top:24px;
+  }
+
+  .ptx-overview{
+    background:#ffffff;
+    border-radius:32px;
+    overflow:hidden;
+    border:1px solid rgba(18,18,18,.08);
+    box-shadow:0 18px 44px rgba(0,0,0,.06);
+  }
+
+  .ptx-overview__hero{
+    min-height:280px;
+    background:
+      linear-gradient(90deg, rgba(10,10,10,.90) 0%, rgba(18,18,18,.82) 48%, rgba(142,132,32,.34) 100%),
+      radial-gradient(circle at 82% 24%, rgba(183,242,56,.14) 0%, rgba(183,242,56,0) 24%),
+      url("/static/img/pericia-visao-geral-bg.jpg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    display:flex;
+    align-items:center;
+    position:relative;
+  }
+
+  .ptx-overview__hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 72%, rgba(248,247,243,.92) 100%);
+    pointer-events:none;
+  }
+
+  .ptx-overview__overlay{
+    position:relative;
+    z-index:1;
+    width:min(100%, 920px);
+    padding:42px 44px;
+  }
+
+  .ptx-overview__kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+    color:#ffffff;
+    font-size:.94rem;
+    font-weight:800;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+
+  .ptx-overview__kicker::after{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:999px;
+    background:#8E8420;
+    box-shadow:0 0 0 5px rgba(142,132,32,.16);
+  }
+
+  .ptx-overview__hero h2{
+    margin:0 0 16px;
+    font-size:clamp(2.2rem, 4vw, 4rem);
+    line-height:1.02;
+    letter-spacing:-.04em;
+    font-weight:700;
+    color:#ffffff;
+    max-width:11ch;
+  }
+
+  .ptx-overview__hero p{
+    margin:0;
+    max-width:72ch;
+    font-size:1.08rem;
+    line-height:1.82;
+    color:rgba(255,255,255,.86);
+  }
+
+  .ptx-overview__content{
+    padding:34px 42px 42px;
+    background:#f8f7f3;
+  }
+
+  .ptx-overview__grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:22px;
+  }
+
+  .ptx-overview__card{
+    background:#f1efe9;
+    border:1px solid rgba(18,18,18,.10);
+    border-radius:24px;
+    padding:26px 28px;
+    box-shadow:0 8px 24px rgba(0,0,0,.04);
+  }
+
+  .ptx-overview__card h3{
+    margin:0 0 14px;
+    font-size:1.08rem;
+    line-height:1.35;
+    letter-spacing:-.02em;
+    font-weight:700;
+    color:#121212;
+  }
+
+  .ptx-overview__card p{
+    margin:0;
+    font-size:1rem;
+    line-height:1.72;
+    color:#5b5b5b;
+  }
+
   .ptx-cta{
     margin-top:24px;
     display:grid;
@@ -683,7 +806,7 @@
     font-size:clamp(1.6rem, 2.5vw, 2.5rem);
     line-height:1.08;
     letter-spacing:-.03em;
-    color:#8E8420; /* tom da palavra “malharia” */
+    color:#8E8420;
   }
 
   .ptx-cta p{
@@ -694,86 +817,4 @@
 
   .ptx-cta__actions{
     display:flex;
-    justify-content:flex-end;
-    align-items:center;
-  }
-
-  .ptx-note{
-    margin-top:18px;
-    padding:18px 22px;
-    border-radius:20px;
-    border:1px solid var(--ptx-border);
-    background:#f8f7f2;
-  }
-
-  .ptx-note p{
-    margin:0;
-    color:var(--ptx-muted);
-    line-height:1.7;
-    font-size:.95rem;
-  }
-
-  @media (max-width: 1080px){
-    .ptx-hero,
-    .ptx-cta,
-    .ptx-grid--3{
-      grid-template-columns:1fr;
-    }
-
-    .ptx-grid--2{
-      grid-template-columns:1fr 1fr;
-    }
-
-    .ptx-cta__actions{
-      justify-content:flex-start;
-    }
-  }
-
-  @media (max-width: 760px){
-    .ptx-page{
-      padding:24px 14px 54px;
-    }
-
-    .ptx-hero__content,
-    .ptx-hero__card,
-    .ptx-section,
-    .ptx-cta{
-      padding:24px 20px;
-      border-radius:24px;
-    }
-
-    .ptx-grid--2{
-      grid-template-columns:1fr;
-    }
-
-    .ptx-title{
-      font-size:2.25rem;
-    }
-
-    .ptx-intro{
-      font-size:1rem;
-      line-height:1.72;
-    }
-
-    .ptx-step{
-      grid-template-columns:1fr;
-    }
-
-    .ptx-step__n{
-      width:48px;
-      height:48px;
-      border-radius:14px;
-    }
-
-    .ptx-actions,
-    .ptx-cta__actions{
-      flex-direction:column;
-      align-items:stretch;
-    }
-
-    .ptx-btn{
-      width:100%;
-    }
-  }
-</style>
-{% endblock %}
+    justify
