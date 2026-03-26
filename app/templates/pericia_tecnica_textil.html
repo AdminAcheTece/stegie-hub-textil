@@ -11,6 +11,7 @@
 {% set ptx_deliverable_img_2 = url_for('static', filename='img/pericia-card-quesitos.png') %}
 {% set ptx_deliverable_img_3 = url_for('static', filename='img/pericia-card-laudos.png') %}
 {% set ptx_deliverable_img_4 = url_for('static', filename='img/pericia-card-diligencia.png') %}
+
 <style>
   .ptx-page{
     --ptx-bg:#f7f6f3;
@@ -20,11 +21,13 @@
     --ptx-text:#111111;
     --ptx-muted:#5c5c5c;
     --ptx-border:#ddd7ca;
+    --ptx-border-soft:rgba(17,17,17,.08);
     --ptx-olive:#8a7b18;
     --ptx-olive-deep:#5f5510;
     --ptx-lime:#b7e04a;
     --ptx-black:#050505;
     --ptx-shadow:0 24px 80px rgba(17,17,17,.10);
+    --ptx-shadow-soft:0 16px 42px rgba(17,17,17,.07);
     --ptx-radius-xl:38px;
     --ptx-radius-lg:28px;
     --ptx-radius-md:22px;
@@ -471,11 +474,11 @@
     align-items:center;
     position:relative;
   }
-  
+
   .ptx-overview__hero::after{
     content:none;
   }
-  
+
   .ptx-overview__overlay{
     position:relative;
     z-index:1;
@@ -529,7 +532,7 @@
 
   .ptx-overview__grid{
     display:grid;
-    grid-template-columns:repeat(3, minmax(0,1fr));
+    grid-template-columns:repeat(3, minmax(0, 1fr));
     gap:22px;
   }
 
@@ -640,39 +643,80 @@
   }
 
   /* DELIVERABLES */
-  .ptx-deliverable{
-    background:linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%);
-    border:1px solid var(--ptx-border);
-    border-radius:26px;
-    padding:24px;
-    box-shadow:0 10px 28px rgba(17,17,17,.05);
+  .ptx-deliverables-head{
+    margin-bottom:28px;
   }
 
-  .ptx-deliverable__tag{
+  .ptx-deliverables-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:18px;
+    align-items:stretch;
+  }
+
+  .ptx-deliverable-card{
+    display:flex;
+    flex-direction:column;
+    min-height:100%;
+    overflow:hidden;
+    border-radius:28px;
+    background:#ffffff;
+    box-shadow:var(--ptx-shadow-soft);
+    transition:transform .22s ease, box-shadow .22s ease;
+  }
+
+  .ptx-deliverable-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 22px 54px rgba(17,17,17,.09);
+  }
+
+  .ptx-deliverable-card__media{
+    width:100%;
+    aspect-ratio:16/9;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    border-radius:28px 28px 0 0;
+  }
+
+  .ptx-deliverable-card__body{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:14px;
+    padding:22px 24px 24px;
+    flex:1;
+  }
+
+  .ptx-deliverable-card__tag{
     display:inline-flex;
     align-items:center;
+    justify-content:center;
+    width:max-content;
     min-height:34px;
     padding:0 12px;
     border-radius:999px;
-    background:#f2eedc;
+    background:#ece4c8;
     color:var(--ptx-olive-deep);
-    font-size:.82rem;
+    font-size:.8rem;
     font-weight:800;
     letter-spacing:.08em;
     text-transform:uppercase;
-    margin-bottom:14px;
   }
 
-  .ptx-deliverable h3{
-    margin:0 0 10px;
-    font-size:1.16rem;
+  .ptx-deliverable-card h3{
+    margin:0;
+    font-size:1.18rem;
     line-height:1.24;
+    letter-spacing:-.02em;
+    color:var(--ptx-text);
   }
 
-  .ptx-deliverable p{
+  .ptx-deliverable-card p{
     margin:0;
     color:var(--ptx-muted);
-    line-height:1.76;
+    line-height:1.78;
+    font-size:1rem;
   }
 
   /* FAQ */
@@ -847,6 +891,13 @@
     }
   }
 
+  @media (max-width: 980px){
+    .ptx-deliverables-grid{
+      grid-template-columns:1fr;
+      gap:18px;
+    }
+  }
+
   @media (max-width: 768px){
     .ptx-page{
       padding-bottom:54px;
@@ -864,7 +915,6 @@
 
     .ptx-card,
     .ptx-feature,
-    .ptx-deliverable,
     .ptx-strip__item,
     .ptx-faq__item{
       border-radius:22px;
@@ -980,6 +1030,31 @@
       border-radius:14px;
     }
 
+    .ptx-deliverables-head{
+      margin-bottom:20px;
+    }
+
+    .ptx-deliverable-card{
+      border-radius:22px;
+    }
+
+    .ptx-deliverable-card__media{
+      border-radius:22px 22px 0 0;
+    }
+
+    .ptx-deliverable-card__body{
+      padding:18px 18px 20px;
+    }
+
+    .ptx-deliverable-card h3{
+      font-size:1.08rem;
+    }
+
+    .ptx-deliverable-card p{
+      font-size:.98rem;
+      line-height:1.72;
+    }
+
     .ptx-final__actions{
       flex-direction:column;
       align-items:stretch;
@@ -1004,102 +1079,6 @@
     .ptxh-bar{
       width:40px;
       flex:0 0 40px;
-    }
-
-  .ptx-deliverables-head{
-    margin-bottom:26px;
-  }
-  
-  .ptx-deliverables-grid{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:22px;
-    align-items:stretch;
-  }
-  
-  .ptx-deliverable-card{
-    display:flex;
-    flex-direction:column;
-    min-height:100%;
-    overflow:hidden;
-    border-radius:28px;
-    background:#ffffff;
-    box-shadow:0 16px 42px rgba(17,17,17,.07);
-  }
-  
-  .ptx-deliverable-card__media{
-    width:100%;
-    aspect-ratio:16/9;
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-  }
-  
-  .ptx-deliverable-card__body{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    padding:22px 22px 24px;
-    flex:1;
-  }
-  
-  .ptx-deliverable-card__tag{
-    display:inline-flex;
-    align-items:center;
-    width:max-content;
-    min-height:34px;
-    padding:0 12px;
-    border-radius:999px;
-    background:#ece4c8;
-    color:var(--ptx-olive-deep);
-    font-size:.8rem;
-    font-weight:800;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-  }
-  
-  .ptx-deliverable-card h3{
-    margin:0;
-    font-size:1.18rem;
-    line-height:1.24;
-    letter-spacing:-.02em;
-    color:var(--ptx-text);
-  }
-  
-  .ptx-deliverable-card p{
-    margin:0;
-    color:var(--ptx-muted);
-    line-height:1.78;
-    font-size:1rem;
-  }
-  
-  @media (max-width: 980px){
-    .ptx-deliverables-grid{
-      grid-template-columns:1fr;
-      gap:18px;
-    }
-  }
-  
-  @media (max-width: 768px){
-    .ptx-deliverables-head{
-      margin-bottom:20px;
-    }
-  
-    .ptx-deliverable-card{
-      border-radius:22px;
-    }
-  
-    .ptx-deliverable-card__body{
-      padding:18px 18px 20px;
-    }
-  
-    .ptx-deliverable-card h3{
-      font-size:1.08rem;
-    }
-  
-    .ptx-deliverable-card p{
-      font-size:.98rem;
-      line-height:1.72;
     }
   }
 </style>
@@ -1437,9 +1416,8 @@
           O formato da entrega depende do contexto, da fase do caso e do objetivo da contratação.
         </p>
       </div>
-    
+
       <div class="ptx-deliverables-grid">
-    
         <article class="ptx-deliverable-card">
           <div class="ptx-deliverable-card__media" style="background-image:url('{{ ptx_deliverable_img_1 }}');"></div>
           <div class="ptx-deliverable-card__body">
@@ -1451,7 +1429,7 @@
             </p>
           </div>
         </article>
-    
+
         <article class="ptx-deliverable-card">
           <div class="ptx-deliverable-card__media" style="background-image:url('{{ ptx_deliverable_img_2 }}');"></div>
           <div class="ptx-deliverable-card__body">
@@ -1463,7 +1441,7 @@
             </p>
           </div>
         </article>
-    
+
         <article class="ptx-deliverable-card">
           <div class="ptx-deliverable-card__media" style="background-image:url('{{ ptx_deliverable_img_3 }}');"></div>
           <div class="ptx-deliverable-card__body">
@@ -1475,7 +1453,7 @@
             </p>
           </div>
         </article>
-    
+
         <article class="ptx-deliverable-card">
           <div class="ptx-deliverable-card__media" style="background-image:url('{{ ptx_deliverable_img_4 }}');"></div>
           <div class="ptx-deliverable-card__body">
@@ -1487,7 +1465,6 @@
             </p>
           </div>
         </article>
-    
       </div>
     </section>
 
