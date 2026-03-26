@@ -1282,66 +1282,70 @@
     </div>
   </section>
 
-  <section class="ctx-section consultoria-frontes">
-    <div class="ctx-section-head">
-      <div class="ctx-kicker">Frentes da consultoria</div>
-      <h2>Onde a atuação ganha profundidade.</h2>
-      <p>
-        Algumas das principais frentes em que a consultoria aprofunda a leitura técnica,
-        organiza prioridades, define critérios de decisão e fortalece a sustentação do processo.
-      </p>
-    </div>
-  
-    <div class="ctx-fronts-grid">
-      <article class="ctx-card">
-        <h3>Diagnóstico técnico</h3>
+  <section id="frentes" class="ctz-block" style="padding-top:0;">
+    <div class="ctz-container">
+      <div class="ctz-topline ctz-reveal">
+        <div>
+          <div class="ctz-kicker">Frentes da consultoria</div>
+          <h2 class="ctz-heading">Onde a atuação ganha profundidade.</h2>
+        </div>
         <p>
-          Leitura do processo, das rotinas, dos desvios e dos pontos que mais geram ruído,
-          perda ou instabilidade.
+          Algumas das principais frentes em que a consultoria aprofunda a leitura técnica,
+          organiza prioridades, define critérios de decisão e fortalece a sustentação do processo.
         </p>
-        <ul>
-          <li>Leitura de cenário</li>
-          <li>Mapeamento dos pontos sensíveis</li>
-          <li>Entendimento do contexto operacional</li>
-        </ul>
-      </article>
+      </div>
   
-      <article class="ctx-card">
-        <h3>Priorização técnica</h3>
-        <p>
-          Separação do que é sintoma e do que realmente merece foco, com base em impacto,
-          risco e viabilidade.
-        </p>
-        <ul>
-          <li>Escolha do que atacar primeiro</li>
-          <li>Sequência de ação mais racional</li>
-          <li>Menos dispersão da equipe</li>
-        </ul>
-      </article>
+      <div class="ctz-frontes-grid">
+        <article class="ctz-front-card ctz-reveal">
+          <h3>Diagnóstico técnico</h3>
+          <p>
+            Leitura do processo, das rotinas, dos desvios e dos pontos que mais geram ruído,
+            perda ou instabilidade.
+          </p>
+          <ul>
+            <li>Leitura de cenário</li>
+            <li>Mapeamento dos pontos sensíveis</li>
+            <li>Entendimento do contexto operacional</li>
+          </ul>
+        </article>
   
-      <article class="ctx-card">
-        <h3>Critérios e padrão</h3>
-        <p>
-          Definição de parâmetros para reduzir subjetividade e dar base objetiva à decisão técnica.
-        </p>
-        <ul>
-          <li>Critérios de aceite</li>
-          <li>Leitura de limites e tolerâncias</li>
-          <li>Menos decisão por sensação</li>
-        </ul>
-      </article>
+        <article class="ctz-front-card ctz-reveal">
+          <h3>Priorização técnica</h3>
+          <p>
+            Separação do que é sintoma e do que realmente merece foco, com base em impacto,
+            risco e viabilidade.
+          </p>
+          <ul>
+            <li>Escolha do que atacar primeiro</li>
+            <li>Sequência de ação mais racional</li>
+            <li>Menos dispersão da equipe</li>
+          </ul>
+        </article>
   
-      <article class="ctx-card">
-        <h3>Sustentação prática</h3>
-        <p>
-          Transformação do direcionamento em rotina possível de ser mantida pela operação.
-        </p>
-        <ul>
-          <li>Checkpoints e reforços</li>
-          <li>Organização da execução</li>
-          <li>Continuidade após a leitura inicial</li>
-        </ul>
-      </article>
+        <article class="ctz-front-card ctz-reveal">
+          <h3>Critérios e padrão</h3>
+          <p>
+            Definição de parâmetros para reduzir subjetividade e dar base objetiva à decisão técnica.
+          </p>
+          <ul>
+            <li>Critérios de aceite</li>
+            <li>Leitura de limites e tolerâncias</li>
+            <li>Menos decisão por sensação</li>
+          </ul>
+        </article>
+  
+        <article class="ctz-front-card ctz-reveal">
+          <h3>Sustentação prática</h3>
+          <p>
+            Transformação do direcionamento em rotina possível de ser mantida pela operação.
+          </p>
+          <ul>
+            <li>Checkpoints e reforços</li>
+            <li>Organização da execução</li>
+            <li>Continuidade após a leitura inicial</li>
+          </ul>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -1541,53 +1545,6 @@
 
     sections.forEach(section => navObserver.observe(section));
   })();
-
-  /* ===== AJUSTE VISUAL — BLOCO "FRENTES DA CONSULTORIA" ===== */
-  .consultoria-frontes .ctx-fronts-grid .ctx-card,
-  .consultoria-frontes .ctx-fronts-grid .ctx-front-card,
-  .consultoria-frontes .ctx-card,
-  .consultoria-frontes .ctx-front-card{
-    background:#050505 !important;
-    color:#ffffff !important;
-    border:none !important;
-    border-top:none !important;
-    box-shadow:none !important;
-    border-radius:24px !important;
-    padding:34px 28px 32px !important;
-  }
-  
-  /* remove qualquer faixa verde/linha decorativa antiga do topo */
-  .consultoria-frontes .ctx-fronts-grid .ctx-card::before,
-  .consultoria-frontes .ctx-fronts-grid .ctx-card::after,
-  .consultoria-frontes .ctx-fronts-grid .ctx-front-card::before,
-  .consultoria-frontes .ctx-fronts-grid .ctx-front-card::after,
-  .consultoria-frontes .ctx-card::before,
-  .consultoria-frontes .ctx-card::after,
-  .consultoria-frontes .ctx-front-card::before,
-  .consultoria-frontes .ctx-front-card::after{
-    content:none !important;
-    display:none !important;
-  }
-  
-  /* títulos verdes */
-  .consultoria-frontes .ctx-card h3,
-  .consultoria-frontes .ctx-front-card h3{
-    color:#b7ef2f !important;
-  }
-  
-  /* textos e listas em branco */
-  .consultoria-frontes .ctx-card p,
-  .consultoria-frontes .ctx-card li,
-  .consultoria-frontes .ctx-front-card p,
-  .consultoria-frontes .ctx-front-card li{
-    color:#ffffff !important;
-  }
-  
-  /* bullets brancos */
-  .consultoria-frontes .ctx-card li::marker,
-  .consultoria-frontes .ctx-front-card li::marker{
-    color:#ffffff !important;
-  }
 </script>
 
 {% endblock %}
