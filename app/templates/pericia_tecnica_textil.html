@@ -561,52 +561,149 @@
   }
 
   /* METHODOLOGY */
-  .ptx-steps{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:18px;
-    margin-top:24px;
+  .ptx-methodology{
+    margin-top:32px;
   }
-
-  .ptx-step{
+  
+  .ptx-methodology__shell{
     display:grid;
-    grid-template-columns:58px 1fr;
-    gap:18px;
-    align-items:flex-start;
-    padding:22px;
-    border:1px solid var(--ptx-border);
-    border-radius:24px;
-    background:var(--ptx-surface-soft);
+    grid-template-columns:minmax(0, 1.08fr) minmax(320px, .92fr);
+    gap:44px;
+    align-items:start;
   }
-
-  .ptx-step__n{
-    width:58px;
-    height:58px;
+  
+  .ptx-methodology__intro{
+    max-width:760px;
+  }
+  
+  .ptx-methodology__intro .ptx-kicker{
+    margin-bottom:14px;
+  }
+  
+  .ptx-methodology__title{
+    margin:0;
+    font-size:clamp(2.8rem, 5vw, 4.8rem);
+    line-height:.96;
+    letter-spacing:-.05em;
+    color:var(--ptx-text);
+    max-width:10ch;
+  }
+  
+  .ptx-methodology__title .olive{
+    color:var(--ptx-olive);
+  }
+  
+  .ptx-methodology__lead{
+    margin:26px 0 0;
+    font-size:clamp(1.18rem, 1.8vw, 1.42rem);
+    line-height:1.88;
+    color:#5f5f5f;
+    max-width:24ch;
+  }
+  
+  .ptx-methodology__list{
+    display:grid;
+    gap:0;
+    border-top:1px solid var(--ptx-border-soft);
+  }
+  
+  .ptx-methodology__item{
+    display:grid;
+    grid-template-columns:64px 1fr;
+    gap:16px;
+    padding:18px 0 20px;
+    border-bottom:1px solid var(--ptx-border-soft);
+  }
+  
+  .ptx-methodology__num{
+    width:52px;
+    height:52px;
     display:grid;
     place-items:center;
     border-radius:18px;
-    background:var(--ptx-black);
+    background:#0a0a0a;
     color:#fff;
+    font-size:1rem;
     font-weight:800;
-    font-size:1.06rem;
-    box-shadow:0 12px 24px rgba(17,17,17,.12);
+    box-shadow:0 10px 22px rgba(17,17,17,.12);
   }
-
-  .ptx-step h3{
+  
+  .ptx-methodology__content h3{
     margin:0 0 8px;
-    font-size:1.08rem;
-    line-height:1.32;
+    font-size:1.16rem;
+    line-height:1.28;
+    letter-spacing:-.02em;
     color:var(--ptx-text);
   }
-
-  .ptx-step p{
+  
+  .ptx-methodology__content p{
     margin:0;
+    font-size:1.02rem;
+    line-height:1.78;
     color:var(--ptx-muted);
-    line-height:1.72;
   }
-
-  .ptx-step--wide{
-    grid-column:1 / -1;
+  
+  @media (max-width: 1080px){
+    .ptx-methodology__shell{
+      grid-template-columns:1fr;
+      gap:28px;
+    }
+  
+    .ptx-methodology__intro{
+      max-width:none;
+    }
+  
+    .ptx-methodology__title{
+      max-width:12ch;
+    }
+  
+    .ptx-methodology__lead{
+      max-width:none;
+    }
+  }
+  
+  @media (max-width: 768px){
+    .ptx-methodology{
+      margin-top:24px;
+    }
+  
+    .ptx-methodology__shell{
+      gap:22px;
+    }
+  
+    .ptx-methodology__title{
+      font-size:2.5rem;
+      line-height:.98;
+      max-width:100%;
+    }
+  
+    .ptx-methodology__lead{
+      margin-top:18px;
+      font-size:1.02rem;
+      line-height:1.76;
+    }
+  
+    .ptx-methodology__item{
+      grid-template-columns:52px 1fr;
+      gap:14px;
+      padding:16px 0 18px;
+    }
+  
+    .ptx-methodology__num{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      font-size:.92rem;
+    }
+  
+    .ptx-methodology__content h3{
+      font-size:1.02rem;
+    }
+  
+    .ptx-methodology__content p{
+      font-size:.96rem;
+      line-height:1.7;
+    }
   }
 
   /* DIFFERENTIALS */
@@ -1300,20 +1397,26 @@
       </div>
     </section>
 
-    <section id="metodologia" class="ptx-section" data-reveal>
-      <div class="ptx-box">
-        <p class="ptx-kicker">Metodologia</p>
-        <h2 class="ptx-heading">Como o trabalho é <span class="olive">conduzido</span></h2>
-        <p class="ptx-lead">
-          O serviço é conduzido com lógica técnica, foco em evidência e leitura multivariável,
-          evitando conclusões simplistas para problemas que dependem da interação entre insumo,
-          processo e contexto operacional.
-        </p>
-
-        <div class="ptx-steps">
-          <article class="ptx-step">
-            <span class="ptx-step__n">1</span>
-            <div>
+    <section id="metodologia" class="ptx-section ptx-methodology" data-reveal>
+      <div class="ptx-methodology__shell">
+    
+        <div class="ptx-methodology__intro">
+          <p class="ptx-kicker">Metodologia</p>
+          <h2 class="ptx-methodology__title">
+            Como o trabalho é <span class="olive">conduzido</span>
+          </h2>
+          <p class="ptx-methodology__lead">
+            O serviço é conduzido com lógica técnica, foco em evidência e leitura multivariável,
+            evitando conclusões simplistas para problemas que dependem da interação entre insumo,
+            processo e contexto operacional.
+          </p>
+        </div>
+    
+        <div class="ptx-methodology__list">
+    
+          <article class="ptx-methodology__item">
+            <div class="ptx-methodology__num">1</div>
+            <div class="ptx-methodology__content">
               <h3>Definição do objeto da análise</h3>
               <p>
                 Delimitação do problema, do material envolvido, do período, do tipo de evidência
@@ -1321,10 +1424,10 @@
               </p>
             </div>
           </article>
-
-          <article class="ptx-step">
-            <span class="ptx-step__n">2</span>
-            <div>
+    
+          <article class="ptx-methodology__item">
+            <div class="ptx-methodology__num">2</div>
+            <div class="ptx-methodology__content">
               <h3>Leitura documental e organização das evidências</h3>
               <p>
                 Avaliação de laudos, fichas técnicas, relatórios de não conformidade, registros de
@@ -1332,10 +1435,10 @@
               </p>
             </div>
           </article>
-
-          <article class="ptx-step">
-            <span class="ptx-step__n">3</span>
-            <div>
+    
+          <article class="ptx-methodology__item">
+            <div class="ptx-methodology__num">3</div>
+            <div class="ptx-methodology__content">
               <h3>Análise técnica de causa e consistência</h3>
               <p>
                 Separação entre sintoma e causa provável, com avaliação das variáveis de matéria-prima,
@@ -1343,10 +1446,10 @@
               </p>
             </div>
           </article>
-
-          <article class="ptx-step">
-            <span class="ptx-step__n">4</span>
-            <div>
+    
+          <article class="ptx-methodology__item">
+            <div class="ptx-methodology__num">4</div>
+            <div class="ptx-methodology__content">
               <h3>Interface com ensaios e validações</h3>
               <p>
                 Quando necessário, direcionamento técnico para ensaios laboratoriais, critérios de
@@ -1354,10 +1457,10 @@
               </p>
             </div>
           </article>
-
-          <article class="ptx-step ptx-step--wide">
-            <span class="ptx-step__n">5</span>
-            <div>
+    
+          <article class="ptx-methodology__item">
+            <div class="ptx-methodology__num">5</div>
+            <div class="ptx-methodology__content">
               <h3>Entrega do posicionamento técnico</h3>
               <p>
                 Consolidação da análise em parecer, relatório técnico, resposta a quesitos ou apoio
@@ -1365,6 +1468,7 @@
               </p>
             </div>
           </article>
+    
         </div>
       </div>
     </section>
