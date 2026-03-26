@@ -5,7 +5,7 @@
 {% block content %}
 
 {% set pericia_href = "/contato?assunto=Per%C3%ADcia%20T%C3%A9cnica" %}
-{% set ptx_bg = url_for('static', filename='img/pericia-visao-geral-bg.jpg') %}
+{% set ptx_bg = url_for('static', filename='img/pericia-visao-geral-bg.png') %}
 
 <style>
   .ptx-page{
@@ -459,10 +459,7 @@
 
   .ptx-overview__hero{
     min-height:300px;
-    background:
-      linear-gradient(90deg, rgba(10,10,10,.90) 0%, rgba(18,18,18,.82) 48%, rgba(138,123,24,.34) 100%),
-      radial-gradient(circle at 82% 24%, rgba(183,224,74,.14) 0%, rgba(183,224,74,0) 24%),
-      url("{{ ptx_bg }}");
+    background-image:url("{{ ptx_bg }}");
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
@@ -470,15 +467,11 @@
     align-items:center;
     position:relative;
   }
-
+  
   .ptx-overview__hero::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 72%, rgba(248,247,243,.92) 100%);
-    pointer-events:none;
+    content:none;
   }
-
+  
   .ptx-overview__overlay{
     position:relative;
     z-index:1;
@@ -522,7 +515,7 @@
     max-width:72ch;
     font-size:1.08rem;
     line-height:1.82;
-    color:rgba(255,255,255,.86);
+    color:#ffffff;
   }
 
   .ptx-overview__content{
