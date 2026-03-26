@@ -1066,6 +1066,103 @@
       transition:none !important;
     }
   }
+
+  /* ===== AJUSTE VISUAL APENAS DO BLOCO #frentes ===== */
+  #frentes .ctz-grid-4{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    gap:18px;
+    align-items:stretch;
+  }
+  
+  #frentes .ctz-card{
+    background:#050505 !important;
+    color:#ffffff !important;
+    border:none !important;
+    box-shadow:none !important;
+    border-radius:24px !important;
+    padding:34px 28px 32px !important;
+    min-width:0;
+  }
+  
+  #frentes .ctz-card::before,
+  #frentes .ctz-card::after{
+    content:none !important;
+    display:none !important;
+  }
+  
+  #frentes .ctz-card__icon{
+    display:none !important;
+  }
+  
+  #frentes .ctz-card h3{
+    color:#b7ef2f !important;
+    margin:0 0 14px !important;
+    font-size:1.16rem !important;
+    line-height:1.24 !important;
+    letter-spacing:-0.02em !important;
+    font-weight:700 !important;
+  }
+  
+  #frentes .ctz-card p{
+    color:rgba(255,255,255,.92) !important;
+    margin:0 0 16px !important;
+    font-size:.98rem !important;
+    line-height:1.72 !important;
+  }
+  
+  #frentes .ctz-bullets{
+    margin:0 !important;
+    padding-left:22px !important;
+  }
+  
+  #frentes .ctz-bullets li{
+    color:rgba(255,255,255,.92) !important;
+    margin:0 0 10px !important;
+    font-size:.96rem !important;
+    line-height:1.58 !important;
+  }
+  
+  #frentes .ctz-bullets li::marker{
+    color:#ffffff !important;
+  }
+  
+  /* telas menores: continua lado a lado, com rolagem horizontal */
+  @media (max-width: 1180px){
+    #frentes .ctz-grid-4{
+      grid-auto-flow:column;
+      grid-auto-columns:minmax(260px, 1fr);
+      grid-template-columns:none;
+      overflow-x:auto;
+      padding-bottom:6px;
+      scrollbar-width:thin;
+    }
+  
+    #frentes .ctz-card{
+      min-width:260px;
+    }
+  }
+  
+  @media (max-width: 720px){
+    #frentes .ctz-grid-4{
+      grid-auto-columns:minmax(260px, 82vw);
+      gap:14px;
+      -webkit-overflow-scrolling:touch;
+    }
+  
+    #frentes .ctz-card{
+      padding:26px 22px 24px !important;
+    }
+  
+    #frentes .ctz-card h3{
+      font-size:1.05rem !important;
+    }
+  
+    #frentes .ctz-card p,
+    #frentes .ctz-bullets li{
+      font-size:.93rem !important;
+    }
+  }
 </style>
 
 <div class="ctz-page">
@@ -1271,7 +1368,6 @@
 
       <div class="ctz-grid-4">
         <article class="ctz-card ctz-reveal">
-          <div class="ctz-card__icon">A</div>
           <h3>Diagnóstico técnico</h3>
           <p>Leitura do processo, das rotinas, dos desvios e dos pontos que mais geram ruído, perda ou instabilidade.</p>
           <ul class="ctz-bullets">
@@ -1282,7 +1378,6 @@
         </article>
 
         <article class="ctz-card ctz-reveal">
-          <div class="ctz-card__icon">B</div>
           <h3>Priorização técnica</h3>
           <p>Separação do que é sintoma e do que realmente merece foco, com base em impacto, risco e viabilidade.</p>
           <ul class="ctz-bullets">
@@ -1293,7 +1388,6 @@
         </article>
 
         <article class="ctz-card ctz-reveal">
-          <div class="ctz-card__icon">C</div>
           <h3>Critérios e padrão</h3>
           <p>Definição de parâmetros para reduzir subjetividade e dar base objetiva à decisão técnica.</p>
           <ul class="ctz-bullets">
@@ -1304,7 +1398,6 @@
         </article>
 
         <article class="ctz-card ctz-reveal">
-          <div class="ctz-card__icon">D</div>
           <h3>Sustentação prática</h3>
           <p>Transformação do direcionamento em rotina possível de ser mantida pela operação.</p>
           <ul class="ctz-bullets">
