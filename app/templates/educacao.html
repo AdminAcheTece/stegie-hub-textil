@@ -716,6 +716,355 @@
     color:var(--edu-accent-2);
   }
 
+  .edu-cursos-carousel{
+    position:relative;
+  }
+
+  .edu-cursos-track{
+    display:flex;
+    gap:24px;
+    overflow-x:auto;
+    padding:6px 2px 8px;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+
+  .edu-cursos-track::-webkit-scrollbar{
+    display:none;
+  }
+
+  .edu-course-slide{
+    flex:0 0 clamp(260px, 25vw, 320px);
+    scroll-snap-align:start;
+  }
+
+  .edu-course-card{
+    position:relative;
+    min-height:430px;
+    border-radius:30px;
+    overflow:hidden;
+    background-color:#0f0f0f;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    box-shadow:var(--edu-shadow-soft);
+    border:1px solid rgba(255,255,255,.06);
+    isolation:isolate;
+  }
+
+  .edu-course-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.18) 32%, rgba(0,0,0,.62) 100%);
+  }
+
+  .edu-course-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:
+      radial-gradient(circle at 18% 14%, rgba(183,242,56,.18), transparent 26%);
+  }
+
+  .edu-course-card__front,
+  .edu-course-card__detail{
+    position:relative;
+    z-index:1;
+    min-height:430px;
+  }
+
+  .edu-course-card__front{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:30px 24px 22px;
+    transition:opacity .28s ease, transform .28s ease;
+  }
+
+  .edu-course-card__eyebrow{
+    display:block;
+    margin-bottom:14px;
+    color:var(--edu-accent-2);
+    font-size:1.02rem;
+    font-weight:800;
+    line-height:1.2;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+  }
+
+  .edu-course-card__front h3{
+    margin:0;
+    max-width:8.5ch;
+    color:#fff;
+    font-size:clamp(1.85rem, 2.4vw, 2.35rem);
+    line-height:1.02;
+    letter-spacing:-.04em;
+    font-weight:400;
+    text-wrap:balance;
+  }
+
+  .edu-course-card__actions{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .edu-course-btn,
+  .edu-course-link,
+  .edu-course-close,
+  .edu-course-detail-link{
+    width:56px;
+    height:56px;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    transition:transform .22s ease, background .22s ease, border-color .22s ease, color .22s ease, opacity .22s ease;
+  }
+
+  .edu-course-btn:hover,
+  .edu-course-link:hover,
+  .edu-course-close:hover,
+  .edu-course-detail-link:hover{
+    transform:translateY(-2px);
+  }
+
+  .edu-course-btn{
+    border:none;
+    cursor:pointer;
+    background:rgba(142,132,32,.96);
+    color:#fff;
+    box-shadow:0 10px 24px rgba(0,0,0,.16);
+  }
+
+  .edu-course-link{
+    background:rgba(9,9,9,.92);
+    border:1px solid rgba(255,255,255,.12);
+    color:var(--edu-accent-2);
+  }
+
+  .edu-course-btn svg,
+  .edu-course-link svg,
+  .edu-course-close svg,
+  .edu-course-detail-link svg{
+    width:22px;
+    height:22px;
+    display:block;
+  }
+
+  .edu-course-card__detail{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:30px 24px 22px;
+    background:rgba(245,243,236,.98);
+    color:#111;
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(16px);
+    transition:opacity .28s ease, transform .28s ease;
+  }
+
+  .edu-course-card.is-open .edu-course-card__detail{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateY(0);
+  }
+
+  .edu-course-card.is-open .edu-course-card__front{
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(-10px);
+  }
+
+  .edu-course-card__detail-top{
+    display:block;
+  }
+
+  .edu-course-card__detail-label{
+    display:block;
+    margin-bottom:8px;
+    color:#141414;
+    font-size:1rem;
+    line-height:1.2;
+    font-weight:500;
+  }
+
+  .edu-course-card__detail h3{
+    margin:0 0 20px;
+    color:var(--edu-accent);
+    font-size:clamp(1.75rem, 2.2vw, 2.15rem);
+    line-height:1.04;
+    letter-spacing:-.04em;
+    font-weight:400;
+    text-wrap:balance;
+  }
+
+  .edu-course-card__detail ul{
+    margin:0;
+    padding-left:25px;
+  }
+
+  .edu-course-card__detail li{
+    margin:0 0 10px;
+    color:#151515;
+    font-size:1rem;
+    line-height:1.52;
+  }
+
+  .edu-course-card__detail-actions{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding-top:20px;
+  }
+
+  .edu-course-close{
+    background:transparent;
+    border:1px solid rgba(142,132,32,.9);
+    color:var(--edu-accent);
+    cursor:pointer;
+  }
+
+  .edu-course-detail-link{
+    background:#0d0d0d;
+    border:1px solid rgba(13,13,13,.95);
+    color:var(--edu-accent-2);
+  }
+
+  .edu-cursos-nav{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-top:18px;
+    padding-left:2px;
+  }
+
+  .edu-cursos-nav__btn{
+    width:56px;
+    height:56px;
+    border-radius:999px;
+    border:none;
+    background:#090909;
+    color:var(--edu-accent-2);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:transform .22s ease, opacity .22s ease, background .22s ease;
+  }
+
+  .edu-cursos-nav__btn:hover{
+    transform:translateY(-2px);
+  }
+
+  .edu-cursos-nav__btn:disabled{
+    opacity:.38;
+    cursor:default;
+    transform:none;
+  }
+
+  .edu-cursos-nav__btn svg{
+    width:21px;
+    height:21px;
+    display:block;
+  }
+
+  .edu-cursos-nav__current{
+    min-width:44px;
+    color:var(--edu-accent);
+    font-size:2.1rem;
+    line-height:1;
+    font-weight:800;
+    letter-spacing:-.03em;
+    text-align:center;
+  }
+
+  .edu-cursos-nav__divider{
+    width:1px;
+    height:42px;
+    background:rgba(18,18,18,.10);
+  }
+
+  .edu-cursos-nav__total{
+    min-width:32px;
+    color:#6d6d6d;
+    font-size:1.6rem;
+    line-height:1;
+    font-weight:700;
+    text-align:center;
+  }
+
+  @media (max-width: 980px){
+    .edu-course-slide{
+      flex:0 0 clamp(250px, 68vw, 320px);
+    }
+
+    .edu-course-card,
+    .edu-course-card__front,
+    .edu-course-card__detail{
+      min-height:400px;
+    }
+  }
+
+  @media (max-width: 720px){
+    .edu-course-slide{
+      flex:0 0 84vw;
+    }
+
+    .edu-course-card,
+    .edu-course-card__front,
+    .edu-course-card__detail{
+      min-height:380px;
+    }
+
+    .edu-course-card__front,
+    .edu-course-card__detail{
+      padding:24px 20px 20px;
+    }
+
+    .edu-course-card__front h3{
+      font-size:2rem;
+      max-width:9ch;
+    }
+
+    .edu-course-card__detail h3{
+      font-size:1.9rem;
+    }
+
+    .edu-course-btn,
+    .edu-course-link,
+    .edu-course-close,
+    .edu-course-detail-link,
+    .edu-cursos-nav__btn{
+      width:52px;
+      height:52px;
+    }
+
+    .edu-cursos-nav{
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .edu-cursos-nav__current{
+      font-size:1.9rem;
+    }
+
+    .edu-cursos-nav__total{
+      font-size:1.45rem;
+    }
+  }  
+  
   .edu-cta{
     position:relative;
     padding:0 0 94px;
@@ -1407,7 +1756,7 @@
     </div>
   </section>
 
-  <section id="cursos" class="edu-block" style="padding-top:0;">
+    <section id="cursos" class="edu-block" style="padding-top:0;">
     <div class="edu-container">
       <div class="edu-topline edu-reveal">
         <div>
@@ -1415,109 +1764,258 @@
           <h2 class="edu-heading">Frentes de treinamento já posicionadas pela Stegie.</h2>
         </div>
         <p>
-          A página atual já apresenta quatro ofertas claras. Agora, este bloco passa a ter leitura mais editorial:
-          clique no <strong>+</strong> para abrir um resumo do curso e na seta para acessar a página exclusiva.
+          Clique no <strong>+</strong> para abrir um resumo do curso no próprio card e use a seta para acessar a página exclusiva.
         </p>
       </div>
 
-      <div class="edu-cursos-gallery edu-reveal" id="eduCursosGallery">
-        <aside class="edu-cursos-detail" id="eduCursosDetail" hidden aria-hidden="true">
-          <div class="edu-cursos-detail__inner">
-            <div>
-              <div class="edu-cursos-detail__label" id="eduCourseLabel">Operação</div>
-              <h3 id="eduCourseTitle">Treinamento Operacional em Malharia</h3>
-              <p id="eduCourseDescription">
-                Rotina, variáveis críticas e disciplina de execução para sustentar estabilidade de processo.
-              </p>
-              <ul class="edu-cursos-detail__list" id="eduCourseList"></ul>
+      <div class="edu-cursos-carousel edu-reveal">
+        <div class="edu-cursos-track" id="eduCursosTrack">
+
+          <article class="edu-course-slide">
+            <div class="edu-course-card" style="background-image:url('{{ url_for('static', filename='img/curso_treinamento_operacional_malharia.png') }}');">
+              <div class="edu-course-card__front">
+                <div>
+                  <span class="edu-course-card__eyebrow">OPERAÇÃO</span>
+                  <h3>Treinamento Operacional em Malharia</h3>
+                </div>
+
+                <div class="edu-course-card__actions">
+                  <button type="button" class="edu-course-btn" data-course-toggle aria-label="Abrir resumo do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round">
+                      <path d="M12 5v14"></path>
+                      <path d="M5 12h14"></path>
+                    </svg>
+                  </button>
+
+                  <a href="/treinamento-operacional-malharia" class="edu-course-link" aria-label="Ir para a página do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="m13 5 7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <div class="edu-course-card__detail">
+                <div class="edu-course-card__detail-top">
+                  <span class="edu-course-card__detail-label">Operação</span>
+                  <h3>Treinamento Operacional em Malharia</h3>
+                  <ul>
+                    <li>Variáveis que mais abrem variação.</li>
+                    <li>Checkpoints de controle e checagem.</li>
+                    <li>Prevenção de defeitos recorrentes.</li>
+                    <li>Padrão operacional e registro mínimo.</li>
+                  </ul>
+                </div>
+
+                <div class="edu-course-card__detail-actions">
+                  <button type="button" class="edu-course-close" data-course-close aria-label="Fechar resumo do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                      <path d="M6 6l12 12"></path>
+                      <path d="M18 6 6 18"></path>
+                    </svg>
+                  </button>
+
+                  <a href="/treinamento-operacional-malharia" class="edu-course-detail-link" aria-label="Ir para a página do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="m13 5 7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
+          </article>
 
-            <div class="edu-cursos-detail__actions">
-              <button type="button" class="edu-cursos-detail__close" id="eduCourseClose" aria-label="Fechar resumo do curso">×</button>
-              <a href="/treinamento-operacional-malharia" class="edu-cursos-detail__open" id="eduCourseOpen" aria-label="Abrir página do curso">→</a>
+          <article class="edu-course-slide">
+            <div class="edu-course-card" style="background-image:url('{{ url_for('static', filename='img/curso_desenvolvimento_malha.png') }}');">
+              <div class="edu-course-card__front">
+                <div>
+                  <span class="edu-course-card__eyebrow">DESENVOLVIMENTO</span>
+                  <h3>Desenvolvimento de Malha</h3>
+                </div>
+
+                <div class="edu-course-card__actions">
+                  <button type="button" class="edu-course-btn" data-course-toggle aria-label="Abrir resumo do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round">
+                      <path d="M12 5v14"></path>
+                      <path d="M5 12h14"></path>
+                    </svg>
+                  </button>
+
+                  <a href="/desenvolvimento-de-malha" class="edu-course-link" aria-label="Ir para a página do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="m13 5 7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <div class="edu-course-card__detail">
+                <div class="edu-course-card__detail-top">
+                  <span class="edu-course-card__detail-label">Desenvolvimento</span>
+                  <h3>Desenvolvimento de Malha</h3>
+                  <ul>
+                    <li>Requisito transformado em especificação técnica.</li>
+                    <li>Impacto das variáveis na malha.</li>
+                    <li>Critérios de avaliação e validação.</li>
+                    <li>Padronização do desenvolvimento.</li>
+                  </ul>
+                </div>
+
+                <div class="edu-course-card__detail-actions">
+                  <button type="button" class="edu-course-close" data-course-close aria-label="Fechar resumo do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                      <path d="M6 6l12 12"></path>
+                      <path d="M18 6 6 18"></path>
+                    </svg>
+                  </button>
+
+                  <a href="/desenvolvimento-de-malha" class="edu-course-detail-link" aria-label="Ir para a página do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="m13 5 7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
-          </div>
-        </aside>
+          </article>
 
-        <article
-          class="edu-course-card"
-          data-label="Operação"
-          data-title="Treinamento Operacional em Malharia"
-          data-description="Rotina, variáveis críticas e disciplina de execução para sustentar estabilidade de processo."
-          data-points="Variáveis que mais abrem variação|Checkpoints de controle e checagem|Prevenção de defeitos recorrentes|Padrão operacional e registro mínimo"
-          data-link="/treinamento-operacional-malharia"
-          style="background-image:url('{{ url_for('static', filename='img/curso_treinamento_operacional_malharia.png') }}');"
-        >
-          <div class="edu-course-card__top">
-            <span class="edu-course-card__eyebrow">Operação</span>
-            <h3>Treinamento Operacional em Malharia</h3>
-          </div>
+          <article class="edu-course-slide">
+            <div class="edu-course-card" style="background-image:url('{{ url_for('static', filename='img/curso_padroes_qualidade_fios.png') }}');">
+              <div class="edu-course-card__front">
+                <div>
+                  <span class="edu-course-card__eyebrow">MATÉRIA-PRIMA</span>
+                  <h3>Padrões de Qualidade de Fios</h3>
+                </div>
 
-          <div class="edu-course-card__actions">
-            <button type="button" class="edu-course-card__toggle" data-course-toggle aria-label="Abrir resumo do curso">+</button>
-            <a href="/treinamento-operacional-malharia" class="edu-course-card__link" aria-label="Ir para a página do curso">→</a>
-          </div>
-        </article>
+                <div class="edu-course-card__actions">
+                  <button type="button" class="edu-course-btn" data-course-toggle aria-label="Abrir resumo do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round">
+                      <path d="M12 5v14"></path>
+                      <path d="M5 12h14"></path>
+                    </svg>
+                  </button>
 
-        <article
-          class="edu-course-card"
-          data-label="Desenvolvimento"
-          data-title="Desenvolvimento de Malha"
-          data-description="Do objetivo do produto à construção replicável, com parâmetros, estrutura e critérios."
-          data-points="Requisito transformado em especificação técnica|Impacto das variáveis na malha|Critérios de avaliação e validação|Padronização do desenvolvimento"
-          data-link="/desenvolvimento-de-malha"
-          style="background-image:url('{{ url_for('static', filename='img/curso_desenvolvimento_malha.png') }}');"
-        >
-          <div class="edu-course-card__top">
-            <span class="edu-course-card__eyebrow">Desenvolvimento</span>
-            <h3>Desenvolvimento de Malha</h3>
-          </div>
+                  <a href="/padroes-de-qualidade-de-fios" class="edu-course-link" aria-label="Ir para a página do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="m13 5 7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
 
-          <div class="edu-course-card__actions">
-            <button type="button" class="edu-course-card__toggle" data-course-toggle aria-label="Abrir resumo do curso">+</button>
-            <a href="/desenvolvimento-de-malha" class="edu-course-card__link" aria-label="Ir para a página do curso">→</a>
-          </div>
-        </article>
+              <div class="edu-course-card__detail">
+                <div class="edu-course-card__detail-top">
+                  <span class="edu-course-card__detail-label">Matéria-prima</span>
+                  <h3>Padrões de Qualidade de Fios</h3>
+                  <ul>
+                    <li>Variáveis de fio e seus efeitos.</li>
+                    <li>Critérios para recebimento e uso.</li>
+                    <li>Comunicação técnica com fornecedores.</li>
+                    <li>Prevenção antes do defeito na malha.</li>
+                  </ul>
+                </div>
 
-        <article
-          class="edu-course-card"
-          data-label="Matéria-prima"
-          data-title="Padrões de Qualidade de Fios"
-          data-description="Como a qualidade do fio aparece na malha e como transformar isso em critério técnico útil."
-          data-points="Variáveis de fio e seus efeitos|Critérios para recebimento e uso|Comunicação técnica com fornecedores|Prevenção antes do defeito na malha"
-          data-link="/padroes-de-qualidade-de-fios"
-          style="background-image:url('{{ url_for('static', filename='img/curso_padroes_qualidade_fios.png') }}');"
-        >
-          <div class="edu-course-card__top">
-            <span class="edu-course-card__eyebrow">Matéria-prima</span>
-            <h3>Padrões de Qualidade de Fios</h3>
-          </div>
+                <div class="edu-course-card__detail-actions">
+                  <button type="button" class="edu-course-close" data-course-close aria-label="Fechar resumo do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                      <path d="M6 6l12 12"></path>
+                      <path d="M18 6 6 18"></path>
+                    </svg>
+                  </button>
 
-          <div class="edu-course-card__actions">
-            <button type="button" class="edu-course-card__toggle" data-course-toggle aria-label="Abrir resumo do curso">+</button>
-            <a href="/padroes-de-qualidade-de-fios" class="edu-course-card__link" aria-label="Ir para a página do curso">→</a>
-          </div>
-        </article>
+                  <a href="/padroes-de-qualidade-de-fios" class="edu-course-detail-link" aria-label="Ir para a página do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="m13 5 7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
 
-        <article
-          class="edu-course-card"
-          data-label="Laboratório e decisão"
-          data-title="Testes de Qualidade da Malha"
-          data-description="Teste certo, no momento certo, com leitura objetiva para apoiar a decisão."
-          data-points="Quais testes importam por objetivo|Quando testar no fluxo|Interpretação e ação|Critérios de aceite e tolerâncias"
-          data-link="/testes-de-qualidade-da-malha"
-          style="background-image:url('{{ url_for('static', filename='img/curso_testes_qualidade_malha.png') }}');"
-        >
-          <div class="edu-course-card__top">
-            <span class="edu-course-card__eyebrow">Laboratório e decisão</span>
-            <h3>Testes de Qualidade da Malha</h3>
-          </div>
+          <article class="edu-course-slide">
+            <div class="edu-course-card" style="background-image:url('{{ url_for('static', filename='img/curso_testes_qualidade_malha.png') }}');">
+              <div class="edu-course-card__front">
+                <div>
+                  <span class="edu-course-card__eyebrow">LABORATÓRIO E DECISÃO</span>
+                  <h3>Testes de Qualidade da Malha</h3>
+                </div>
 
-          <div class="edu-course-card__actions">
-            <button type="button" class="edu-course-card__toggle" data-course-toggle aria-label="Abrir resumo do curso">+</button>
-            <a href="/testes-de-qualidade-da-malha" class="edu-course-card__link" aria-label="Ir para a página do curso">→</a>
-          </div>
-        </article>
+                <div class="edu-course-card__actions">
+                  <button type="button" class="edu-course-btn" data-course-toggle aria-label="Abrir resumo do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round">
+                      <path d="M12 5v14"></path>
+                      <path d="M5 12h14"></path>
+                    </svg>
+                  </button>
+
+                  <a href="/testes-de-qualidade-da-malha" class="edu-course-link" aria-label="Ir para a página do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="m13 5 7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <div class="edu-course-card__detail">
+                <div class="edu-course-card__detail-top">
+                  <span class="edu-course-card__detail-label">Laboratório e decisão</span>
+                  <h3>Testes de Qualidade da Malha</h3>
+                  <ul>
+                    <li>Quais testes importam por objetivo.</li>
+                    <li>Quando testar no fluxo.</li>
+                    <li>Interpretação e ação.</li>
+                    <li>Critérios de aceite e tolerâncias.</li>
+                  </ul>
+                </div>
+
+                <div class="edu-course-card__detail-actions">
+                  <button type="button" class="edu-course-close" data-course-close aria-label="Fechar resumo do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                      <path d="M6 6l12 12"></path>
+                      <path d="M18 6 6 18"></path>
+                    </svg>
+                  </button>
+
+                  <a href="/testes-de-qualidade-da-malha" class="edu-course-detail-link" aria-label="Ir para a página do curso">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="m13 5 7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="edu-cursos-nav edu-reveal">
+          <button type="button" class="edu-cursos-nav__btn" id="eduCursosPrev" aria-label="Curso anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5"></path>
+              <path d="m11 5-7 7 7 7"></path>
+            </svg>
+          </button>
+
+          <span class="edu-cursos-nav__current" id="eduCursosCurrent">01</span>
+          <span class="edu-cursos-nav__divider" aria-hidden="true"></span>
+          <span class="edu-cursos-nav__total" id="eduCursosTotal">04</span>
+
+          <button type="button" class="edu-cursos-nav__btn" id="eduCursosNext" aria-label="Próximo curso">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m13 5 7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -1743,6 +2241,84 @@
       courseClose.addEventListener("click", () => {
         closeCourseDetail();
       });
+    }
+
+    const cursosTrack = document.getElementById("eduCursosTrack");
+    const cursosPrev = document.getElementById("eduCursosPrev");
+    const cursosNext = document.getElementById("eduCursosNext");
+    const cursosCurrent = document.getElementById("eduCursosCurrent");
+    const cursosTotal = document.getElementById("eduCursosTotal");
+    const courseCards = Array.from(document.querySelectorAll(".edu-course-card"));
+
+    function formatCourseNumber(value){
+      return String(value).padStart(2, "0");
+    }
+
+    function getCourseStep(){
+      const firstSlide = cursosTrack?.querySelector(".edu-course-slide");
+      if (!firstSlide) return 320;
+      const gap = parseFloat(getComputedStyle(cursosTrack).gap || "24");
+      return firstSlide.getBoundingClientRect().width + gap;
+    }
+
+    function updateCursosNav(){
+      if (!cursosTrack || !cursosCurrent || !cursosTotal) return;
+
+      const total = cursosTrack.querySelectorAll(".edu-course-slide").length;
+      const step = getCourseStep();
+      const current = Math.min(total, Math.max(1, Math.round(cursosTrack.scrollLeft / step) + 1));
+      const maxScroll = Math.max(0, cursosTrack.scrollWidth - cursosTrack.clientWidth - 4);
+
+      cursosCurrent.textContent = formatCourseNumber(current);
+      cursosTotal.textContent = formatCourseNumber(total);
+
+      if (cursosPrev) cursosPrev.disabled = cursosTrack.scrollLeft <= 4;
+      if (cursosNext) cursosNext.disabled = cursosTrack.scrollLeft >= maxScroll;
+    }
+
+    function closeOtherCourseCards(exceptionCard){
+      courseCards.forEach(card => {
+        if (card !== exceptionCard) card.classList.remove("is-open");
+      });
+    }
+
+    courseCards.forEach((card) => {
+      const toggle = card.querySelector("[data-course-toggle]");
+      const close = card.querySelector("[data-course-close]");
+
+      if (toggle) {
+        toggle.addEventListener("click", (event) => {
+          event.preventDefault();
+          const willOpen = !card.classList.contains("is-open");
+          closeOtherCourseCards(card);
+          card.classList.toggle("is-open", willOpen);
+        });
+      }
+
+      if (close) {
+        close.addEventListener("click", (event) => {
+          event.preventDefault();
+          card.classList.remove("is-open");
+        });
+      }
+    });
+
+    if (cursosPrev && cursosTrack) {
+      cursosPrev.addEventListener("click", () => {
+        cursosTrack.scrollBy({ left: -getCourseStep(), behavior: "smooth" });
+      });
+    }
+
+    if (cursosNext && cursosTrack) {
+      cursosNext.addEventListener("click", () => {
+        cursosTrack.scrollBy({ left: getCourseStep(), behavior: "smooth" });
+      });
+    }
+
+    if (cursosTrack) {
+      cursosTrack.addEventListener("scroll", updateCursosNav, { passive: true });
+      window.addEventListener("resize", updateCursosNav);
+      updateCursosNav();
     }
   })();
 </script>
