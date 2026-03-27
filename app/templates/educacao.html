@@ -784,6 +784,266 @@
     transform:translateY(0);
   }
 
+    .edu-cursos-gallery{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0,1fr));
+    gap:24px;
+    align-items:stretch;
+  }
+
+  .edu-cursos-gallery.is-open{
+    grid-template-columns:minmax(340px, 1.04fr) repeat(3, minmax(0,1fr));
+  }
+
+  .edu-cursos-detail{
+    display:none;
+    min-height:588px;
+    border-radius:28px;
+    background:rgba(255,255,255,.86);
+    border:1px solid rgba(18,18,18,.08);
+    box-shadow:var(--edu-shadow-soft);
+    overflow:hidden;
+  }
+
+  .edu-cursos-gallery.is-open .edu-cursos-detail{
+    display:flex;
+  }
+
+  .edu-cursos-detail__inner{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    min-height:100%;
+    padding:40px 34px 28px;
+  }
+
+  .edu-cursos-detail__label{
+    margin:0 0 10px;
+    font-size:1.05rem;
+    line-height:1.3;
+    color:#141414;
+    font-weight:500;
+  }
+
+  .edu-cursos-detail h3{
+    margin:0 0 20px;
+    font-size:clamp(2rem, 2.8vw, 3rem);
+    line-height:1.06;
+    letter-spacing:-.045em;
+    font-weight:400;
+    color:var(--edu-accent);
+  }
+
+  .edu-cursos-detail p{
+    margin:0 0 20px;
+    color:#2d2d2d;
+    line-height:1.72;
+    font-size:1.02rem;
+  }
+
+  .edu-cursos-detail__list{
+    margin:0;
+    padding-left:24px;
+  }
+
+  .edu-cursos-detail__list li{
+    margin:0 0 10px;
+    color:#161616;
+    line-height:1.58;
+    font-size:1rem;
+  }
+
+  .edu-cursos-detail__actions{
+    margin-top:auto;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding-top:28px;
+  }
+
+  .edu-cursos-detail__close,
+  .edu-cursos-detail__open,
+  .edu-course-card__toggle,
+  .edu-course-card__link{
+    width:58px;
+    height:58px;
+    border-radius:999px;
+    display:grid;
+    place-items:center;
+    text-decoration:none;
+    transition:transform .22s ease, background .22s ease, border-color .22s ease, color .22s ease;
+  }
+
+  .edu-cursos-detail__close{
+    border:1px solid rgba(142,132,32,.85);
+    background:transparent;
+    color:var(--edu-accent);
+    cursor:pointer;
+    font-size:1.5rem;
+    line-height:1;
+  }
+
+  .edu-cursos-detail__open{
+    background:#0d0d0d;
+    color:var(--edu-accent-2);
+    border:1px solid rgba(13,13,13,.96);
+    font-size:1.9rem;
+    font-weight:700;
+  }
+
+  .edu-cursos-detail__close:hover,
+  .edu-cursos-detail__open:hover,
+  .edu-course-card__toggle:hover,
+  .edu-course-card__link:hover{
+    transform:translateY(-2px);
+  }
+
+  .edu-course-card{
+    position:relative;
+    min-height:588px;
+    padding:28px;
+    border-radius:28px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    background-color:#111;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    color:#fff;
+    box-shadow:var(--edu-shadow-soft);
+    border:1px solid rgba(255,255,255,.06);
+    isolation:isolate;
+    transition:transform .24s ease, box-shadow .24s ease;
+  }
+
+  .edu-course-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--edu-shadow);
+  }
+
+  .edu-course-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.22) 28%, rgba(0,0,0,.62) 100%);
+    z-index:0;
+  }
+
+  .edu-course-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 18% 14%, rgba(183,242,56,.18), transparent 28%);
+    z-index:0;
+    pointer-events:none;
+  }
+
+  .edu-course-card > *{
+    position:relative;
+    z-index:1;
+  }
+
+  .edu-course-card__top{
+    display:block;
+  }
+
+  .edu-course-card__eyebrow{
+    display:block;
+    margin-bottom:16px;
+    color:var(--edu-accent-2);
+    font-size:.94rem;
+    font-weight:800;
+    line-height:1.2;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+  }
+
+  .edu-course-card h3{
+    margin:0;
+    max-width:11ch;
+    font-size:clamp(2rem, 2.4vw, 3rem);
+    line-height:1.06;
+    letter-spacing:-.045em;
+    font-weight:400;
+    color:#fff;
+  }
+
+  .edu-course-card__actions{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .edu-course-card__toggle{
+    border:none;
+    background:rgba(142,132,32,.92);
+    color:#fff;
+    cursor:pointer;
+    font-size:2rem;
+    line-height:1;
+  }
+
+  .edu-course-card__link{
+    background:#0d0d0d;
+    color:var(--edu-accent-2);
+    border:1px solid rgba(255,255,255,.14);
+    font-size:1.9rem;
+    font-weight:700;
+  }
+
+  .edu-course-card.is-hidden{
+    display:none;
+  }
+
+  @media (max-width: 1280px){
+    .edu-cursos-gallery,
+    .edu-cursos-gallery.is-open{
+      grid-template-columns:repeat(2, minmax(0,1fr));
+    }
+
+    .edu-cursos-gallery.is-open .edu-cursos-detail{
+      grid-column:1 / -1;
+      min-height:auto;
+    }
+
+    .edu-course-card{
+      min-height:520px;
+    }
+
+    .edu-cursos-detail__inner{
+      padding:32px 28px 26px;
+    }
+  }
+
+  @media (max-width: 720px){
+    .edu-cursos-gallery,
+    .edu-cursos-gallery.is-open{
+      grid-template-columns:1fr;
+    }
+
+    .edu-course-card{
+      min-height:420px;
+      padding:24px;
+    }
+
+    .edu-cursos-detail{
+      min-height:auto;
+    }
+
+    .edu-cursos-detail__inner{
+      padding:26px 22px 22px;
+    }
+
+    .edu-cursos-detail h3,
+    .edu-course-card h3{
+      font-size:2.1rem;
+    }
+  }
+  
   @media (max-width: 1180px){
     .edu-grid-4{ grid-template-columns:repeat(2, minmax(0,1fr)); }
     .edu-results{ grid-template-columns:repeat(3, minmax(0,1fr)); }
@@ -1155,58 +1415,108 @@
           <h2 class="edu-heading">Frentes de treinamento já posicionadas pela Stegie.</h2>
         </div>
         <p>
-          A página atual já apresenta quatro ofertas claras. O novo layout mantém essas frentes,
-          mas com leitura premium, maior hierarquia e CTA melhor distribuída.
+          A página atual já apresenta quatro ofertas claras. Agora, este bloco passa a ter leitura mais editorial:
+          clique no <strong>+</strong> para abrir um resumo do curso e na seta para acessar a página exclusiva.
         </p>
       </div>
 
-      <div class="edu-grid-4">
-        <article class="edu-card edu-reveal">
-          <h3>Treinamento Operacional em Malharia</h3>
-          <p>Rotina, variáveis críticas e disciplina de execução para sustentar estabilidade de processo.</p>
-          <ul class="edu-bullets">
-            <li>Variáveis que mais abrem variação</li>
-            <li>Checkpoints de controle e checagem</li>
-            <li>Prevenção de defeitos recorrentes</li>
-            <li>Padrão operacional e registro mínimo</li>
-          </ul>
-          <a href="/contato" class="edu-cta-link">Quero este treinamento</a>
+      <div class="edu-cursos-gallery edu-reveal" id="eduCursosGallery">
+        <aside class="edu-cursos-detail" id="eduCursosDetail" hidden aria-hidden="true">
+          <div class="edu-cursos-detail__inner">
+            <div>
+              <div class="edu-cursos-detail__label" id="eduCourseLabel">Operação</div>
+              <h3 id="eduCourseTitle">Treinamento Operacional em Malharia</h3>
+              <p id="eduCourseDescription">
+                Rotina, variáveis críticas e disciplina de execução para sustentar estabilidade de processo.
+              </p>
+              <ul class="edu-cursos-detail__list" id="eduCourseList"></ul>
+            </div>
+
+            <div class="edu-cursos-detail__actions">
+              <button type="button" class="edu-cursos-detail__close" id="eduCourseClose" aria-label="Fechar resumo do curso">×</button>
+              <a href="/treinamento-operacional-malharia" class="edu-cursos-detail__open" id="eduCourseOpen" aria-label="Abrir página do curso">→</a>
+            </div>
+          </div>
+        </aside>
+
+        <article
+          class="edu-course-card"
+          data-label="Operação"
+          data-title="Treinamento Operacional em Malharia"
+          data-description="Rotina, variáveis críticas e disciplina de execução para sustentar estabilidade de processo."
+          data-points="Variáveis que mais abrem variação|Checkpoints de controle e checagem|Prevenção de defeitos recorrentes|Padrão operacional e registro mínimo"
+          data-link="/treinamento-operacional-malharia"
+          style="background-image:url('{{ url_for('static', filename='img/curso_treinamento_operacional_malharia.png') }}');"
+        >
+          <div class="edu-course-card__top">
+            <span class="edu-course-card__eyebrow">Operação</span>
+            <h3>Treinamento Operacional em Malharia</h3>
+          </div>
+
+          <div class="edu-course-card__actions">
+            <button type="button" class="edu-course-card__toggle" data-course-toggle aria-label="Abrir resumo do curso">+</button>
+            <a href="/treinamento-operacional-malharia" class="edu-course-card__link" aria-label="Ir para a página do curso">→</a>
+          </div>
         </article>
 
-        <article class="edu-card edu-reveal">
-          <h3>Desenvolvimento de Malha</h3>
-          <p>Do objetivo do produto à construção replicável, com parâmetros, estrutura e critérios.</p>
-          <ul class="edu-bullets">
-            <li>Requisito transformado em especificação técnica</li>
-            <li>Impacto das variáveis na malha</li>
-            <li>Critérios de avaliação e validação</li>
-            <li>Padronização do desenvolvimento</li>
-          </ul>
-          <a href="/contato" class="edu-cta-link">Quero este treinamento</a>
+        <article
+          class="edu-course-card"
+          data-label="Desenvolvimento"
+          data-title="Desenvolvimento de Malha"
+          data-description="Do objetivo do produto à construção replicável, com parâmetros, estrutura e critérios."
+          data-points="Requisito transformado em especificação técnica|Impacto das variáveis na malha|Critérios de avaliação e validação|Padronização do desenvolvimento"
+          data-link="/desenvolvimento-de-malha"
+          style="background-image:url('{{ url_for('static', filename='img/curso_desenvolvimento_malha.png') }}');"
+        >
+          <div class="edu-course-card__top">
+            <span class="edu-course-card__eyebrow">Desenvolvimento</span>
+            <h3>Desenvolvimento de Malha</h3>
+          </div>
+
+          <div class="edu-course-card__actions">
+            <button type="button" class="edu-course-card__toggle" data-course-toggle aria-label="Abrir resumo do curso">+</button>
+            <a href="/desenvolvimento-de-malha" class="edu-course-card__link" aria-label="Ir para a página do curso">→</a>
+          </div>
         </article>
 
-        <article class="edu-card edu-reveal">
-          <h3>Padrões de Qualidade de Fios</h3>
-          <p>Como a qualidade do fio aparece na malha e como transformar isso em critério técnico útil.</p>
-          <ul class="edu-bullets">
-            <li>Variáveis de fio e seus efeitos</li>
-            <li>Critérios para recebimento e uso</li>
-            <li>Comunicação técnica com fornecedores</li>
-            <li>Prevenção antes do defeito na malha</li>
-          </ul>
-          <a href="/contato" class="edu-cta-link">Quero este treinamento</a>
+        <article
+          class="edu-course-card"
+          data-label="Matéria-prima"
+          data-title="Padrões de Qualidade de Fios"
+          data-description="Como a qualidade do fio aparece na malha e como transformar isso em critério técnico útil."
+          data-points="Variáveis de fio e seus efeitos|Critérios para recebimento e uso|Comunicação técnica com fornecedores|Prevenção antes do defeito na malha"
+          data-link="/padroes-de-qualidade-de-fios"
+          style="background-image:url('{{ url_for('static', filename='img/curso_padroes_qualidade_fios.png') }}');"
+        >
+          <div class="edu-course-card__top">
+            <span class="edu-course-card__eyebrow">Matéria-prima</span>
+            <h3>Padrões de Qualidade de Fios</h3>
+          </div>
+
+          <div class="edu-course-card__actions">
+            <button type="button" class="edu-course-card__toggle" data-course-toggle aria-label="Abrir resumo do curso">+</button>
+            <a href="/padroes-de-qualidade-de-fios" class="edu-course-card__link" aria-label="Ir para a página do curso">→</a>
+          </div>
         </article>
 
-        <article class="edu-card edu-reveal">
-          <h3>Testes de Qualidade da Malha</h3>
-          <p>Teste certo, no momento certo, com leitura objetiva para apoiar a decisão.</p>
-          <ul class="edu-bullets">
-            <li>Quais testes importam por objetivo</li>
-            <li>Quando testar no fluxo</li>
-            <li>Interpretação e ação</li>
-            <li>Critérios de aceite e tolerâncias</li>
-          </ul>
-          <a href="/contato" class="edu-cta-link">Quero este treinamento</a>
+        <article
+          class="edu-course-card"
+          data-label="Laboratório e decisão"
+          data-title="Testes de Qualidade da Malha"
+          data-description="Teste certo, no momento certo, com leitura objetiva para apoiar a decisão."
+          data-points="Quais testes importam por objetivo|Quando testar no fluxo|Interpretação e ação|Critérios de aceite e tolerâncias"
+          data-link="/testes-de-qualidade-da-malha"
+          style="background-image:url('{{ url_for('static', filename='img/curso_testes_qualidade_malha.png') }}');"
+        >
+          <div class="edu-course-card__top">
+            <span class="edu-course-card__eyebrow">Laboratório e decisão</span>
+            <h3>Testes de Qualidade da Malha</h3>
+          </div>
+
+          <div class="edu-course-card__actions">
+            <button type="button" class="edu-course-card__toggle" data-course-toggle aria-label="Abrir resumo do curso">+</button>
+            <a href="/testes-de-qualidade-da-malha" class="edu-course-card__link" aria-label="Ir para a página do curso">→</a>
+          </div>
         </article>
       </div>
     </div>
@@ -1356,6 +1666,84 @@
     });
 
     sections.forEach(section => navObserver.observe(section));
+
+    const cursosGallery = document.getElementById("eduCursosGallery");
+    const cursosDetail = document.getElementById("eduCursosDetail");
+    const cursosCards = Array.from(document.querySelectorAll(".edu-course-card"));
+    const courseLabel = document.getElementById("eduCourseLabel");
+    const courseTitle = document.getElementById("eduCourseTitle");
+    const courseDescription = document.getElementById("eduCourseDescription");
+    const courseList = document.getElementById("eduCourseList");
+    const courseOpen = document.getElementById("eduCourseOpen");
+    const courseClose = document.getElementById("eduCourseClose");
+
+    let activeCourseCard = null;
+
+    function fillCourseDetail(card){
+      if (!card) return;
+
+      courseLabel.textContent = card.dataset.label || "";
+      courseTitle.textContent = card.dataset.title || "";
+      courseDescription.textContent = card.dataset.description || "";
+      courseOpen.href = card.dataset.link || "/contato";
+
+      const points = (card.dataset.points || "")
+        .split("|")
+        .map(item => item.trim())
+        .filter(Boolean);
+
+      courseList.innerHTML = "";
+      points.forEach(point => {
+        const li = document.createElement("li");
+        li.textContent = point;
+        courseList.appendChild(li);
+      });
+    }
+
+    function openCourseDetail(card){
+      if (!cursosGallery || !cursosDetail || !card) return;
+
+      cursosCards.forEach(item => item.classList.remove("is-hidden"));
+      fillCourseDetail(card);
+
+      card.classList.add("is-hidden");
+      cursosGallery.classList.add("is-open");
+      cursosDetail.hidden = false;
+      cursosDetail.setAttribute("aria-hidden", "false");
+      activeCourseCard = card;
+    }
+
+    function closeCourseDetail(){
+      if (!cursosGallery || !cursosDetail) return;
+
+      cursosGallery.classList.remove("is-open");
+      cursosDetail.hidden = true;
+      cursosDetail.setAttribute("aria-hidden", "true");
+      cursosCards.forEach(item => item.classList.remove("is-hidden"));
+      activeCourseCard = null;
+    }
+
+    cursosCards.forEach(card => {
+      const toggle = card.querySelector("[data-course-toggle]");
+      if (!toggle) return;
+
+      toggle.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        if (activeCourseCard === card) {
+          closeCourseDetail();
+          return;
+        }
+
+        openCourseDetail(card);
+      });
+    });
+
+    if (courseClose) {
+      courseClose.addEventListener("click", () => {
+        closeCourseDetail();
+      });
+    }
   })();
 </script>
 
