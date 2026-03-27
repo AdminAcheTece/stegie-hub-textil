@@ -58,23 +58,23 @@
     z-index:1;
     display:grid;
     grid-template-columns:1.1fr .9fr;
-    gap:28px;
+    gap:20px;
     align-items:center;
     width:min(1280px, calc(100% - 64px));
     margin:0 auto;
-    padding:54px 38px;
+    padding:26px 38px 24px;
   }
 
   .fichas-login__brow{
     display:inline-flex;
     align-items:center;
-    min-height:40px;
-    padding:0 16px;
+    min-height:34px;
+    padding:0 14px;
     border-radius:999px;
     border:1px solid rgba(255,255,255,.18);
     background:rgba(255,255,255,.12);
     color:rgba(255,255,255,.90);
-    font-size:.86rem;
+    font-size:.78rem;
     font-weight:700;
     letter-spacing:.12em;
     text-transform:uppercase;
@@ -82,25 +82,25 @@
   }
 
   .fichas-login__hero h1{
-    margin:16px 0 14px;
+    margin:10px 0 10px;
     color:#fff;
-    font-size:clamp(2.2rem, 4vw, 4.1rem);
-    line-height:1;
+    font-size:clamp(2rem, 3.2vw, 3.3rem);
+    line-height:.96;
     letter-spacing:-.05em;
     max-width:11ch;
   }
 
   .fichas-login__hero p{
     margin:0;
-    max-width:56ch;
+    max-width:54ch;
     color:rgba(255,255,255,.92);
-    font-size:1.08rem;
-    line-height:1.7;
+    font-size:.98rem;
+    line-height:1.5;
   }
 
   .fichas-login__hero-card{
-    border-radius:28px;
-    padding:26px 24px;
+    border-radius:24px;
+    padding:18px 20px;
     background:rgba(255,255,255,.20);
     border:1px solid rgba(255,255,255,.22);
     box-shadow:0 18px 44px rgba(0,0,0,.14);
@@ -110,30 +110,30 @@
 
   .fichas-login__hero-card span{
     display:block;
-    margin-bottom:10px;
+    margin-bottom:8px;
     color:rgba(255,255,255,.72);
-    font-size:.88rem;
+    font-size:.8rem;
     font-weight:800;
     letter-spacing:.08em;
     text-transform:uppercase;
   }
 
   .fichas-login__hero-card h3{
-    margin:0 0 14px;
-    font-size:1.22rem;
+    margin:0 0 10px;
+    font-size:1.04rem;
     line-height:1.28;
     letter-spacing:-.02em;
   }
-
+  
   .fichas-login__hero-card ul{
     margin:0;
     padding-left:18px;
   }
-
+  
   .fichas-login__hero-card li{
-    margin:0 0 8px;
+    margin:0 0 5px;
     color:rgba(255,255,255,.9);
-    line-height:1.55;
+    line-height:1.42;
   }
 
   .fichas-login__panel{
@@ -367,39 +367,48 @@
     .fichas-login__panel{
       grid-template-columns:1fr;
     }
-
+  
     .fichas-login__hero-grid{
       width:min(100% - 40px, 1280px);
+      padding:24px 24px 22px;
+      gap:16px;
     }
   }
-
+  
   @media (max-width: 720px){
     .fichas-login{
       padding:0 0 70px;
     }
-
+  
     .fichas-login__container{
       width:min(100% - 24px, 1120px);
     }
-
+  
     .fichas-login__hero{
       border-radius:0 0 24px 24px;
     }
-
+  
     .fichas-login__hero-grid{
       width:min(100% - 24px, 1280px);
-      padding:34px 20px 40px;
+      padding:20px 16px 18px;
+      gap:14px;
     }
-
+  
     .fichas-login__box,
     .fichas-login__info,
     .fichas-login__action-card{
       padding:22px;
     }
-
+  
     .fichas-login__hero h1{
       max-width:100%;
-      font-size:2.5rem;
+      font-size:2.15rem;
+      margin:8px 0 8px;
+    }
+  
+    .fichas-login__hero p{
+      font-size:.94rem;
+      line-height:1.45;
     }
   }
 </style>
