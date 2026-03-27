@@ -1,1273 +1,496 @@
-{% extends "base.html" %}
-{% block title %}STEGIE | Fichas Técnicas de Malharia{% endblock %}
-{% block meta_description %}Fichas Técnicas de Malharia com base estruturada para consulta, busca, compra por ficha e aplicação em desenvolvimento, engenharia, qualidade e comercial técnico.{% endblock %}
-
-{% block content %}
-
-<style>
-  .ftm-page{
-    --ftm-bg:#f3f1eb;
-    --ftm-surface:#ffffff;
-    --ftm-text:#121212;
-    --ftm-muted:#5b5b5b;
-    --ftm-border:#ddd7cb;
-    --ftm-accent:#8E8420;
-    --ftm-accent-2:#B7F238;
-    --ftm-dark:#0d0d0d;
-    --ftm-radius-xl:32px;
-    --ftm-radius-lg:24px;
-    --ftm-radius-md:18px;
-    --ftm-shadow:0 18px 44px rgba(0,0,0,.08);
-    --ftm-shadow-soft:0 10px 28px rgba(0,0,0,.05);
-    background:var(--ftm-bg);
-    color:var(--ftm-text);
-    overflow:hidden;
-  }
-
-  .ftm-container{
-    width:min(1180px, calc(100% - 40px));
-    margin:0 auto;
-  }
-
-  .ftm-kicker{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    font-size:.92rem;
-    font-weight:700;
-    letter-spacing:.02em;
-    color:var(--ftm-accent);
-  }
-
-  .ftm-kicker::before{
-    content:"";
-    width:10px;
-    height:10px;
-    border-radius:999px;
-    background:var(--ftm-accent-2);
-    box-shadow:0 0 0 5px rgba(183,242,56,.14);
-  }
-
-  .ftm-hero{
-    position:relative;
-    padding:0 0 34px;
-    background:linear-gradient(180deg, #f5f3ee 0%, #f3f1eb 100%);
-  }
-
-  .ftm-slide{
-    position:relative;
-    overflow:hidden;
-    min-height:520px;
-    border-radius:0 0 34px 34px;
-    background:
-      linear-gradient(90deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.38) 34%, rgba(0,0,0,.14) 68%, rgba(0,0,0,.08) 100%),
-      radial-gradient(circle at 78% 18%, rgba(255,214,102,.26), transparent 18%),
-      radial-gradient(circle at 86% 62%, rgba(200,235,120,.18), transparent 16%),
-      linear-gradient(135deg, #6e6440 0%, #94885d 18%, #c8bc8a 40%, #e7dec1 62%, #d2c69b 80%, #b4aa7a 100%);
-    box-shadow:0 20px 50px rgba(0,0,0,.10);
-  }
-
-  .ftm-slide::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-      radial-gradient(circle at 74% 22%, rgba(255,245,190,.34) 0, rgba(255,245,190,.10) 10%, transparent 24%),
-      radial-gradient(circle at 70% 48%, rgba(255,225,140,.18) 0, transparent 16%),
-      radial-gradient(circle at 86% 74%, rgba(210,245,150,.12) 0, transparent 14%);
-    pointer-events:none;
-  }
-
-  .ftm-slide::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:
-      linear-gradient(118deg, transparent 0%, transparent 48%, rgba(255,255,255,.10) 52%, transparent 56%, transparent 100%),
-      linear-gradient(108deg, transparent 0%, transparent 66%, rgba(210,245,150,.10) 70%, transparent 74%, transparent 100%);
-    opacity:.75;
-    mix-blend-mode:screen;
-    pointer-events:none;
-  }
-
-  .ftm-slide__grid{
-    position:relative;
-    z-index:2;
-    min-height:520px;
-    display:grid;
-    grid-template-columns:1.18fr .82fr;
-    gap:34px;
-    align-items:center;
-    width:min(1180px, calc(100% - 40px));
-    margin:0 auto;
-    padding:56px 0 64px;
-  }
-
-  .ftm-slide__content{
-    color:#fff;
-    max-width:760px;
-  }
-
-  .ftm-brow{
-    display:inline-flex;
-    align-items:center;
-    min-height:42px;
-    padding:0 18px;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,.18);
-    background:rgba(255,255,255,.12);
-    color:rgba(255,255,255,.88);
-    font-size:.92rem;
-    font-weight:700;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    backdrop-filter:blur(10px);
-  }
-
-  .ftm-slide h1{
-    margin:18px 0 14px;
-    font-size:clamp(2.5rem, 5vw, 4.9rem);
-    line-height:.98;
-    letter-spacing:-.05em;
-    font-weight:700;
-    max-width:10ch;
-  }
-
-  .ftm-slide h1 .ftm-em{
-    color:#efe29a;
-  }
-
-  .ftm-slide__lead{
-    margin:0 0 24px;
-    max-width:21ch;
-    font-size:1.18rem;
-    line-height:1.5;
-    color:rgba(255,255,255,.96);
-  }
-
-  .ftm-actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:14px;
-    margin:0 0 26px;
-  }
-
-  .ftm-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:56px;
-    padding:0 24px;
-    border-radius:999px;
-    text-decoration:none;
-    font-weight:700;
-    font-size:1rem;
-    transition:transform .24s ease, box-shadow .24s ease, background .24s ease, color .24s ease, border-color .24s ease;
-    border:1px solid transparent;
-  }
-
-  .ftm-btn:hover{ transform:translateY(-2px); }
-
-  .ftm-btn--primary{
-    background:#b29f1f;
-    color:#fff;
-    box-shadow:0 10px 24px rgba(178,159,31,.28);
-  }
-
-  .ftm-btn--ghost{
-    border-color:rgba(255,255,255,.28);
-    color:#fff;
-    background:rgba(255,255,255,.06);
-    backdrop-filter:blur(8px);
-  }
-
-  .ftm-btn--ghost:hover{
-    background:rgba(255,255,255,.12);
-  }
-
-  .ftm-hero__dynamic{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:8px;
-    color:rgba(255,255,255,.76);
-    font-size:1rem;
-  }
-
-  .ftm-hero__dynamic strong{
-    color:#fff;
-  }
-
-  .ftm-word-rotator{
-    min-width:220px;
-    color:#d4c771;
-    font-weight:800;
-  }
-
-  .ftm-focus-card{
-    justify-self:end;
-    width:min(100%, 520px);
-    border-radius:30px;
-    padding:28px 26px 24px;
-    background:rgba(255,255,255,.22);
-    border:1px solid rgba(255,255,255,.24);
-    box-shadow:0 18px 44px rgba(0,0,0,.14);
-    backdrop-filter:blur(18px);
-    color:#fff;
-  }
-
-  .ftm-focus-card__eyebrow{
-    display:block;
-    margin-bottom:12px;
-    color:rgba(255,255,255,.72);
-    font-weight:800;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    font-size:.88rem;
-  }
-
-  .ftm-focus-card h3{
-    margin:0 0 16px;
-    font-size:1.28rem;
-    line-height:1.26;
-    letter-spacing:-.02em;
-    font-weight:700;
-  }
-
-  .ftm-focus-list{
-    margin:0 0 18px;
-    padding:0;
-    list-style:none;
-  }
-
-  .ftm-focus-list li{
-    position:relative;
-    padding-left:22px;
-    margin:0 0 12px;
-    color:rgba(255,255,255,.92);
-    line-height:1.5;
-    font-size:1rem;
-  }
-
-  .ftm-focus-list li::before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:.62em;
-    width:9px;
-    height:9px;
-    border-radius:999px;
-    background:var(--ftm-accent-2);
-  }
-
-  .ftm-focus-note{
-    color:rgba(255,255,255,.78);
-    line-height:1.55;
-    font-size:.95rem;
-  }
-
-  .ftm-section-nav{
-    position:sticky;
-    top:0;
-    z-index:20;
-    background:rgba(243,241,235,.92);
-    backdrop-filter:blur(14px);
-    border-top:1px solid rgba(18,18,18,.06);
-    border-bottom:1px solid rgba(18,18,18,.08);
-  }
-
-  .ftm-section-nav__inner{
-    width:min(1180px, calc(100% - 40px));
-    margin:0 auto;
-    display:flex;
-    gap:30px;
-    overflow:auto;
-    scrollbar-width:none;
-    -ms-overflow-style:none;
-  }
-
-  .ftm-section-nav__inner::-webkit-scrollbar{ display:none; }
-
-  .ftm-section-nav a{
-    position:relative;
-    display:inline-flex;
-    align-items:center;
-    height:66px;
-    white-space:nowrap;
-    text-decoration:none;
-    color:#5f5f5f;
-    font-weight:600;
-    transition:color .22s ease;
-  }
-
-  .ftm-section-nav a::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:0;
-    width:100%;
-    height:3px;
-    border-radius:999px;
-    background:transparent;
-    transition:background .22s ease;
-  }
-
-  .ftm-section-nav a:hover,
-  .ftm-section-nav a.is-active{
-    color:var(--ftm-accent);
-  }
-
-  .ftm-section-nav a.is-active::after{
-    background:var(--ftm-accent-2);
-  }
-
-  .ftm-block{
-    padding:84px 0;
-  }
-
-  .ftm-panel{
-    display:grid;
-    grid-template-columns:minmax(0, 1.15fr) minmax(340px, .85fr);
-    gap:32px;
-    background:rgba(255,255,255,.72);
-    border:1px solid rgba(18,18,18,.08);
-    border-radius:var(--ftm-radius-xl);
-    padding:36px;
-    box-shadow:var(--ftm-shadow-soft);
-  }
-
-  .ftm-heading{
-    margin:12px 0 14px;
-    font-size:clamp(2rem, 3.4vw, 3.2rem);
-    line-height:1.08;
-    letter-spacing:-.04em;
-    font-weight:700;
-  }
-
-  .ftm-lead{
-    margin:0 0 22px;
-    max-width:62ch;
-    font-size:1.12rem;
-    line-height:1.8;
-    color:#222;
-  }
-
-  .ftm-list{
-    margin:18px 0 0;
-    padding-left:22px;
-  }
-
-  .ftm-list li{
-    margin:0 0 12px;
-    font-size:1.05rem;
-    line-height:1.66;
-    color:#1f1f1f;
-  }
-
-  .ftm-side-card{
-    position:relative;
-    overflow:hidden;
-    border-radius:26px;
-    background:linear-gradient(180deg, #131313 0%, #1f1f1f 100%);
-    color:#fff;
-    min-height:100%;
-    box-shadow:0 24px 52px rgba(0,0,0,.18);
-  }
-
-  .ftm-side-card__visual{
-    height:200px;
-    position:relative;
-    overflow:hidden;
-    background:
-      radial-gradient(circle at 20% 30%, rgba(183,242,56,.85) 0, rgba(183,242,56,.06) 18%, transparent 30%),
-      radial-gradient(circle at 78% 34%, rgba(255,255,255,.12) 0, transparent 20%),
-      radial-gradient(circle at 72% 72%, rgba(142,132,32,.55) 0, transparent 24%),
-      linear-gradient(135deg, #231f12 0%, #0f0f0f 48%, #1b1b1b 100%);
-  }
-
-  .ftm-side-card__body{ padding:24px 24px 26px; }
-
-  .ftm-side-card__tag{
-    display:inline-flex;
-    min-height:30px;
-    padding:0 12px;
-    align-items:center;
-    border-radius:999px;
-    background:rgba(183,242,56,.14);
-    color:var(--ftm-accent-2);
-    font-size:.84rem;
-    font-weight:700;
-    letter-spacing:.04em;
-    text-transform:uppercase;
-    margin-bottom:14px;
-  }
-
-  .ftm-side-card h3{
-    margin:0 0 14px;
-    font-size:1.55rem;
-    line-height:1.12;
-    letter-spacing:-.03em;
-    font-weight:700;
-  }
-
-  .ftm-side-card p{
-    margin:0 0 18px;
-    color:rgba(255,255,255,.82);
-    line-height:1.72;
-  }
-
-  .ftm-mini-metrics{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:12px;
-    margin-top:18px;
-  }
-
-  .ftm-mini-metric{
-    padding:16px 14px;
-    border-radius:18px;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.08);
-  }
-
-  .ftm-mini-metric strong{
-    display:block;
-    font-size:1.22rem;
-    font-weight:800;
-    margin-bottom:5px;
-  }
-
-  .ftm-mini-metric span{
-    color:rgba(255,255,255,.74);
-    line-height:1.45;
-    font-size:.92rem;
-  }
-
-  .ftm-topline{
-    display:flex;
-    align-items:end;
-    justify-content:space-between;
-    gap:20px;
-    margin-bottom:26px;
-  }
-
-  .ftm-topline p{
-    max-width:62ch;
-    margin:0;
-    color:var(--ftm-muted);
-    line-height:1.7;
-    font-size:1.04rem;
-  }
-
-  .ftm-grid-4{
-    display:grid;
-    grid-template-columns:repeat(4, minmax(0,1fr));
-    gap:18px;
-  }
-
-  .ftm-steps{
-    display:grid;
-    grid-template-columns:repeat(4, minmax(0,1fr));
-    gap:18px;
-  }
-
-  .ftm-results{
-    display:grid;
-    grid-template-columns:repeat(5, minmax(0,1fr));
-    gap:18px;
-  }
-
-  .ftm-card,
-  .ftm-step,
-  .ftm-result{
-    position:relative;
-    border-radius:24px;
-    padding:24px 22px;
-    background:rgba(255,255,255,.82);
-    border:1px solid rgba(18,18,18,.08);
-    box-shadow:var(--ftm-shadow-soft);
-    overflow:hidden;
-    transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
-  }
-
-  .ftm-card:hover,
-  .ftm-step:hover,
-  .ftm-result:hover{
-    transform:translateY(-6px);
-    box-shadow:var(--ftm-shadow);
-    border-color:rgba(142,132,32,.22);
-  }
-
-  .ftm-card::before,
-  .ftm-step::before,
-  .ftm-result::before{
-    content:"";
-    position:absolute;
-    inset:0 auto auto 0;
-    width:100%;
-    height:4px;
-    background:linear-gradient(90deg, var(--ftm-accent-2), var(--ftm-accent));
-  }
-
-  .ftm-card__icon,
-  .ftm-step__num,
-  .ftm-result__num{
-    width:50px;
-    height:50px;
-    border-radius:16px;
-    display:grid;
-    place-items:center;
-    background:rgba(142,132,32,.08);
-    color:var(--ftm-accent);
-    font-size:1.18rem;
-    font-weight:800;
-    margin-bottom:16px;
-  }
-
-  .ftm-step__num{
-    background:linear-gradient(145deg, #161616 0%, #2b2b2b 100%);
-    color:#fff;
-  }
-
-  .ftm-result__num{
-    width:38px;
-    height:38px;
-    border-radius:12px;
-    background:rgba(183,242,56,.18);
-    color:#191919;
-  }
-
-  .ftm-card h3,
-  .ftm-step h3,
-  .ftm-result h3{
-    margin:0 0 12px;
-    font-size:1.16rem;
-    letter-spacing:-.02em;
-    line-height:1.24;
-    font-weight:700;
-  }
-
-  .ftm-card p,
-  .ftm-step p,
-  .ftm-result p{
-    margin:0 0 14px;
-    color:#505050;
-    line-height:1.68;
-    font-size:.98rem;
-  }
-
-  .ftm-bullets{
-    margin:0;
-    padding-left:18px;
-  }
-
-  .ftm-bullets li{
-    margin:0 0 8px;
-    color:#5a5a5a;
-    line-height:1.56;
-    font-size:.94rem;
-  }
-
-  .ftm-shop-panel{
-    display:grid;
-    grid-template-columns:minmax(0, 1fr) minmax(320px, .8fr);
-    gap:22px;
-    border-radius:30px;
-    padding:30px;
-    background:linear-gradient(135deg, #131313 0%, #202020 100%);
-    color:#fff;
-    box-shadow:0 24px 50px rgba(0,0,0,.16);
-    overflow:hidden;
-    position:relative;
-  }
-
-  .ftm-shop-panel::before{
-    content:"";
-    position:absolute;
-    width:320px;
-    height:320px;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(183,242,56,.16) 0%, rgba(183,242,56,0) 72%);
-    top:-110px;
-    right:-90px;
-  }
-
-  .ftm-shop-panel__body,
-  .ftm-shop-card{
-    position:relative;
-    z-index:1;
-  }
-
-  .ftm-shop-panel h3{
-    margin:12px 0 14px;
-    font-size:clamp(1.8rem, 3vw, 2.7rem);
-    line-height:1.08;
-    letter-spacing:-.04em;
-    font-weight:700;
-  }
-
-  .ftm-shop-panel p{
-    margin:0 0 18px;
-    max-width:62ch;
-    color:rgba(255,255,255,.82);
-    line-height:1.75;
-  }
-
-  .ftm-shop-card{
-    border-radius:24px;
-    padding:24px 22px;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.1);
-    backdrop-filter:blur(10px);
-  }
-
-  .ftm-shop-card span{
-    display:block;
-    margin-bottom:10px;
-    color:var(--ftm-accent-2);
-    font-weight:800;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    font-size:.88rem;
-  }
-
-  .ftm-shop-card h4{
-    margin:0 0 12px;
-    font-size:1.2rem;
-    line-height:1.25;
-    font-weight:700;
-  }
-
-  .ftm-shop-card ul{
-    margin:0;
-    padding-left:18px;
-  }
-
-  .ftm-shop-card li{
-    margin:0 0 8px;
-    color:rgba(255,255,255,.86);
-    line-height:1.55;
-  }
-
-  .ftm-quote{
-    margin-top:28px;
-    padding:24px 26px;
-    border-radius:24px;
-    background:linear-gradient(135deg, #171717 0%, #232323 100%);
-    color:#fff;
-    box-shadow:var(--ftm-shadow);
-  }
-
-  .ftm-quote p{
-    margin:0;
-    font-size:1.18rem;
-    line-height:1.7;
-    letter-spacing:-.02em;
-  }
-
-  .ftm-quote strong{
-    color:var(--ftm-accent-2);
-  }
-
-  .ftm-cta{
-    position:relative;
-    padding:0 0 94px;
-  }
-
-  .ftm-cta__box{
-    position:relative;
-    overflow:hidden;
-    background:linear-gradient(135deg, #121212 0%, #202020 100%);
-    border-radius:32px;
-    padding:42px;
-    color:#fff;
-    box-shadow:0 28px 64px rgba(0,0,0,.18);
-  }
-
-  .ftm-cta__box::before{
-    content:"";
-    position:absolute;
-    width:340px;
-    height:340px;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(183,242,56,.22) 0%, rgba(183,242,56,0) 72%);
-    top:-120px;
-    right:-80px;
-  }
-
-  .ftm-cta__grid{
-    position:relative;
-    z-index:1;
-    display:grid;
-    grid-template-columns:minmax(0,1.2fr) auto;
-    gap:24px;
-    align-items:center;
-  }
-
-  .ftm-cta h2{
-    margin:0 0 12px;
-    font-size:clamp(2rem, 3.4vw, 3.1rem);
-    line-height:1.05;
-    letter-spacing:-.04em;
-    font-weight:700;
-  }
-
-  .ftm-cta p{
-    margin:0;
-    max-width:62ch;
-    color:rgba(255,255,255,.78);
-    line-height:1.8;
-    font-size:1.08rem;
-  }
-
-  .ftm-reveal{
-    opacity:0;
-    transform:translateY(28px);
-    transition:opacity .7s ease, transform .7s ease;
-  }
-
-  .ftm-reveal.is-visible{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-  @media (max-width: 1180px){
-    .ftm-grid-4,
-    .ftm-steps{ grid-template-columns:repeat(2, minmax(0,1fr)); }
-    .ftm-results{ grid-template-columns:repeat(3, minmax(0,1fr)); }
-  }
-
-  @media (max-width: 980px){
-    .ftm-slide__grid,
-    .ftm-panel,
-    .ftm-shop-panel,
-    .ftm-cta__grid{
-      grid-template-columns:1fr;
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fichas Técnicas de Malharia | Stegie</title>
+  <meta name="description" content="Acesso às fichas técnicas de malharia da Stegie. Entre na área de login para consultar, comprar e acessar seus materiais." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f7f6f3;
+      --panel:#ffffff;
+      --text:#111111;
+      --muted:#5f5f5f;
+      --line:#dedbd2;
+      --brand:#a49a14;
+      --brand-2:#c6f230;
+      --dark:#0f1011;
+      --dark-2:#1a1c1f;
+      --shadow:0 20px 60px rgba(0,0,0,.08);
+      --radius-xl:30px;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --container:1200px;
     }
 
-    .ftm-focus-card{
-      justify-self:stretch;
-      width:100%;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
     }
 
-    .ftm-results{ grid-template-columns:repeat(2, minmax(0,1fr)); }
-  }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
 
-  @media (max-width: 720px){
-    .ftm-container{
-      width:min(100% - 24px, 1180px);
+    .container{
+      width:min(var(--container), calc(100% - 40px));
+      margin:0 auto;
     }
 
-    .ftm-slide{
-      min-height:auto;
-      border-radius:0 0 28px 28px;
+    /* topo */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:30;
+      background:rgba(247,246,243,.92);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(0,0,0,.06);
     }
 
-    .ftm-slide__grid{
-      min-height:auto;
-      width:min(100% - 24px, 1180px);
-      padding:34px 0 52px;
+    .topbar__inner{
+      min-height:78px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
     }
 
-    .ftm-slide h1{
-      max-width:100%;
-      font-size:2.6rem;
-    }
-
-    .ftm-slide__lead{
-      max-width:100%;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-family:"Manrope",sans-serif;
+      font-weight:800;
       font-size:1.05rem;
+      letter-spacing:.06em;
+      text-transform:uppercase;
     }
 
-    .ftm-block{
-      padding:62px 0;
+    .brand__dot{
+      width:11px;
+      height:11px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      box-shadow:0 0 18px rgba(198,242,48,.45);
+      flex:0 0 11px;
     }
 
-    .ftm-panel,
-    .ftm-side-card__body,
-    .ftm-shop-panel,
-    .ftm-cta__box{
-      padding:24px;
+    .topbar__actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
     }
 
-    .ftm-topline{
-      display:block;
-      margin-bottom:20px;
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-height:50px;
+      padding:0 22px;
+      border-radius:999px;
+      border:1px solid transparent;
+      font-size:.98rem;
+      font-weight:700;
+      transition:.25s ease;
+      cursor:pointer;
+      white-space:nowrap;
     }
 
-    .ftm-topline p{
-      margin-top:10px;
+    .btn:hover{
+      transform:translateY(-1px);
     }
 
-    .ftm-grid-4,
-    .ftm-steps,
-    .ftm-results,
-    .ftm-mini-metrics{
-      grid-template-columns:1fr;
+    .btn--primary{
+      color:#111;
+      background:linear-gradient(135deg,var(--brand),#d8c92b);
+      box-shadow:0 12px 30px rgba(164,154,20,.20);
     }
 
-    .ftm-section-nav a{
-      height:58px;
-      font-size:.95rem;
+    .btn--primary:hover{
+      box-shadow:0 16px 36px rgba(164,154,20,.28);
     }
 
-    .ftm-actions{
+    .btn--ghost{
+      color:var(--text);
+      background:transparent;
+      border-color:rgba(0,0,0,.12);
+    }
+
+    .btn--ghost:hover{
+      background:#ffffff;
+    }
+
+    /* hero */
+    .hero{
+      padding:72px 0 92px;
+    }
+
+    .hero__card{
+      position:relative;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);
+      gap:26px;
+      background:var(--panel);
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:var(--radius-xl);
+      box-shadow:var(--shadow);
+      padding:26px;
+    }
+
+    .hero__card::before{
+      content:"";
+      position:absolute;
+      inset:auto auto -90px -90px;
+      width:240px;
+      height:240px;
+      border-radius:999px;
+      background:radial-gradient(circle, rgba(198,242,48,.16) 0%, rgba(198,242,48,0) 72%);
+      pointer-events:none;
+    }
+
+    .hero__content{
+      padding:10px 4px 10px 4px;
+      align-self:center;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:18px;
+      font-size:.9rem;
+      font-weight:700;
+      color:#807815;
+    }
+
+    .eyebrow::before{
+      content:"";
+      width:9px;
+      height:9px;
+      border-radius:999px;
+      background:var(--brand-2);
+      box-shadow:0 0 12px rgba(198,242,48,.35);
+    }
+
+    .hero h1{
+      margin:0 0 18px;
+      max-width:760px;
+      font-family:"Manrope",sans-serif;
+      font-size:clamp(2.2rem, 4vw, 4.3rem);
+      line-height:.98;
+      letter-spacing:-.045em;
+    }
+
+    .hero p{
+      margin:0;
+      max-width:720px;
+      font-size:1.05rem;
+      line-height:1.75;
+      color:var(--muted);
+    }
+
+    .hero__list{
+      margin:28px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:12px;
+    }
+
+    .hero__list li{
+      position:relative;
+      padding-left:18px;
+      color:#343434;
+      line-height:1.6;
+    }
+
+    .hero__list li::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:.72em;
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:var(--brand);
+      transform:translateY(-50%);
+    }
+
+    .hero__actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:34px;
+    }
+
+    .hero__panel{
+      position:relative;
+      overflow:hidden;
+      min-height:100%;
+      padding:28px 24px;
+      border-radius:26px;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(198,242,48,.50) 0%, rgba(198,242,48,0) 13%),
+        radial-gradient(circle at 78% 18%, rgba(212,187,30,.28) 0%, rgba(212,187,30,0) 14%),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
+        var(--dark);
+      color:#fff;
+      display:flex;
       flex-direction:column;
-      align-items:stretch;
+      justify-content:space-between;
+      border:1px solid rgba(255,255,255,.08);
     }
 
-    .ftm-btn{
-      width:100%;
+    .hero__panel::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(255,255,255,.04), transparent 45%, rgba(255,255,255,.02));
+      pointer-events:none;
     }
 
-    .ftm-slide-dots{
-      right:16px;
-      left:16px;
-      justify-content:flex-end;
-      bottom:12px;
+    .panel__tag{
+      position:relative;
+      z-index:1;
+      display:inline-flex;
+      align-items:center;
+      min-height:30px;
+      padding:0 12px;
+      border-radius:999px;
+      background:rgba(198,242,48,.12);
+      color:var(--brand-2);
+      font-size:.76rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      width:max-content;
+      margin-bottom:18px;
     }
 
-    .ftm-slide-dots span{
-      width:54px;
+    .panel__title{
+      position:relative;
+      z-index:1;
+      margin:0 0 16px;
+      font-family:"Manrope",sans-serif;
+      font-size:clamp(1.55rem,2.2vw,2.2rem);
+      line-height:1.06;
+      letter-spacing:-.035em;
     }
 
-    .ftm-cta{
-      padding-bottom:70px;
+    .panel__text{
+      position:relative;
+      z-index:1;
+      margin:0 0 22px;
+      color:rgba(255,255,255,.78);
+      line-height:1.7;
+      font-size:.98rem;
     }
-  }
 
-  @media (prefers-reduced-motion: reduce){
-    .ftm-reveal,
-    .ftm-btn,
-    .ftm-card,
-    .ftm-step,
-    .ftm-result{
-      animation:none !important;
-      transition:none !important;
+    .panel__box{
+      position:relative;
+      z-index:1;
+      display:grid;
+      gap:12px;
     }
-  }
-</style>
 
-<div class="ftm-page">
-  <section class="ftm-hero">
-    <div class="ftm-slide">
-      <div class="ftm-slide__grid">
-        <div class="ftm-slide__content ftm-reveal">
-          <div class="ftm-brow">PADRONAGEM • BASE TÉCNICA • CONSULTA E COMPRA</div>
+    .mini-card{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:16px 16px 14px;
+    }
 
-          <h1>Fichas Técnicas de <span class="ftm-em">Malharia</span></h1>
+    .mini-card strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:.96rem;
+      font-weight:700;
+      color:#fff;
+    }
 
-          <p class="ftm-slide__lead">
-            Uma base estruturada para consultar, buscar, comparar e adquirir fichas técnicas com mais clareza sobre construção, aplicação e leitura do produto.
-          </p>
+    .mini-card span{
+      display:block;
+      color:rgba(255,255,255,.72);
+      line-height:1.55;
+      font-size:.92rem;
+    }
 
-          <div class="ftm-actions">
-            <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}" class="ftm-btn ftm-btn--primary">Explorar catálogo de fichas</a>
-            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--ghost">Entrar / minhas compras</a>
-          </div>
+    /* rodapé */
+    .footer{
+      padding:0 0 34px;
+    }
 
-          <p class="ftm-hero__dynamic">
-            <strong>Projetado para facilitar:</strong>
-            <span class="ftm-word-rotator" id="ftmWordRotator">consulta técnica organizada</span>
-          </p>
-        </div>
+    .footer__inner{
+      width:min(var(--container), calc(100% - 40px));
+      margin:0 auto;
+      padding-top:22px;
+      border-top:1px solid rgba(0,0,0,.08);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      flex-wrap:wrap;
+      color:#666;
+      font-size:.92rem;
+    }
 
-        <aside class="ftm-focus-card ftm-reveal">
-          <span class="ftm-focus-card__eyebrow">FOCO DESTA FRENTE</span>
-          <h3>“Transformar necessidade de consulta em acesso técnico rápido, filtrável e mais aplicável.”</h3>
+    .footer__links{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
 
-          <ul class="ftm-focus-list">
-            <li>Catálogo com acesso livre para busca e leitura inicial das fichas</li>
-            <li>Base organizada para busca por tipo, aplicação e características técnicas</li>
-            <li>Fluxo preparado para login, compra por ficha e acesso ao histórico do cliente</li>
-          </ul>
-          
-        </aside>
+    .footer__links a:hover{
+      color:#111;
+    }
+
+    @media (max-width: 980px){
+      .hero{
+        padding:52px 0 70px;
+      }
+
+      .hero__card{
+        grid-template-columns:1fr;
+        padding:20px;
+      }
+
+      .hero__panel{
+        min-height:auto;
+      }
+    }
+
+    @media (max-width: 640px){
+      .container,
+      .footer__inner{
+        width:min(100% - 24px, var(--container));
+      }
+
+      .topbar__inner{
+        min-height:72px;
+      }
+
+      .hero h1{
+        font-size:clamp(2rem, 10vw, 3rem);
+      }
+
+      .hero p{
+        font-size:1rem;
+      }
+
+      .hero__actions,
+      .topbar__actions{
+        width:100%;
+      }
+
+      .btn{
+        width:100%;
+      }
+
+      .footer__inner{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="brand" href="index.html" aria-label="Ir para a página inicial da Stegie">
+        <span class="brand__dot"></span>
+        <span>Stegie</span>
+      </a>
+
+      <div class="topbar__actions">
+        <a class="btn btn--ghost" href="servicos.html">Voltar aos serviços</a>
+        <a class="btn btn--primary" href="login_fichas.html">Entrar no login</a>
       </div>
     </div>
-  </section>
+  </header>
 
-  <nav class="ftm-section-nav">
-    <div class="ftm-section-nav__inner">
-      <a href="#visao-geral" class="is-active">Visão geral</a>
-      <a href="#o-que-entrega">O que entrega</a>
-      <a href="#aplicacoes">Aplicações</a>
-      <a href="#como-funciona">Como funciona</a>
-      <a href="#acesso">Catálogo e compra</a>
-      <a href="#resultados">Resultados</a>
-      <a href="#fale-conosco">Fale conosco</a>
-    </div>
-  </nav>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero__card">
+          <div class="hero__content">
+            <div class="eyebrow">Fichas Técnicas de Malharia</div>
 
-  <section id="visao-geral" class="ftm-block">
-    <div class="ftm-container">
-      <div class="ftm-panel ftm-reveal">
-        <div>
-          <div class="ftm-kicker">Visão geral</div>
-          <h2 class="ftm-heading">Uma camada técnica para consultar e adquirir fichas com mais critério.</h2>
+            <h1>Acesse a área de fichas técnicas com mais objetividade.</h1>
 
-          <p class="ftm-lead">
-            As Fichas Técnicas de Malharia foram pensadas para organizar informação útil em uma base prática de consulta.
-            Em vez de depender de memória dispersa, anotações soltas ou documentos pouco padronizados, a proposta é concentrar leitura técnica em fichas mais claras e mais utilizáveis.
-          </p>
-
-          <p class="ftm-lead">
-            Essa frente apoia profissionais e empresas que precisam enxergar melhor construção, composição, aplicação, comportamento e lógica técnica da malha,
-            além de criar uma experiência mais objetiva para busca, comparação e compra por ficha.
-          </p>
-
-          <ul class="ftm-list">
-            <li>Fichas estruturadas para consulta técnica mais rápida.</li>
-            <li>Base útil para desenvolvimento, engenharia, qualidade e comercial técnico.</li>
-            <li>Organização melhor do conhecimento sobre tipos e aplicações de malha.</li>
-            <li>Ambiente preparado para navegação livre, compra por ficha e acesso do cliente.</li>
-          </ul>
-
-          <div class="ftm-actions" style="margin-top:24px; margin-bottom:0;">
-            <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}" class="ftm-btn ftm-btn--primary">Ver catálogo de fichas</a>
-            <a href="/servicos" class="ftm-btn ftm-btn--ghost" style="color:#121212;border-color:rgba(18,18,18,.14);background:#fff;">Voltar aos serviços</a>
-          </div>
-        </div>
-
-        <aside class="ftm-side-card">
-          <div class="ftm-side-card__visual"></div>
-          <div class="ftm-side-card__body">
-            <span class="ftm-side-card__tag">O que entrega</span>
-            <h3>Mais clareza técnica para consultar, comparar e selecionar bases de malha.</h3>
             <p>
-              A proposta é transformar informação técnica em uma experiência mais organizada, reduzindo atrito entre dúvida, busca, compra e tomada de decisão.
+              Esta página passa a funcionar como um ponto direto de entrada para a área de acesso.
+              O catálogo, a consulta das fichas, o histórico de compras e o acesso ao material adquirido
+              ficam centralizados na página de login.
             </p>
 
-            <div class="ftm-mini-metrics">
-              <div class="ftm-mini-metric">
-                <strong>+</strong>
-                <span>agilidade para buscar e comparar fichas</span>
-              </div>
-              <div class="ftm-mini-metric">
-                <strong>1</strong>
-                <span>catálogo digital alinhado ao ecossistema Stegie</span>
-              </div>
-              <div class="ftm-mini-metric">
-                <strong>−</strong>
-                <span>consulta dispersa e pouco padronizada</span>
-              </div>
-              <div class="ftm-mini-metric">
-                <strong>↑</strong>
-                <span>clareza sobre aplicação, leitura e compra técnica</span>
-              </div>
+            <ul class="hero__list">
+              <li>Entrada mais simples para clientes que já conhecem a solução.</li>
+              <li>Redução de navegação desnecessária antes do acesso à área técnica.</li>
+              <li>Fluxo mais direto para login, compra e consulta das fichas.</li>
+            </ul>
+
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="login_fichas.html">Ir para login_fichas.html</a>
+              <a class="btn btn--ghost" href="servicos.html">Voltar aos serviços</a>
             </div>
           </div>
-        </aside>
-      </div>
-    </div>
-  </section>
 
-  <section id="o-que-entrega" class="ftm-block" style="padding-top:0;">
-    <div class="ftm-container">
-      <div class="ftm-topline ftm-reveal">
-        <div>
-          <div class="ftm-kicker">O que entrega</div>
-          <h2 class="ftm-heading">O que essa frente organiza para o usuário.</h2>
-        </div>
-        <p>
-          A lógica aqui é simples: menos atrito entre necessidade de informação e leitura técnica útil.
-        </p>
-      </div>
+          <aside class="hero__panel" aria-label="Resumo da área de acesso">
+            <div>
+              <div class="panel__tag">Acesso rápido</div>
+              <h2 class="panel__title">Tudo passa a começar pelo login.</h2>
+              <p class="panel__text">
+                O objetivo aqui é deixar esta página mais limpa e funcional, servindo apenas como
+                uma ponte clara para a área de acesso do cliente.
+              </p>
+            </div>
 
-      <div class="ftm-grid-4">
-        <article class="ftm-card ftm-reveal">
-          <div class="ftm-card__icon">01</div>
-          <h3>Consulta estruturada</h3>
-          <p>Acesso mais organizado a fichas técnicas, com leitura mais clara e menos dependência de informação solta.</p>
-        </article>
+            <div class="panel__box">
+              <div class="mini-card">
+                <strong>Entrar e acessar</strong>
+                <span>Área para clientes consultarem, comprarem ou retomarem materiais já adquiridos.</span>
+              </div>
 
-        <article class="ftm-card ftm-reveal">
-          <div class="ftm-card__icon">02</div>
-          <h3>Base comparável</h3>
-          <p>Possibilidade de comparar diferentes malhas e bases com mais critério técnico e comercial.</p>
-        </article>
+              <div class="mini-card">
+                <strong>Fluxo mais enxuto</strong>
+                <span>Sem blocos adicionais, sem navegação longa e sem excesso de informação antes do acesso.</span>
+              </div>
 
-        <article class="ftm-card ftm-reveal">
-          <div class="ftm-card__icon">03</div>
-          <h3>Busca por filtros</h3>
-          <p>Estrutura pronta para trabalhar filtros como composição, gramatura, construção, aplicação e outras variáveis do sistema.</p>
-        </article>
-
-        <article class="ftm-card ftm-reveal">
-          <div class="ftm-card__icon">04</div>
-          <h3>Compra por ficha</h3>
-          <p>Uma frente preparada para catálogo aberto, compra individual, histórico de pedidos e evolução futura do acervo.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="aplicacoes" class="ftm-block" style="padding-top:0;">
-    <div class="ftm-container">
-      <div class="ftm-topline ftm-reveal">
-        <div>
-          <div class="ftm-kicker">Aplicações</div>
-          <h2 class="ftm-heading">Quem tende a extrair mais valor dessa base.</h2>
-        </div>
-        <p>
-          As fichas podem apoiar diferentes perfis, sem perder a profundidade técnica.
-        </p>
-      </div>
-
-      <div class="ftm-grid-4">
-        <article class="ftm-card ftm-reveal">
-          <div class="ftm-card__icon">A</div>
-          <h3>Desenvolvimento</h3>
-          <p>Consulta de bases, leitura comparativa e apoio na construção de raciocínio para novos produtos.</p>
-          <ul class="ftm-bullets">
-            <li>Tipos de malha</li>
-            <li>Estrutura e composição</li>
-            <li>Apoio à seleção técnica</li>
-          </ul>
-        </article>
-
-        <article class="ftm-card ftm-reveal">
-          <div class="ftm-card__icon">B</div>
-          <h3>Engenharia e processo</h3>
-          <p>Base de apoio para leitura mais objetiva de características e comportamento esperado da malha.</p>
-          <ul class="ftm-bullets">
-            <li>Construção técnica</li>
-            <li>Lógica de aplicação</li>
-            <li>Consulta rápida</li>
-          </ul>
-        </article>
-
-        <article class="ftm-card ftm-reveal">
-          <div class="ftm-card__icon">C</div>
-          <h3>Comercial técnico</h3>
-          <p>Mais clareza para explicar bases, comparar opções e sustentar conversas com cliente e mercado.</p>
-          <ul class="ftm-bullets">
-            <li>Argumentação técnica</li>
-            <li>Leitura simplificada</li>
-            <li>Apoio à venda</li>
-          </ul>
-        </article>
-
-        <article class="ftm-card ftm-reveal">
-          <div class="ftm-card__icon">D</div>
-          <h3>Estudo e capacitação</h3>
-          <p>Consulta contínua para aprender melhor sobre tipos de malha, aplicações e critérios técnicos.</p>
-          <ul class="ftm-bullets">
-            <li>Formação prática</li>
-            <li>Nivelamento técnico</li>
-            <li>Repertório estruturado</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="como-funciona" class="ftm-block" style="padding-top:0;">
-    <div class="ftm-container">
-      <div class="ftm-topline ftm-reveal">
-        <div>
-          <div class="ftm-kicker">Como funciona</div>
-          <h2 class="ftm-heading">Uma jornada simples entre busca, leitura e compra.</h2>
-        </div>
-        <p>
-          No mesmo espírito das demais páginas, o serviço fica tangível quando a sequência está clara.
-        </p>
-      </div>
-
-      <div class="ftm-steps">
-        <article class="ftm-step ftm-reveal">
-          <div class="ftm-step__num">01</div>
-          <h3>Entrada no catálogo</h3>
-          <p>O usuário acessa a base livremente e entra em um ambiente preparado para navegar pelas fichas.</p>
-        </article>
-
-        <article class="ftm-step ftm-reveal">
-          <div class="ftm-step__num">02</div>
-          <h3>Busca e filtragem</h3>
-          <p>A seleção acontece por tipo de malha, aplicação, composição, gramatura ou outras variáveis do sistema.</p>
-        </article>
-
-        <article class="ftm-step ftm-reveal">
-          <div class="ftm-step__num">03</div>
-          <h3>Leitura da ficha</h3>
-          <p>O usuário acessa a ficha técnica com uma estrutura mais clara e mais útil para consulta.</p>
-        </article>
-
-        <article class="ftm-step ftm-reveal">
-          <div class="ftm-step__num">04</div>
-          <h3>Compra e acesso posterior</h3>
-          <p>Ao decidir comprar, o cliente entra com login, conclui o pedido e depois acessa suas fichas pelo histórico.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="acesso" class="ftm-block" style="padding-top:0;">
-    <div class="ftm-container">
-      <div class="ftm-topline ftm-reveal">
-        <div>
-          <div class="ftm-kicker">Catálogo, compra e login</div>
-          <h2 class="ftm-heading">O catálogo pode ser aberto. O login entra quando o cliente quiser comprar ou acessar suas fichas.</h2>
-        </div>
-        <p>
-          Como você definiu, a navegação pode ser livre. O fluxo de cadastro e login entra na etapa de compra e também no acesso posterior ao material adquirido.
-        </p>
-      </div>
-
-      <div class="ftm-shop-panel ftm-reveal">
-        <div class="ftm-shop-panel__body">
-          <div class="ftm-kicker">Ambiente do cliente</div>
-          <h3>Catálogo público para explorar. Área do cliente para comprar, acompanhar pedidos e baixar as fichas adquiridas.</h3>
-          <p>
-            Com isso, a experiência fica mais leve para quem está conhecendo o acervo e mais organizada para quem já comprou.
-            A página institucional continua apresentando o serviço, enquanto o catálogo e a área do cliente assumem a operação.
-          </p>
-          <div class="ftm-actions" style="margin-bottom:0;">
-            <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}" class="ftm-btn ftm-btn--primary">Explorar catálogo</a>
-            <a href="{{ url_for('fichas_tecnicas_malharia_acesso') }}" class="ftm-btn ftm-btn--ghost">Entrar / minhas compras</a>
-          </div>
-        </div>
-
-        <aside class="ftm-shop-card">
-          <span>já previsto no layout</span>
-          <h4>O que pode existir dentro dessa área</h4>
-          <ul>
-            <li>Catálogo aberto e filtrável</li>
-            <li>Página individual de cada ficha</li>
-            <li>Compra por ficha</li>
-            <li>Login e cadastro no momento da compra</li>
-            <li>Histórico, pedidos e downloads</li>
-          </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <section id="resultados" class="ftm-block" style="padding-top:0;">
-    <div class="ftm-container">
-      <div class="ftm-topline ftm-reveal">
-        <div>
-          <div class="ftm-kicker">Resultados esperados</div>
-          <h2 class="ftm-heading">O que tende a melhorar com essa frente.</h2>
-        </div>
-        <p>
-          O foco aqui é ampliar acesso, organização e usabilidade do conhecimento técnico em malharia.
-        </p>
-      </div>
-
-      <div class="ftm-results">
-        <article class="ftm-result ftm-reveal">
-          <div class="ftm-result__num">1</div>
-          <h3>Mais acesso</h3>
-          <p>As fichas ficam mais disponíveis para consulta e decisão.</p>
-        </article>
-
-        <article class="ftm-result ftm-reveal">
-          <div class="ftm-result__num">2</div>
-          <h3>Mais clareza</h3>
-          <p>A leitura técnica se torna mais objetiva e mais aplicável.</p>
-        </article>
-
-        <article class="ftm-result ftm-reveal">
-          <div class="ftm-result__num">3</div>
-          <h3>Mais organização</h3>
-          <p>A base deixa de ser dispersa e ganha estrutura de catálogo.</p>
-        </article>
-
-        <article class="ftm-result ftm-reveal">
-          <div class="ftm-result__num">4</div>
-          <h3>Mais valor comercial</h3>
-          <p>O conteúdo passa a existir também como produto digital de compra individual e acesso controlado.</p>
-        </article>
-
-        <article class="ftm-result ftm-reveal">
-          <div class="ftm-result__num">5</div>
-          <h3>Mais escala</h3>
-          <p>O repertório técnico pode ser entregue a mais pessoas com melhor experiência.</p>
-        </article>
-      </div>
-
-      <div class="ftm-quote ftm-reveal">
-        <p><strong>Ficha técnica boa</strong> não é só um documento. É uma interface entre conhecimento, decisão, produto e aplicação real.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="fale-conosco" class="ftm-cta">
-    <div class="ftm-container">
-      <div class="ftm-cta__box ftm-reveal">
-        <div class="ftm-cta__grid">
-          <div>
-            <div class="ftm-kicker">Fale conosco</div>
-            <h2>Vamos estruturar sua frente de Fichas Técnicas de Malharia.</h2>
-            <p>
-              Para projetos que querem organizar conhecimento técnico, criar uma base consultável e abrir uma experiência própria de catálogo, compra e acesso por clientes.
-            </p>
-          </div>
-
-          <div class="ftm-actions" style="margin:0;">
-            <a href="{{ url_for('fichas_tecnicas_malharia_catalogo') }}" class="ftm-btn ftm-btn--primary">Explorar catálogo</a>
-            <a href="/contato" class="ftm-btn ftm-btn--ghost">Falar com a Stegie</a>
-          </div>
+              <div class="mini-card">
+                <strong>Página intermediária</strong>
+                <span>Função objetiva: direcionar o usuário para <em>login_fichas.html</em>.</span>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div>© Stegie — Soluções têxteis.</div>
+      <div class="footer__links">
+        <a href="index.html">Início</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="fale_conosco.html">Fale conosco</a>
+      </div>
     </div>
-  </section>
-</div>
+  </footer>
 
-<script>
-  (function(){
-    const words = [
-      "consulta técnica organizada",
-      "comparação entre bases",
-      "busca por filtros",
-      "acesso ao catálogo",
-      "compra por ficha",
-      "repertório técnico escalável"
-    ];
-
-    const rotator = document.getElementById("ftmWordRotator");
-    let index = 0;
-
-    if (rotator) {
-      setInterval(() => {
-        index = (index + 1) % words.length;
-        rotator.textContent = words[index];
-      }, 2100);
-    }
-
-    const revealEls = document.querySelectorAll(".ftm-reveal");
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    revealEls.forEach((el) => revealObserver.observe(el));
-
-    const navLinks = document.querySelectorAll(".ftm-section-nav a");
-    const sections = [...navLinks]
-      .map(link => document.querySelector(link.getAttribute("href")))
-      .filter(Boolean);
-
-    const navObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(link => link.classList.remove("is-active"));
-          const activeLink = document.querySelector('.ftm-section-nav a[href="#' + entry.target.id + '"]');
-          if (activeLink) activeLink.classList.add("is-active");
-        }
-      });
-    }, {
-      rootMargin: "-35% 0px -55% 0px",
-      threshold: 0.02
-    });
-
-    sections.forEach(section => navObserver.observe(section));
-  })();
-</script>
-
-{% endblock %}
+</body>
+</html>
