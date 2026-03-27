@@ -18,7 +18,7 @@
     --fl-radius-lg:22px;
     --fl-shadow:0 18px 44px rgba(0,0,0,.08);
     background:linear-gradient(180deg, #f6f4ef 0%, #f3f1eb 100%);
-    padding:36px 0 90px;
+    padding:0 0 90px;
   }
 
   .fichas-login__container{
@@ -29,6 +29,9 @@
   .fichas-login__hero{
     position:relative;
     overflow:hidden;
+    width:100vw;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
     border-radius:0 0 30px 30px;
     background:
       linear-gradient(90deg, rgba(0,0,0,.66) 0%, rgba(0,0,0,.42) 36%, rgba(0,0,0,.14) 72%, rgba(0,0,0,.08) 100%),
@@ -57,6 +60,8 @@
     grid-template-columns:1.1fr .9fr;
     gap:28px;
     align-items:center;
+    width:min(1280px, calc(100% - 64px));
+    margin:0 auto;
     padding:54px 38px;
   }
 
@@ -362,18 +367,27 @@
     .fichas-login__panel{
       grid-template-columns:1fr;
     }
+
+    .fichas-login__hero-grid{
+      width:min(100% - 40px, 1280px);
+    }
   }
 
   @media (max-width: 720px){
     .fichas-login{
-      padding:24px 0 70px;
+      padding:0 0 70px;
     }
 
     .fichas-login__container{
       width:min(100% - 24px, 1120px);
     }
 
+    .fichas-login__hero{
+      border-radius:0 0 24px 24px;
+    }
+
     .fichas-login__hero-grid{
+      width:min(100% - 24px, 1280px);
       padding:34px 20px 40px;
     }
 
@@ -391,30 +405,30 @@
 </style>
 
 <section class="fichas-login">
-  <div class="fichas-login__container">
 
-    <div class="fichas-login__hero">
-      <div class="fichas-login__hero-grid">
-        <div>
-          <div class="fichas-login__brow">ÁREA DO CLIENTE • FICHAS TÉCNICAS</div>
-          <h1>Acesse sua área de fichas</h1>
-          <p>
-            Entre para acompanhar pedidos, acessar materiais comprados e centralizar sua experiência dentro da frente de Fichas Técnicas de Malharia.
-          </p>
-        </div>
-
-        <aside class="fichas-login__hero-card">
-          <span>nesta área</span>
-          <h3>O login será o ponto de entrada do cliente após a etapa de compra e para o histórico das fichas adquiridas.</h3>
-          <ul>
-            <li>Acompanhamento das compras realizadas</li>
-            <li>Acesso posterior às fichas compradas</li>
-            <li>Organização do histórico do cliente</li>
-          </ul>
-        </aside>
+  <div class="fichas-login__hero">
+    <div class="fichas-login__hero-grid">
+      <div>
+        <div class="fichas-login__brow">ÁREA DO CLIENTE • FICHAS TÉCNICAS</div>
+        <h1>Acesse sua área de fichas</h1>
+        <p>
+          Entre para acompanhar pedidos, acessar materiais comprados e centralizar sua experiência dentro da frente de Fichas Técnicas de Malharia.
+        </p>
       </div>
-    </div>
 
+      <aside class="fichas-login__hero-card">
+        <span>nesta área</span>
+        <h3>O login será o ponto de entrada do cliente após a etapa de compra e para o histórico das fichas adquiridas.</h3>
+        <ul>
+          <li>Acompanhamento das compras realizadas</li>
+          <li>Acesso posterior às fichas compradas</li>
+          <li>Organização do histórico do cliente</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+
+  <div class="fichas-login__container">
     <div class="fichas-login__panel">
       <section class="fichas-login__box">
         <h2 class="fichas-login__title">Entrar</h2>
@@ -481,8 +495,8 @@
         </div>
       </aside>
     </div>
-
   </div>
+
 </section>
 
 {% endblock %}
