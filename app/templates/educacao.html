@@ -1186,6 +1186,323 @@
       scroll-behavior:auto !important;
     }
   }
+
+  /* ===== AJUSTE FINAL BLOCO CURSOS | sobrescrever no fim do <style> ===== */
+
+  .edu-cursos-carousel{
+    position:relative;
+  }
+  
+  .edu-course-slide{
+    flex:0 0 clamp(260px, 24vw, 315px);
+  }
+  
+  .edu-course-card{
+    position:relative;
+    min-height:430px;
+    border-radius:30px;
+    overflow:hidden;
+    background-color:#0f0f0f;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    box-shadow:var(--edu-shadow-soft);
+    border:none !important;
+    isolation:isolate;
+  }
+  
+  .edu-course-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.26) 0%, rgba(0,0,0,.34) 34%, rgba(0,0,0,.74) 100%);
+  }
+  
+  .edu-course-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:
+      radial-gradient(circle at 18% 14%, rgba(183,242,56,.10), transparent 24%);
+  }
+  
+  .edu-course-card__front,
+  .edu-course-card__detail{
+    position:relative;
+    z-index:1;
+    min-height:430px;
+  }
+  
+  .edu-course-card__front{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:28px 22px 18px;
+    transition:opacity .28s ease, transform .28s ease;
+  }
+  
+  .edu-course-card__eyebrow{
+    display:block;
+    margin-bottom:12px;
+    color:var(--edu-accent-2);
+    font-size:.9rem;
+    font-weight:800;
+    line-height:1.15;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+  }
+  
+  .edu-course-card__front h3{
+    margin:0;
+    max-width:8.2ch;
+    color:#fff;
+    font-size:clamp(1.8rem, 2.15vw, 2.2rem);
+    line-height:1.02;
+    letter-spacing:-.045em;
+    font-weight:400;
+    text-wrap:balance;
+  }
+  
+  .edu-course-card__actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  
+  .edu-course-btn,
+  .edu-course-link,
+  .edu-course-close,
+  .edu-course-detail-link{
+    width:46px;
+    height:46px;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    transition:transform .22s ease, background .22s ease, border-color .22s ease, color .22s ease, opacity .22s ease;
+  }
+  
+  .edu-course-btn:hover,
+  .edu-course-link:hover,
+  .edu-course-close:hover,
+  .edu-course-detail-link:hover{
+    transform:translateY(-2px);
+  }
+  
+  .edu-course-btn{
+    border:none;
+    cursor:pointer;
+    background:rgba(142,132,32,.96);
+    color:#fff;
+    box-shadow:none;
+  }
+  
+  .edu-course-link{
+    background:#0a0a0a;
+    border:none;
+    color:var(--edu-accent-2);
+  }
+  
+  .edu-course-close{
+    background:transparent;
+    border:1px solid rgba(142,132,32,.78);
+    color:var(--edu-accent);
+    cursor:pointer;
+  }
+  
+  .edu-course-detail-link{
+    background:#0a0a0a;
+    border:none;
+    color:var(--edu-accent-2);
+  }
+  
+  .edu-course-btn svg,
+  .edu-course-link svg,
+  .edu-course-close svg,
+  .edu-course-detail-link svg{
+    width:18px;
+    height:18px;
+    display:block;
+  }
+  
+  .edu-course-card__detail{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:24px 22px 18px;
+    background:#f4f2ec;
+    color:#111;
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(12px);
+    transition:opacity .28s ease, transform .28s ease;
+    border:none !important;
+    box-shadow:none !important;
+  }
+  
+  .edu-course-card.is-open .edu-course-card__detail{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateY(0);
+  }
+  
+  .edu-course-card.is-open .edu-course-card__front{
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(-8px);
+  }
+  
+  .edu-course-card__detail-top{
+    display:block;
+  }
+  
+  .edu-course-card__detail-label{
+    display:block;
+    margin-bottom:8px;
+    color:#141414;
+    font-size:.96rem;
+    line-height:1.15;
+    font-weight:500;
+  }
+  
+  .edu-course-card__detail h3{
+    margin:0 0 14px;
+    color:var(--edu-accent);
+    font-size:clamp(1.55rem, 1.9vw, 1.9rem);
+    line-height:1.02;
+    letter-spacing:-.045em;
+    font-weight:400;
+    text-wrap:balance;
+  }
+  
+  .edu-course-card__detail ul{
+    margin:0;
+    padding-left:18px;
+  }
+  
+  .edu-course-card__detail li{
+    margin:0 0 7px;
+    color:#151515;
+    font-size:.86rem;
+    line-height:1.38;
+  }
+  
+  .edu-course-card__detail-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding-top:10px;
+    margin-top:auto;
+  }
+  
+  .edu-cursos-nav{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-top:18px;
+    padding-left:2px;
+  }
+  
+  .edu-cursos-nav__btn{
+    width:48px;
+    height:48px;
+    border-radius:999px;
+    border:none;
+    background:#090909;
+    color:var(--edu-accent-2);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:transform .22s ease, opacity .22s ease, background .22s ease;
+  }
+  
+  .edu-cursos-nav__btn svg{
+    width:18px;
+    height:18px;
+    display:block;
+  }
+  
+  @media (max-width: 980px){
+    .edu-course-slide{
+      flex:0 0 clamp(250px, 68vw, 315px);
+    }
+  
+    .edu-course-card,
+    .edu-course-card__front,
+    .edu-course-card__detail{
+      min-height:400px;
+    }
+  
+    .edu-course-card__front{
+      padding:24px 20px 18px;
+    }
+  
+    .edu-course-card__detail{
+      padding:22px 20px 18px;
+    }
+  
+    .edu-course-card__detail h3{
+      font-size:1.7rem;
+    }
+  
+    .edu-course-card__detail li{
+      font-size:.82rem;
+      line-height:1.34;
+      margin-bottom:6px;
+    }
+  }
+  
+  @media (max-width: 720px){
+    .edu-course-slide{
+      flex:0 0 84vw;
+    }
+  
+    .edu-course-card,
+    .edu-course-card__front,
+    .edu-course-card__detail{
+      min-height:380px;
+    }
+  
+    .edu-course-card__front h3{
+      font-size:1.9rem;
+      max-width:8.7ch;
+    }
+  
+    .edu-course-card__detail h3{
+      font-size:1.6rem;
+    }
+  
+    .edu-course-card__detail li{
+      font-size:.8rem;
+      line-height:1.32;
+    }
+  
+    .edu-course-btn,
+    .edu-course-link,
+    .edu-course-close,
+    .edu-course-detail-link,
+    .edu-cursos-nav__btn{
+      width:44px;
+      height:44px;
+    }
+  
+    .edu-course-btn svg,
+    .edu-course-link svg,
+    .edu-course-close svg,
+    .edu-course-detail-link svg,
+    .edu-cursos-nav__btn svg{
+      width:17px;
+      height:17px;
+    }
+  }
 </style>
 
 <div class="edu-page">
