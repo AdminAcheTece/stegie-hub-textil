@@ -1163,6 +1163,146 @@
       font-size:.93rem !important;
     }
   }
+
+  /* ===== LIMPEZA TOTAL DE MANCHAS / HALOS / TONS DECORATIVOS ===== */
+
+  /* fundo geral da página e hero sem gradientes */
+  .ctz-page{
+    background:#f3f1eb !important;
+  }
+  
+  .ctz-hero{
+    background:#f3f1eb !important;
+  }
+  
+  /* remove halo grande atrás do círculo do hero */
+  .ctz-orbit::before{
+    content:none !important;
+    display:none !important;
+  }
+  
+  /* remove anéis visuais do hero */
+  .ctz-orbit__ring{
+    display:none !important;
+  }
+  
+  /* círculo central do hero sem sombra/gradiente extra */
+  .ctz-orbit__core{
+    background:#121212 !important;
+    box-shadow:none !important;
+  }
+  
+  /* remove brilho/faixa superior dos cards do hero */
+  .ctz-floating-card::before{
+    content:none !important;
+    display:none !important;
+  }
+  
+  /* cards do hero limpos, sem transparência/blur/sombra */
+  .ctz-floating-card{
+    background:#ffffff !important;
+    border:1px solid rgba(18,18,18,.08) !important;
+    box-shadow:none !important;
+    backdrop-filter:none !important;
+  }
+  
+  /* chips do hero sem transparência/blur */
+  .ctz-chip{
+    background:#ffffff !important;
+    backdrop-filter:none !important;
+    box-shadow:none !important;
+  }
+  
+  /* remove aura do pontinho do kicker */
+  .ctz-kicker::before{
+    box-shadow:none !important;
+  }
+  
+  /* barra sticky sem vidro/fundo manchado */
+  .ctz-section-nav{
+    background:#f3f1eb !important;
+    backdrop-filter:none !important;
+  }
+  
+  /* painel visão geral sem transparência */
+  .ctz-panel{
+    background:#ffffff !important;
+    box-shadow:none !important;
+  }
+  
+  /* cards gerais sem brilho/faixa superior/sombra */
+  .ctz-card{
+    background:#ffffff !important;
+    box-shadow:none !important;
+  }
+  
+  .ctz-card::before{
+    content:none !important;
+    display:none !important;
+  }
+  
+  .ctz-card:hover{
+    transform:none !important;
+    box-shadow:none !important;
+    border-color:rgba(18,18,18,.08) !important;
+  }
+  
+  /* etapas sem mancha */
+  .ctz-step{
+    background:#ffffff !important;
+    box-shadow:none !important;
+  }
+  
+  .ctz-step:hover{
+    transform:none !important;
+    box-shadow:none !important;
+  }
+  
+  /* cards de formatos sem transparência */
+  .ctz-pill-card{
+    background:#ffffff !important;
+    box-shadow:none !important;
+  }
+  
+  /* resultados sem diferenças de tom */
+  .ctz-result{
+    box-shadow:none !important;
+  }
+  
+  /* quote e CTA sem gradientes decorativos */
+  .ctz-quote{
+    background:#171717 !important;
+    box-shadow:none !important;
+  }
+  
+  .ctz-cta__box{
+    background:#121212 !important;
+    box-shadow:none !important;
+  }
+  
+  .ctz-cta__box::before{
+    content:none !important;
+    display:none !important;
+  }
+  
+  /* side card sem sobreposição escura extra na imagem */
+  .ctz-side-card{
+    box-shadow:none !important;
+  }
+  
+  .ctz-side-card__visual{
+    background-image:url("/static/img/reuniao-consultoria.jpg") !important;
+  }
+  
+  .ctz-side-card__visual::after{
+    content:none !important;
+    display:none !important;
+  }
+  
+  /* remove destaque translúcido interno */
+  .ctz-mini-metric{
+    background:rgba(255,255,255,.03) !important;
+  }
 </style>
 
 <div class="ctz-page">
