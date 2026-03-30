@@ -611,7 +611,7 @@ def fichas_catalogo():
     q = request.args.get("q", "").strip()
     categoria = request.args.get("categoria", "").strip()
 
-    fichas = FICHAS_CATALOGO
+    fichas = [f for f in FICHAS_CATALOGO if f.get("ativo", True)]
 
     if q:
         termo = q.lower()
@@ -630,7 +630,7 @@ def fichas_catalogo():
             if ficha["categoria"].lower() == categoria.lower()
         ]
 
-    categorias = sorted({f["categoria"] for f in FICHAS_CATALOGO})
+    categorias = sorted({f["categoria"] for f in FICHAS_CATALOGO if f.get("ativo", True)})
 
     return render_template(
         "fichas/catalogo.html",
@@ -639,15 +639,77 @@ def fichas_catalogo():
         q=q,
         categoria=categoria,
     )
-
 @app.route("/fichas/<slug>", endpoint="fichas_detalhe")
 def fichas_detalhe(slug):
-    ficha = next((f for f in FICHAS_CATALOGO if f["slug"] == slug), None)
+    ficha = _buscar_ficha_por_slug(slug)
 
     if not ficha:
         abort(404)
 
-    return render_template("fichas/detalhe.html", ficha=ficha)
+    relacionadas = [
+        f for f in FICHAS_CATALOGO
+        if f["slug"] != ficha["slug"]
+        and f["categoria"] == ficha["categoria"]
+        and f.get("ativo", True)
+    ][:3]
+
+    return render_template(
+        "fichas/detalhe.html",
+        ficha=ficha,
+        relacionadas=relacionadas,
+    )
+
+@app.route("/fichas/carrinho", endpoint="fichas_carrinho")
+def fichas_carrinho():
+    itens, total = _montar_itens_carrinho()
+    return render_template(
+        "fichas/carrinho.html",
+        itens=itens,
+        total=total,
+    )
+
+
+@app.route("/fichas/carrinho/adicionar/<int:ficha_id>", methods=["POST"], endpoint="fichas_adicionar_carrinho")
+def fichas_adicionar_carrinho(ficha_id):
+    ficha = _buscar_ficha_por_id(ficha_id)
+
+    if not ficha:
+        abort(404)
+
+    ids = _obter_ids_carrinho()
+
+    if ficha_id not in ids:
+        ids.append(ficha_id)
+        _salvar_ids_carrinho(ids)
+        flash("Ficha adicionada ao carrinho.", "success")
+    else:
+        flash("Essa ficha já está no carrinho.", "info")
+
+    return redirect(url_for("fichas_carrinho"))
+
+
+@app.route("/fichas/carrinho/remover/<int:ficha_id>", methods=["POST"], endpoint="fichas_remover_carrinho")
+def fichas_remover_carrinho(ficha_id):
+    ids = _obter_ids_carrinho()
+
+    if ficha_id in ids:
+        ids.remove(ficha_id)
+        _salvar_ids_carrinho(ids)
+        flash("Ficha removida do carrinho.", "success")
+
+    return redirect(url_for("fichas_carrinho"))
+
+
+@app.route("/fichas/comprar/<int:ficha_id>", methods=["POST"], endpoint="fichas_comprar_agora")
+def fichas_comprar_agora(ficha_id):
+    ficha = _buscar_ficha_por_id(ficha_id)
+
+    if not ficha:
+        abort(404)
+
+    _salvar_ids_carrinho([ficha_id])
+    flash("Compra direta iniciada. Revise seu carrinho para seguir ao pagamento.", "success")
+    return redirect(url_for("fichas_carrinho"))
 
 @app.route("/login", methods=["GET", "POST"], endpoint="login")
 def login():
