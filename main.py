@@ -815,6 +815,49 @@ def fichas_checkout():
     session["checkout_email"] = email
     session.modified = True
 
+    # Etapa provisória:
+    # por enquanto apenas validamos os dados e simulamos a continuidade do fluxo.
+    # Na próxima etapa, este redirect será trocado pela integração real com o Mercado Pago.
+    return redirect(url_for("fichas_checkout_sucesso"))
+
+
+@app.route("/fichas/checkout/sucesso", endpoint="fichas_checkout_sucesso")
+def fichas_checkout_sucesso():
+    email = session.get("checkout_email", "")
+    itens, total = _montar_itens_carrinho()
+
+    return render_template(
+        "fichas/checkout_sucesso.html",
+        email=email,
+        itens=itens,
+        total=total,
+    )
+
+@app.route("/fichas/checkout/falha", endpoint="fichas_checkout_falha")
+def fichas_checkout_falha():
+    return render_template("fichas/checkout_falha.html")
+
+
+@app.route("/fichas/checkout/pendente", endpoint="fichas_checkout_pendente")
+def fichas_checkout_pendente():
+    return render_template("fichas/checkout_pendente.html")
+
+@app.route("/fichas/checkout", methods=["POST"], endpoint="fichas_checkout")
+def fichas_checkout():
+    itens, total = _montar_itens_carrinho()
+    email = request.form.get("email", "").strip().lower()
+
+    if not itens:
+        flash("Seu carrinho está vazio.", "info")
+        return redirect(url_for("fichas_catalogo"))
+
+    if not email:
+        flash("Informe seu e-mail para continuar a compra.", "info")
+        return redirect(url_for("fichas_carrinho"))
+
+    session["checkout_email"] = email
+    session.modified = True
+
     # Etapa temporária:
     # por enquanto apenas validamos os dados e levamos o usuário
     # para a página de sucesso provisória.
