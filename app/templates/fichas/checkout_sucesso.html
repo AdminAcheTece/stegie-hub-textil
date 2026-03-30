@@ -1,1 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compra Recebida | Stegie</title>
+  <meta name="description" content="Resumo da compra de fichas técnicas de malharia.">
 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}">
+
+  <style>
+    :root{
+      --bg:#f7f6f3;
+      --card:#ffffff;
+      --text:#121212;
+      --muted:#6b6b6b;
+      --line:#e7e3dc;
+      --dark:#0d0d0d;
+      --olive:#7b7a52;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+      --radius:24px;
+      --container:980px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter, Arial, sans-serif;
+    }
+
+    .cs-wrap{
+      min-height:100vh;
+    }
+
+    .cs-container{
+      width:min(100% - 32px, var(--container));
+      margin:0 auto;
+    }
+
+    .cs-main{
+      padding:56px 0;
+    }
+
+    .cs-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:32px;
+    }
+
+    .cs-kicker{
+      display:inline-block;
+      margin-bottom:12px;
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--olive);
+    }
+
+    .cs-title{
+      margin:0;
+      font-size:clamp(2rem, 4vw, 3rem);
+      line-height:1.03;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .cs-text{
+      margin:16px 0 0;
+      color:var(--muted);
+      line-height:1.75;
+      font-size:1rem;
+    }
+
+    .cs-box{
+      margin-top:24px;
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#faf9f6;
+    }
+
+    .cs-box strong{
+      color:var(--text);
+    }
+
+    .cs-list{
+      margin:18px 0 0;
+      padding-left:18px;
+      color:var(--muted);
+    }
+
+    .cs-list li{
+      margin-bottom:8px;
+      line-height:1.6;
+    }
+
+    .cs-total{
+      margin-top:18px;
+      font-size:1.12rem;
+      font-weight:800;
+    }
+
+    .cs-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:28px;
+    }
+
+    .cs-btn{
+      min-height:48px;
+      padding:0 18px;
+      border:none;
+      border-radius:12px;
+      font-size:.95rem;
+      font-weight:700;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+    }
+
+    .cs-btn-dark{
+      background:var(--dark);
+      color:#fff;
+    }
+
+    .cs-btn-olive{
+      background:var(--olive);
+      color:#fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="cs-wrap">
+    {% include 'Parciais/Seções/navbar.html' %}
+
+    <main class="cs-main">
+      <div class="cs-container">
+        <section class="cs-card">
+          <span class="cs-kicker">Compra recebida</span>
+          <h1 class="cs-title">Seu pedido foi registrado com sucesso.</h1>
+
+          <p class="cs-text">
+            Esta é uma etapa provisória do fluxo. O carrinho, os itens e o e-mail já estão sendo registrados corretamente.
+            Na próxima etapa, esta tela será substituída pela integração real com o Mercado Pago e pelo envio automático do acesso por e-mail.
+          </p>
+
+          <div class="cs-box">
+            <p><strong>E-mail informado:</strong> {{ email or 'não informado' }}</p>
+            <p><strong>Quantidade de fichas:</strong> {{ itens|length }}</p>
+            <p class="cs-total">
+              Total: R$ {{ '%.2f'|format(total) }}
+            </p>
+          </div>
+
+          {% if itens %}
+            <ul class="cs-list">
+              {% for item in itens %}
+                <li>{{ item.nome }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <div class="cs-actions">
+            <a class="cs-btn cs-btn-dark" href="{{ url_for('fichas_catalogo') }}">Voltar ao catálogo</a>
+            <a class="cs-btn cs-btn-olive" href="{{ url_for('fichas_carrinho') }}">Voltar ao carrinho</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    {% include 'Parciais/Seções/footer.html' %}
+  </div>
+</body>
+</html>
