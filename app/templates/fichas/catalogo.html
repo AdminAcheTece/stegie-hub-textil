@@ -1,1 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fichas Técnicas de Malharia | Stegie</title>
+  <meta name="description" content="Catálogo de fichas técnicas de malharia da Stegie. Encontre fichas técnicas prontas para consulta, compra e download digital.">
 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/fichas.css') }}">
+
+  <style>
+    :root{
+      --bg:#f7f6f3;
+      --card:#ffffff;
+      --text:#121212;
+      --muted:#6b6b6b;
+      --line:#e7e3dc;
+      --dark:#0d0d0d;
+      --olive:#7b7a52;
+      --olive-dark:#5f5e3f;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+      --radius:20px;
+      --radius-sm:14px;
+      --container:1240px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter, Arial, sans-serif;
+    }
+
+    .ft-page{
+      min-height:100vh;
+    }
+
+    .ft-container{
+      width:min(100% - 32px, var(--container));
+      margin:0 auto;
+    }
+
+    .ft-hero{
+      padding:56px 0 28px;
+    }
+
+    .ft-kicker{
+      display:inline-block;
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--olive);
+      margin-bottom:14px;
+    }
+
+    .ft-title{
+      margin:0;
+      font-size:clamp(2rem, 4vw, 3.5rem);
+      line-height:1.02;
+      font-weight:800;
+      letter-spacing:-.03em;
+      max-width:860px;
+    }
+
+    .ft-subtitle{
+      margin:18px 0 0;
+      max-width:760px;
+      font-size:1.02rem;
+      line-height:1.7;
+      color:var(--muted);
+    }
+
+    .ft-toolbar{
+      margin-top:28px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .ft-toolbar-form{
+      display:grid;
+      grid-template-columns:2fr 1fr auto;
+      gap:14px;
+      align-items:end;
+    }
+
+    .ft-field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .ft-label{
+      font-size:.86rem;
+      font-weight:700;
+      color:#3b3b3b;
+    }
+
+    .ft-input,
+    .ft-select{
+      width:100%;
+      height:48px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+      padding:0 14px;
+      font-size:.98rem;
+      color:var(--text);
+      outline:none;
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .ft-input:focus,
+    .ft-select:focus{
+      border-color:var(--olive);
+      box-shadow:0 0 0 4px rgba(123,122,82,.12);
+    }
+
+    .ft-btn{
+      height:48px;
+      border:none;
+      border-radius:12px;
+      padding:0 18px;
+      font-size:.95rem;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .15s ease, opacity .2s ease, background .2s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+    }
+
+    .ft-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .ft-btn-primary{
+      background:var(--dark);
+      color:#fff;
+    }
+
+    .ft-btn-primary:hover{
+      opacity:.94;
+    }
+
+    .ft-btn-secondary{
+      background:var(--olive);
+      color:#fff;
+    }
+
+    .ft-btn-secondary:hover{
+      background:var(--olive-dark);
+    }
+
+    .ft-btn-light{
+      background:#f1efe9;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+
+    .ft-meta-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin:30px 0 18px;
+    }
+
+    .ft-results{
+      font-size:.96rem;
+      color:var(--muted);
+    }
+
+    .ft-clear{
+      font-size:.92rem;
+      color:var(--olive-dark);
+      text-decoration:none;
+      font-weight:700;
+    }
+
+    .ft-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:22px;
+      padding-bottom:56px;
+    }
+
+    .ft-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      min-height:100%;
+    }
+
+    .ft-card-media{
+      position:relative;
+      aspect-ratio:16/10;
+      background:linear-gradient(135deg, #ece8de 0%, #dad5c9 100%);
+      overflow:hidden;
+    }
+
+    .ft-card-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .ft-badge{
+      position:absolute;
+      left:16px;
+      top:16px;
+      background:rgba(13,13,13,.88);
+      color:#fff;
+      font-size:.76rem;
+      font-weight:700;
+      padding:8px 10px;
+      border-radius:999px;
+      letter-spacing:.03em;
+    }
+
+    .ft-card-body{
+      padding:20px 20px 18px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      flex:1;
+    }
+
+    .ft-card-title{
+      margin:0;
+      font-size:1.18rem;
+      line-height:1.2;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .ft-card-text{
+      margin:0;
+      font-size:.95rem;
+      line-height:1.65;
+      color:var(--muted);
+    }
+
+    .ft-specs{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .ft-spec{
+      background:#faf9f6;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+    }
+
+    .ft-spec-label{
+      display:block;
+      font-size:.75rem;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      color:#777;
+      margin-bottom:6px;
+      font-weight:700;
+    }
+
+    .ft-spec-value{
+      display:block;
+      font-size:.93rem;
+      font-weight:700;
+      color:var(--text);
+      line-height:1.35;
+    }
+
+    .ft-card-footer{
+      margin-top:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding-top:4px;
+    }
+
+    .ft-price{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      flex-shrink:0;
+    }
+
+    .ft-price-label{
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      color:#7b7b7b;
+      font-weight:700;
+    }
+
+    .ft-price-value{
+      font-size:1.35rem;
+      font-weight:800;
+      letter-spacing:-.03em;
+      color:var(--text);
+    }
+
+    .ft-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .ft-empty{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:42px 26px;
+      text-align:center;
+      color:var(--muted);
+      box-shadow:var(--shadow);
+    }
+
+    .ft-empty h3{
+      margin:0 0 10px;
+      font-size:1.3rem;
+      color:var(--text);
+    }
+
+    .ft-empty p{
+      margin:0;
+      line-height:1.7;
+    }
+
+    @media (max-width: 1080px){
+      .ft-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+
+      .ft-toolbar-form{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .ft-toolbar-form .ft-submit-wrap{
+        grid-column:1 / -1;
+      }
+    }
+
+    @media (max-width: 720px){
+      .ft-hero{
+        padding:38px 0 18px;
+      }
+
+      .ft-toolbar{
+        padding:14px;
+      }
+
+      .ft-toolbar-form{
+        grid-template-columns:1fr;
+      }
+
+      .ft-grid{
+        grid-template-columns:1fr;
+      }
+
+      .ft-meta-bar{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .ft-card-footer{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .ft-actions{
+        width:100%;
+        justify-content:flex-start;
+      }
+
+      .ft-specs{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ft-page">
+
+    {% include 'Parciais/Seções/navbar.html' %}
+
+    <section class="ft-hero">
+      <div class="ft-container">
+        <span class="ft-kicker">Fichas Técnicas de Malharia</span>
+        <h1 class="ft-title">Catálogo técnico para consulta, decisão e compra imediata.</h1>
+        <p class="ft-subtitle">
+          Encontre fichas técnicas de malharia com organização clara, leitura objetiva e acesso digital.
+          Escolha a ficha, compre de forma simples e receba o link no e-mail para acessar sua compra.
+        </p>
+
+        <div class="ft-toolbar">
+          <form class="ft-toolbar-form" method="GET" action="{{ url_for('fichas_catalogo') }}">
+            <div class="ft-field">
+              <label class="ft-label" for="q">Buscar ficha</label>
+              <input
+                class="ft-input"
+                type="text"
+                id="q"
+                name="q"
+                value="{{ q or '' }}"
+                placeholder="Ex.: meia malha, ribana, algodão, elastano..."
+              >
+            </div>
+
+            <div class="ft-field">
+              <label class="ft-label" for="categoria">Categoria</label>
+              <select class="ft-select" id="categoria" name="categoria">
+                <option value="">Todas as categorias</option>
+                {% for item in categorias %}
+                  <option value="{{ item }}" {% if categoria == item %}selected{% endif %}>
+                    {{ item }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="ft-submit-wrap">
+              <button class="ft-btn ft-btn-primary" type="submit">Filtrar catálogo</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="ft-meta-bar">
+          <div class="ft-results">
+            {% if fichas %}
+              {{ fichas|length }} ficha{% if fichas|length != 1 %}s{% endif %} encontrada{% if fichas|length != 1 %}s{% endif %}.
+            {% else %}
+              Nenhuma ficha encontrada.
+            {% endif %}
+          </div>
+
+          <a class="ft-clear" href="{{ url_for('fichas_catalogo') }}">Limpar filtros</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="ft-catalog">
+      <div class="ft-container">
+
+        {% if fichas %}
+          <div class="ft-grid">
+            {% for ficha in fichas %}
+              <article class="ft-card">
+                <div class="ft-card-media">
+                  {% if ficha.capa %}
+                    <img src="{{ url_for('static', filename=ficha.capa) }}" alt="{{ ficha.nome }}">
+                  {% endif %}
+                  <span class="ft-badge">{{ ficha.categoria }}</span>
+                </div>
+
+                <div class="ft-card-body">
+                  <h2 class="ft-card-title">{{ ficha.nome }}</h2>
+                  <p class="ft-card-text">{{ ficha.resumo }}</p>
+
+                  <div class="ft-specs">
+                    <div class="ft-spec">
+                      <span class="ft-spec-label">Composição</span>
+                      <span class="ft-spec-value">{{ ficha.composicao }}</span>
+                    </div>
+
+                    <div class="ft-spec">
+                      <span class="ft-spec-label">Gramatura</span>
+                      <span class="ft-spec-value">{{ ficha.gramatura }}</span>
+                    </div>
+
+                    <div class="ft-spec">
+                      <span class="ft-spec-label">Aplicação</span>
+                      <span class="ft-spec-value">{{ ficha.aplicacao }}</span>
+                    </div>
+
+                    <div class="ft-spec">
+                      <span class="ft-spec-label">Formato</span>
+                      <span class="ft-spec-value">PDF digital</span>
+                    </div>
+                  </div>
+
+                  <div class="ft-card-footer">
+                    <div class="ft-price">
+                      <span class="ft-price-label">Valor</span>
+                      <span class="ft-price-value">R$ {{ '%.2f'|format(ficha.preco) }}</span>
+                    </div>
+
+                    <div class="ft-actions">
+                      <a class="ft-btn ft-btn-light" href="{{ url_for('fichas_detalhe', slug=ficha.slug) }}">
+                        Ver detalhes
+                      </a>
+
+                      <form method="POST" action="{{ url_for('fichas_comprar_agora', ficha_id=ficha.id) }}">
+                        <button class="ft-btn ft-btn-secondary" type="submit">Comprar</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="ft-empty">
+            <h3>Nenhuma ficha encontrada</h3>
+            <p>
+              Ajuste a busca ou remova os filtros aplicados para visualizar novamente o catálogo completo.
+            </p>
+          </div>
+        {% endif %}
+
+      </div>
+    </section>
+
+    {% include 'Parciais/Seções/footer.html' %}
+
+  </div>
+</body>
+</html>
