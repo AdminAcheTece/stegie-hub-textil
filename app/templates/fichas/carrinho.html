@@ -1,1 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho | Fichas Técnicas de Malharia | Stegie</title>
+  <meta name="description" content="Revise as fichas técnicas selecionadas, informe seu e-mail e siga para o pagamento.">
 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/fichas.css') }}">
+
+  <style>
+    :root{
+      --bg:#f7f6f3;
+      --card:#ffffff;
+      --text:#121212;
+      --muted:#6b6b6b;
+      --line:#e7e3dc;
+      --dark:#0d0d0d;
+      --olive:#7b7a52;
+      --olive-dark:#5f5e3f;
+      --success-bg:#eef7ec;
+      --success-bd:#cfe5c8;
+      --success-tx:#295b2f;
+      --info-bg:#eef3f8;
+      --info-bd:#cfdbe8;
+      --info-tx:#2c4964;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+      --radius:24px;
+      --container:1240px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter, Arial, sans-serif;
+    }
+
+    .fc-page{min-height:100vh}
+    .fc-container{
+      width:min(100% - 32px, var(--container));
+      margin:0 auto;
+    }
+
+    .fc-breadcrumb{
+      padding:24px 0 10px;
+      font-size:.92rem;
+      color:var(--muted);
+    }
+
+    .fc-breadcrumb a{
+      color:var(--muted);
+      text-decoration:none;
+    }
+
+    .fc-breadcrumb a:hover{
+      color:var(--text);
+    }
+
+    .fc-hero{
+      padding:10px 0 24px;
+    }
+
+    .fc-kicker{
+      display:inline-block;
+      margin-bottom:12px;
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--olive);
+    }
+
+    .fc-title{
+      margin:0;
+      font-size:clamp(2rem, 4vw, 3.1rem);
+      line-height:1.03;
+      letter-spacing:-.03em;
+      font-weight:800;
+      max-width:760px;
+    }
+
+    .fc-subtitle{
+      margin:16px 0 0;
+      max-width:760px;
+      color:var(--muted);
+      line-height:1.75;
+      font-size:1rem;
+    }
+
+    .fc-flashes{
+      padding:0 0 10px;
+    }
+
+    .fc-flash{
+      border-radius:16px;
+      padding:14px 16px;
+      margin-bottom:10px;
+      font-size:.95rem;
+      line-height:1.5;
+      border:1px solid transparent;
+    }
+
+    .fc-flash.success{
+      background:var(--success-bg);
+      border-color:var(--success-bd);
+      color:var(--success-tx);
+    }
+
+    .fc-flash.info{
+      background:var(--info-bg);
+      border-color:var(--info-bd);
+      color:var(--info-tx);
+    }
+
+    .fc-layout{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:26px;
+      padding-bottom:56px;
+    }
+
+    .fc-panel{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .fc-items{
+      padding:22px;
+    }
+
+    .fc-items-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .fc-items-title{
+      margin:0;
+      font-size:1.35rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .fc-items-count{
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .fc-list{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .fc-item{
+      display:grid;
+      grid-template-columns:180px 1fr auto;
+      gap:16px;
+      align-items:stretch;
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:#fcfbf9;
+    }
+
+    .fc-item-media{
+      border-radius:16px;
+      overflow:hidden;
+      background:linear-gradient(135deg, #ece8de 0%, #dad5c9 100%);
+      min-height:140px;
+    }
+
+    .fc-item-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .fc-item-body{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .fc-badge{
+      display:inline-flex;
+      align-items:center;
+      width:max-content;
+      background:#121212;
+      color:#fff;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:.75rem;
+      font-weight:700;
+      letter-spacing:.03em;
+    }
+
+    .fc-item-title{
+      margin:0;
+      font-size:1.15rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+      line-height:1.2;
+    }
+
+    .fc-item-text{
+      margin:0;
+      color:var(--muted);
+      font-size:.95rem;
+      line-height:1.65;
+    }
+
+    .fc-specs{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:10px;
+      margin-top:2px;
+    }
+
+    .fc-spec{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+    }
+
+    .fc-spec-label{
+      display:block;
+      margin-bottom:5px;
+      font-size:.72rem;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      color:#777;
+      font-weight:700;
+    }
+
+    .fc-spec-value{
+      display:block;
+      font-size:.9rem;
+      font-weight:700;
+      line-height:1.35;
+    }
+
+    .fc-item-side{
+      min-width:140px;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .fc-price{
+      text-align:right;
+    }
+
+    .fc-price-label{
+      display:block;
+      font-size:.75rem;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      color:#777;
+      font-weight:700;
+      margin-bottom:5px;
+    }
+
+    .fc-price-value{
+      font-size:1.28rem;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .fc-remove-form{
+      width:100%;
+      display:flex;
+      justify-content:flex-end;
+    }
+
+    .fc-btn{
+      min-height:48px;
+      border:none;
+      border-radius:12px;
+      padding:0 16px;
+      font-size:.95rem;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .15s ease, opacity .2s ease, background .2s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+    }
+
+    .fc-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .fc-btn-dark{
+      background:var(--dark);
+      color:#fff;
+    }
+
+    .fc-btn-olive{
+      background:var(--olive);
+      color:#fff;
+    }
+
+    .fc-btn-olive:hover{
+      background:var(--olive-dark);
+    }
+
+    .fc-btn-light{
+      background:#f1efe9;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+
+    .fc-summary{
+      padding:22px;
+      position:sticky;
+      top:18px;
+    }
+
+    .fc-summary-title{
+      margin:0 0 16px;
+      font-size:1.3rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .fc-summary-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      padding-bottom:18px;
+      margin-bottom:18px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .fc-summary-row{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      font-size:.96rem;
+      line-height:1.5;
+    }
+
+    .fc-summary-row strong{
+      font-size:1.25rem;
+      letter-spacing:-.02em;
+    }
+
+    .fc-summary-muted{
+      color:var(--muted);
+    }
+
+    .fc-checkout-form{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .fc-label{
+      font-size:.9rem;
+      font-weight:700;
+      color:#363636;
+    }
+
+    .fc-input{
+      width:100%;
+      height:50px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+      padding:0 14px;
+      font-size:.97rem;
+      color:var(--text);
+      outline:none;
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .fc-input:focus{
+      border-color:var(--olive);
+      box-shadow:0 0 0 4px rgba(123,122,82,.12);
+    }
+
+    .fc-note{
+      margin:0;
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.65;
+    }
+
+    .fc-actions{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
+    }
+
+    .fc-empty{
+      padding:34px 22px 40px;
+      text-align:center;
+    }
+
+    .fc-empty-title{
+      margin:0 0 10px;
+      font-size:1.45rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .fc-empty-text{
+      margin:0 auto 20px;
+      max-width:620px;
+      color:var(--muted);
+      line-height:1.75;
+    }
+
+    @media (max-width: 1080px){
+      .fc-layout{
+        grid-template-columns:1fr;
+      }
+
+      .fc-summary{
+        position:static;
+      }
+    }
+
+    @media (max-width: 820px){
+      .fc-item{
+        grid-template-columns:1fr;
+      }
+
+      .fc-item-side{
+        min-width:auto;
+        align-items:flex-start;
+      }
+
+      .fc-price{
+        text-align:left;
+      }
+
+      .fc-remove-form{
+        justify-content:flex-start;
+      }
+
+      .fc-specs{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="fc-page">
+
+    {% include 'Parciais/Seções/navbar.html' %}
+
+    <div class="fc-container">
+      <div class="fc-breadcrumb">
+        <a href="{{ url_for('home') }}">Início</a> /
+        <a href="{{ url_for('fichas_catalogo') }}">Fichas Técnicas</a> /
+        <span>Carrinho</span>
+      </div>
+    </div>
+
+    <section class="fc-hero">
+      <div class="fc-container">
+        <span class="fc-kicker">Carrinho de compra</span>
+        <h1 class="fc-title">Revise as fichas selecionadas antes de seguir ao pagamento.</h1>
+        <p class="fc-subtitle">
+          Confira os itens escolhidos, remova o que for necessário e informe o e-mail que receberá o acesso da compra após a confirmação do pagamento.
+        </p>
+      </div>
+    </section>
+
+    <div class="fc-container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="fc-flashes">
+            {% for category, message in messages %}
+              <div class="fc-flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <section>
+      <div class="fc-container">
+
+        {% if itens %}
+          <div class="fc-layout">
+
+            <article class="fc-panel fc-items">
+              <div class="fc-items-head">
+                <h2 class="fc-items-title">Itens selecionados</h2>
+                <div class="fc-items-count">
+                  {{ itens|length }} ficha{% if itens|length != 1 %}s{% endif %} no carrinho
+                </div>
+              </div>
+
+              <div class="fc-list">
+                {% for item in itens %}
+                  <article class="fc-item">
+                    <div class="fc-item-media">
+                      {% if item.capa %}
+                        <img src="{{ url_for('static', filename=item.capa) }}" alt="{{ item.nome }}">
+                      {% endif %}
+                    </div>
+
+                    <div class="fc-item-body">
+                      <span class="fc-badge">{{ item.categoria }}</span>
+                      <h3 class="fc-item-title">{{ item.nome }}</h3>
+                      <p class="fc-item-text">{{ item.resumo }}</p>
+
+                      <div class="fc-specs">
+                        <div class="fc-spec">
+                          <span class="fc-spec-label">Composição</span>
+                          <span class="fc-spec-value">{{ item.composicao }}</span>
+                        </div>
+
+                        <div class="fc-spec">
+                          <span class="fc-spec-label">Gramatura</span>
+                          <span class="fc-spec-value">{{ item.gramatura }}</span>
+                        </div>
+
+                        <div class="fc-spec">
+                          <span class="fc-spec-label">Aplicação</span>
+                          <span class="fc-spec-value">{{ item.aplicacao }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="fc-item-side">
+                      <div class="fc-price">
+                        <span class="fc-price-label">Valor</span>
+                        <div class="fc-price-value">
+                          R$ {% if item.preco is string %}{{ item.preco }}{% else %}{{ '%.2f'|format(item.preco) }}{% endif %}
+                        </div>
+                      </div>
+
+                      <form class="fc-remove-form" method="POST" action="{{ url_for('fichas_remover_carrinho', ficha_id=item.id) }}">
+                        <button class="fc-btn fc-btn-light" type="submit">Remover</button>
+                      </form>
+                    </div>
+                  </article>
+                {% endfor %}
+              </div>
+            </article>
+
+            <aside class="fc-panel fc-summary">
+              <h2 class="fc-summary-title">Resumo da compra</h2>
+
+              <div class="fc-summary-list">
+                <div class="fc-summary-row">
+                  <span class="fc-summary-muted">Quantidade de fichas</span>
+                  <span>{{ itens|length }}</span>
+                </div>
+
+                <div class="fc-summary-row">
+                  <span class="fc-summary-muted">Entrega</span>
+                  <span>Digital por e-mail</span>
+                </div>
+
+                <div class="fc-summary-row">
+                  <span class="fc-summary-muted">Total</span>
+                  <strong>R$ {{ '%.2f'|format(total) }}</strong>
+                </div>
+              </div>
+
+              <form class="fc-checkout-form" method="POST" action="{{ url_for('fichas_checkout') }}">
+                <label class="fc-label" for="email">E-mail para receber o acesso</label>
+                <input
+                  class="fc-input"
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Digite seu melhor e-mail"
+                  required
+                >
+
+                <p class="fc-note">
+                  Após a confirmação do pagamento, o acesso da compra será enviado para este e-mail.
+                </p>
+
+                <div class="fc-actions">
+                  <button class="fc-btn fc-btn-olive" type="submit">Seguir para o pagamento</button>
+                  <a class="fc-btn fc-btn-dark" href="{{ url_for('fichas_catalogo') }}">Continuar comprando</a>
+                </div>
+              </form>
+            </aside>
+
+          </div>
+        {% else %}
+          <div class="fc-panel fc-empty">
+            <h2 class="fc-empty-title">Seu carrinho está vazio</h2>
+            <p class="fc-empty-text">
+              Você ainda não selecionou nenhuma ficha técnica. Volte ao catálogo, escolha os materiais desejados e siga para a compra.
+            </p>
+            <a class="fc-btn fc-btn-olive" href="{{ url_for('fichas_catalogo') }}">Ir para o catálogo</a>
+          </div>
+        {% endif %}
+
+      </div>
+    </section>
+
+    {% include 'Parciais/Seções/footer.html' %}
+
+  </div>
+</body>
+</html>
