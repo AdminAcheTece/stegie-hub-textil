@@ -507,6 +507,14 @@
                         Ver detalhes
                       </a>
 
+                      <form method="POST" action="{{ url_for('fichas_adicionar_carrinho', ficha_id=ficha.id) }}">
+                        <button class="ft-btn ft-btn-light" type="submit">Carrinho</button>
+                      </form>
+                      
+                      <a class="ft-btn ft-btn-light" href="{{ url_for('fichas_detalhe', slug=ficha.slug) }}">
+                        Ver detalhes
+                      </a>
+                      
                       <form method="POST" action="{{ url_for('fichas_comprar_agora', ficha_id=ficha.id) }}">
                         <button class="ft-btn ft-btn-secondary" type="submit">Comprar</button>
                       </form>
