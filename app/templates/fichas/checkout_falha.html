@@ -1,1 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Falha no Pagamento | Stegie</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}">
+</head>
+<body style="margin:0;background:#f7f6f3;font-family:Inter,Arial,sans-serif;color:#121212;">
+  {% include 'Parciais/Seções/navbar.html' %}
 
+  <main style="max-width:960px;margin:0 auto;padding:56px 16px;">
+    <section style="background:#fff;border:1px solid #e7e3dc;border-radius:24px;padding:32px;box-shadow:0 10px 30px rgba(0,0,0,.06);">
+      <h1 style="margin:0 0 14px;font-size:2.2rem;">Não foi possível concluir o pagamento.</h1>
+      <p style="margin:0;color:#6b6b6b;line-height:1.75;">
+        Houve uma interrupção no processo de pagamento. Revise os dados e tente novamente.
+      </p>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
+        <a href="{{ url_for('fichas_carrinho') }}" style="background:#121212;color:#fff;text-decoration:none;padding:12px 18px;border-radius:12px;font-weight:700;">Voltar ao carrinho</a>
+        <a href="{{ url_for('fichas_catalogo') }}" style="background:#7b7a52;color:#fff;text-decoration:none;padding:12px 18px;border-radius:12px;font-weight:700;">Ir ao catálogo</a>
+      </div>
+    </section>
+  </main>
+
+  {% include 'Parciais/Seções/footer.html' %}
+</body>
+</html>
