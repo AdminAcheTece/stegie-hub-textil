@@ -1,1 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ ficha.nome }} | Fichas Técnicas de Malharia | Stegie</title>
+  <meta name="description" content="{{ ficha.resumo }}">
 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/fichas.css') }}">
+
+  <style>
+    :root{
+      --bg:#f7f6f3;
+      --card:#ffffff;
+      --text:#121212;
+      --muted:#6b6b6b;
+      --line:#e7e3dc;
+      --dark:#0d0d0d;
+      --olive:#7b7a52;
+      --olive-dark:#5f5e3f;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+      --radius:24px;
+      --radius-sm:14px;
+      --container:1240px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter, Arial, sans-serif;
+    }
+
+    .fd-page{min-height:100vh}
+    .fd-container{
+      width:min(100% - 32px, var(--container));
+      margin:0 auto;
+    }
+
+    .fd-breadcrumb{
+      padding:24px 0 10px;
+      font-size:.92rem;
+      color:var(--muted);
+    }
+
+    .fd-breadcrumb a{
+      color:var(--muted);
+      text-decoration:none;
+    }
+
+    .fd-breadcrumb a:hover{
+      color:var(--text);
+    }
+
+    .fd-hero{
+      padding:10px 0 42px;
+    }
+
+    .fd-grid{
+      display:grid;
+      grid-template-columns:1.08fr .92fr;
+      gap:28px;
+      align-items:start;
+    }
+
+    .fd-media,
+    .fd-info{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .fd-media{
+      overflow:hidden;
+    }
+
+    .fd-image-wrap{
+      position:relative;
+      aspect-ratio:16/11;
+      background:linear-gradient(135deg, #ece8de 0%, #dad5c9 100%);
+    }
+
+    .fd-image-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .fd-badge{
+      position:absolute;
+      left:18px;
+      top:18px;
+      background:rgba(13,13,13,.88);
+      color:#fff;
+      font-size:.76rem;
+      font-weight:700;
+      padding:8px 10px;
+      border-radius:999px;
+      letter-spacing:.03em;
+    }
+
+    .fd-media-body{
+      padding:22px;
+    }
+
+    .fd-media-title{
+      margin:0 0 8px;
+      font-size:1.15rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .fd-media-text{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:.97rem;
+    }
+
+    .fd-info{
+      padding:28px;
+    }
+
+    .fd-kicker{
+      display:inline-block;
+      margin-bottom:12px;
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--olive);
+    }
+
+    .fd-title{
+      margin:0;
+      font-size:clamp(2rem, 4vw, 3rem);
+      line-height:1.03;
+      letter-spacing:-.03em;
+      font-weight:800;
+    }
+
+    .fd-summary{
+      margin:16px 0 22px;
+      font-size:1rem;
+      line-height:1.8;
+      color:var(--muted);
+    }
+
+    .fd-price-box{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:16px;
+      padding:18px 0 22px;
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      margin-bottom:22px;
+    }
+
+    .fd-price-label{
+      display:block;
+      font-size:.8rem;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:#7a7a7a;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+
+    .fd-price-value{
+      font-size:2rem;
+      font-weight:800;
+      letter-spacing:-.04em;
+      color:var(--text);
+    }
+
+    .fd-price-note{
+      font-size:.9rem;
+      color:var(--muted);
+      text-align:right;
+      line-height:1.5;
+    }
+
+    .fd-specs{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:22px;
+    }
+
+    .fd-spec{
+      background:#faf9f6;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .fd-spec-label{
+      display:block;
+      margin-bottom:7px;
+      font-size:.75rem;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      color:#777;
+      font-weight:700;
+    }
+
+    .fd-spec-value{
+      display:block;
+      font-size:.96rem;
+      font-weight:700;
+      line-height:1.4;
+      color:var(--text);
+    }
+
+    .fd-benefits{
+      margin:0 0 22px;
+      padding-left:18px;
+      color:var(--muted);
+    }
+
+    .fd-benefits li{
+      margin:0 0 10px;
+      line-height:1.65;
+    }
+
+    .fd-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:6px;
+    }
+
+    .fd-btn{
+      min-height:50px;
+      border:none;
+      border-radius:12px;
+      padding:0 18px;
+      font-size:.96rem;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .15s ease, opacity .2s ease, background .2s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .fd-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .fd-btn-primary{
+      background:var(--dark);
+      color:#fff;
+    }
+
+    .fd-btn-secondary{
+      background:var(--olive);
+      color:#fff;
+    }
+
+    .fd-btn-secondary:hover{
+      background:var(--olive-dark);
+    }
+
+    .fd-btn-light{
+      background:#f1efe9;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+
+    .fd-extra{
+      padding:4px 0 54px;
+    }
+
+    .fd-extra-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+    }
+
+    .fd-panel{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px;
+    }
+
+    .fd-panel-title{
+      margin:0 0 14px;
+      font-size:1.2rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .fd-panel-text{
+      margin:0;
+      color:var(--muted);
+      line-height:1.75;
+    }
+
+    .fd-related{
+      padding-bottom:56px;
+    }
+
+    .fd-related-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+
+    .fd-related-title{
+      margin:0;
+      font-size:1.5rem;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .fd-related-link{
+      text-decoration:none;
+      color:var(--olive-dark);
+      font-weight:700;
+    }
+
+    .fd-related-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:20px;
+    }
+
+    .fd-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .fd-card-media{
+      aspect-ratio:16/10;
+      background:linear-gradient(135deg, #ece8de 0%, #dad5c9 100%);
+    }
+
+    .fd-card-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .fd-card-body{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      flex:1;
+    }
+
+    .fd-card-title{
+      margin:0;
+      font-size:1.08rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+      line-height:1.2;
+    }
+
+    .fd-card-text{
+      margin:0;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:.94rem;
+    }
+
+    .fd-card-footer{
+      margin-top:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .fd-card-price{
+      font-size:1.1rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .fd-card-btn{
+      text-decoration:none;
+      background:#f1efe9;
+      color:var(--text);
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 14px;
+      font-size:.9rem;
+      font-weight:700;
+    }
+
+    @media (max-width: 980px){
+      .fd-grid,
+      .fd-extra-grid{
+        grid-template-columns:1fr;
+      }
+
+      .fd-related-grid{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px){
+      .fd-info{
+        padding:22px 18px;
+      }
+
+      .fd-specs{
+        grid-template-columns:1fr;
+      }
+
+      .fd-price-box{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .fd-price-note{
+        text-align:left;
+      }
+
+      .fd-related-grid{
+        grid-template-columns:1fr;
+      }
+
+      .fd-related-head{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="fd-page">
+
+    {% include 'Parciais/Seções/navbar.html' %}
+
+    <div class="fd-container">
+      <div class="fd-breadcrumb">
+        <a href="{{ url_for('home') }}">Início</a> /
+        <a href="{{ url_for('fichas_catalogo') }}">Fichas Técnicas</a> /
+        <span>{{ ficha.nome }}</span>
+      </div>
+    </div>
+
+    <section class="fd-hero">
+      <div class="fd-container">
+        <div class="fd-grid">
+
+          <article class="fd-media">
+            <div class="fd-image-wrap">
+              {% if ficha.capa %}
+                <img src="{{ url_for('static', filename=ficha.capa) }}" alt="{{ ficha.nome }}">
+              {% endif %}
+              <span class="fd-badge">{{ ficha.categoria }}</span>
+            </div>
+
+            <div class="fd-media-body">
+              <h2 class="fd-media-title">Visão geral da ficha</h2>
+              <p class="fd-media-text">
+                Este material foi estruturado para facilitar a consulta técnica da malha, apoiar decisões com mais agilidade
+                e organizar as principais informações em um arquivo digital de acesso rápido.
+              </p>
+            </div>
+          </article>
+
+          <article class="fd-info">
+            <span class="fd-kicker">Ficha Técnica de Malharia</span>
+            <h1 class="fd-title">{{ ficha.nome }}</h1>
+
+            <p class="fd-summary">{{ ficha.resumo }}</p>
+
+            <div class="fd-price-box">
+              <div>
+                <span class="fd-price-label">Valor da ficha</span>
+                <div class="fd-price-value">
+                  R$ {% if ficha.preco is string %}{{ ficha.preco }}{% else %}{{ '%.2f'|format(ficha.preco) }}{% endif %}
+                </div>
+              </div>
+
+              <div class="fd-price-note">
+                Compra digital com envio de acesso por e-mail após a confirmação do pagamento.
+              </div>
+            </div>
+
+            <div class="fd-specs">
+              <div class="fd-spec">
+                <span class="fd-spec-label">Categoria</span>
+                <span class="fd-spec-value">{{ ficha.categoria }}</span>
+              </div>
+
+              <div class="fd-spec">
+                <span class="fd-spec-label">Composição</span>
+                <span class="fd-spec-value">{{ ficha.composicao }}</span>
+              </div>
+
+              <div class="fd-spec">
+                <span class="fd-spec-label">Gramatura</span>
+                <span class="fd-spec-value">{{ ficha.gramatura }}</span>
+              </div>
+
+              <div class="fd-spec">
+                <span class="fd-spec-label">Aplicação</span>
+                <span class="fd-spec-value">{{ ficha.aplicacao }}</span>
+              </div>
+            </div>
+
+            <ul class="fd-benefits">
+              <li>Entrega digital com acesso ao material após a confirmação do pagamento.</li>
+              <li>Leitura organizada para consulta técnica com mais praticidade.</li>
+              <li>Ideal para apoio em desenvolvimento, especificação e comparação de malhas.</li>
+            </ul>
+
+            <div class="fd-actions">
+              <form method="POST" action="{{ url_for('fichas_adicionar_carrinho', ficha_id=ficha.id) }}">
+                <button class="fd-btn fd-btn-light" type="submit">Colocar no Carrinho</button>
+              </form>
+
+              <form method="POST" action="{{ url_for('fichas_comprar_agora', ficha_id=ficha.id) }}">
+                <button class="fd-btn fd-btn-secondary" type="submit">Comprar</button>
+              </form>
+
+              <a class="fd-btn fd-btn-primary" href="{{ url_for('fichas_catalogo') }}">Voltar ao Catálogo</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="fd-extra">
+      <div class="fd-container">
+        <div class="fd-extra-grid">
+          <article class="fd-panel">
+            <h2 class="fd-panel-title">O que você recebe</h2>
+            <p class="fd-panel-text">
+              Você recebe acesso digital à ficha técnica comprada, com consulta simples e download do arquivo em PDF
+              após a confirmação do pagamento. O link de acesso é enviado ao e-mail informado na compra.
+            </p>
+          </article>
+
+          <article class="fd-panel">
+            <h2 class="fd-panel-title">Como funciona a compra</h2>
+            <p class="fd-panel-text">
+              Escolha a ficha desejada, compre de forma direta ou adicione mais itens ao carrinho. Após a aprovação do
+              pagamento, o sistema envia o acesso da compra por e-mail, permitindo abrir a página “Minha compra” e baixar
+              o material adquirido.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    {% if relacionadas %}
+    <section class="fd-related">
+      <div class="fd-container">
+        <div class="fd-related-head">
+          <h2 class="fd-related-title">Outras fichas relacionadas</h2>
+          <a class="fd-related-link" href="{{ url_for('fichas_catalogo') }}">Ver catálogo completo</a>
+        </div>
+
+        <div class="fd-related-grid">
+          {% for item in relacionadas %}
+          <article class="fd-card">
+            <div class="fd-card-media">
+              {% if item.capa %}
+                <img src="{{ url_for('static', filename=item.capa) }}" alt="{{ item.nome }}">
+              {% endif %}
+            </div>
+
+            <div class="fd-card-body">
+              <h3 class="fd-card-title">{{ item.nome }}</h3>
+              <p class="fd-card-text">{{ item.resumo }}</p>
+
+              <div class="fd-card-footer">
+                <div class="fd-card-price">
+                  R$ {% if item.preco is string %}{{ item.preco }}{% else %}{{ '%.2f'|format(item.preco) }}{% endif %}
+                </div>
+
+                <a class="fd-card-btn" href="{{ url_for('fichas_detalhe', slug=item.slug) }}">Ver ficha</a>
+              </div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    {% include 'Parciais/Seções/footer.html' %}
+
+  </div>
+</body>
+</html>
