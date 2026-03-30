@@ -385,7 +385,7 @@ FICHAS_CATALOGO = [
         "ativo": True,
     },
     {
-        "id": 1,
+        "id": 2,
         "slug": "ribana-algodao-elastano",
         "nome": "Ribana Algodão com Elastano",
         "categoria": "Ribana",
@@ -393,13 +393,101 @@ FICHAS_CATALOGO = [
         "composicao": "96% Algodão / 4% Elastano",
         "gramatura": "220 g/m²",
         "aplicacao": "Golas, punhos e moda casual",
-        "preco": "34.90",
+        "preco": 34.90,
         "arquivo_pdf": "ribana-algodao-30-1.pdf",
         "preview": "ribana-algodao-30-1-preview.pdf",
         "capa": "img/fichas/capas/ribana-algodao-30-1.jpg",
         "ativo": True,
     },    
 ]
+
+def _parse_preco(value):
+    if isinstance(value, (int, float)):
+        return float(value)
+
+    text = str(value).strip().replace("R$", "").replace(" ", "")
+
+    if "," in text and "." in text:
+        text = text.replace(".", "").replace(",", ".")
+    else:
+        text = text.replace(",", ".")
+
+    try:
+        return float(text)
+    except ValueError:
+        return 0.0
+
+
+def _enriquecer_fichas(catalogo):
+    fichas = []
+    used_ids = set()
+
+    for idx, ficha in enumerate(catalogo, start=1):
+        item = dict(ficha)
+
+        raw_id = item.get("id")
+        if isinstance(raw_id, int) and raw_id not in used_ids:
+            item["id"] = raw_id
+        else:
+            while idx in used_ids:
+                idx += 1
+            item["id"] = idx
+        used_ids.add(item["id"])
+
+        item.setdefault("ativo", True)
+
+        slug = item.get("slug", f"ficha-{item['id']}")
+        item["slug"] = slug
+        item["preco"] = _parse_preco(item.get("preco", 0))
+
+        item.setdefault("capa", f"img/fichas/capas/{slug}.jpg")
+        item.setdefault("arquivo_pdf", f"fichas/{slug}.pdf")
+        item.setdefault("preview", f"fichas/previews/{slug}-preview.pdf")
+
+        fichas.append(item)
+
+    return fichas
+
+
+FICHAS_CATALOGO = _enriquecer_fichas(FICHAS_CATALOGO)
+
+
+def _buscar_ficha_por_slug(slug):
+    return next(
+        (f for f in FICHAS_CATALOGO if f["slug"] == slug and f.get("ativo", True)),
+        None,
+    )
+
+
+def _buscar_ficha_por_id(ficha_id):
+    return next(
+        (f for f in FICHAS_CATALOGO if f["id"] == ficha_id and f.get("ativo", True)),
+        None,
+    )
+
+
+def _obter_ids_carrinho():
+    ids = session.get("fichas_cart", [])
+    return ids if isinstance(ids, list) else []
+
+
+def _salvar_ids_carrinho(ids):
+    session["fichas_cart"] = ids
+    session.modified = True
+
+
+def _montar_itens_carrinho():
+    ids = _obter_ids_carrinho()
+    itens = []
+
+    for ficha_id in ids:
+        ficha = _buscar_ficha_por_id(ficha_id)
+        if ficha:
+            itens.append(ficha)
+
+    total = sum(item["preco"] for item in itens)
+    return itens, total
+
 
 # -----------------------------
 # Rotas principais
