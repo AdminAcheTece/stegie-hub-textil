@@ -86,7 +86,7 @@ print(f"[BOOT] TEMPLATE_DIRS={TEMPLATE_DIRS}")
 print(f"[BOOT] STATIC_DIR={STATIC_DIR}")
 
 # Checagem de arquivos estáticos essenciais
-for rel in ("css/stegie.css", "css/style.css", "js/app.js"):
+for rel in ("css/stegie.css", "js/app.js"):
     ok, full, size = _check_file(STATIC_DIR, rel)
     if ok:
         print(f"[BOOT] STATIC OK: {rel} -> {full} ({size} bytes)")
