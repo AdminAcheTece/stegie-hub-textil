@@ -1,1 +1,17 @@
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento Pendente | Stegie</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stegie.css') }}">
+</head>
+<body>
+  <main style="max-width:900px;margin:60px auto;padding:24px;font-family:Inter,Arial,sans-serif;">
+    <h1>Pagamento pendente</h1>
+    <p>Seu pagamento ainda está em processamento ou aguardando confirmação.</p>
+    <p>Assim que houver confirmação, o acesso da compra será enviado para o e-mail informado.</p>
+    <p><a href="{{ url_for('fichas_catalogo') }}">Voltar ao catálogo</a></p>
+  </main>
+</body>
+</html>
