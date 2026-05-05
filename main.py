@@ -899,13 +899,16 @@ def pericia_tecnica_textil():
 def solucoes_vitrine():
     return render_template("solucoes_vitrine.html")
 
+@app.route("/formacao-malharia")
+def formacao_malharia():
+    return render_template("formacao_malharia.html")
+
 # -----------------------------
 # Error handlers
 # -----------------------------
 @app.errorhandler(404)
 def not_found(_):
     return render_template("404.html"), 404
-
 
 # -----------------------------
 # Local run (somente dev)
