@@ -1,1 +1,936 @@
+{% extends "base.html" %}
 
+{% block title %}KEHAI | Stegie{% endblock %}
+
+{% block meta_description %}
+KEHAI — A liderança que reconhece valor antes que ele se perca.
+Conheça o livro, a filosofia e suas aplicações em liderança, gestão e desenvolvimento humano.
+{% endblock %}
+
+{% block extra_head %}
+<style>
+
+  :root{
+    --kehai-bg:#F7F6F3;
+    --kehai-surface:#FFFFFF;
+    --kehai-text:#111111;
+    --kehai-muted:#66625B;
+    --kehai-line:rgba(0,0,0,.11);
+    --kehai-olive:#7B7424;
+    --kehai-olive-soft:#8E8730;
+  }
+
+  body{
+    background:var(--kehai-bg);
+  }
+
+  .kehai-page{
+    background:var(--kehai-bg);
+    color:var(--kehai-text);
+    overflow:hidden;
+  }
+
+  .kehai-container{
+    width:min(1180px, calc(100% - 48px));
+    margin:0 auto;
+  }
+
+  /* =====================================================
+     HERO
+     ===================================================== */
+
+  .kehai-hero{
+    min-height:calc(100vh - 82px);
+    display:flex;
+    align-items:center;
+    padding:84px 0 72px;
+    position:relative;
+  }
+
+  .kehai-hero-grid{
+    display:grid;
+    grid-template-columns:1.12fr .88fr;
+    gap:72px;
+    align-items:center;
+  }
+
+  .kehai-kicker{
+    margin-bottom:20px;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--kehai-olive);
+  }
+
+  .kehai-title{
+    margin:0;
+    font-family:"Plus Jakarta Sans", Inter, system-ui, sans-serif;
+    font-size:clamp(64px, 8vw, 116px);
+    font-weight:400;
+    letter-spacing:-.065em;
+    line-height:.86;
+    color:#111;
+  }
+
+  .kehai-subtitle{
+    max-width:760px;
+    margin:30px 0 0;
+    font-size:clamp(25px, 2.8vw, 42px);
+    line-height:1.12;
+    letter-spacing:-.035em;
+    font-weight:300;
+    color:#171717;
+  }
+
+  .kehai-intro{
+    max-width:690px;
+    margin:28px 0 0;
+    font-size:18px;
+    line-height:1.7;
+    font-weight:300;
+    color:var(--kehai-muted);
+  }
+
+  .kehai-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:34px;
+  }
+
+  .kehai-btn{
+    min-height:52px;
+    padding:0 22px;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font-size:15px;
+    font-weight:600;
+    transition:
+      transform .18s ease,
+      box-shadow .18s ease,
+      background .18s ease;
+  }
+
+  .kehai-btn:hover{
+    transform:translateY(-1px);
+  }
+
+  .kehai-btn-primary{
+    background:var(--kehai-olive);
+    color:#fff;
+    box-shadow:0 12px 28px rgba(123,116,36,.16);
+  }
+
+  .kehai-btn-primary:hover{
+    background:#68621d;
+  }
+
+  .kehai-btn-secondary{
+    background:#fff;
+    color:#111;
+    border:1px solid var(--kehai-line);
+  }
+
+  /* VISUAL DIREITO */
+
+  .kehai-symbol-card{
+    min-height:470px;
+    border:1px solid var(--kehai-line);
+    border-radius:32px;
+    background:
+      radial-gradient(
+        circle at 50% 36%,
+        rgba(123,116,36,.11),
+        transparent 34%
+      ),
+      #fff;
+    display:grid;
+    place-items:center;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 24px 70px rgba(0,0,0,.05);
+  }
+
+  .kehai-symbol{
+    font-family:"Plus Jakarta Sans", sans-serif;
+    font-size:clamp(100px, 13vw, 190px);
+    font-weight:300;
+    letter-spacing:-.08em;
+    color:#111;
+    line-height:1;
+  }
+
+  .kehai-symbol-caption{
+    position:absolute;
+    left:30px;
+    right:30px;
+    bottom:26px;
+    text-align:center;
+    font-size:13px;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--kehai-muted);
+  }
+
+  /* =====================================================
+     FRASE CENTRAL
+     ===================================================== */
+
+  .kehai-statement{
+    padding:110px 0;
+    border-top:1px solid var(--kehai-line);
+  }
+
+  .kehai-statement-text{
+    max-width:1000px;
+    margin:0 auto;
+    text-align:center;
+    font-size:clamp(36px, 5vw, 70px);
+    line-height:1.08;
+    letter-spacing:-.045em;
+    font-weight:300;
+    color:#111;
+  }
+
+  .kehai-statement-text strong{
+    font-weight:400;
+    color:var(--kehai-olive);
+  }
+
+  /* =====================================================
+     O QUE É
+     ===================================================== */
+
+  .kehai-section{
+    padding:96px 0;
+  }
+
+  .kehai-section--line{
+    border-top:1px solid var(--kehai-line);
+  }
+
+  .kehai-heading-grid{
+    display:grid;
+    grid-template-columns:.7fr 1.3fr;
+    gap:80px;
+  }
+
+  .kehai-eyebrow{
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.17em;
+    text-transform:uppercase;
+    color:var(--kehai-olive);
+  }
+
+  .kehai-heading{
+    margin:0;
+    font-size:clamp(38px, 4.4vw, 64px);
+    line-height:1.03;
+    font-weight:300;
+    letter-spacing:-.045em;
+    color:#111;
+  }
+
+  .kehai-copy{
+    max-width:760px;
+    margin-top:30px;
+    font-size:19px;
+    line-height:1.75;
+    font-weight:300;
+    color:var(--kehai-muted);
+  }
+
+  /* =====================================================
+     QUATRO MOVIMENTOS
+     ===================================================== */
+
+  .kehai-movements{
+    margin-top:58px;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    border-top:1px solid var(--kehai-line);
+    border-bottom:1px solid var(--kehai-line);
+  }
+
+  .kehai-movement{
+    padding:34px 28px 38px;
+    min-height:260px;
+  }
+
+  .kehai-movement + .kehai-movement{
+    border-left:1px solid var(--kehai-line);
+  }
+
+  .kehai-movement-number{
+    font-size:13px;
+    letter-spacing:.14em;
+    color:var(--kehai-olive);
+    margin-bottom:58px;
+  }
+
+  .kehai-movement-title{
+    margin:0 0 14px;
+    font-size:27px;
+    line-height:1.1;
+    font-weight:400;
+    letter-spacing:-.025em;
+    color:#111;
+  }
+
+  .kehai-movement-text{
+    margin:0;
+    font-size:15px;
+    line-height:1.65;
+    font-weight:300;
+    color:var(--kehai-muted);
+  }
+
+  /* =====================================================
+     LIVRO
+     ===================================================== */
+
+  .kehai-book-grid{
+    display:grid;
+    grid-template-columns:.82fr 1.18fr;
+    gap:80px;
+    align-items:center;
+  }
+
+  .kehai-book-cover{
+    min-height:520px;
+    border-radius:28px;
+    border:1px solid var(--kehai-line);
+    background:#111;
+    color:#fff;
+    padding:44px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    box-shadow:0 28px 70px rgba(0,0,0,.14);
+  }
+
+  .kehai-book-cover-title{
+    font-size:clamp(52px, 6vw, 78px);
+    font-weight:300;
+    letter-spacing:-.055em;
+  }
+
+  .kehai-book-cover-sub{
+    max-width:420px;
+    font-size:21px;
+    line-height:1.3;
+    font-weight:300;
+    color:rgba(255,255,255,.82);
+  }
+
+  .kehai-book-author{
+    font-size:14px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.62);
+  }
+
+  .kehai-book-copy h2{
+    margin:0;
+    font-size:clamp(42px, 4.5vw, 64px);
+    line-height:1.04;
+    font-weight:300;
+    letter-spacing:-.045em;
+  }
+
+  .kehai-book-copy p{
+    margin-top:28px;
+    font-size:18px;
+    line-height:1.75;
+    font-weight:300;
+    color:var(--kehai-muted);
+  }
+
+  /* =====================================================
+     APLICAÇÕES
+     ===================================================== */
+
+  .kehai-applications{
+    margin-top:46px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+
+  .kehai-application{
+    min-height:220px;
+    background:#fff;
+    border:1px solid var(--kehai-line);
+    border-radius:24px;
+    padding:28px;
+  }
+
+  .kehai-application-title{
+    margin:0 0 15px;
+    font-size:24px;
+    font-weight:400;
+    letter-spacing:-.025em;
+  }
+
+  .kehai-application-text{
+    margin:0;
+    font-size:16px;
+    line-height:1.65;
+    font-weight:300;
+    color:var(--kehai-muted);
+  }
+
+  /* =====================================================
+     CTA
+     ===================================================== */
+
+  .kehai-final{
+    padding:120px 0;
+    border-top:1px solid var(--kehai-line);
+  }
+
+  .kehai-final-box{
+    padding:72px;
+    border-radius:34px;
+    background:#111;
+    text-align:center;
+  }
+
+  .kehai-final-box h2{
+    max-width:900px;
+    margin:0 auto;
+    font-size:clamp(40px, 5vw, 70px);
+    line-height:1.05;
+    font-weight:300;
+    letter-spacing:-.045em;
+    color:#fff;
+  }
+
+  .kehai-final-box p{
+    max-width:680px;
+    margin:24px auto 0;
+    font-size:18px;
+    line-height:1.65;
+    font-weight:300;
+    color:rgba(255,255,255,.68);
+  }
+
+  .kehai-final-box .kehai-actions{
+    justify-content:center;
+  }
+
+  /* =====================================================
+     RESPONSIVO
+     ===================================================== */
+
+  @media(max-width:900px){
+
+    .kehai-hero{
+      min-height:auto;
+    }
+
+    .kehai-hero-grid,
+    .kehai-heading-grid,
+    .kehai-book-grid{
+      grid-template-columns:1fr;
+      gap:48px;
+    }
+
+    .kehai-symbol-card{
+      min-height:360px;
+    }
+
+    .kehai-movements{
+      grid-template-columns:repeat(2,1fr);
+    }
+
+    .kehai-movement:nth-child(3){
+      border-left:0;
+      border-top:1px solid var(--kehai-line);
+    }
+
+    .kehai-movement:nth-child(4){
+      border-top:1px solid var(--kehai-line);
+    }
+
+    .kehai-applications{
+      grid-template-columns:1fr;
+    }
+
+  }
+
+  @media(max-width:560px){
+
+    .kehai-container{
+      width:min(100% - 28px, 1180px);
+    }
+
+    .kehai-hero{
+      padding:72px 0 56px;
+    }
+
+    .kehai-title{
+      font-size:64px;
+    }
+
+    .kehai-subtitle{
+      font-size:30px;
+    }
+
+    .kehai-intro,
+    .kehai-copy{
+      font-size:17px;
+    }
+
+    .kehai-statement{
+      padding:74px 0;
+    }
+
+    .kehai-section{
+      padding:72px 0;
+    }
+
+    .kehai-movements{
+      grid-template-columns:1fr;
+    }
+
+    .kehai-movement{
+      min-height:auto;
+      padding:28px 10px;
+    }
+
+    .kehai-movement + .kehai-movement{
+      border-left:0;
+      border-top:1px solid var(--kehai-line);
+    }
+
+    .kehai-movement-number{
+      margin-bottom:28px;
+    }
+
+    .kehai-book-cover{
+      min-height:440px;
+      padding:30px;
+    }
+
+    .kehai-final{
+      padding:72px 0;
+    }
+
+    .kehai-final-box{
+      padding:48px 24px;
+      border-radius:26px;
+    }
+
+    .kehai-actions{
+      flex-direction:column;
+    }
+
+    .kehai-btn{
+      width:100%;
+    }
+
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="kehai-page">
+
+  <!-- =====================================================
+       HERO
+       ===================================================== -->
+
+  <section class="kehai-hero">
+
+    <div class="kehai-container">
+
+      <div class="kehai-hero-grid">
+
+        <div>
+
+          <div class="kehai-kicker">
+            Filosofia • Liderança • Livro
+          </div>
+
+          <h1 class="kehai-title">
+            KEHAI
+          </h1>
+
+          <div class="kehai-subtitle">
+            A liderança que reconhece valor antes que ele se perca.
+          </div>
+
+          <p class="kehai-intro">
+            Uma filosofia de liderança construída para ampliar a capacidade
+            de perceber, discernir, preservar e potencializar aquilo que
+            realmente gera valor nas pessoas, nos processos e nas organizações.
+          </p>
+
+          <div class="kehai-actions">
+
+            <a
+              class="kehai-btn kehai-btn-primary"
+              href="#livro">
+              Conhecer o livro
+            </a>
+
+            <a
+              class="kehai-btn kehai-btn-secondary"
+              href="{{ url_for('contato') }}?assunto=KEHAI">
+              Falar sobre KEHAI
+            </a>
+
+          </div>
+
+        </div>
+
+        <div class="kehai-symbol-card">
+
+          <div class="kehai-symbol">
+            K
+          </div>
+
+          <div class="kehai-symbol-caption">
+            Reconhecer valor antes que ele se perca
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       MANIFESTO
+       ===================================================== -->
+
+  <section class="kehai-statement">
+
+    <div class="kehai-container">
+
+      <div class="kehai-statement-text">
+        Liderar não é apenas decidir.
+        É <strong>perceber valor</strong>
+        enquanto ainda existe tempo para preservá-lo.
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       FILOSOFIA
+       ===================================================== -->
+
+  <section class="kehai-section kehai-section--line">
+
+    <div class="kehai-container">
+
+      <div class="kehai-heading-grid">
+
+        <div class="kehai-eyebrow">
+          A filosofia
+        </div>
+
+        <div>
+
+          <h2 class="kehai-heading">
+            Antes de transformar,
+            é preciso aprender a perceber.
+          </h2>
+
+          <p class="kehai-copy">
+            KEHAI propõe uma liderança mais consciente sobre aquilo que está
+            acontecendo antes da perda: conhecimento que pode desaparecer,
+            talentos que podem ser desperdiçados, oportunidades que podem
+            passar despercebidas e processos que podem perder valor
+            silenciosamente.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="kehai-movements">
+
+        <article class="kehai-movement">
+
+          <div class="kehai-movement-number">
+            01
+          </div>
+
+          <h3 class="kehai-movement-title">
+            Perceber
+          </h3>
+
+          <p class="kehai-movement-text">
+            Desenvolver presença e capacidade para enxergar sinais,
+            pessoas, oportunidades e riscos antes que se tornem óbvios.
+          </p>
+
+        </article>
+
+
+        <article class="kehai-movement">
+
+          <div class="kehai-movement-number">
+            02
+          </div>
+
+          <h3 class="kehai-movement-title">
+            Discernir
+          </h3>
+
+          <p class="kehai-movement-text">
+            Separar ruído de valor e reconhecer aquilo que realmente
+            merece atenção, proteção e decisão.
+          </p>
+
+        </article>
+
+
+        <article class="kehai-movement">
+
+          <div class="kehai-movement-number">
+            03
+          </div>
+
+          <h3 class="kehai-movement-title">
+            Preservar
+          </h3>
+
+          <p class="kehai-movement-text">
+            Evitar que conhecimento, capacidade, confiança e potencial
+            sejam perdidos por ausência de liderança.
+          </p>
+
+        </article>
+
+
+        <article class="kehai-movement">
+
+          <div class="kehai-movement-number">
+            04
+          </div>
+
+          <h3 class="kehai-movement-title">
+            Potencializar
+          </h3>
+
+          <p class="kehai-movement-text">
+            Transformar aquilo que foi reconhecido e preservado em
+            desenvolvimento, resultado e impacto sustentável.
+          </p>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       LIVRO
+       ===================================================== -->
+
+  <section
+    class="kehai-section kehai-section--line"
+    id="livro">
+
+    <div class="kehai-container">
+
+      <div class="kehai-book-grid">
+
+        <div class="kehai-book-cover">
+
+          <div class="kehai-book-cover-title">
+            KEHAI
+          </div>
+
+          <div class="kehai-book-cover-sub">
+            A liderança que reconhece valor antes que ele se perca.
+          </div>
+
+          <div class="kehai-book-author">
+            Vandré Stein
+          </div>
+
+        </div>
+
+
+        <div class="kehai-book-copy">
+
+          <div class="kehai-eyebrow">
+            O livro
+          </div>
+
+          <h2>
+            Uma filosofia de liderança
+            para aquilo que normalmente
+            percebemos tarde demais.
+          </h2>
+
+          <p>
+            KEHAI nasce da observação de um problema recorrente:
+            pessoas, conhecimentos, oportunidades e capacidades
+            frequentemente são reconhecidos somente depois que
+            começam a desaparecer.
+          </p>
+
+          <p>
+            O livro propõe uma mudança de perspectiva:
+            desenvolver líderes capazes de identificar valor antes
+            que a perda torne esse valor evidente.
+          </p>
+
+          <div class="kehai-actions">
+
+            <a
+              class="kehai-btn kehai-btn-primary"
+              href="{{ url_for('contato') }}?assunto=Livro%20KEHAI">
+
+              Tenho interesse no livro
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       APLICAÇÕES
+       ===================================================== -->
+
+  <section class="kehai-section kehai-section--line">
+
+    <div class="kehai-container">
+
+      <div class="kehai-eyebrow">
+        Da filosofia à prática
+      </div>
+
+      <h2
+        class="kehai-heading"
+        style="max-width:850px; margin-top:18px;">
+
+        KEHAI aplicado à liderança
+        e às organizações.
+
+      </h2>
+
+
+      <div class="kehai-applications">
+
+
+        <article class="kehai-application">
+
+          <h3 class="kehai-application-title">
+            Livro
+          </h3>
+
+          <p class="kehai-application-text">
+            A base conceitual da filosofia KEHAI e de seus quatro
+            movimentos fundamentais.
+          </p>
+
+        </article>
+
+
+        <article class="kehai-application">
+
+          <h3 class="kehai-application-title">
+            Palestras
+          </h3>
+
+          <p class="kehai-application-text">
+            Reflexões provocativas sobre liderança, percepção,
+            desperdício de potencial e reconhecimento de valor.
+          </p>
+
+        </article>
+
+
+        <article class="kehai-application">
+
+          <h3 class="kehai-application-title">
+            Desenvolvimento de líderes
+          </h3>
+
+          <p class="kehai-application-text">
+            Aplicação dos princípios KEHAI em programas de formação,
+            liderança e desenvolvimento organizacional.
+          </p>
+
+        </article>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       CTA FINAL
+       ===================================================== -->
+
+  <section class="kehai-final">
+
+    <div class="kehai-container">
+
+      <div class="kehai-final-box">
+
+        <h2>
+          O valor raramente desaparece de uma vez.
+          Primeiro, ele deixa de ser percebido.
+        </h2>
+
+        <p>
+          Conheça a filosofia KEHAI e descubra como transformar
+          percepção em liderança, preservação e potencialização.
+        </p>
+
+        <div class="kehai-actions">
+
+          <a
+            class="kehai-btn kehai-btn-primary"
+            href="{{ url_for('contato') }}?assunto=KEHAI">
+
+            Falar com a Stegie
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+{% endblock %}
