@@ -503,6 +503,7 @@ def home_page():
         {"label": "Fichas Técnicas", "href": url_for("fichas_catalogo"), "icon": "i-file"},
         {"label": "Conteúdos", "href": conteudos_qualidade, "icon": "i-book"},
         {"label": "Agente Têxtil", "href": url_for("agente_tecnico_textil_ia"), "icon": "i-bot"},
+        {"label": "Livro KEHAI", "href": url_for("kehai"), "icon": "i-kehai"},
     ]
 
     # Rodapé + menu sanduíche (mantém como você pediu)
@@ -894,6 +895,10 @@ def logout():
 @app.route("/pericia-tecnica-textil")
 def pericia_tecnica_textil():
     return render_template("pericia_tecnica_textil.html")
+
+@app.route("/kehai", endpoint="kehai")
+def kehai_page():
+    return render_template("kehai.html")
 
 @app.route("/solucoes-vitrine")
 def solucoes_vitrine():
