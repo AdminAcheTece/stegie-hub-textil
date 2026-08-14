@@ -141,20 +141,33 @@ Conheça o livro, a filosofia e suas aplicações em liderança, gestão e desen
     min-height:470px;
     border:1px solid var(--kehai-line);
     border-radius:32px;
-    background:
-      radial-gradient(
-        circle at 50% 36%,
-        rgba(123,116,36,.11),
-        transparent 34%
-      ),
-      #fff;
-    display:grid;
-    place-items:center;
+    background:#fff;
+  
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  
+    padding:48px;
+  
     position:relative;
     overflow:hidden;
+  
     box-shadow:0 24px 70px rgba(0,0,0,.05);
   }
 
+  /* Logomarca KEHAI no Hero */
+  .kehai-hero-logo{
+    display:block;
+  
+    width:100%;
+    max-width:720px;
+    height:auto;
+  
+    object-fit:contain;
+  
+    margin:0 auto;
+  }
+  
   .kehai-symbol{
     font-family:"Plus Jakarta Sans", sans-serif;
     font-size:clamp(100px, 13vw, 190px);
