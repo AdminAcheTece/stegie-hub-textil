@@ -592,16 +592,16 @@ Conheça o livro, a filosofia e suas aplicações em liderança, gestão e desen
 
         </div>
 
-        <div class="kehai-symbol-card">
+        <div class="kehai-symbol-card kehai-logo-card">
 
-          <div class="kehai-symbol">
-            K
-          </div>
-
-          <div class="kehai-symbol-caption">
-            Reconhecer valor antes que ele se perca
-          </div>
-
+          <img
+            class="kehai-hero-logo"
+            src="{{ url_for('static', filename='img/kehai/logo-kehai.png') }}?v={{ config.get('ASSET_VERSION','1') }}"
+            alt="KEHAI — A liderança que reconhece valor antes que ele se perca."
+            loading="eager"
+            decoding="async"
+          />
+        
         </div>
 
       </div>
