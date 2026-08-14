@@ -1489,11 +1489,13 @@ body .st-footer__bottom{
 .home-pill-text::after{ content:"”"; }
 
 .home-shortcuts{
-  width:min(720px, 100%);
-  display:grid;
-  grid-template-columns:repeat(5, minmax(0, 1fr));
-  gap:18px;
-  margin-top:10px;
+    width:100%;
+    max-width:1080px;
+    display:grid;
+    grid-template-columns:repeat(8, minmax(0,1fr));
+    gap:14px;
+    justify-items:center;
+    margin-top:2px;
 }
 
 .shortcut{
@@ -1885,7 +1887,8 @@ body .st-footer__bottom{
 
 @media (max-width: 520px){
   .home-shortcuts{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
+        grid-template-columns:repeat(2, minmax(0,1fr));
+        gap:12px;
   }
 }
 
