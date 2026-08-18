@@ -608,8 +608,10 @@ Conheça o livro, a filosofia e suas aplicações em liderança, gestão e desen
         <div class="kehai-hero-card">
           <img
             class="kehai-book-mockup"
-            src="{{ url_for('static', filename='img/kehai/kehai-book-mockup.png') }}"
-            alt="Mockup do livro KEHAI"
+            src="{{ url_for('static', filename='img/kehai/kehai-book-mockup.png') }}?v={{ config.get('ASSET_VERSION','1') }}"
+            alt="Livro KEHAI — A liderança que reconhece valor antes que ele se perca."
+            loading="eager"
+            decoding="async"
           >
         </div>
 
