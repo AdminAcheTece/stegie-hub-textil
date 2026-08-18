@@ -314,38 +314,252 @@ Conheça o livro, a filosofia e suas aplicações em liderança, gestão e desen
     align-items:center;
   }
 
-  .kehai-book-cover{
-    min-height:520px;
-    border-radius:28px;
-    border:1px solid var(--kehai-line);
-    background:#111;
-    color:#fff;
-    padding:44px;
+  /* =====================================================
+   CARD EDITORIAL — LIVRO KEHAI
+   ===================================================== */
+
+  .kehai-book-card{
+    width:100%;
+    min-height:540px;
+  
     display:flex;
     flex-direction:column;
-    justify-content:space-between;
-    box-shadow:0 28px 70px rgba(0,0,0,.14);
+  
+    background:#1D1D1D;
+    color:#fff;
+  
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:30px;
+  
+    overflow:hidden;
+  
+    box-shadow:
+      0 28px 70px rgba(0,0,0,.15),
+      0 2px 8px rgba(0,0,0,.05);
   }
-
-  .kehai-book-cover-title{
-    font-size:clamp(52px, 6vw, 78px);
-    font-weight:300;
-    letter-spacing:-.055em;
+  
+  
+  /* Logomarca */
+  .kehai-book-card__brand{
+    min-height:180px;
+  
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  
+    padding:24px 34px 14px;
+  
+    background:#1D1D1D;
   }
-
-  .kehai-book-cover-sub{
+  
+  
+  .kehai-book-card__logo{
+    display:block;
+  
+    width:100%;
     max-width:420px;
-    font-size:21px;
-    line-height:1.3;
-    font-weight:300;
-    color:rgba(255,255,255,.82);
+    height:auto;
+  
+    object-fit:contain;
+  
+    margin:0 auto;
   }
-
-  .kehai-book-author{
-    font-size:14px;
-    letter-spacing:.14em;
+  
+  
+  /* Divisória oliva */
+  .kehai-book-card__divider{
+    width:calc(100% - 68px);
+    height:1px;
+  
+    margin:0 auto;
+  
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(123,116,36,.9),
+        transparent
+      );
+  }
+  
+  
+  /* Conteúdo */
+  .kehai-book-card__content{
+    flex:1;
+  
+    display:flex;
+    flex-direction:column;
+  
+    padding:28px 34px 32px;
+  }
+  
+  
+  /* Selo */
+  .kehai-book-card__badge{
+    display:inline-flex;
+    align-self:flex-start;
+  
+    padding:7px 11px;
+  
+    border:1px solid rgba(123,116,36,.75);
+    border-radius:999px;
+  
+    color:#C5BC58;
+  
+    font-size:10px;
+    font-weight:600;
+  
+    letter-spacing:.13em;
     text-transform:uppercase;
-    color:rgba(255,255,255,.62);
+  
+    margin-bottom:22px;
+  }
+  
+  
+  /* Título */
+  .kehai-book-card__title{
+    margin:0 0 8px;
+  
+    color:#fff;
+  
+    font-family:"Plus Jakarta Sans", Inter, sans-serif;
+  
+    font-size:38px;
+    font-weight:300;
+  
+    letter-spacing:.12em;
+    line-height:1;
+  }
+  
+  
+  /* Subtítulo */
+  .kehai-book-card__subtitle{
+    max-width:390px;
+  
+    margin:0;
+  
+    color:rgba(255,255,255,.92);
+  
+    font-size:18px;
+    font-weight:300;
+  
+    line-height:1.45;
+  }
+  
+  
+  /* Descrição */
+  .kehai-book-card__description{
+    max-width:390px;
+  
+    margin:20px 0 0;
+  
+    color:rgba(255,255,255,.60);
+  
+    font-size:14px;
+    font-weight:300;
+  
+    line-height:1.6;
+  }
+  
+  
+  /* Quatro movimentos */
+  .kehai-book-card__movements{
+    display:flex;
+    flex-wrap:wrap;
+  
+    gap:7px;
+  
+    margin-top:22px;
+  }
+  
+  
+  .kehai-book-card__movements span{
+    padding:6px 9px;
+  
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:999px;
+  
+    color:rgba(255,255,255,.72);
+  
+    font-size:11px;
+    font-weight:400;
+  }
+  
+  
+  /* Rodapé interno */
+  .kehai-book-card__footer{
+    margin-top:auto;
+    padding-top:28px;
+  
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+  
+    gap:20px;
+  }
+  
+  
+  .kehai-book-card__author-label{
+    display:block;
+  
+    margin-bottom:4px;
+  
+    color:rgba(255,255,255,.42);
+  
+    font-size:9px;
+    font-weight:500;
+  
+    letter-spacing:.15em;
+    text-transform:uppercase;
+  }
+  
+  
+  .kehai-book-card__author{
+    display:block;
+  
+    color:#fff;
+  
+    font-size:13px;
+    font-weight:500;
+  
+    letter-spacing:.10em;
+    text-transform:uppercase;
+  }
+  
+  
+  /* Botão */
+  .kehai-book-card__button{
+    min-height:40px;
+  
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  
+    padding:0 17px;
+  
+    border-radius:999px;
+  
+    background:#7B7424;
+    color:#fff;
+  
+    text-decoration:none;
+  
+    font-size:12px;
+    font-weight:600;
+  
+    transition:
+      transform .18s ease,
+      background .18s ease,
+      box-shadow .18s ease;
+  }
+  
+  
+  .kehai-book-card__button:hover{
+    background:#8B832A;
+  
+    transform:translateY(-1px);
+  
+    box-shadow:0 10px 22px rgba(0,0,0,.20);
   }
 
   .kehai-book-copy h2{
@@ -805,79 +1019,130 @@ Conheça o livro, a filosofia e suas aplicações em liderança, gestão e desen
 
 
   <!-- =====================================================
-       LIVRO
-       ===================================================== -->
+     LIVRO
+     ===================================================== -->
 
   <section
     class="kehai-section kehai-section--line"
     id="livro">
-
+  
     <div class="kehai-container">
-
+  
       <div class="kehai-book-grid">
-
-        <div class="kehai-book-cover">
-
-          <div class="kehai-book-cover-title">
-            KEHAI
+  
+        <!-- CARD EDITORIAL KEHAI -->
+        <div class="kehai-book-card">
+  
+          <!-- Identidade KEHAI -->
+          <div class="kehai-book-card__brand">
+  
+            <img
+              class="kehai-book-card__logo"
+              src="{{ url_for('static', filename='IMG/kehai/logo-kehai-dark.png') }}?v={{ config.get('ASSET_VERSION','1') }}"
+              alt="KEHAI — A liderança que reconhece valor antes que ele se perca."
+              loading="lazy"
+              decoding="async"
+            >
+  
           </div>
-
-          <div class="kehai-book-cover-sub">
-            A liderança que reconhece valor antes que ele se perca.
+  
+          <!-- Linha de separação -->
+          <div class="kehai-book-card__divider"></div>
+  
+          <!-- Conteúdo -->
+          <div class="kehai-book-card__content">
+  
+            <div class="kehai-book-card__badge">
+              Livro fundador da filosofia KEHAI
+            </div>
+  
+            <h3 class="kehai-book-card__title">
+              KEHAI
+            </h3>
+  
+            <p class="kehai-book-card__subtitle">
+              A liderança que reconhece valor antes que ele se perca.
+            </p>
+  
+            <p class="kehai-book-card__description">
+              Livro sobre percepção, liderança e preservação de valor.
+            </p>
+  
+            <div class="kehai-book-card__movements">
+              <span>Perceber</span>
+              <span>Discernir</span>
+              <span>Preservar</span>
+              <span>Potencializar</span>
+            </div>
+  
+            <div class="kehai-book-card__footer">
+  
+              <div>
+                <span class="kehai-book-card__author-label">
+                  Autor
+                </span>
+  
+                <strong class="kehai-book-card__author">
+                  Vandré Stein
+                </strong>
+              </div>
+  
+              <a
+                class="kehai-book-card__button"
+                href="{{ url_for('contato') }}?assunto=Livro%20KEHAI">
+                Saber mais
+              </a>
+  
+            </div>
+  
           </div>
-
-          <div class="kehai-book-author">
-            Vandré Stein
-          </div>
-
+  
         </div>
-
-
+  
+  
+        <!-- CONTEÚDO SOBRE O LIVRO -->
         <div class="kehai-book-copy">
-
+  
           <div class="kehai-eyebrow">
             O livro
           </div>
-
+  
           <h2>
             Uma filosofia de liderança
             para aquilo que normalmente
             percebemos tarde demais.
           </h2>
-
+  
           <p>
             KEHAI nasce da observação de um problema recorrente:
             pessoas, conhecimentos, oportunidades e capacidades
             frequentemente são reconhecidos somente depois que
             começam a desaparecer.
           </p>
-
+  
           <p>
             O livro propõe uma mudança de perspectiva:
             desenvolver líderes capazes de identificar valor antes
             que a perda torne esse valor evidente.
           </p>
-
+  
           <div class="kehai-actions">
-
+  
             <a
               class="kehai-btn kehai-btn-primary"
               href="{{ url_for('contato') }}?assunto=Livro%20KEHAI">
-
               Tenho interesse no livro
-
             </a>
-
+  
           </div>
-
+  
         </div>
-
+  
       </div>
-
+  
     </div>
-
+  
   </section>
-
 
   <!-- =====================================================
        APLICAÇÕES
