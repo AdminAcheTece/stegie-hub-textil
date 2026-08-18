@@ -6151,4 +6151,26 @@ a.btn-ghost:hover{
   .lp-btn {
     width: 100%;
   }
+
+  .kehai-hero-card{
+    background: #ffffff;
+    border: 1px solid rgba(18,18,18,.08);
+    border-radius: 32px;
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px;
+    box-shadow: 0 18px 40px rgba(18,18,18,.06);
+  }
+
+  .kehai-book-mockup{
+    display: block;
+    max-width: 82%;
+    max-height: 460px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 18px 32px rgba(0,0,0,.10));
+  } 
 }
