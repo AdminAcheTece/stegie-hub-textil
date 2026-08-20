@@ -1,1 +1,1997 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    KEHAI — A liderança que reconhece valor antes que ele se perca | Vandré Stein
+  </title>
+
+  <meta
+    name="description"
+    content="Conheça KEHAI, uma filosofia de liderança que convida líderes e organizações a perceber, discernir, preservar e potencializar valor antes que ele se perca."
+  >
+
+  <!-- =====================================================
+       FONTES
+       ===================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;1,400&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- =====================================================
+       CSS KEHAI LIVRO
+       ===================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='CSS/kehai_livro.css') }}?v={{ config.get('ASSET_VERSION','1') }}"
+  >
+
+</head>
+
+
+<body class="kehai-book-page">
+
+
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
+  <header class="kehai-book-header">
+
+    <div class="kehai-book-container kehai-book-header__inner">
+
+
+      <!-- MARCA -->
+
+      <a
+        href="{{ url_for('kehai') if 'kehai' in current_app.view_functions else '/kehai' }}"
+        class="kehai-book-header__brand"
+        aria-label="KEHAI"
+      >
+
+        <img
+          src="{{ url_for('static', filename='IMG/kehai/logo-kehai-dark.png') }}"
+          alt="KEHAI — A liderança que reconhece valor antes que ele se perca."
+        >
+
+      </a>
+
+
+      <!-- NAVEGAÇÃO DESKTOP -->
+
+      <nav class="kehai-book-nav">
+
+        <a href="#livro">
+          O Livro
+        </a>
+
+        <a href="#filosofia">
+          KEHAI
+        </a>
+
+        <a href="#por-dentro">
+          Por Dentro
+        </a>
+
+        <a href="#autor">
+          Autor
+        </a>
+
+        <a href="#empresas">
+          Para Empresas
+        </a>
+
+      </nav>
+
+
+      <!-- CTA -->
+
+      <a
+        href="#comprar"
+        class="kehai-book-btn kehai-book-btn--primary kehai-book-header__cta"
+      >
+        Comprar o Livro
+      </a>
+
+
+      <!-- MENU MOBILE -->
+
+      <button
+        class="kehai-book-menu-toggle"
+        id="kehaiBookMenuToggle"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+      >
+
+        <span></span>
+        <span></span>
+
+      </button>
+
+    </div>
+
+
+    <!-- MENU MOBILE ABERTO -->
+
+    <div
+      class="kehai-book-mobile-menu"
+      id="kehaiBookMobileMenu"
+    >
+
+      <a href="#livro">
+        O Livro
+      </a>
+
+      <a href="#filosofia">
+        KEHAI
+      </a>
+
+      <a href="#por-dentro">
+        Por Dentro
+      </a>
+
+      <a href="#autor">
+        Autor
+      </a>
+
+      <a href="#empresas">
+        Para Empresas
+      </a>
+
+      <a
+        href="#comprar"
+        class="kehai-book-btn kehai-book-btn--primary"
+      >
+        Comprar o Livro
+      </a>
+
+    </div>
+
+  </header>
+
+
+
+  <main>
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section
+      class="kehai-book-hero"
+      id="livro"
+    >
+
+      <div class="kehai-book-hero__waves"></div>
+
+
+      <div class="kehai-book-container kehai-book-hero__grid">
+
+
+        <!-- CONTEÚDO -->
+
+        <div class="kehai-book-hero__content">
+
+          <div class="kehai-book-eyebrow">
+            LIVRO KEHAI
+          </div>
+
+
+          <h1>
+
+            A liderança que reconhece valor antes que ele se perca.
+
+          </h1>
+
+
+          <!-- LIVRO MOBILE -->
+
+          <div class="kehai-book-hero__image kehai-book-hero__image--mobile">
+
+            <img
+              src="{{ url_for('static', filename='IMG/kehai/mockup-kehai.png') }}"
+              alt="Livro KEHAI de Vandré Stein"
+            >
+
+          </div>
+
+
+          <div class="kehai-book-hero__purchase">
+
+            <div class="kehai-book-price">
+              R$ 79,90
+            </div>
+
+            <a
+              href="#comprar"
+              class="kehai-book-btn kehai-book-btn--primary kehai-book-btn--large"
+            >
+              Comprar o Livro
+            </a>
+
+          </div>
+
+
+          <div class="kehai-book-hero__meta">
+
+            Livro físico
+            <span>•</span>
+            Edição oficial KEHAI
+
+          </div>
+
+
+          <div class="kehai-book-hero__text">
+
+            <p>
+              Todos os dias, pessoas, conhecimentos, oportunidades,
+              talentos, tempo e confiança podem estar perdendo valor
+              diante dos nossos olhos.
+            </p>
+
+            <p>
+              Nem sempre porque alguém decidiu desperdiçá-los.
+            </p>
+
+            <p>
+              Muitas vezes, simplesmente porque deixamos de percebê-los.
+            </p>
+
+            <p>
+              <strong>
+                KEHAI é um convite para desenvolver um novo olhar sobre
+                liderança, organizações e valor.
+              </strong>
+            </p>
+
+          </div>
+
+
+          <a
+            href="#provocacao"
+            class="kehai-book-text-link"
+          >
+
+            Conhecer o KEHAI
+
+            <span>↓</span>
+
+          </a>
+
+        </div>
+
+
+        <!-- LIVRO DESKTOP -->
+
+        <div class="kehai-book-hero__image kehai-book-hero__image--desktop">
+
+          <img
+            src="{{ url_for('static', filename='IMG/kehai/mockup-kehai.png') }}"
+            alt="Livro KEHAI — A liderança que reconhece valor antes que ele se perca."
+          >
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PROVOCAÇÃO
+         ===================================================== -->
+
+    <section
+      class="kehai-book-section kehai-book-section--dark"
+      id="provocacao"
+    >
+
+      <div class="kehai-book-container kehai-book-container--narrow kehai-book-center">
+
+        <div class="kehai-book-eyebrow kehai-book-eyebrow--light">
+
+          UMA PERGUNTA ANTERIOR À PERDA
+
+        </div>
+
+
+        <h2 class="kehai-book-serif kehai-book-display">
+
+          E se o maior desperdício de uma organização não for aquilo que ela perde?
+
+        </h2>
+
+
+        <p class="kehai-book-provocation__answer">
+
+          Mas aquilo que deixou de perceber enquanto ainda possuía valor?
+
+        </p>
+
+
+        <div class="kehai-book-values">
+
+          <span>IDEIAS</span>
+
+          <span>CONHECIMENTO</span>
+
+          <span>TALENTOS</span>
+
+          <span>TEMPO</span>
+
+          <span>CONFIANÇA</span>
+
+          <span>CULTURA</span>
+
+          <span>OPORTUNIDADES</span>
+
+        </div>
+
+
+        <div class="kehai-book-provocation__examples">
+
+          <p>
+            Uma ideia que não foi ouvida.
+          </p>
+
+          <p>
+            Um conhecimento que nunca foi compartilhado.
+          </p>
+
+          <p>
+            Um profissional que poderia ter sido desenvolvido.
+          </p>
+
+          <p>
+            Um pequeno desvio que deixou de causar estranheza.
+          </p>
+
+          <p>
+            Uma conversa importante que foi adiada.
+          </p>
+
+          <p>
+            Um cliente que tentou avisar.
+          </p>
+
+          <p>
+            Uma oportunidade que ninguém reconheceu.
+          </p>
+
+          <p>
+            Uma cultura que começou a se deteriorar silenciosamente.
+          </p>
+
+        </div>
+
+
+        <div class="kehai-book-provocation__closing">
+
+          <strong>
+
+            As grandes perdas raramente começam quando alguma coisa desaparece.
+
+          </strong>
+
+          <h3>
+            Elas começam antes.
+          </h3>
+
+          <p>
+
+            Quando aquilo que possuía valor deixa de ser percebido.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         A VIRADA
+         ===================================================== -->
+
+    <section class="kehai-book-section kehai-book-section--soft">
+
+      <div class="kehai-book-container kehai-book-two-columns">
+
+
+        <div>
+
+          <div class="kehai-book-eyebrow">
+
+            ANTES DE PRESERVAR
+
+          </div>
+
+
+          <h2>
+
+            Antes de preservar valor, precisamos aprender a reconhecê-lo.
+
+          </h2>
+
+        </div>
+
+
+        <div class="kehai-book-editorial-text kehai-book-gold-rule">
+
+          <p>
+
+            Vivemos cercados por indicadores, informações, tecnologias,
+            reuniões e decisões.
+
+          </p>
+
+          <p>
+
+            Nunca tivemos tantos dados.
+
+          </p>
+
+          <p>
+
+            E talvez nunca tenha sido tão importante desenvolver a capacidade
+            de perceber <strong>o que realmente importa.</strong>
+
+          </p>
+
+          <p>
+
+            KEHAI nasce dessa inquietação.
+
+          </p>
+
+          <p>
+
+            Não para oferecer mais uma ferramenta de gestão.
+
+          </p>
+
+          <p>
+
+            Não para substituir metodologias existentes.
+
+          </p>
+
+          <p>
+
+            Mas para desenvolver uma capacidade essencial da liderança:
+
+          </p>
+
+
+          <blockquote>
+
+            reconhecer valor enquanto ainda existe tempo para agir.
+
+          </blockquote>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         DEFINIÇÃO KEHAI
+         ===================================================== -->
+
+    <section
+      class="kehai-book-section kehai-book-definition"
+      id="filosofia"
+    >
+
+      <div class="kehai-book-container kehai-book-container--narrow kehai-book-center">
+
+
+        <img
+          class="kehai-book-symbol"
+          src="{{ url_for('static', filename='IMG/kehai/simbolo-kehai.png') }}"
+          alt="Símbolo KEHAI"
+        >
+
+
+        <div class="kehai-book-eyebrow">
+
+          FILOSOFIA KEHAI
+
+        </div>
+
+
+        <h2 class="kehai-book-definition__name">
+
+          KEHAI
+
+        </h2>
+
+
+        <p class="kehai-book-definition__lead">
+
+          Uma filosofia de liderança que transforma percepção em responsabilidade.
+
+        </p>
+
+
+        <p class="kehai-book-definition__text">
+
+          Seu núcleo está em desenvolver a capacidade coletiva de perceber,
+          discernir, preservar e potencializar valor antes que ele deixe de ser
+          reconhecido, comece a se deteriorar ou se perca.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         QUATRO MOVIMENTOS
+         ===================================================== -->
+
+    <section class="kehai-book-section">
+
+
+      <div class="kehai-book-container">
+
+
+        <div class="kehai-book-section-title">
+
+          <div class="kehai-book-eyebrow">
+
+            OS QUATRO MOVIMENTOS
+
+          </div>
+
+          <h2>
+
+            Um novo olhar começa por quatro movimentos.
+
+          </h2>
+
+        </div>
+
+
+        <div class="kehai-book-movements">
+
+
+          <!-- 01 -->
+
+          <article class="kehai-book-movement">
+
+            <span class="kehai-book-movement__number">
+              01
+            </span>
+
+            <h3>
+              PERCEBER
+            </h3>
+
+            <p>
+
+              Reconhecer sinais, pessoas, conhecimentos, oportunidades,
+              riscos e valores que normalmente passam despercebidos.
+
+            </p>
+
+            <strong>
+              Perceber revela.
+            </strong>
+
+          </article>
+
+
+          <!-- 02 -->
+
+          <article class="kehai-book-movement">
+
+            <span class="kehai-book-movement__number">
+              02
+            </span>
+
+            <h3>
+              DISCERNIR
+            </h3>
+
+            <p>
+
+              Nem tudo que chama atenção possui o mesmo valor.
+
+              Discernir é compreender o que realmente importa e merece decisão.
+
+            </p>
+
+            <strong>
+              Discernir orienta.
+            </strong>
+
+          </article>
+
+
+          <!-- 03 -->
+
+          <article class="kehai-book-movement">
+
+            <span class="kehai-book-movement__number">
+              03
+            </span>
+
+            <h3>
+              PRESERVAR
+            </h3>
+
+            <p>
+
+              Aquilo que possui valor precisa ser protegido antes que sua
+              ausência revele o quanto era importante.
+
+            </p>
+
+            <strong>
+              Preservar protege.
+            </strong>
+
+          </article>
+
+
+          <!-- 04 -->
+
+          <article class="kehai-book-movement">
+
+            <span class="kehai-book-movement__number">
+              04
+            </span>
+
+            <h3>
+              POTENCIALIZAR
+            </h3>
+
+            <p>
+
+              Preservar não significa manter tudo como está.
+
+              Significa criar condições para que aquilo que possui valor
+              possa evoluir, crescer e gerar ainda mais valor.
+
+            </p>
+
+            <strong>
+              Potencializar desenvolve.
+            </strong>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MUDANÇA DE OLHAR
+         ===================================================== -->
+
+    <section class="kehai-book-section kehai-book-section--deep">
+
+
+      <div class="kehai-book-container kehai-book-transformation">
+
+
+        <div>
+
+          <h2 class="kehai-book-serif">
+
+            Talvez você volte para a mesma organização.
+
+          </h2>
+
+          <h3>
+
+            Mas não necessariamente enxergará a mesma organização.
+
+          </h3>
+
+        </div>
+
+
+        <div>
+
+          <p>
+
+            KEHAI foi escrito para provocar uma mudança anterior às
+            ferramentas, aos indicadores e aos processos:
+
+          </p>
+
+
+          <blockquote>
+
+            uma mudança na qualidade do olhar.
+
+          </blockquote>
+
+
+          <ul>
+
+            <li>
+              sinais que aparecem antes dos problemas;
+            </li>
+
+            <li>
+              conhecimento que existe, mas nunca foi preservado;
+            </li>
+
+            <li>
+              pessoas cujo potencial ainda não foi reconhecido;
+            </li>
+
+            <li>
+              comportamentos que silenciosamente constroem cultura;
+            </li>
+
+            <li>
+              decisões aparentemente pequenas que produzem grandes consequências;
+            </li>
+
+            <li>
+              oportunidades que permanecem invisíveis enquanto todos estão ocupados;
+            </li>
+
+            <li>
+              valor que pode estar diante de nós sem que estejamos verdadeiramente percebendo.
+            </li>
+
+          </ul>
+
+
+          <strong>
+
+            Porque a qualidade de uma decisão nunca pode ser maior do que a
+            qualidade da percepção que a antecedeu.
+
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PARA QUEM É
+         ===================================================== -->
+
+    <section class="kehai-book-section">
+
+
+      <div class="kehai-book-container kehai-book-audience">
+
+
+        <div>
+
+          <div class="kehai-book-eyebrow">
+
+            PARA QUEM É
+
+          </div>
+
+
+          <h2>
+
+            KEHAI é para quem carrega a responsabilidade de influenciar decisões.
+
+          </h2>
+
+
+          <div class="kehai-book-audience__cadence">
+
+            <p>Para quem lidera uma pessoa.</p>
+
+            <p>Uma equipe.</p>
+
+            <p>Uma área.</p>
+
+            <p>Uma empresa.</p>
+
+            <p>Ou a si mesmo.</p>
+
+          </div>
+
+
+          <p>
+
+            <strong>Não importa apenas o cargo.</strong>
+
+          </p>
+
+
+          <p>
+
+            Liderança começa quando nossa percepção passa a influenciar
+            aquilo que decidimos preservar, transformar ou deixar para o futuro.
+
+          </p>
+
+        </div>
+
+
+        <div class="kehai-book-audience__roles">
+
+          <span>EMPRESÁRIOS</span>
+
+          <span>DIRETORES</span>
+
+          <span>GERENTES</span>
+
+          <span>COORDENADORES</span>
+
+          <span>SUPERVISORES</span>
+
+          <span>LÍDERES INDUSTRIAIS</span>
+
+          <span>RH</span>
+
+          <span>QUALIDADE</span>
+
+          <span>EDUCAÇÃO CORPORATIVA</span>
+
+          <span>CONSULTORES</span>
+
+          <span>PROFESSORES</span>
+
+          <span>EMPREENDEDORES</span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         LIVRO POR DENTRO
+         ===================================================== -->
+
+    <section
+      class="kehai-book-section kehai-book-section--paper"
+      id="por-dentro"
+    >
+
+
+      <div class="kehai-book-container">
+
+
+        <div class="kehai-book-section-title kehai-book-center">
+
+          <div class="kehai-book-eyebrow">
+
+            O LIVRO POR DENTRO
+
+          </div>
+
+          <h2>
+
+            Um livro para ser lido.
+
+          </h2>
+
+          <p class="kehai-book-serif kehai-book-section-subtitle">
+
+            E um olhar para ser levado de volta à realidade.
+
+          </p>
+
+        </div>
+
+
+
+        <!-- GALERIA -->
+
+        <div class="kehai-book-gallery">
+
+
+          <div class="kehai-book-gallery__main">
+
+            <img
+              id="kehaiBookGalleryMain"
+              src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-01.jpg') }}"
+              alt="Página interna do livro KEHAI"
+            >
+
+          </div>
+
+
+          <div class="kehai-book-gallery__thumbs">
+
+
+            <button
+              class="active"
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-01.jpg') }}"
+            >
+
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-01.jpg') }}"
+                alt="Página 1 do livro KEHAI"
+              >
+
+            </button>
+
+
+            <button
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-02.jpg') }}"
+            >
+
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-02.jpg') }}"
+                alt="Página 2 do livro KEHAI"
+              >
+
+            </button>
+
+
+            <button
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-03.jpg') }}"
+            >
+
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-03.jpg') }}"
+                alt="Página 3 do livro KEHAI"
+              >
+
+            </button>
+
+
+            <button
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-04.jpg') }}"
+            >
+
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-04.jpg') }}"
+                alt="Página 4 do livro KEHAI"
+              >
+
+            </button>
+
+
+            <button
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-05.jpg') }}"
+            >
+
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-05.jpg') }}"
+                alt="Página 5 do livro KEHAI"
+              >
+
+            </button>
+
+
+          </div>
+
+        </div>
+
+
+        <div class="kehai-book-container--text kehai-book-center">
+
+          <p>
+
+            KEHAI combina reflexão, experiências organizacionais,
+            liderança, comportamento humano e aplicação prática.
+
+          </p>
+
+          <p>
+
+            Não foi concebido como um manual de respostas prontas.
+
+          </p>
+
+          <blockquote>
+
+            Foi concebido para melhorar as perguntas que fazemos antes de decidir.
+
+          </blockquote>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FRASE DE RUPTURA
+         ===================================================== -->
+
+    <section class="kehai-book-quote">
+
+
+      <div class="kehai-book-container kehai-book-container--narrow kehai-book-center">
+
+        <blockquote>
+
+          O que você não percebe hoje pode ser exatamente aquilo que sentirá falta amanhã.
+
+        </blockquote>
+
+
+        <img
+          src="{{ url_for('static', filename='IMG/kehai/simbolo-kehai-light.png') }}"
+          alt="Símbolo KEHAI"
+        >
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         AUTOR
+         ===================================================== -->
+
+    <section
+      class="kehai-book-section"
+      id="autor"
+    >
+
+
+      <div class="kehai-book-container kehai-book-author">
+
+
+        <div class="kehai-book-author__photo">
+
+          <img
+            src="{{ url_for('static', filename='IMG/kehai/vandre-kehai.jpg') }}"
+            alt="Vandré Stein, autor do livro KEHAI"
+          >
+
+        </div>
+
+
+        <div class="kehai-book-author__content">
+
+          <div class="kehai-book-eyebrow">
+
+            O AUTOR
+
+          </div>
+
+
+          <h2>
+
+            Uma filosofia construída pela observação da realidade.
+
+          </h2>
+
+
+          <p>
+
+            Ao longo de sua trajetória profissional, Vandré Stein esteve
+            próximo de pessoas, processos, operações industriais, salas de
+            aula, líderes e organizações.
+
+          </p>
+
+
+          <p>
+
+            Da indústria à educação, da formação de profissionais à atuação
+            junto às empresas, uma inquietação tornou-se recorrente:
+
+          </p>
+
+
+          <blockquote>
+
+            por que organizações que trabalham tanto ainda deixam tanto valor se perder?
+
+          </blockquote>
+
+
+          <p>
+
+            A resposta não estava apenas nas ferramentas.
+
+          </p>
+
+          <p>
+
+            Nem somente nos processos.
+
+          </p>
+
+          <p>
+
+            Havia algo anterior.
+
+          </p>
+
+
+          <p>
+            <strong>
+              A capacidade de perceber.
+            </strong>
+          </p>
+
+
+          <p>
+
+            KEHAI nasce dessa observação e da busca por uma forma de liderança
+            capaz de reconhecer valor antes que sua perda se torne evidente.
+
+          </p>
+
+
+          <div class="kehai-book-author__signature">
+
+            <strong>
+              Vandré Stein
+            </strong>
+
+            <span>
+              Autor de KEHAI
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         COMPRAR
+         ===================================================== -->
+
+    <section
+      class="kehai-book-section kehai-book-section--soft"
+      id="comprar"
+    >
+
+
+      <div class="kehai-book-container">
+
+
+        <div class="kehai-book-section-title kehai-book-center">
+
+          <div class="kehai-book-eyebrow">
+
+            COMECE PELO LIVRO
+
+          </div>
+
+          <h2>
+
+            Escolha como você quer começar.
+
+          </h2>
+
+        </div>
+
+
+
+        <div class="kehai-book-offers">
+
+
+          <!-- FÍSICO -->
+
+          <article class="kehai-book-offer kehai-book-offer--featured">
+
+
+            <div class="kehai-book-offer__badge">
+
+              MAIS ESCOLHIDO
+
+            </div>
+
+
+            <span class="kehai-book-offer__type">
+
+              LIVRO FÍSICO
+
+            </span>
+
+
+            <h3>
+
+              KEHAI
+
+            </h3>
+
+
+            <p>
+
+              A liderança que reconhece valor antes que ele se perca.
+
+            </p>
+
+
+            <ul>
+
+              <li>
+                Livro impresso
+              </li>
+
+              <li>
+                Formato 16 × 23 cm
+              </li>
+
+              <li>
+                Edição oficial KEHAI
+              </li>
+
+            </ul>
+
+
+            <div class="kehai-book-offer__price">
+
+              R$ 79,90
+
+            </div>
+
+
+            <a
+              href="#"
+              id="kehaiBuyPhysical"
+              class="kehai-book-btn kehai-book-btn--primary kehai-book-btn--full"
+            >
+
+              Comprar Livro Físico
+
+            </a>
+
+          </article>
+
+
+
+          <!-- AUTOGRAFADO -->
+
+          <article class="kehai-book-offer">
+
+
+            <span class="kehai-book-offer__type">
+
+              EDIÇÃO AUTOGRAFADA
+
+            </span>
+
+
+            <h3>
+
+              KEHAI — Autografado
+
+            </h3>
+
+
+            <p>
+
+              Receba seu exemplar físico assinado pelo autor.
+
+            </p>
+
+
+            <div class="kehai-book-offer__price">
+
+              R$ 89,90
+
+            </div>
+
+
+            <a
+              href="#"
+              id="kehaiBuySigned"
+              class="kehai-book-btn kehai-book-btn--outline kehai-book-btn--full"
+            >
+
+              Quero Meu Exemplar Autografado
+
+            </a>
+
+          </article>
+
+
+
+          <!-- EBOOK -->
+
+          <article class="kehai-book-offer">
+
+
+            <span class="kehai-book-offer__type">
+
+              LEITURA DIGITAL
+
+            </span>
+
+
+            <h3>
+
+              KEHAI — eBook
+
+            </h3>
+
+
+            <p>
+
+              Leitura digital para quem prefere começar imediatamente.
+
+            </p>
+
+
+            <div class="kehai-book-offer__price">
+
+              R$ 29,90
+
+            </div>
+
+
+            <a
+              href="#"
+              id="kehaiBuyEbook"
+              class="kehai-book-btn kehai-book-btn--outline kehai-book-btn--full"
+            >
+
+              Ler no Kindle
+
+            </a>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EMPRESAS
+         ===================================================== -->
+
+    <section
+      class="kehai-book-section kehai-book-section--dark"
+      id="empresas"
+    >
+
+
+      <div class="kehai-book-container kehai-book-corporate">
+
+
+        <div>
+
+          <div class="kehai-book-eyebrow kehai-book-eyebrow--light">
+
+            KEHAI PARA EMPRESAS
+
+          </div>
+
+
+          <h2>
+
+            E se todos os líderes de uma organização começassem a fazer perguntas diferentes?
+
+          </h2>
+
+
+          <p>
+
+            KEHAI também pode fazer parte de jornadas de desenvolvimento de
+            liderança, encontros executivos, convenções, programas
+            corporativos e ações de educação empresarial.
+
+          </p>
+
+
+          <p>
+
+            Empresas poderão adquirir exemplares em quantidade para seus
+            profissionais e líderes.
+
+          </p>
+
+
+          <a
+            href="#"
+            id="kehaiCorporate"
+            class="kehai-book-btn kehai-book-btn--light"
+          >
+
+            Levar o KEHAI para Minha Empresa
+
+          </a>
+
+        </div>
+
+
+        <div class="kehai-book-corporate__quantities">
+
+
+          <div>
+
+            <strong>
+              10
+            </strong>
+
+            <span>
+              exemplares
+            </span>
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              25
+            </strong>
+
+            <span>
+              exemplares
+            </span>
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              50
+            </strong>
+
+            <span>
+              exemplares
+            </span>
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              100+
+            </strong>
+
+            <span>
+              exemplares
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MANIFESTO FINAL
+         ===================================================== -->
+
+    <section class="kehai-book-section kehai-book-manifesto">
+
+
+      <div class="kehai-book-container kehai-book-container--text">
+
+
+        <h3 class="kehai-book-serif">
+
+          Algumas perdas fazem barulho.
+
+        </h3>
+
+
+        <h3 class="kehai-book-serif">
+
+          Outras acontecem silenciosamente.
+
+        </h3>
+
+
+        <p>
+          Um conhecimento deixa a empresa.
+        </p>
+
+        <p>
+          Uma pessoa deixa de acreditar.
+        </p>
+
+        <p>
+          Uma oportunidade desaparece.
+        </p>
+
+        <p>
+          Uma relação perde confiança.
+        </p>
+
+        <p>
+          Um comportamento inadequado torna-se normal.
+        </p>
+
+        <p>
+          Um sinal deixa de causar estranheza.
+        </p>
+
+
+        <p class="kehai-book-manifesto__transition">
+
+          Quando percebemos a consequência, muitas vezes começamos a procurar
+          onde ocorreu a perda.
+
+        </p>
+
+
+        <div class="kehai-book-eyebrow">
+
+          KEHAI PROPÕE UMA PERGUNTA ANTERIOR
+
+        </div>
+
+
+        <h2 class="kehai-book-serif">
+
+          Onde deixamos de perceber o valor?
+
+        </h2>
+
+
+        <p>
+          Talvez liderança também seja isso.
+        </p>
+
+        <p>
+          Aprender a olhar enquanto ainda existe tempo para cuidar.
+        </p>
+
+        <p>
+          Aprender a discernir enquanto ainda existe possibilidade de escolha.
+        </p>
+
+        <p>
+          Aprender a preservar antes de sentir falta.
+        </p>
+
+        <p>
+          E aprender a potencializar aquilo que merece permanecer.
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CTA FINAL
+         ===================================================== -->
+
+    <section class="kehai-book-final-cta">
+
+
+      <div class="kehai-book-container kehai-book-container--narrow kehai-book-center">
+
+
+        <img
+          src="{{ url_for('static', filename='IMG/kehai/simbolo-kehai-light.png') }}"
+          alt="Símbolo KEHAI"
+        >
+
+
+        <div class="kehai-book-eyebrow kehai-book-eyebrow--light">
+
+          KEHAI
+
+        </div>
+
+
+        <h2 class="kehai-book-serif">
+
+          Reconheça valor antes que ele se perca.
+
+        </h2>
+
+
+        <p>
+
+          A liderança que reconhece valor antes que ele se perca.
+
+        </p>
+
+
+        <div class="kehai-book-final-cta__price">
+
+          R$ 79,90
+
+        </div>
+
+
+        <a
+          href="#"
+          id="kehaiBuyFinal"
+          class="kehai-book-btn kehai-book-btn--ivory kehai-book-btn--large"
+        >
+
+          Comprar o Livro
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FAQ
+         ===================================================== -->
+
+    <section class="kehai-book-section">
+
+
+      <div class="kehai-book-container kehai-book-faq">
+
+
+        <div class="kehai-book-eyebrow">
+
+          PERGUNTAS FREQUENTES
+
+        </div>
+
+
+        <h2>
+
+          Antes de começar a leitura.
+
+        </h2>
+
+
+
+        <div class="kehai-book-faq__list">
+
+
+          <article class="kehai-book-faq__item">
+
+            <button>
+
+              <span>
+                O livro está disponível em versão física?
+              </span>
+
+              <span class="kehai-book-faq__icon">
+                +
+              </span>
+
+            </button>
+
+            <div class="kehai-book-faq__answer">
+
+              <p>
+
+                Sim. A edição física é a experiência principal de leitura do KEHAI.
+
+              </p>
+
+            </div>
+
+          </article>
+
+
+
+          <article class="kehai-book-faq__item">
+
+            <button>
+
+              <span>
+                Existe versão digital?
+              </span>
+
+              <span class="kehai-book-faq__icon">
+                +
+              </span>
+
+            </button>
+
+            <div class="kehai-book-faq__answer">
+
+              <p>
+
+                Sim. A versão digital estará disponível para leitura em formato eBook.
+
+              </p>
+
+            </div>
+
+          </article>
+
+
+
+          <article class="kehai-book-faq__item">
+
+            <button>
+
+              <span>
+                Posso comprar um exemplar autografado?
+              </span>
+
+              <span class="kehai-book-faq__icon">
+                +
+              </span>
+
+            </button>
+
+            <div class="kehai-book-faq__answer">
+
+              <p>
+
+                Sim. Exemplares autografados poderão ser adquiridos diretamente
+                pelos canais oficiais KEHAI.
+
+              </p>
+
+            </div>
+
+          </article>
+
+
+
+          <article class="kehai-book-faq__item">
+
+            <button>
+
+              <span>
+                Vocês enviam para todo o Brasil?
+              </span>
+
+              <span class="kehai-book-faq__icon">
+                +
+              </span>
+
+            </button>
+
+            <div class="kehai-book-faq__answer">
+
+              <p>
+
+                As condições de envio serão apresentadas no momento da compra.
+
+              </p>
+
+            </div>
+
+          </article>
+
+
+
+          <article class="kehai-book-faq__item">
+
+            <button>
+
+              <span>
+                Empresas podem comprar vários exemplares?
+              </span>
+
+              <span class="kehai-book-faq__icon">
+                +
+              </span>
+
+            </button>
+
+            <div class="kehai-book-faq__answer">
+
+              <p>
+
+                Sim. Existe uma modalidade específica para compras corporativas
+                e projetos com grupos de líderes.
+
+              </p>
+
+            </div>
+
+          </article>
+
+
+
+          <article class="kehai-book-faq__item">
+
+            <button>
+
+              <span>
+                O KEHAI é uma metodologia de gestão?
+              </span>
+
+              <span class="kehai-book-faq__icon">
+                +
+              </span>
+
+            </button>
+
+            <div class="kehai-book-faq__answer">
+
+              <p>
+
+                Não. KEHAI é uma filosofia de liderança. Sua proposta é
+                desenvolver uma maneira mais consciente de perceber,
+                discernir, preservar e potencializar valor.
+
+              </p>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
+  <footer class="kehai-book-footer">
+
+
+    <div class="kehai-book-container">
+
+
+      <div class="kehai-book-footer__main">
+
+
+        <div>
+
+          <img
+            src="{{ url_for('static', filename='IMG/kehai/logo-kehai-light.png') }}"
+            alt="KEHAI"
+          >
+
+          <p>
+
+            A liderança que reconhece valor antes que ele se perca.
+
+          </p>
+
+        </div>
+
+
+        <nav>
+
+          <a href="#livro">
+            O Livro
+          </a>
+
+          <a href="/kehai">
+            Filosofia KEHAI
+          </a>
+
+          <a href="#empresas">
+            Para Empresas
+          </a>
+
+          <a href="/contato">
+            Contato
+          </a>
+
+        </nav>
+
+      </div>
+
+
+      <div class="kehai-book-footer__bottom">
+
+        <span>
+
+          © 2026 KEHAI · Vandré Stein
+
+        </span>
+
+
+        <span>
+
+          Uma iniciativa vinculada à STEGIE.
+
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+
+  <!-- =====================================================
+       BARRA DE COMPRA MOBILE
+       ===================================================== -->
+
+  <div
+    class="kehai-book-mobile-buy"
+    id="kehaiBookMobileBuy"
+  >
+
+    <div>
+
+      <strong>
+        KEHAI
+      </strong>
+
+      <span>
+        R$ 79,90
+      </span>
+
+    </div>
+
+
+    <a
+      href="#comprar"
+      class="kehai-book-btn kehai-book-btn--primary"
+    >
+
+      Comprar
+
+    </a>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
+  <script
+    src="{{ url_for('static', filename='JS/kehai_livro.js') }}?v={{ config.get('ASSET_VERSION','1') }}"
+    defer
+  ></script>
+
+
+</body>
+
+</html>
