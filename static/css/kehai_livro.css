@@ -1,0 +1,3752 @@
+/* =========================================================
+   KEHAI — LANDING PAGE DO LIVRO
+   Arquivo: static/CSS/kehai_livro.css
+   ========================================================= */
+
+
+/* =========================================================
+   1. TOKENS / VARIÁVEIS
+   ========================================================= */
+
+:root {
+
+  --kehai-ivory: #F5F2E8;
+  --kehai-ivory-soft: #FAF8F2;
+  --kehai-paper: #EEE9DE;
+
+  --kehai-green: #1F5148;
+  --kehai-green-deep: #123A34;
+  --kehai-green-black: #0D2522;
+
+  --kehai-gold: #B3944F;
+
+  --kehai-ink: #161917;
+  --kehai-muted: #666963;
+  --kehai-line: #D8D2C4;
+
+  --kehai-white: #FFFEFA;
+
+  --kehai-max-width: 1240px;
+
+  --kehai-font-sans:
+    "Source Sans 3",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  --kehai-font-serif:
+    "Source Serif 4",
+    Georgia,
+    serif;
+
+  --kehai-ease:
+    cubic-bezier(.22, .61, .36, 1);
+
+}
+
+
+/* =========================================================
+   2. RESET LOCAL
+   ========================================================= */
+
+.kehai-book-page {
+
+  margin: 0;
+
+  background:
+    var(--kehai-ivory);
+
+  color:
+    var(--kehai-ink);
+
+  font-family:
+    var(--kehai-font-sans);
+
+  font-size:
+    18px;
+
+  line-height:
+    1.7;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  text-rendering:
+    optimizeLegibility;
+
+}
+
+
+.kehai-book-page * {
+
+  box-sizing:
+    border-box;
+
+}
+
+
+.kehai-book-page img {
+
+  display:
+    block;
+
+  max-width:
+    100%;
+
+}
+
+
+.kehai-book-page a {
+
+  color:
+    inherit;
+
+  text-decoration:
+    none;
+
+}
+
+
+.kehai-book-page button {
+
+  font:
+    inherit;
+
+}
+
+
+/* =========================================================
+   3. CONTAINERS
+   ========================================================= */
+
+.kehai-book-container {
+
+  width:
+    min(
+      calc(100% - 80px),
+      var(--kehai-max-width)
+    );
+
+  margin-inline:
+    auto;
+
+}
+
+
+.kehai-book-container--narrow {
+
+  max-width:
+    960px;
+
+}
+
+
+.kehai-book-container--text {
+
+  max-width:
+    740px;
+
+  margin-inline:
+    auto;
+
+}
+
+
+.kehai-book-center {
+
+  text-align:
+    center;
+
+}
+
+
+/* =========================================================
+   4. TIPOGRAFIA BASE
+   ========================================================= */
+
+.kehai-book-serif {
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-weight:
+    400;
+
+}
+
+
+.kehai-book-eyebrow {
+
+  margin:
+    0 0 22px;
+
+  color:
+    var(--kehai-green);
+
+  font-size:
+    12px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .14em;
+
+  line-height:
+    1.2;
+
+  text-transform:
+    uppercase;
+
+}
+
+
+.kehai-book-eyebrow--light {
+
+  color:
+    rgba(245, 242, 232, .72);
+
+}
+
+
+.kehai-book-section-title {
+
+  max-width:
+    760px;
+
+  margin-bottom:
+    64px;
+
+}
+
+
+.kehai-book-section-title h2 {
+
+  margin:
+    0;
+
+  font-size:
+    clamp(38px, 4vw, 48px);
+
+  font-weight:
+    500;
+
+  line-height:
+    1.1;
+
+  letter-spacing:
+    -.02em;
+
+}
+
+
+.kehai-book-section-subtitle {
+
+  margin:
+    22px auto 0;
+
+  font-size:
+    30px;
+
+  line-height:
+    1.35;
+
+}
+
+
+/* =========================================================
+   5. BOTÕES
+   ========================================================= */
+
+.kehai-book-btn {
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  min-height:
+    52px;
+
+  padding:
+    0 28px;
+
+  border:
+    1px solid transparent;
+
+  border-radius:
+    3px;
+
+  cursor:
+    pointer;
+
+  font-size:
+    15px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .025em;
+
+  line-height:
+    1;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+
+}
+
+
+.kehai-book-btn:hover {
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+.kehai-book-btn--primary {
+
+  background:
+    var(--kehai-green);
+
+  color:
+    var(--kehai-white);
+
+}
+
+
+.kehai-book-btn--primary:hover {
+
+  background:
+    var(--kehai-green-deep);
+
+}
+
+
+.kehai-book-btn--outline {
+
+  border-color:
+    var(--kehai-green);
+
+  background:
+    transparent;
+
+  color:
+    var(--kehai-green);
+
+}
+
+
+.kehai-book-btn--outline:hover {
+
+  background:
+    rgba(31, 81, 72, .05);
+
+}
+
+
+.kehai-book-btn--light {
+
+  border-color:
+    rgba(245, 242, 232, .65);
+
+  background:
+    transparent;
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-book-btn--light:hover {
+
+  border-color:
+    var(--kehai-ivory);
+
+  background:
+    rgba(245, 242, 232, .06);
+
+}
+
+
+.kehai-book-btn--ivory {
+
+  background:
+    var(--kehai-ivory);
+
+  color:
+    var(--kehai-green-black);
+
+}
+
+
+.kehai-book-btn--ivory:hover {
+
+  background:
+    var(--kehai-white);
+
+}
+
+
+.kehai-book-btn--large {
+
+  min-height:
+    58px;
+
+  padding:
+    0 34px;
+
+  font-size:
+    16px;
+
+}
+
+
+.kehai-book-btn--full {
+
+  width:
+    100%;
+
+}
+
+
+/* =========================================================
+   6. HEADER
+   ========================================================= */
+
+.kehai-book-header {
+
+  position:
+    sticky;
+
+  top:
+    0;
+
+  z-index:
+    1000;
+
+  height:
+    84px;
+
+  border-bottom:
+    1px solid rgba(22, 25, 23, .07);
+
+  background:
+    rgba(245, 242, 232, .95);
+
+  backdrop-filter:
+    blur(12px);
+
+}
+
+
+.kehai-book-header__inner {
+
+  height:
+    100%;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    28px;
+
+}
+
+
+.kehai-book-header__brand {
+
+  flex:
+    0 0 auto;
+
+}
+
+
+.kehai-book-header__brand img {
+
+  width:
+    190px;
+
+  max-height:
+    54px;
+
+  object-fit:
+    contain;
+
+  object-position:
+    left center;
+
+}
+
+
+.kehai-book-nav {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    28px;
+
+  margin-left:
+    auto;
+
+}
+
+
+.kehai-book-nav a {
+
+  color:
+    var(--kehai-ink);
+
+  font-size:
+    14px;
+
+  font-weight:
+    600;
+
+  transition:
+    color 180ms ease;
+
+}
+
+
+.kehai-book-nav a:hover {
+
+  color:
+    var(--kehai-green);
+
+}
+
+
+.kehai-book-header__cta {
+
+  min-height:
+    46px;
+
+  padding-inline:
+    22px;
+
+}
+
+
+.kehai-book-menu-toggle {
+
+  display:
+    none;
+
+  position:
+    relative;
+
+  width:
+    44px;
+
+  height:
+    44px;
+
+  margin-left:
+    auto;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  cursor:
+    pointer;
+
+}
+
+
+.kehai-book-menu-toggle span {
+
+  position:
+    absolute;
+
+  left:
+    10px;
+
+  width:
+    24px;
+
+  height:
+    1px;
+
+  background:
+    var(--kehai-ink);
+
+  transition:
+    transform 200ms ease,
+    top 200ms ease;
+
+}
+
+
+.kehai-book-menu-toggle span:first-child {
+
+  top:
+    17px;
+
+}
+
+
+.kehai-book-menu-toggle span:last-child {
+
+  top:
+    25px;
+
+}
+
+
+.kehai-book-menu-toggle[aria-expanded="true"] span:first-child {
+
+  top:
+    21px;
+
+  transform:
+    rotate(45deg);
+
+}
+
+
+.kehai-book-menu-toggle[aria-expanded="true"] span:last-child {
+
+  top:
+    21px;
+
+  transform:
+    rotate(-45deg);
+
+}
+
+
+.kehai-book-mobile-menu {
+
+  display:
+    none;
+
+}
+
+
+/* =========================================================
+   7. HERO
+   ========================================================= */
+
+.kehai-book-hero {
+
+  position:
+    relative;
+
+  min-height:
+    calc(100vh - 84px);
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  overflow:
+    hidden;
+
+  background:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-book-hero__waves {
+
+  position:
+    absolute;
+
+  right:
+    -10vw;
+
+  bottom:
+    -60px;
+
+  width:
+    55vw;
+
+  height:
+    70%;
+
+  opacity:
+    .055;
+
+  pointer-events:
+    none;
+
+  transform:
+    rotate(-8deg);
+
+  background:
+    repeating-radial-gradient(
+      ellipse at 100% 90%,
+      transparent 0 26px,
+      var(--kehai-green) 27px 28px,
+      transparent 29px 49px
+    );
+
+}
+
+
+.kehai-book-hero__grid {
+
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1.18fr)
+    minmax(360px, .82fr);
+
+  align-items:
+    center;
+
+  gap:
+    72px;
+
+  padding-top:
+    76px;
+
+  padding-bottom:
+    90px;
+
+}
+
+
+.kehai-book-hero__content h1 {
+
+  max-width:
+    760px;
+
+  margin:
+    0;
+
+  font-size:
+    clamp(48px, 5vw, 64px);
+
+  font-weight:
+    500;
+
+  letter-spacing:
+    -.03em;
+
+  line-height:
+    1.05;
+
+}
+
+
+.kehai-book-hero__text {
+
+  max-width:
+    630px;
+
+  margin-top:
+    34px;
+
+  color:
+    var(--kehai-muted);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    21px;
+
+  line-height:
+    1.55;
+
+}
+
+
+.kehai-book-hero__text p {
+
+  margin:
+    0 0 14px;
+
+}
+
+
+.kehai-book-hero__text strong {
+
+  color:
+    var(--kehai-ink);
+
+  font-weight:
+    500;
+
+}
+
+
+.kehai-book-hero__purchase {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-items:
+    center;
+
+  gap:
+    16px 18px;
+
+  margin-top:
+    36px;
+
+}
+
+
+.kehai-book-price {
+
+  font-size:
+    30px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    -.025em;
+
+}
+
+
+.kehai-book-hero__meta {
+
+  margin-top:
+    12px;
+
+  color:
+    var(--kehai-muted);
+
+  font-size:
+    13px;
+
+}
+
+
+.kehai-book-hero__meta span {
+
+  margin-inline:
+    6px;
+
+}
+
+
+.kehai-book-text-link {
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    10px;
+
+  margin-top:
+    16px;
+
+  color:
+    var(--kehai-green);
+
+  font-size:
+    14px;
+
+  font-weight:
+    700;
+
+}
+
+
+.kehai-book-hero__image {
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+}
+
+
+.kehai-book-hero__image img {
+
+  width:
+    min(100%, 480px);
+
+  max-height:
+    650px;
+
+  object-fit:
+    contain;
+
+  transform:
+    rotate(-2deg);
+
+  filter:
+    drop-shadow(
+      0 28px 34px rgba(13, 37, 34, .13)
+    );
+
+}
+
+
+.kehai-book-hero__image--mobile {
+
+  display:
+    none;
+
+}
+
+
+/* =========================================================
+   8. SEÇÕES GERAIS
+   ========================================================= */
+
+.kehai-book-section {
+
+  padding:
+    136px 0;
+
+}
+
+
+.kehai-book-section--soft {
+
+  background:
+    var(--kehai-ivory-soft);
+
+}
+
+
+.kehai-book-section--paper {
+
+  background:
+    var(--kehai-paper);
+
+}
+
+
+.kehai-book-section--dark {
+
+  background:
+    var(--kehai-green-deep);
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-book-section--deep {
+
+  background:
+    var(--kehai-green-black);
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+/* =========================================================
+   9. PROVOCAÇÃO
+   ========================================================= */
+
+.kehai-book-display {
+
+  margin:
+    0;
+
+  font-size:
+    clamp(44px, 5vw, 60px);
+
+  line-height:
+    1.15;
+
+}
+
+
+.kehai-book-provocation__answer {
+
+  max-width:
+    820px;
+
+  margin:
+    30px auto 0;
+
+  color:
+    var(--kehai-gold);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    clamp(26px, 3vw, 34px);
+
+  line-height:
+    1.35;
+
+}
+
+
+.kehai-book-values {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  justify-content:
+    center;
+
+  gap:
+    8px 22px;
+
+  margin-top:
+    82px;
+
+}
+
+
+.kehai-book-values span {
+
+  padding:
+    11px 0;
+
+  color:
+    rgba(245, 242, 232, .74);
+
+  font-size:
+    clamp(16px, 2vw, 21px);
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    .08em;
+
+}
+
+
+.kehai-book-values span::after {
+
+  content:
+    "·";
+
+  margin-left:
+    22px;
+
+  color:
+    rgba(179, 148, 79, .85);
+
+}
+
+
+.kehai-book-values span:last-child::after {
+
+  content:
+    "";
+
+  margin:
+    0;
+
+}
+
+
+.kehai-book-provocation__examples {
+
+  max-width:
+    740px;
+
+  margin:
+    80px auto 0;
+
+  text-align:
+    left;
+
+  color:
+    rgba(245, 242, 232, .86);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    22px;
+
+}
+
+
+.kehai-book-provocation__examples p {
+
+  margin:
+    0;
+
+  padding:
+    14px 0;
+
+  border-bottom:
+    1px solid rgba(245, 242, 232, .10);
+
+}
+
+
+.kehai-book-provocation__closing {
+
+  margin-top:
+    84px;
+
+  font-size:
+    20px;
+
+}
+
+
+.kehai-book-provocation__closing strong {
+
+  display:
+    block;
+
+}
+
+
+.kehai-book-provocation__closing h3 {
+
+  margin:
+    10px 0 5px;
+
+  color:
+    var(--kehai-gold);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    38px;
+
+  font-weight:
+    400;
+
+}
+
+
+/* =========================================================
+   10. DUAS COLUNAS / VIRADA
+   ========================================================= */
+
+.kehai-book-two-columns {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    5fr 6fr;
+
+  gap:
+    9%;
+
+  align-items:
+    start;
+
+}
+
+
+.kehai-book-two-columns h2 {
+
+  margin:
+    0;
+
+  font-size:
+    clamp(38px, 4vw, 48px);
+
+  font-weight:
+    500;
+
+  line-height:
+    1.1;
+
+  letter-spacing:
+    -.02em;
+
+}
+
+
+.kehai-book-editorial-text {
+
+  color:
+    var(--kehai-muted);
+
+}
+
+
+.kehai-book-editorial-text p {
+
+  margin:
+    0 0 20px;
+
+}
+
+
+.kehai-book-editorial-text blockquote {
+
+  margin:
+    28px 0 0;
+
+  color:
+    var(--kehai-green);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    28px;
+
+  line-height:
+    1.4;
+
+}
+
+
+.kehai-book-gold-rule {
+
+  position:
+    relative;
+
+  padding-left:
+    46px;
+
+}
+
+
+.kehai-book-gold-rule::before {
+
+  content:
+    "";
+
+  position:
+    absolute;
+
+  left:
+    0;
+
+  top:
+    4px;
+
+  width:
+    1px;
+
+  height:
+    160px;
+
+  background:
+    var(--kehai-gold);
+
+}
+
+
+/* =========================================================
+   11. DEFINIÇÃO KEHAI
+   ========================================================= */
+
+.kehai-book-definition {
+
+  padding-top:
+    160px;
+
+  padding-bottom:
+    160px;
+
+  background:
+    var(--kehai-white);
+
+}
+
+
+.kehai-book-symbol {
+
+  width:
+    88px;
+
+  height:
+    88px;
+
+  margin:
+    0 auto 34px;
+
+  object-fit:
+    contain;
+
+}
+
+
+.kehai-book-definition__name {
+
+  margin:
+    0;
+
+  color:
+    var(--kehai-green-deep);
+
+  font-size:
+    clamp(56px, 7vw, 76px);
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    .06em;
+
+  line-height:
+    1;
+
+}
+
+
+.kehai-book-definition__lead {
+
+  max-width:
+    820px;
+
+  margin:
+    34px auto 0;
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    clamp(27px, 3vw, 34px);
+
+  line-height:
+    1.35;
+
+}
+
+
+.kehai-book-definition__text {
+
+  max-width:
+    720px;
+
+  margin:
+    28px auto 0;
+
+  color:
+    var(--kehai-muted);
+
+}
+
+
+/* =========================================================
+   12. MOVIMENTOS
+   ========================================================= */
+
+.kehai-book-movements {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  border-top:
+    1px solid var(--kehai-line);
+
+  border-bottom:
+    1px solid var(--kehai-line);
+
+}
+
+
+.kehai-book-movement {
+
+  min-height:
+    330px;
+
+  padding:
+    42px 30px 36px;
+
+  border-right:
+    1px solid var(--kehai-line);
+
+}
+
+
+.kehai-book-movement:last-child {
+
+  border-right:
+    0;
+
+}
+
+
+.kehai-book-movement__number {
+
+  color:
+    var(--kehai-gold);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    18px;
+
+}
+
+
+.kehai-book-movement h3 {
+
+  margin:
+    24px 0 18px;
+
+  font-size:
+    28px;
+
+  font-weight:
+    600;
+
+}
+
+
+.kehai-book-movement p {
+
+  color:
+    var(--kehai-muted);
+
+  font-size:
+    16.5px;
+
+  line-height:
+    1.65;
+
+}
+
+
+.kehai-book-movement strong {
+
+  display:
+    block;
+
+  margin-top:
+    26px;
+
+  color:
+    var(--kehai-green);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    19px;
+
+  font-style:
+    italic;
+
+  font-weight:
+    400;
+
+}
+
+
+/* =========================================================
+   13. TRANSFORMAÇÃO
+   ========================================================= */
+
+.kehai-book-transformation {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    100px;
+
+}
+
+
+.kehai-book-transformation h2 {
+
+  margin:
+    0;
+
+  font-size:
+    clamp(42px, 5vw, 54px);
+
+  line-height:
+    1.15;
+
+}
+
+
+.kehai-book-transformation h3 {
+
+  margin:
+    28px 0 0;
+
+  color:
+    var(--kehai-gold);
+
+  font-size:
+    25px;
+
+  font-weight:
+    500;
+
+  line-height:
+    1.35;
+
+}
+
+
+.kehai-book-transformation > div:last-child {
+
+  color:
+    rgba(245, 242, 232, .82);
+
+}
+
+
+.kehai-book-transformation blockquote {
+
+  margin:
+    30px 0;
+
+  color:
+    var(--kehai-gold);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    28px;
+
+}
+
+
+.kehai-book-transformation ul {
+
+  margin:
+    36px 0;
+
+  padding:
+    0;
+
+  list-style:
+    none;
+
+}
+
+
+.kehai-book-transformation li {
+
+  position:
+    relative;
+
+  padding:
+    12px 0 12px 26px;
+
+  border-bottom:
+    1px solid rgba(245, 242, 232, .08);
+
+}
+
+
+.kehai-book-transformation li::before {
+
+  content:
+    "";
+
+  position:
+    absolute;
+
+  left:
+    0;
+
+  top:
+    24px;
+
+  width:
+    5px;
+
+  height:
+    5px;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--kehai-gold);
+
+}
+
+
+.kehai-book-transformation strong {
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+/* =========================================================
+   14. PÚBLICO
+   ========================================================= */
+
+.kehai-book-audience {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    100px;
+
+  align-items:
+    start;
+
+}
+
+
+.kehai-book-audience h2 {
+
+  margin:
+    0;
+
+  font-size:
+    clamp(38px, 4vw, 48px);
+
+  font-weight:
+    500;
+
+  line-height:
+    1.1;
+
+}
+
+
+.kehai-book-audience__cadence {
+
+  margin:
+    40px 0;
+
+  color:
+    var(--kehai-green);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    24px;
+
+}
+
+
+.kehai-book-audience__cadence p {
+
+  margin:
+    6px 0;
+
+}
+
+
+.kehai-book-audience__roles {
+
+  display:
+    grid;
+
+  border-top:
+    1px solid var(--kehai-line);
+
+}
+
+
+.kehai-book-audience__roles span {
+
+  padding:
+    15px 4px;
+
+  border-bottom:
+    1px solid var(--kehai-line);
+
+  color:
+    var(--kehai-green-deep);
+
+  font-size:
+    22px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    .03em;
+
+}
+
+
+/* =========================================================
+   15. GALERIA DO LIVRO
+   ========================================================= */
+
+.kehai-book-gallery {
+
+  max-width:
+    1040px;
+
+  margin:
+    0 auto;
+
+}
+
+
+.kehai-book-gallery__main {
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  min-height:
+    480px;
+
+  background:
+    var(--kehai-white);
+
+  border:
+    1px solid rgba(22, 25, 23, .06);
+
+}
+
+
+.kehai-book-gallery__main img {
+
+  width:
+    100%;
+
+  max-height:
+    690px;
+
+  object-fit:
+    contain;
+
+}
+
+
+.kehai-book-gallery__thumbs {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(5, 1fr);
+
+  gap:
+    12px;
+
+  margin-top:
+    18px;
+
+}
+
+
+.kehai-book-gallery__thumbs button {
+
+  padding:
+    0;
+
+  border:
+    1px solid transparent;
+
+  background:
+    transparent;
+
+  cursor:
+    pointer;
+
+  opacity:
+    .68;
+
+  transition:
+    opacity 180ms ease,
+    border-color 180ms ease;
+
+}
+
+
+.kehai-book-gallery__thumbs button:hover,
+.kehai-book-gallery__thumbs button.active {
+
+  border-color:
+    var(--kehai-green);
+
+  opacity:
+    1;
+
+}
+
+
+.kehai-book-gallery__thumbs img {
+
+  width:
+    100%;
+
+  aspect-ratio:
+    4 / 3;
+
+  object-fit:
+    cover;
+
+}
+
+
+.kehai-book-section--paper
+.kehai-book-container--text {
+
+  margin-top:
+    58px;
+
+  color:
+    var(--kehai-muted);
+
+}
+
+
+.kehai-book-section--paper blockquote {
+
+  margin:
+    28px auto 0;
+
+  color:
+    var(--kehai-green);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    28px;
+
+  line-height:
+    1.4;
+
+}
+
+
+/* =========================================================
+   16. FRASE DE RUPTURA
+   ========================================================= */
+
+.kehai-book-quote {
+
+  min-height:
+    68vh;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  padding:
+    130px 0;
+
+  background:
+    var(--kehai-green-deep);
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-book-quote blockquote {
+
+  margin:
+    0;
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    clamp(40px, 5vw, 62px);
+
+  line-height:
+    1.17;
+
+}
+
+
+.kehai-book-quote img {
+
+  width:
+    52px;
+
+  margin:
+    46px auto 0;
+
+  opacity:
+    .72;
+
+}
+
+
+/* =========================================================
+   17. AUTOR
+   ========================================================= */
+
+.kehai-book-author {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    .86fr 1.14fr;
+
+  gap:
+    92px;
+
+  align-items:
+    center;
+
+}
+
+
+.kehai-book-author__photo img {
+
+  width:
+    100%;
+
+  aspect-ratio:
+    4 / 5;
+
+  object-fit:
+    cover;
+
+  border-radius:
+    3px;
+
+}
+
+
+.kehai-book-author__content {
+
+  max-width:
+    650px;
+
+}
+
+
+.kehai-book-author__content h2 {
+
+  margin:
+    0 0 28px;
+
+  font-size:
+    clamp(38px, 4vw, 48px);
+
+  font-weight:
+    500;
+
+  line-height:
+    1.1;
+
+}
+
+
+.kehai-book-author__content blockquote {
+
+  margin:
+    28px 0;
+
+  color:
+    var(--kehai-green);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    28px;
+
+  line-height:
+    1.4;
+
+}
+
+
+.kehai-book-author__signature {
+
+  display:
+    grid;
+
+  margin-top:
+    38px;
+
+}
+
+
+.kehai-book-author__signature strong {
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    24px;
+
+  font-weight:
+    500;
+
+}
+
+
+.kehai-book-author__signature span {
+
+  color:
+    var(--kehai-muted);
+
+  font-size:
+    14px;
+
+}
+
+
+/* =========================================================
+   18. OFERTAS
+   ========================================================= */
+
+.kehai-book-offers {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1.15fr 1fr 1fr;
+
+  gap:
+    24px;
+
+  align-items:
+    stretch;
+
+}
+
+
+.kehai-book-offer {
+
+  position:
+    relative;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  min-height:
+    440px;
+
+  padding:
+    40px;
+
+  border:
+    1px solid var(--kehai-line);
+
+  background:
+    rgba(255, 255, 255, .25);
+
+}
+
+
+.kehai-book-offer--featured {
+
+  border-color:
+    var(--kehai-green);
+
+  background:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-book-offer__badge {
+
+  position:
+    absolute;
+
+  top:
+    0;
+
+  right:
+    26px;
+
+  transform:
+    translateY(-50%);
+
+  padding:
+    7px 12px;
+
+  background:
+    var(--kehai-green);
+
+  color:
+    var(--kehai-white);
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .08em;
+
+}
+
+
+.kehai-book-offer__type {
+
+  display:
+    block;
+
+  margin-bottom:
+    20px;
+
+  color:
+    var(--kehai-green);
+
+  font-size:
+    12px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .12em;
+
+}
+
+
+.kehai-book-offer h3 {
+
+  margin:
+    0;
+
+  font-size:
+    28px;
+
+  font-weight:
+    600;
+
+}
+
+
+.kehai-book-offer p {
+
+  color:
+    var(--kehai-muted);
+
+}
+
+
+.kehai-book-offer ul {
+
+  margin:
+    20px 0 0;
+
+  padding-left:
+    20px;
+
+  color:
+    var(--kehai-muted);
+
+  font-size:
+    15px;
+
+}
+
+
+.kehai-book-offer__price {
+
+  margin-top:
+    auto;
+
+  padding:
+    32px 0 22px;
+
+  font-size:
+    43px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    -.03em;
+
+}
+
+
+/* =========================================================
+   19. CORPORATIVO
+   ========================================================= */
+
+.kehai-book-corporate {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1.15fr .85fr;
+
+  gap:
+    100px;
+
+  align-items:
+    center;
+
+}
+
+
+.kehai-book-corporate h2 {
+
+  margin:
+    0;
+
+  font-size:
+    clamp(38px, 4vw, 48px);
+
+  font-weight:
+    500;
+
+  line-height:
+    1.1;
+
+}
+
+
+.kehai-book-corporate p {
+
+  color:
+    rgba(245, 242, 232, .80);
+
+}
+
+
+.kehai-book-corporate .kehai-book-btn {
+
+  margin-top:
+    24px;
+
+}
+
+
+.kehai-book-corporate__quantities {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  border-top:
+    1px solid rgba(245, 242, 232, .20);
+
+  border-left:
+    1px solid rgba(245, 242, 232, .20);
+
+}
+
+
+.kehai-book-corporate__quantities div {
+
+  min-height:
+    150px;
+
+  display:
+    grid;
+
+  place-content:
+    center;
+
+  border-right:
+    1px solid rgba(245, 242, 232, .20);
+
+  border-bottom:
+    1px solid rgba(245, 242, 232, .20);
+
+  text-align:
+    center;
+
+}
+
+
+.kehai-book-corporate__quantities strong {
+
+  color:
+    var(--kehai-gold);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    48px;
+
+  font-weight:
+    400;
+
+  line-height:
+    1;
+
+}
+
+
+.kehai-book-corporate__quantities span {
+
+  margin-top:
+    10px;
+
+  color:
+    rgba(245, 242, 232, .68);
+
+  font-size:
+    13px;
+
+}
+
+
+/* =========================================================
+   20. MANIFESTO
+   ========================================================= */
+
+.kehai-book-manifesto {
+
+  padding-top:
+    170px;
+
+  padding-bottom:
+    170px;
+
+}
+
+
+.kehai-book-manifesto h3 {
+
+  margin:
+    0 0 8px;
+
+  font-size:
+    32px;
+
+  line-height:
+    1.35;
+
+}
+
+
+.kehai-book-manifesto__transition {
+
+  margin-top:
+    48px;
+
+}
+
+
+.kehai-book-manifesto
+.kehai-book-eyebrow {
+
+  margin-top:
+    70px;
+
+}
+
+
+.kehai-book-manifesto h2 {
+
+  margin:
+    18px 0 48px;
+
+  color:
+    var(--kehai-green-deep);
+
+  font-size:
+    clamp(42px, 5vw, 56px);
+
+  line-height:
+    1.16;
+
+}
+
+
+/* =========================================================
+   21. CTA FINAL
+   ========================================================= */
+
+.kehai-book-final-cta {
+
+  padding:
+    150px 0;
+
+  background:
+    var(--kehai-green-black);
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-book-final-cta img {
+
+  width:
+    68px;
+
+  margin:
+    0 auto 30px;
+
+}
+
+
+.kehai-book-final-cta h2 {
+
+  margin:
+    0;
+
+  font-size:
+    clamp(44px, 5vw, 60px);
+
+  line-height:
+    1.15;
+
+}
+
+
+.kehai-book-final-cta p {
+
+  color:
+    rgba(245, 242, 232, .70);
+
+}
+
+
+.kehai-book-final-cta__price {
+
+  margin:
+    34px 0 22px;
+
+  color:
+    var(--kehai-gold);
+
+  font-size:
+    38px;
+
+  font-weight:
+    600;
+
+}
+
+
+/* =========================================================
+   22. FAQ
+   ========================================================= */
+
+.kehai-book-faq {
+
+  max-width:
+    850px;
+
+}
+
+
+.kehai-book-faq h2 {
+
+  margin:
+    0 0 50px;
+
+  font-size:
+    clamp(38px, 4vw, 48px);
+
+  font-weight:
+    500;
+
+  line-height:
+    1.1;
+
+}
+
+
+.kehai-book-faq__item {
+
+  border-bottom:
+    1px solid var(--kehai-line);
+
+}
+
+
+.kehai-book-faq__item button {
+
+  width:
+    100%;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    24px;
+
+  padding:
+    24px 0;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    var(--kehai-ink);
+
+  cursor:
+    pointer;
+
+  text-align:
+    left;
+
+  font-weight:
+    600;
+
+}
+
+
+.kehai-book-faq__icon {
+
+  color:
+    var(--kehai-green);
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    26px;
+
+}
+
+
+.kehai-book-faq__answer {
+
+  display:
+    grid;
+
+  grid-template-rows:
+    0fr;
+
+  transition:
+    grid-template-rows 220ms ease;
+
+}
+
+
+.kehai-book-faq__answer p {
+
+  overflow:
+    hidden;
+
+  margin:
+    0;
+
+  padding:
+    0 42px 0 0;
+
+  color:
+    var(--kehai-muted);
+
+}
+
+
+.kehai-book-faq__item.is-open
+.kehai-book-faq__answer {
+
+  grid-template-rows:
+    1fr;
+
+}
+
+
+.kehai-book-faq__item.is-open
+.kehai-book-faq__answer p {
+
+  padding-bottom:
+    24px;
+
+}
+
+
+/* =========================================================
+   23. FOOTER
+   ========================================================= */
+
+.kehai-book-footer {
+
+  padding:
+    80px 0 30px;
+
+  background:
+    var(--kehai-green-black);
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-book-footer__main {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    80px;
+
+}
+
+
+.kehai-book-footer__main img {
+
+  width:
+    200px;
+
+  max-height:
+    70px;
+
+  object-fit:
+    contain;
+
+  object-position:
+    left center;
+
+}
+
+
+.kehai-book-footer__main p {
+
+  max-width:
+    430px;
+
+  color:
+    rgba(245, 242, 232, .60);
+
+}
+
+
+.kehai-book-footer nav {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    12px 30px;
+
+  align-content:
+    start;
+
+}
+
+
+.kehai-book-footer nav a {
+
+  color:
+    rgba(245, 242, 232, .74);
+
+  font-size:
+    14px;
+
+}
+
+
+.kehai-book-footer nav a:hover {
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-book-footer__bottom {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    30px;
+
+  margin-top:
+    70px;
+
+  padding-top:
+    26px;
+
+  border-top:
+    1px solid rgba(245, 242, 232, .12);
+
+  color:
+    rgba(245, 242, 232, .46);
+
+  font-size:
+    12px;
+
+}
+
+
+/* =========================================================
+   24. MOBILE BUY BAR
+   ========================================================= */
+
+.kehai-book-mobile-buy {
+
+  display:
+    none;
+
+}
+
+
+/* =========================================================
+   25. FOCUS / ACESSIBILIDADE
+   ========================================================= */
+
+.kehai-book-page
+a:focus-visible,
+
+.kehai-book-page
+button:focus-visible {
+
+  outline:
+    2px solid var(--kehai-gold);
+
+  outline-offset:
+    4px;
+
+}
+
+
+/* =========================================================
+   26. TABLET
+   ========================================================= */
+
+@media
+(max-width: 1100px) {
+
+
+  .kehai-book-nav {
+
+    display:
+      none;
+
+  }
+
+
+  .kehai-book-menu-toggle {
+
+    display:
+      block;
+
+  }
+
+
+  .kehai-book-hero__grid {
+
+    grid-template-columns:
+      1.05fr .95fr;
+
+    gap:
+      42px;
+
+  }
+
+
+  .kehai-book-movements {
+
+    grid-template-columns:
+      1fr 1fr;
+
+  }
+
+
+  .kehai-book-movement {
+
+    border-bottom:
+      1px solid var(--kehai-line);
+
+  }
+
+
+  .kehai-book-movement:nth-child(2) {
+
+    border-right:
+      0;
+
+  }
+
+
+  .kehai-book-movement:nth-last-child(-n+2) {
+
+    border-bottom:
+      0;
+
+  }
+
+
+  .kehai-book-transformation,
+  .kehai-book-audience,
+  .kehai-book-author,
+  .kehai-book-corporate {
+
+    gap:
+      60px;
+
+  }
+
+
+  .kehai-book-offers {
+
+    grid-template-columns:
+      1fr 1fr;
+
+  }
+
+
+  .kehai-book-offer--featured {
+
+    grid-column:
+      1 / -1;
+
+  }
+
+}
+
+
+/* =========================================================
+   27. MOBILE
+   ========================================================= */
+
+@media
+(max-width: 767px) {
+
+
+  .kehai-book-page {
+
+    font-size:
+      17px;
+
+    padding-bottom:
+      64px;
+
+  }
+
+
+  .kehai-book-container {
+
+    width:
+      min(
+        calc(100% - 40px),
+        var(--kehai-max-width)
+      );
+
+  }
+
+
+  .kehai-book-section {
+
+    padding:
+      82px 0;
+
+  }
+
+
+  /* HEADER */
+
+  .kehai-book-header {
+
+    height:
+      68px;
+
+  }
+
+
+  .kehai-book-header__brand img {
+
+    width:
+      150px;
+
+  }
+
+
+  .kehai-book-header__cta {
+
+    display:
+      none;
+
+  }
+
+
+  .kehai-book-mobile-menu {
+
+    position:
+      fixed;
+
+    inset:
+      68px 0 0;
+
+    z-index:
+      999;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    visibility:
+      hidden;
+
+    opacity:
+      0;
+
+    padding:
+      36px 20px;
+
+    background:
+      var(--kehai-ivory);
+
+    transition:
+      opacity 200ms ease,
+      visibility 200ms ease;
+
+  }
+
+
+  .kehai-book-mobile-menu.is-open {
+
+    visibility:
+      visible;
+
+    opacity:
+      1;
+
+  }
+
+
+  .kehai-book-mobile-menu > a:not(.kehai-book-btn) {
+
+    padding:
+      18px 0;
+
+    border-bottom:
+      1px solid var(--kehai-line);
+
+    font-size:
+      22px;
+
+    font-weight:
+      500;
+
+  }
+
+
+  .kehai-book-mobile-menu
+  .kehai-book-btn {
+
+    margin-top:
+      34px;
+
+  }
+
+
+  /* HERO */
+
+  .kehai-book-hero {
+
+    min-height:
+      auto;
+
+  }
+
+
+  .kehai-book-hero__grid {
+
+    display:
+      block;
+
+    padding-top:
+      60px;
+
+    padding-bottom:
+      86px;
+
+  }
+
+
+  .kehai-book-hero__content h1 {
+
+    font-size:
+      40px;
+
+    line-height:
+      1.1;
+
+  }
+
+
+  .kehai-book-hero__image--desktop {
+
+    display:
+      none;
+
+  }
+
+
+  .kehai-book-hero__image--mobile {
+
+    display:
+      grid;
+
+    margin:
+      42px 0 28px;
+
+  }
+
+
+  .kehai-book-hero__image img {
+
+    width:
+      min(100%, 305px);
+
+    max-height:
+      420px;
+
+  }
+
+
+  .kehai-book-hero__purchase {
+
+    align-items:
+      stretch;
+
+  }
+
+
+  .kehai-book-price {
+
+    flex:
+      0 0 100%;
+
+  }
+
+
+  .kehai-book-hero__purchase
+  .kehai-book-btn {
+
+    width:
+      100%;
+
+  }
+
+
+  .kehai-book-hero__text {
+
+    margin-top:
+      34px;
+
+    font-size:
+      20px;
+
+  }
+
+
+  /* PROVOCAÇÃO */
+
+  .kehai-book-display {
+
+    font-size:
+      36px;
+
+  }
+
+
+  .kehai-book-provocation__answer {
+
+    font-size:
+      25px;
+
+  }
+
+
+  .kehai-book-values {
+
+    display:
+      grid;
+
+    gap:
+      0;
+
+    margin-top:
+      56px;
+
+  }
+
+
+  .kehai-book-values span {
+
+    padding:
+      10px 0;
+
+    border-bottom:
+      1px solid rgba(245, 242, 232, .09);
+
+  }
+
+
+  .kehai-book-values span::after {
+
+    display:
+      none;
+
+  }
+
+
+  .kehai-book-provocation__examples {
+
+    margin-top:
+      60px;
+
+    font-size:
+      19px;
+
+  }
+
+
+  .kehai-book-provocation__closing {
+
+    margin-top:
+      62px;
+
+  }
+
+
+  .kehai-book-provocation__closing h3 {
+
+    font-size:
+      32px;
+
+  }
+
+
+  /* COLUNAS */
+
+  .kehai-book-two-columns,
+  .kehai-book-transformation,
+  .kehai-book-audience,
+  .kehai-book-author,
+  .kehai-book-corporate {
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      50px;
+
+  }
+
+
+  .kehai-book-gold-rule {
+
+    padding-left:
+      0;
+
+    padding-top:
+      32px;
+
+  }
+
+
+  .kehai-book-gold-rule::before {
+
+    top:
+      0;
+
+    width:
+      52px;
+
+    height:
+      1px;
+
+  }
+
+
+  /* DEFINIÇÃO */
+
+  .kehai-book-definition {
+
+    padding-top:
+      105px;
+
+    padding-bottom:
+      105px;
+
+  }
+
+
+  .kehai-book-symbol {
+
+    width:
+      72px;
+
+    height:
+      72px;
+
+  }
+
+
+  .kehai-book-definition__name {
+
+    font-size:
+      56px;
+
+  }
+
+
+  .kehai-book-definition__lead {
+
+    font-size:
+      27px;
+
+  }
+
+
+  /* TÍTULOS */
+
+  .kehai-book-section-title {
+
+    margin-bottom:
+      46px;
+
+  }
+
+
+  .kehai-book-section-title h2,
+  .kehai-book-two-columns h2,
+  .kehai-book-audience h2,
+  .kehai-book-author__content h2,
+  .kehai-book-corporate h2,
+  .kehai-book-faq h2 {
+
+    font-size:
+      34px;
+
+  }
+
+
+  .kehai-book-section-subtitle {
+
+    font-size:
+      25px;
+
+  }
+
+
+  /* MOVIMENTOS */
+
+  .kehai-book-movements {
+
+    display:
+      block;
+
+    border-bottom:
+      0;
+
+  }
+
+
+  .kehai-book-movement {
+
+    min-height:
+      0;
+
+    padding:
+      38px 0;
+
+    border-right:
+      0;
+
+    border-bottom:
+      1px solid var(--kehai-line) !important;
+
+  }
+
+
+  /* TRANSFORMAÇÃO */
+
+  .kehai-book-transformation h2 {
+
+    font-size:
+      36px;
+
+  }
+
+
+  .kehai-book-transformation h3 {
+
+    font-size:
+      22px;
+
+  }
+
+
+  /* PÚBLICO */
+
+  .kehai-book-audience__roles span {
+
+    font-size:
+      19px;
+
+  }
+
+
+  /* GALERIA */
+
+  .kehai-book-gallery__main {
+
+    min-height:
+      320px;
+
+  }
+
+
+  .kehai-book-gallery__thumbs {
+
+    display:
+      flex;
+
+    gap:
+      10px;
+
+    overflow-x:
+      auto;
+
+    padding-bottom:
+      8px;
+
+    scroll-snap-type:
+      x mandatory;
+
+  }
+
+
+  .kehai-book-gallery__thumbs button {
+
+    flex:
+      0 0 120px;
+
+    scroll-snap-align:
+      start;
+
+  }
+
+
+  /* FRASE */
+
+  .kehai-book-quote {
+
+    min-height:
+      auto;
+
+    padding:
+      105px 0;
+
+  }
+
+
+  .kehai-book-quote blockquote {
+
+    font-size:
+      36px;
+
+  }
+
+
+  /* OFERTAS */
+
+  .kehai-book-offers {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .kehai-book-offer--featured {
+
+    grid-column:
+      auto;
+
+  }
+
+
+  .kehai-book-offer {
+
+    min-height:
+      0;
+
+    padding:
+      34px 28px;
+
+  }
+
+
+  .kehai-book-offer__price {
+
+    margin-top:
+      24px;
+
+  }
+
+
+  /* CORPORATIVO */
+
+  .kehai-book-corporate__quantities {
+
+    grid-template-columns:
+      1fr 1fr;
+
+  }
+
+
+  .kehai-book-corporate__quantities div {
+
+    min-height:
+      125px;
+
+  }
+
+
+  /* MANIFESTO */
+
+  .kehai-book-manifesto {
+
+    padding-top:
+      105px;
+
+    padding-bottom:
+      105px;
+
+  }
+
+
+  .kehai-book-manifesto h2 {
+
+    font-size:
+      40px;
+
+  }
+
+
+  /* CTA FINAL */
+
+  .kehai-book-final-cta {
+
+    padding:
+      110px 0;
+
+  }
+
+
+  .kehai-book-final-cta h2 {
+
+    font-size:
+      40px;
+
+  }
+
+
+  .kehai-book-final-cta
+  .kehai-book-btn {
+
+    width:
+      100%;
+
+  }
+
+
+  /* FOOTER */
+
+  .kehai-book-footer {
+
+    padding-top:
+      70px;
+
+  }
+
+
+  .kehai-book-footer__main {
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      50px;
+
+  }
+
+
+  .kehai-book-footer nav {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .kehai-book-footer__bottom {
+
+    flex-direction:
+      column;
+
+    gap:
+      8px;
+
+  }
+
+
+  /* BARRA MOBILE */
+
+  .kehai-book-mobile-buy {
+
+    position:
+      fixed;
+
+    left:
+      0;
+
+    right:
+      0;
+
+    bottom:
+      0;
+
+    z-index:
+      1500;
+
+    min-height:
+      64px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      14px;
+
+    padding:
+      8px 14px 8px 18px;
+
+    transform:
+      translateY(110%);
+
+    border-top:
+      1px solid rgba(22, 25, 23, .08);
+
+    background:
+      rgba(250, 248, 242, .97);
+
+    box-shadow:
+      0 -12px 28px rgba(13, 37, 34, .07);
+
+    transition:
+      transform 260ms var(--kehai-ease);
+
+  }
+
+
+  .kehai-book-mobile-buy.is-visible {
+
+    transform:
+      translateY(0);
+
+  }
+
+
+  .kehai-book-mobile-buy > div {
+
+    display:
+      grid;
+
+  }
+
+
+  .kehai-book-mobile-buy strong {
+
+    font-size:
+      14px;
+
+  }
+
+
+  .kehai-book-mobile-buy span {
+
+    color:
+      var(--kehai-green);
+
+    font-size:
+      13px;
+
+    font-weight:
+      600;
+
+  }
+
+
+  .kehai-book-mobile-buy
+  .kehai-book-btn {
+
+    min-height:
+      46px;
+
+    padding-inline:
+      20px;
+
+  }
+
+}
+
+
+/* =========================================================
+   28. MOBILE PEQUENO
+   ========================================================= */
+
+@media
+(max-width: 389px) {
+
+
+  .kehai-book-container {
+
+    width:
+      min(
+        calc(100% - 32px),
+        var(--kehai-max-width)
+      );
+
+  }
+
+
+  .kehai-book-hero__content h1 {
+
+    font-size:
+      36px;
+
+  }
+
+
+  .kehai-book-hero__image img {
+
+    width:
+      min(100%, 275px);
+
+  }
+
+
+  .kehai-book-display,
+  .kehai-book-quote blockquote,
+  .kehai-book-final-cta h2,
+  .kehai-book-manifesto h2 {
+
+    font-size:
+      34px;
+
+  }
+
+
+  .kehai-book-corporate__quantities {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+}
+
+
+/* =========================================================
+   29. ACESSIBILIDADE — REDUÇÃO DE MOVIMENTO
+   ========================================================= */
+
+@media
+(prefers-reduced-motion: reduce) {
+
+
+  .kehai-book-page *,
+  .kehai-book-page *::before,
+  .kehai-book-page *::after {
+
+    animation-duration:
+      .01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      .01ms !important;
+
+    scroll-behavior:
+      auto !important;
+
+  }
+
+}
