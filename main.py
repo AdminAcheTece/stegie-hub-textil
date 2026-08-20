@@ -544,31 +544,29 @@ def home_page():
 def home_redirect():
     return redirect(url_for("home"), code=301)
 
-
 @app.route("/quem-somos", endpoint="quem_somos")
 def quem_somos_page():
     return render_template("quem-somos.html")
 
+@app.route('/kehai/livro')
+def kehai_livro():
+    return render_template('kehai_livro.html')
 
 @app.route("/o-que-fazemos", endpoint="o_que_fazemos")
 def o_que_fazemos_page():
     return render_template("o_que_fazemos.html")
 
-
 @app.route("/servicos", endpoint="servicos")
 def servicos_page():
     return render_template("servicos.html")
-
 
 @app.route("/solucoes", endpoint="solucoes")
 def solucoes_redirect():
     return redirect(url_for("servicos"), code=302)
 
-
 @app.route("/fichas-tecnicas", endpoint="fichas_tecnicas")
 def fichas_tecnicas_page():
     return redirect(url_for("fichas_catalogo"), code=301)
-
 
 @app.route("/conteudos", endpoint="conteudos")
 def conteudos_page():
@@ -578,7 +576,6 @@ def conteudos_page():
     ]
     return render_template("conteudos.html", artigos=artigos, tag=tag)
 
-
 @app.route("/conteudos/temas/qualidade", endpoint="conteudos_tema_qualidade")
 def conteudos_tema_qualidade():
     return render_template(
@@ -587,7 +584,6 @@ def conteudos_tema_qualidade():
         page_intro="Fontes, canais e referências para acompanhar controle, padronização, ensaios, análise de defeitos e melhoria contínua.",
         shelves=QUALITY_SHELVES,
     )
-
 
 @app.route("/conteudos/temas/<slug>", endpoint="conteudos_tema_temp")
 def conteudos_tema_temp(slug):
@@ -757,7 +753,6 @@ def fichas_carrinho():
         total=total,
     )
 
-
 @app.route("/fichas/carrinho/adicionar/<int:ficha_id>", methods=["POST"], endpoint="fichas_adicionar_carrinho")
 def fichas_adicionar_carrinho(ficha_id):
     ficha = _buscar_ficha_por_id(ficha_id)
@@ -859,7 +854,6 @@ def login():
 
     return render_template("login.html")
 
-
 @app.route("/cadastro", methods=["GET", "POST"], endpoint="cadastro")
 def cadastro():
     if request.method == "POST":
@@ -878,13 +872,11 @@ def cadastro():
 
     return render_template("cadastro.html")
 
-
 @app.route("/conta", endpoint="conta")
 def conta():
     if not session.get("user_email"):
         return redirect(url_for("login"))
     return render_template("conta.html", user_email=session.get("user_email"))
-
 
 @app.route("/logout", endpoint="logout")
 def logout():
