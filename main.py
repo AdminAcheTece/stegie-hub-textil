@@ -884,13 +884,21 @@ def logout():
 def pericia_tecnica_textil():
     return render_template("pericia_tecnica_textil.html")
 
-@app.route("/kehai", endpoint="kehai")
-def kehai_page():
+# ==========================================================
+# KEHAI — FILOSOFIA
+# ==========================================================
+
+@app.route("/kehai")
+def kehai():
     return render_template("kehai.html")
 
-@app.route('/kehai/livro')
+# ==========================================================
+# KEHAI — LANDING PAGE DO LIVRO
+# ==========================================================
+
+@app.route("/kehai/livro")
 def kehai_livro():
-    return render_template('kehai_livro.html')
+    return render_template("kehai_livro.html")
 
 @app.route("/solucoes-vitrine")
 def solucoes_vitrine():
