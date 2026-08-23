@@ -548,10 +548,6 @@ def home_redirect():
 def quem_somos_page():
     return render_template("quem-somos.html")
 
-@app.route('/kehai/livro')
-def kehai_livro():
-    return render_template('kehai_livro.html')
-
 @app.route("/o-que-fazemos", endpoint="o_que_fazemos")
 def o_que_fazemos_page():
     return render_template("o_que_fazemos.html")
@@ -891,6 +887,10 @@ def pericia_tecnica_textil():
 @app.route("/kehai", endpoint="kehai")
 def kehai_page():
     return render_template("kehai.html")
+
+@app.route('/kehai/livro')
+def kehai_livro():
+    return render_template('kehai_livro.html')
 
 @app.route("/solucoes-vitrine")
 def solucoes_vitrine():
