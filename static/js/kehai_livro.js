@@ -10,14 +10,6 @@
 
   /* =========================================================
      1. CONFIGURAÇÕES COMERCIAIS
-     =========================================================
-
-     IMPORTANTE:
-
-     Quando os canais de venda estiverem definidos,
-     substitua apenas os links abaixo.
-
-     Não será necessário alterar o restante do JavaScript.
      ========================================================= */
 
   const KEHAI_CONFIG = {
@@ -47,28 +39,6 @@
   };
 
 
-  /*
-   EXEMPLO FUTURO:
-
-   links: {
-
-     physical:
-       "https://checkout.exemplo.com/kehai",
-
-     signed:
-       "https://checkout.exemplo.com/kehai-autografado",
-
-     ebook:
-       "https://www.amazon.com.br/....",
-
-     corporate:
-       "https://wa.me/55XXXXXXXXXXX"
-
-   }
-
-  */
-
-
   /* =========================================================
      2. HELPERS
      ========================================================= */
@@ -93,18 +63,8 @@
     ).matches;
 
 
-
   /* =========================================================
      3. ANALYTICS
-     =========================================================
-
-     Estrutura preparada para futura integração com:
-
-     - Google Analytics 4
-     - Google Tag Manager
-     - Meta Pixel
-
-     Nenhum ID é inventado aqui.
      ========================================================= */
 
   function trackEvent(
@@ -118,30 +78,17 @@
 
     window.dataLayer.push({
 
-      event:
-        eventName,
+      event: eventName,
 
       ...data
 
     });
-
-
-    /*
-    Durante desenvolvimento você pode habilitar:
-
-    console.log(
-      "[KEHAI Analytics]",
-      eventName,
-      data
-    );
-    */
 
   }
 
 
   window.kehaiTrack =
     trackEvent;
-
 
 
   /* =========================================================
@@ -169,11 +116,6 @@
     $("#kehaiCorporate");
 
 
-
-  /* =========================================================
-     5. FUNÇÃO PARA CONFIGURAR LINKS
-     ========================================================= */
-
   function configureCommercialLink(
     element,
     url,
@@ -185,11 +127,6 @@
       return;
     }
 
-
-    /*
-     Se ainda não existe link configurado,
-     evita que o botão envie o visitante para "#".
-    */
 
     if (!url) {
 
@@ -249,11 +186,6 @@
         );
 
 
-        /*
-         Enquanto o checkout não estiver configurado,
-         impedimos navegação falsa.
-        */
-
         if (!url) {
 
           event.preventDefault();
@@ -270,11 +202,6 @@
 
   }
 
-
-
-  /* =========================================================
-     6. APLICA LINKS
-     ========================================================= */
 
   physicalButtons.forEach(
     (button) => {
@@ -334,9 +261,8 @@
   );
 
 
-
   /* =========================================================
-     7. MENU MOBILE
+     5. MENU MOBILE
      ========================================================= */
 
   const menuToggle =
@@ -438,18 +364,10 @@
 
 
   menuToggle?.addEventListener(
-
     "click",
-
     toggleMobileMenu
-
   );
 
-
-  /*
-   Fecha o menu quando o visitante
-   seleciona qualquer link.
-  */
 
   if (mobileMenu) {
 
@@ -461,11 +379,8 @@
       (link) => {
 
         link.addEventListener(
-
           "click",
-
           closeMobileMenu
-
         );
 
       }
@@ -475,19 +390,16 @@
   }
 
 
-
-  /* =========================================================
-     8. ESC PARA FECHAR MENU
-     ========================================================= */
-
   document.addEventListener(
-
     "keydown",
-
     (event) => {
 
       if (
         event.key === "Escape"
+        &&
+        !$("#kehaiBookLightbox")
+          ?.classList
+          .contains("is-open")
       ) {
 
         closeMobileMenu();
@@ -495,19 +407,11 @@
       }
 
     }
-
   );
 
 
-
-  /* =========================================================
-     9. FECHA MENU AO VOLTAR PARA DESKTOP
-     ========================================================= */
-
   window.addEventListener(
-
     "resize",
-
     () => {
 
       if (
@@ -519,13 +423,11 @@
       }
 
     }
-
   );
 
 
-
   /* =========================================================
-     10. SCROLL SUAVE PARA ÂNCORAS INTERNAS
+     6. SCROLL SUAVE PARA ÂNCORAS INTERNAS
      ========================================================= */
 
   $$('a[href^="#"]').forEach(
@@ -566,10 +468,6 @@
           event.preventDefault();
 
 
-          /*
-           Compensa o header sticky.
-          */
-
           const headerHeight =
             $(".kehai-book-header")
               ?.offsetHeight || 0;
@@ -597,16 +495,17 @@
 
           });
 
-      });
+        }
+
+      );
 
     }
 
   );
 
 
-
   /* =========================================================
-     GALERIA EDITORIAL — LIVRO POR DENTRO
+     7. GALERIA EDITORIAL — LIVRO POR DENTRO
      ========================================================= */
 
   const galleryMain =
@@ -624,28 +523,34 @@
 
 
   const galleryImages =
-    galleryThumbs.map(
-      button =>
-        button.dataset.image
-    );
+    galleryThumbs
+      .map(
+        (button) =>
+          button.dataset.image
+      )
+      .filter(Boolean);
 
 
   let currentGalleryIndex =
     0;
 
 
+  let galleryFadeTimer =
+    null;
+
+
   /* =========================================================
-     TROCA A IMAGEM PRINCIPAL
+     8. TROCA A IMAGEM PRINCIPAL
      ========================================================= */
 
   function setGalleryImage(
-    index
+    index,
+    animate = true
   ) {
 
     if (
+      !galleryMain ||
       !galleryImages.length
-      ||
-      !galleryMain
     ) {
       return;
     }
@@ -661,50 +566,99 @@
       galleryImages.length;
 
 
-    /*
-      pequeno fade
-    */
-
-    galleryMain.style.opacity =
-      "0";
-
-
-    window.setTimeout(
-      () => {
-
-        galleryMain.src =
-          galleryImages[
-            currentGalleryIndex
-          ];
-
-
-        galleryMain.style.opacity =
-          "1";
-
-      },
-      120
-    );
+    const nextImage =
+      galleryImages[
+        currentGalleryIndex
+      ];
 
 
     galleryThumbs.forEach(
       (
         thumb,
-        index
+        thumbIndex
       ) => {
+
+        const active =
+          thumbIndex ===
+          currentGalleryIndex;
+
 
         thumb.classList.toggle(
           "active",
-          index === currentGalleryIndex
+          active
+        );
+
+
+        thumb.setAttribute(
+          "aria-selected",
+          String(active)
         );
 
       }
     );
 
+
+    /*
+      Evita conflito caso o usuário
+      passe rapidamente sobre várias
+      miniaturas.
+    */
+
+    if (galleryFadeTimer) {
+
+      window.clearTimeout(
+        galleryFadeTimer
+      );
+
+    }
+
+
+    if (
+      reducedMotion ||
+      animate === false
+    ) {
+
+      galleryMain.src =
+        nextImage;
+
+
+      galleryMain.style.opacity =
+        "1";
+
+
+      return;
+
+    }
+
+
+    galleryMain.style.opacity =
+      "0";
+
+
+    galleryFadeTimer =
+      window.setTimeout(
+        () => {
+
+          galleryMain.src =
+            nextImage;
+
+
+          galleryMain.style.opacity =
+            "1";
+
+
+          galleryFadeTimer =
+            null;
+
+        },
+        110
+      );
+
   }
 
 
   /* =========================================================
-     HOVER + CLIQUE NAS MINIATURAS
+     9. EVENTOS DAS MINIATURAS
      ========================================================= */
 
   galleryThumbs.forEach(
@@ -716,7 +670,7 @@
 
       /*
         DESKTOP:
-        passar o mouse já troca
+        apenas passar o mouse já troca
         a imagem principal.
       */
 
@@ -739,22 +693,50 @@
 
 
       /*
-        CLIQUE:
-        troca a imagem e abre ampliada.
+        DESKTOP E MOBILE:
+        clicar/tocar seleciona a página.
+
+        IMPORTANTE:
+        NÃO abre o lightbox aqui.
       */
 
       thumb.addEventListener(
         "click",
-        () => {
+        (event) => {
+
+          event.preventDefault();
+
 
           setGalleryImage(
             index
           );
 
+        }
+      );
 
-          openGalleryLightbox(
-            index
-          );
+
+      /*
+        Acessibilidade por teclado.
+      */
+
+      thumb.addEventListener(
+        "keydown",
+        (event) => {
+
+          if (
+            event.key === "Enter"
+            ||
+            event.key === " "
+          ) {
+
+            event.preventDefault();
+
+
+            setGalleryImage(
+              index
+            );
+
+          }
 
         }
       );
@@ -762,8 +744,56 @@
     }
   );
 
+
+  /*
+    Inicializa a primeira miniatura
+    como ativa.
+  */
+
+  if (
+    galleryThumbs.length
+    &&
+    galleryMain
+  ) {
+
+    setGalleryImage(
+      0,
+      false
+    );
+
+  }
+
+
   /* =========================================================
-     LIGHTBOX
+     10. PRÉ-CARREGAMENTO DAS IMAGENS
+     ========================================================= */
+
+  function preloadGalleryImages() {
+
+    galleryImages.forEach(
+      (src) => {
+
+        const image =
+          new Image();
+
+
+        image.src =
+          src;
+
+      }
+    );
+
+  }
+
+
+  window.addEventListener(
+    "load",
+    preloadGalleryImages
+  );
+
+
+  /* =========================================================
+     11. LIGHTBOX
      ========================================================= */
 
   const galleryLightbox =
@@ -790,12 +820,10 @@
     $("#kehaiBookLightboxNext");
 
 
-
   function updateGalleryLightbox() {
 
     if (
-      !galleryLightboxImage
-      ||
+      !galleryLightboxImage ||
       !galleryImages.length
     ) {
       return;
@@ -812,42 +840,40 @@
       galleryLightboxCounter
     ) {
 
+      const current =
+        String(
+          currentGalleryIndex + 1
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const total =
+        String(
+          galleryImages.length
+        ).padStart(
+          2,
+          "0"
+        );
+
+
       galleryLightboxCounter.textContent =
-        `${
-          String(
-            currentGalleryIndex + 1
-          ).padStart(
-            2,
-            "0"
-          )
-        } / ${
-          String(
-            galleryImages.length
-          ).padStart(
-            2,
-            "0"
-          )
-        }`;
+        `${current} / ${total}`;
 
     }
 
   }
 
 
-
-  function openGalleryLightbox(
-    index = currentGalleryIndex
-  ) {
+  function openGalleryLightbox() {
 
     if (
-      !galleryLightbox
+      !galleryLightbox ||
+      !galleryImages.length
     ) {
       return;
     }
-
-
-    currentGalleryIndex =
-      index;
 
 
     updateGalleryLightbox();
@@ -879,8 +905,11 @@
       }
     );
 
-  }
 
+    galleryLightboxClose
+      ?.focus();
+
+  }
 
 
   function closeGalleryLightbox() {
@@ -909,13 +938,23 @@
     document.body.style.overflow =
       "";
 
-  }
 
+    galleryMainButton
+      ?.focus();
+
+  }
 
 
   function galleryPrevious() {
 
-    currentGalleryIndex =
+    if (
+      !galleryImages.length
+    ) {
+      return;
+    }
+
+
+    const previousIndex =
       (
         currentGalleryIndex
         -
@@ -928,7 +967,8 @@
 
 
     setGalleryImage(
-      currentGalleryIndex
+      previousIndex,
+      false
     );
 
 
@@ -937,10 +977,16 @@
   }
 
 
-
   function galleryNext() {
 
-    currentGalleryIndex =
+    if (
+      !galleryImages.length
+    ) {
+      return;
+    }
+
+
+    const nextIndex =
       (
         currentGalleryIndex
         +
@@ -951,7 +997,8 @@
 
 
     setGalleryImage(
-      currentGalleryIndex
+      nextIndex,
+      false
     );
 
 
@@ -960,22 +1007,24 @@
   }
 
 
-  /* IMAGEM PRINCIPAL */
+  /* =========================================================
+     12. IMAGEM PRINCIPAL ABRE O LIGHTBOX
+     ========================================================= */
 
   galleryMainButton
     ?.addEventListener(
       "click",
       () => {
 
-        openGalleryLightbox(
-          currentGalleryIndex
-        );
+        openGalleryLightbox();
 
       }
     );
 
 
-  /* FECHAR */
+  /* =========================================================
+     13. CONTROLES DO LIGHTBOX
+     ========================================================= */
 
   galleryLightboxClose
     ?.addEventListener(
@@ -983,8 +1032,6 @@
       closeGalleryLightbox
     );
 
-
-  /* SETAS */
 
   galleryLightboxPrev
     ?.addEventListener(
@@ -1000,12 +1047,14 @@
     );
 
 
-  /* CLICAR FORA */
+  /*
+    Clicar fora da imagem fecha.
+  */
 
   galleryLightbox
     ?.addEventListener(
       "click",
-      event => {
+      (event) => {
 
         if (
           event.target ===
@@ -1020,26 +1069,29 @@
     );
 
 
-  /* TECLADO */
+  /*
+    Teclado.
+  */
 
   document.addEventListener(
     "keydown",
-    event => {
+    (event) => {
 
-      if (
-        !galleryLightbox
+      const lightboxOpen =
+        galleryLightbox
           ?.classList
           .contains(
             "is-open"
-          )
-      ) {
+          );
+
+
+      if (!lightboxOpen) {
         return;
       }
 
 
       if (
-        event.key ===
-        "Escape"
+        event.key === "Escape"
       ) {
 
         closeGalleryLightbox();
@@ -1048,8 +1100,7 @@
 
 
       if (
-        event.key ===
-        "ArrowLeft"
+        event.key === "ArrowLeft"
       ) {
 
         galleryPrevious();
@@ -1058,8 +1109,7 @@
 
 
       if (
-        event.key ===
-        "ArrowRight"
+        event.key === "ArrowRight"
       ) {
 
         galleryNext();
@@ -1067,10 +1117,86 @@
       }
 
     }
-  ); 
-   
+  );
+
+
   /* =========================================================
-     13. FAQ
+     14. SWIPE NO LIGHTBOX MOBILE
+     ========================================================= */
+
+  let touchStartX =
+    0;
+
+
+  let touchEndX =
+    0;
+
+
+  galleryLightbox
+    ?.addEventListener(
+      "touchstart",
+      (event) => {
+
+        touchStartX =
+          event.changedTouches[0]
+            ?.screenX || 0;
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+  galleryLightbox
+    ?.addEventListener(
+      "touchend",
+      (event) => {
+
+        touchEndX =
+          event.changedTouches[0]
+            ?.screenX || 0;
+
+
+        const difference =
+          touchEndX -
+          touchStartX;
+
+
+        if (
+          Math.abs(
+            difference
+          ) < 45
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          difference > 0
+        ) {
+
+          galleryPrevious();
+
+        }
+
+        else {
+
+          galleryNext();
+
+        }
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+  /* =========================================================
+     15. FAQ
      ========================================================= */
 
   const faqItems =
@@ -1099,12 +1225,6 @@
       }
 
 
-      /*
-       Complementa acessibilidade,
-       mesmo que atributos não tenham
-       sido inseridos no HTML original.
-      */
-
       button.setAttribute(
         "aria-expanded",
         "false"
@@ -1122,12 +1242,6 @@
               "is-open"
             );
 
-
-          /*
-           Fecha os outros.
-           Assim o FAQ funciona como
-           accordion editorial.
-          */
 
           faqItems.forEach(
 
@@ -1177,10 +1291,6 @@
 
           );
 
-
-          /*
-           Alterna o atual.
-          */
 
           item.classList.toggle(
             "is-open",
@@ -1235,9 +1345,8 @@
   );
 
 
-
   /* =========================================================
-     14. BARRA DE COMPRA MOBILE
+     16. BARRA DE COMPRA MOBILE
      ========================================================= */
 
   const hero =
@@ -1258,7 +1367,6 @@
 
   let footerVisible =
     false;
-
 
 
   function updateMobileBuyBar() {
@@ -1291,13 +1399,10 @@
   }
 
 
-
   if (
     "IntersectionObserver" in window
   ) {
 
-
-    /* HERO */
 
     if (hero) {
 
@@ -1334,9 +1439,6 @@
 
     }
 
-
-
-    /* FOOTER */
 
     if (footer) {
 
@@ -1385,9 +1487,8 @@
   );
 
 
-
   /* =========================================================
-     15. CTA MOBILE
+     17. CTA MOBILE
      ========================================================= */
 
   const mobileBuyButton =
@@ -1396,15 +1497,6 @@
     );
 
 
-  /*
-   Na V1 ele leva até a seção comercial.
-
-   Quando o checkout estiver definido,
-   podemos decidir se esse botão deve
-   comprar diretamente ou continuar
-   levando para as opções.
-  */
-
   mobileBuyButton?.addEventListener(
 
     "click",
@@ -1412,9 +1504,7 @@
     () => {
 
       trackEvent(
-
         "click_mobile_buy_bar"
-
       );
 
     }
@@ -1422,14 +1512,8 @@
   );
 
 
-
   /* =========================================================
-     16. REVEAL EDITORIAL
-     =========================================================
-
-     Adicionamos uma animação extremamente
-     discreta sem precisar colocar classes
-     manualmente em todo o HTML.
+     18. REVEAL EDITORIAL
      ========================================================= */
 
   const revealSelectors = [
@@ -1473,13 +1557,6 @@
     );
 
 
-  /*
-   Adiciona estilos mínimos via JS.
-
-   Assim não precisamos alterar o CSS
-   já criado apenas para as animações.
-  */
-
   if (!reducedMotion) {
 
     revealElements.forEach(
@@ -1500,7 +1577,6 @@
       }
 
     );
-
 
 
     if (
@@ -1558,10 +1634,6 @@
 
         (element, index) => {
 
-          /*
-           Pequeno stagger.
-          */
-
           element.style.transitionDelay =
             `${(index % 4) * 60}ms`;
 
@@ -1598,9 +1670,8 @@
   }
 
 
-
   /* =========================================================
-     17. PROFUNDIDADE DE SCROLL
+     19. PROFUNDIDADE DE SCROLL
      ========================================================= */
 
   const scrollMilestones =
@@ -1701,9 +1772,8 @@
   );
 
 
-
   /* =========================================================
-     18. HERO PARALLAX MUITO DISCRETO
+     20. HERO PARALLAX MUITO DISCRETO
      ========================================================= */
 
   const heroBook =
@@ -1738,11 +1808,6 @@
       );
 
 
-    /*
-     Apenas poucos pixels.
-     O livro não deve parecer flutuando.
-    */
-
     const movement =
       scroll * 0.018;
 
@@ -1767,9 +1832,8 @@
   );
 
 
-
   /* =========================================================
-     19. VIEW BOOK
+     21. VIEW BOOK
      ========================================================= */
 
   trackEvent(
@@ -1789,16 +1853,8 @@
   );
 
 
-
   /* =========================================================
-     20. EXPÕE CONFIGURAÇÃO PARA DEBUG
-     =========================================================
-
-     Permite verificar no Console:
-
-     KEHAI_CONFIG
-
-     sem alterar internamente o código.
+     22. EXPÕE CONFIGURAÇÃO PARA DEBUG
      ========================================================= */
 
   window.KEHAI_CONFIG =
