@@ -315,13 +315,26 @@
 }
 
 
+/* =========================================================
+   BOTÃO PRINCIPAL
+   ========================================================= */
+
 .kehai-book-btn--primary {
 
   background:
-    var(--kehai-green);
+    #1F5148;
 
   color:
-    var(--kehai-white);
+    #FFFFFF !important;
+
+  border:
+    1px solid #1F5148;
+
+  font-weight:
+    700;
+
+  box-shadow:
+    0 3px 10px rgba(13, 37, 34, .08);
 
 }
 
@@ -329,7 +342,16 @@
 .kehai-book-btn--primary:hover {
 
   background:
-    var(--kehai-green-deep);
+    #123A34;
+
+  color:
+    #FFFFFF !important;
+
+  border-color:
+    #123A34;
+
+  box-shadow:
+    0 6px 16px rgba(13, 37, 34, .14);
 
 }
 
@@ -381,13 +403,29 @@
 }
 
 
+/* =========================================================
+   BOTÃO CLARO — FUNDO ESCURO
+   ========================================================= */
+
 .kehai-book-btn--ivory {
 
   background:
-    var(--kehai-ivory);
+    #F5F2E8;
 
   color:
-    var(--kehai-green-black);
+    #123A34 !important;
+
+  border:
+    1px solid #F5F2E8;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .02em;
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, .08);
 
 }
 
@@ -395,7 +433,19 @@
 .kehai-book-btn--ivory:hover {
 
   background:
-    var(--kehai-white);
+    #FFFFFF;
+
+  color:
+    #0D2522 !important;
+
+  border-color:
+    #FFFFFF;
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 7px 20px rgba(0, 0, 0, .12);
 
 }
 
