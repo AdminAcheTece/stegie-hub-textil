@@ -606,138 +606,469 @@
 
 
   /* =========================================================
-     11. GALERIA — LIVRO POR DENTRO
+     GALERIA EDITORIAL — LIVRO POR DENTRO
      ========================================================= */
 
   const galleryMain =
     $("#kehaiBookGalleryMain");
 
 
-  const galleryButtons =
+  const galleryMainButton =
+    $("#kehaiBookGalleryOpen");
+
+
+  const galleryThumbs =
     $$(
-      ".kehai-book-gallery__thumbs button"
+      ".kehai-book-gallery__thumb"
     );
 
 
-  galleryButtons.forEach(
-
-    (button) => {
-
-      button.addEventListener(
-
-        "click",
-
-        () => {
-
-          const image =
-            button.dataset.image;
+  const galleryImages =
+    galleryThumbs.map(
+      button =>
+        button.dataset.image
+    );
 
 
-          if (
-            !image ||
-            !galleryMain
-          ) {
-            return;
-          }
-
-
-          galleryMain.src =
-            image;
-
-
-          galleryButtons.forEach(
-
-            (item) => {
-
-              item.classList.remove(
-                "active"
-              );
-
-            }
-
-          );
-
-
-          button.classList.add(
-            "active"
-          );
-
-
-          const index =
-            galleryButtons.indexOf(
-              button
-            );
-
-
-          trackEvent(
-
-            "open_book_preview",
-
-            {
-              page:
-                index + 1
-            }
-
-          );
-
-        }
-
-      );
-
-    }
-
-  );
-
+  let currentGalleryIndex =
+    0;
 
 
   /* =========================================================
-     12. PRÉ-CARREGAMENTO DAS PÁGINAS
+     TROCA A IMAGEM PRINCIPAL
      ========================================================= */
 
-  function preloadBookPages() {
+  function setGalleryImage(
+    index
+  ) {
 
-    galleryButtons.forEach(
-
-      (button) => {
-
-        const src =
-          button.dataset.image;
-
-
-        if (!src) {
-          return;
-        }
+    if (
+      !galleryImages.length
+      ||
+      !galleryMain
+    ) {
+      return;
+    }
 
 
-        const image =
-          new Image();
+    currentGalleryIndex =
+      (
+        index
+        +
+        galleryImages.length
+      )
+      %
+      galleryImages.length;
 
 
-        image.src =
-          src;
+    /*
+      pequeno fade
+    */
+
+    galleryMain.style.opacity =
+      "0";
+
+
+    window.setTimeout(
+      () => {
+
+        galleryMain.src =
+          galleryImages[
+            currentGalleryIndex
+          ];
+
+
+        galleryMain.style.opacity =
+          "1";
+
+      },
+      120
+    );
+
+
+    galleryThumbs.forEach(
+      (
+        thumb,
+        index
+      ) => {
+
+        thumb.classList.toggle(
+          "active",
+          index === currentGalleryIndex
+        );
 
       }
-
     );
 
   }
 
 
-  /*
-   Faz o preload apenas depois
-   que a página principal carregou.
-  */
+  /* =========================================================
+     HOVER + CLIQUE NAS MINIATURAS
+     ========================================================= */
 
-  window.addEventListener(
+  galleryThumbs.forEach(
+    (
+      thumb,
+      index
+    ) => {
 
-    "load",
 
-    preloadBookPages
+      /*
+        DESKTOP:
+        passar o mouse já troca
+        a imagem principal.
+      */
 
+      thumb.addEventListener(
+        "mouseenter",
+        () => {
+
+          if (
+            window.innerWidth > 767
+          ) {
+
+            setGalleryImage(
+              index
+            );
+
+          }
+
+        }
+      );
+
+
+      /*
+        CLIQUE:
+        troca a imagem e abre ampliada.
+      */
+
+      thumb.addEventListener(
+        "click",
+        () => {
+
+          setGalleryImage(
+            index
+          );
+
+
+          openGalleryLightbox(
+            index
+          );
+
+        }
+      );
+
+    }
   );
 
+  /* =========================================================
+     LIGHTBOX
+     ========================================================= */
+
+  const galleryLightbox =
+    $("#kehaiBookLightbox");
 
 
+  const galleryLightboxImage =
+    $("#kehaiBookLightboxImage");
+
+
+  const galleryLightboxCounter =
+    $("#kehaiBookLightboxCounter");
+
+
+  const galleryLightboxClose =
+    $("#kehaiBookLightboxClose");
+
+
+  const galleryLightboxPrev =
+    $("#kehaiBookLightboxPrev");
+
+
+  const galleryLightboxNext =
+    $("#kehaiBookLightboxNext");
+
+
+
+  function updateGalleryLightbox() {
+
+    if (
+      !galleryLightboxImage
+      ||
+      !galleryImages.length
+    ) {
+      return;
+    }
+
+
+    galleryLightboxImage.src =
+      galleryImages[
+        currentGalleryIndex
+      ];
+
+
+    if (
+      galleryLightboxCounter
+    ) {
+
+      galleryLightboxCounter.textContent =
+        `${
+          String(
+            currentGalleryIndex + 1
+          ).padStart(
+            2,
+            "0"
+          )
+        } / ${
+          String(
+            galleryImages.length
+          ).padStart(
+            2,
+            "0"
+          )
+        }`;
+
+    }
+
+  }
+
+
+
+  function openGalleryLightbox(
+    index = currentGalleryIndex
+  ) {
+
+    if (
+      !galleryLightbox
+    ) {
+      return;
+    }
+
+
+    currentGalleryIndex =
+      index;
+
+
+    updateGalleryLightbox();
+
+
+    galleryLightbox
+      .classList
+      .add(
+        "is-open"
+      );
+
+
+    galleryLightbox
+      .setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+
+    document.body.style.overflow =
+      "hidden";
+
+
+    trackEvent(
+      "open_book_preview",
+      {
+        page:
+          currentGalleryIndex + 1
+      }
+    );
+
+  }
+
+
+
+  function closeGalleryLightbox() {
+
+    if (
+      !galleryLightbox
+    ) {
+      return;
+    }
+
+
+    galleryLightbox
+      .classList
+      .remove(
+        "is-open"
+      );
+
+
+    galleryLightbox
+      .setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+
+    document.body.style.overflow =
+      "";
+
+  }
+
+
+
+  function galleryPrevious() {
+
+    currentGalleryIndex =
+      (
+        currentGalleryIndex
+        -
+        1
+        +
+        galleryImages.length
+      )
+      %
+      galleryImages.length;
+
+
+    setGalleryImage(
+      currentGalleryIndex
+    );
+
+
+    updateGalleryLightbox();
+
+  }
+
+
+
+  function galleryNext() {
+
+    currentGalleryIndex =
+      (
+        currentGalleryIndex
+        +
+        1
+      )
+      %
+      galleryImages.length;
+
+
+    setGalleryImage(
+      currentGalleryIndex
+    );
+
+
+    updateGalleryLightbox();
+
+  }
+
+
+  /* IMAGEM PRINCIPAL */
+
+  galleryMainButton
+    ?.addEventListener(
+      "click",
+      () => {
+
+        openGalleryLightbox(
+          currentGalleryIndex
+        );
+
+      }
+    );
+
+
+  /* FECHAR */
+
+  galleryLightboxClose
+    ?.addEventListener(
+      "click",
+      closeGalleryLightbox
+    );
+
+
+  /* SETAS */
+
+  galleryLightboxPrev
+    ?.addEventListener(
+      "click",
+      galleryPrevious
+    );
+
+
+  galleryLightboxNext
+    ?.addEventListener(
+      "click",
+      galleryNext
+    );
+
+
+  /* CLICAR FORA */
+
+  galleryLightbox
+    ?.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target ===
+          galleryLightbox
+        ) {
+
+          closeGalleryLightbox();
+
+        }
+
+      }
+    );
+
+
+  /* TECLADO */
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        !galleryLightbox
+          ?.classList
+          .contains(
+            "is-open"
+          )
+      ) {
+        return;
+      }
+
+
+      if (
+        event.key ===
+        "Escape"
+      ) {
+
+        closeGalleryLightbox();
+
+      }
+
+
+      if (
+        event.key ===
+        "ArrowLeft"
+      ) {
+
+        galleryPrevious();
+
+      }
+
+
+      if (
+        event.key ===
+        "ArrowRight"
+      ) {
+
+        galleryNext();
+
+      }
+
+    }
+  ); 
+   
   /* =========================================================
      13. FAQ
      ========================================================= */
