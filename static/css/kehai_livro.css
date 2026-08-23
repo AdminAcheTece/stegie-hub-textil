@@ -1717,13 +1717,13 @@
 
 
 /* =========================================================
-   15. GALERIA DO LIVRO
+   15. GALERIA EDITORIAL DO LIVRO
    ========================================================= */
 
 .kehai-book-gallery {
 
   max-width:
-    1040px;
+    1120px;
 
   margin:
     0 auto;
@@ -1731,39 +1731,168 @@
 }
 
 
+/* =========================================================
+   IMAGEM PRINCIPAL
+   ========================================================= */
+
 .kehai-book-gallery__main {
 
-  display:
-    grid;
-
-  place-items:
-    center;
-
-  min-height:
-    480px;
-
-  background:
-    var(--kehai-white);
-
-  border:
-    1px solid rgba(22, 25, 23, .06);
-
-}
-
-
-.kehai-book-gallery__main img {
+  position:
+    relative;
 
   width:
     100%;
 
-  max-height:
-    690px;
+  display:
+    block;
 
-  object-fit:
-    contain;
+  padding:
+    0;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  cursor:
+    zoom-in;
 
 }
 
+
+.kehai-book-gallery__main-frame {
+
+  position:
+    relative;
+
+  overflow:
+    hidden;
+
+  aspect-ratio:
+    4 / 3;
+
+  padding:
+    18px;
+
+  border:
+    1px solid
+    rgba(22, 25, 23, .08);
+
+  background:
+    #F8F5ED;
+
+}
+
+
+/*
+  Pequeno zoom para reduzir a moldura preta
+  existente dentro das imagens.
+*/
+
+.kehai-book-gallery__main-frame img {
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  object-fit:
+    cover;
+
+  transform:
+    scale(1.035);
+
+  transition:
+    opacity 220ms ease,
+    transform 500ms var(--kehai-ease);
+
+}
+
+
+.kehai-book-gallery__main:hover
+.kehai-book-gallery__main-frame img {
+
+  transform:
+    scale(1.055);
+
+}
+
+
+/* =========================================================
+   TEXTO AMPLIAR
+   ========================================================= */
+
+.kehai-book-gallery__zoom {
+
+  position:
+    absolute;
+
+  right:
+    34px;
+
+  bottom:
+    32px;
+
+  z-index:
+    3;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  padding:
+    9px 13px;
+
+  background:
+    rgba(13, 37, 34, .90);
+
+  color:
+    #F5F2E8;
+
+  font-size:
+    12px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    .04em;
+
+  opacity:
+    0;
+
+  transform:
+    translateY(5px);
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+
+}
+
+
+.kehai-book-gallery__main:hover
+.kehai-book-gallery__zoom {
+
+  opacity:
+    1;
+
+  transform:
+    translateY(0);
+
+}
+
+
+/* =========================================================
+   MINIATURAS
+   ========================================================= */
 
 .kehai-book-gallery__thumbs {
 
@@ -1774,51 +1903,100 @@
     repeat(5, 1fr);
 
   gap:
-    12px;
+    14px;
 
   margin-top:
-    18px;
+    22px;
 
 }
 
 
-.kehai-book-gallery__thumbs button {
+.kehai-book-gallery__thumb {
+
+  position:
+    relative;
+
+  overflow:
+    hidden;
 
   padding:
     0;
 
   border:
-    1px solid transparent;
+    1px solid
+    rgba(22, 25, 23, .10);
 
   background:
-    transparent;
+    #F8F5ED;
 
   cursor:
     pointer;
 
   opacity:
-    .68;
+    .72;
 
   transition:
     opacity 180ms ease,
-    border-color 180ms ease;
+    border-color 180ms ease,
+    transform 180ms ease;
 
 }
 
 
-.kehai-book-gallery__thumbs button:hover,
-.kehai-book-gallery__thumbs button.active {
-
-  border-color:
-    var(--kehai-green);
+.kehai-book-gallery__thumb:hover {
 
   opacity:
     1;
 
+  border-color:
+    var(--kehai-gold);
+
+  transform:
+    translateY(-2px);
+
 }
 
 
-.kehai-book-gallery__thumbs img {
+.kehai-book-gallery__thumb.active {
+
+  opacity:
+    1;
+
+  border-color:
+    var(--kehai-green);
+
+}
+
+
+/* indicador ativo */
+
+.kehai-book-gallery__thumb.active::after {
+
+  content:
+    "";
+
+  position:
+    absolute;
+
+  left:
+    0;
+
+  right:
+    0;
+
+  bottom:
+    0;
+
+  height:
+    3px;
+
+  background:
+    var(--kehai-green);
+
+}
+
+
+.kehai-book-gallery__thumb img {
 
   width:
     100%;
@@ -1829,40 +2007,413 @@
   object-fit:
     cover;
 
-}
-
-
-.kehai-book-section--paper
-.kehai-book-container--text {
-
-  margin-top:
-    58px;
-
-  color:
-    var(--kehai-muted);
+  transform:
+    scale(1.03);
 
 }
 
 
-.kehai-book-section--paper blockquote {
+/* número */
 
-  margin:
-    28px auto 0;
+.kehai-book-gallery__thumb > span {
+
+  position:
+    absolute;
+
+  left:
+    8px;
+
+  bottom:
+    7px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  width:
+    28px;
+
+  height:
+    28px;
+
+  background:
+    rgba(245, 242, 232, .94);
 
   color:
-    var(--kehai-green);
+    var(--kehai-green-deep);
 
   font-family:
     var(--kehai-font-serif);
 
   font-size:
-    28px;
-
-  line-height:
-    1.4;
+    12px;
 
 }
 
+
+/* =========================================================
+   LIGHTBOX
+   ========================================================= */
+
+.kehai-book-lightbox {
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    9999;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  visibility:
+    hidden;
+
+  opacity:
+    0;
+
+  padding:
+    40px 90px;
+
+  background:
+    rgba(7, 18, 16, .96);
+
+  transition:
+    opacity 220ms ease,
+    visibility 220ms ease;
+
+}
+
+
+.kehai-book-lightbox.is-open {
+
+  visibility:
+    visible;
+
+  opacity:
+    1;
+
+}
+
+
+.kehai-book-lightbox__content {
+
+  position:
+    relative;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  width:
+    min(1180px, 88vw);
+
+  height:
+    min(86vh, 880px);
+
+}
+
+
+.kehai-book-lightbox__content img {
+
+  max-width:
+    100%;
+
+  max-height:
+    100%;
+
+  object-fit:
+    contain;
+
+  box-shadow:
+    0 30px 80px
+    rgba(0, 0, 0, .30);
+
+}
+
+
+/* contador */
+
+.kehai-book-lightbox__counter {
+
+  position:
+    absolute;
+
+  left:
+    50%;
+
+  bottom:
+    -30px;
+
+  transform:
+    translateX(-50%);
+
+  color:
+    rgba(245, 242, 232, .65);
+
+  font-size:
+    12px;
+
+  letter-spacing:
+    .12em;
+
+}
+
+
+/* botão fechar */
+
+.kehai-book-lightbox__close {
+
+  position:
+    absolute;
+
+  top:
+    22px;
+
+  right:
+    28px;
+
+  width:
+    52px;
+
+  height:
+    52px;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    #F5F2E8;
+
+  cursor:
+    pointer;
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    42px;
+
+  font-weight:
+    300;
+
+}
+
+
+/* setas */
+
+.kehai-book-lightbox__nav {
+
+  position:
+    absolute;
+
+  top:
+    50%;
+
+  width:
+    58px;
+
+  height:
+    58px;
+
+  transform:
+    translateY(-50%);
+
+  border:
+    1px solid
+    rgba(245, 242, 232, .22);
+
+  background:
+    rgba(245, 242, 232, .04);
+
+  color:
+    #F5F2E8;
+
+  cursor:
+    pointer;
+
+  font-size:
+    26px;
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease;
+
+}
+
+
+.kehai-book-lightbox__nav:hover {
+
+  border-color:
+    rgba(245, 242, 232, .6);
+
+  background:
+    rgba(245, 242, 232, .10);
+
+}
+
+
+.kehai-book-lightbox__nav--prev {
+
+  left:
+    26px;
+
+}
+
+
+.kehai-book-lightbox__nav--next {
+
+  right:
+    26px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media
+(max-width: 767px) {
+
+
+  .kehai-book-gallery {
+
+    width:
+      100%;
+
+  }
+
+
+  .kehai-book-gallery__main-frame {
+
+    padding:
+      8px;
+
+  }
+
+
+  .kehai-book-gallery__zoom {
+
+    display:
+      none;
+
+  }
+
+
+  .kehai-book-gallery__thumbs {
+
+    display:
+      flex;
+
+    gap:
+      10px;
+
+    overflow-x:
+      auto;
+
+    margin-right:
+      -20px;
+
+    padding-right:
+      20px;
+
+    padding-bottom:
+      10px;
+
+    scroll-snap-type:
+      x mandatory;
+
+  }
+
+
+  .kehai-book-gallery__thumb {
+
+    flex:
+      0 0 145px;
+
+    scroll-snap-align:
+      start;
+
+  }
+
+
+  .kehai-book-lightbox {
+
+    padding:
+      70px 12px 80px;
+
+  }
+
+
+  .kehai-book-lightbox__content {
+
+    width:
+      100%;
+
+    height:
+      72vh;
+
+  }
+
+
+  .kehai-book-lightbox__nav {
+
+    top:
+      auto;
+
+    bottom:
+      18px;
+
+    transform:
+      none;
+
+  }
+
+
+  .kehai-book-lightbox__nav--prev {
+
+    left:
+      20px;
+
+  }
+
+
+  .kehai-book-lightbox__nav--next {
+
+    right:
+      20px;
+
+  }
+
+
+  .kehai-book-lightbox__close {
+
+    top:
+      10px;
+
+    right:
+      10px;
+
+  }
+
+}
 
 /* =========================================================
    16. FRASE DE RUPTURA
