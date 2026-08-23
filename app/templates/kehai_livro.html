@@ -922,88 +922,176 @@
 
 
 
-        <!-- GALERIA -->
-
+        <!-- =====================================================
+             GALERIA EDITORIAL — LIVRO POR DENTRO
+             ===================================================== -->
+        
         <div class="kehai-book-gallery">
-
-
-          <div class="kehai-book-gallery__main">
-
-            <img
-              id="kehaiBookGalleryMain"
-              src="{{ url_for('static', filename='img/kehai/paginas/kehai-page-01.png') }}"
-              alt="Página interna do livro KEHAI"
+        
+        
+          <!-- IMAGEM PRINCIPAL -->
+        
+          <button
+            class="kehai-book-gallery__main"
+            id="kehaiBookGalleryOpen"
+            type="button"
+            aria-label="Ampliar página do livro"
+          >
+        
+            <div class="kehai-book-gallery__main-frame">
+        
+              <img
+                id="kehaiBookGalleryMain"
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-01.png') }}"
+                alt="Página interna do livro KEHAI"
+              >
+        
+            </div>
+        
+        
+            <span class="kehai-book-gallery__zoom">
+        
+              Ampliar página
+        
+              <span aria-hidden="true">
+                ↗
+              </span>
+        
+            </span>
+        
+          </button>
+        
+        
+        
+          <!-- MINIATURAS -->
+        
+          <div
+            class="kehai-book-gallery__thumbs"
+            role="list"
+            aria-label="Páginas internas do livro KEHAI"
+          >
+        
+        
+            <!-- PÁGINA 01 -->
+        
+            <button
+              class="kehai-book-gallery__thumb active"
+              type="button"
+              data-index="0"
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-01.png') }}"
+              aria-label="Visualizar página 1"
+              role="listitem"
             >
-
+        
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-01.png') }}"
+                alt="Abertura do livro KEHAI"
+              >
+        
+              <span>
+                01
+              </span>
+        
+            </button>
+        
+        
+        
+            <!-- PÁGINA 02 -->
+        
+            <button
+              class="kehai-book-gallery__thumb"
+              type="button"
+              data-index="1"
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-02.png') }}"
+              aria-label="Visualizar página 2"
+              role="listitem"
+            >
+        
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-02.png') }}"
+                alt="Reflexão KEHAI"
+              >
+        
+              <span>
+                02
+              </span>
+        
+            </button>
+        
+        
+        
+            <!-- PÁGINA 03 -->
+        
+            <button
+              class="kehai-book-gallery__thumb"
+              type="button"
+              data-index="2"
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-03.png') }}"
+              aria-label="Visualizar página 3"
+              role="listitem"
+            >
+        
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-03.png') }}"
+                alt="História do livro KEHAI"
+              >
+        
+              <span>
+                03
+              </span>
+        
+            </button>
+        
+        
+        
+            <!-- PÁGINA 04 -->
+        
+            <button
+              class="kehai-book-gallery__thumb"
+              type="button"
+              data-index="3"
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-04.png') }}"
+              aria-label="Visualizar página 4"
+              role="listitem"
+            >
+        
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-04.png') }}"
+                alt="Os quatro movimentos KEHAI"
+              >
+        
+              <span>
+                04
+              </span>
+        
+            </button>
+        
+        
+        
+            <!-- PÁGINA 05 -->
+        
+            <button
+              class="kehai-book-gallery__thumb"
+              type="button"
+              data-index="4"
+              data-image="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-05.png') }}"
+              aria-label="Visualizar página 5"
+              role="listitem"
+            >
+        
+              <img
+                src="{{ url_for('static', filename='IMG/kehai/paginas/kehai-page-05.png') }}"
+                alt="Pergunta final KEHAI"
+              >
+        
+              <span>
+                05
+              </span>
+        
+            </button>
+        
           </div>
-
-
-          <div class="kehai-book-gallery__thumbs">
-
-
-            <button
-              class="active"
-              data-image="{{ url_for('static', filename='img/kehai/paginas/kehai-page-01.png') }}"
-            >
-
-              <img
-                src="{{ url_for('static', filename='img/kehai/paginas/kehai-page-01.png') }}"
-                alt="Página 1 do livro KEHAI"
-              >
-
-            </button>
-
-
-            <button
-              data-image="{{ url_for('static', filename='img/kehai/paginas/kehai-page-02.png') }}"
-            >
-
-              <img
-                src="{{ url_for('static', filename='img/kehai/paginas/kehai-page-02.png') }}"
-                alt="Página 2 do livro KEHAI"
-              >
-
-            </button>
-
-
-            <button
-              data-image="{{ url_for('static', filename='img/kehai/paginas/kehai-page-03.png') }}"
-            >
-
-              <img
-                src="{{ url_for('static', filename='img/kehai/paginas/kehai-page-03.png') }}"
-                alt="Página 3 do livro KEHAI"
-              >
-
-            </button>
-
-
-            <button
-              data-image="{{ url_for('static', filename='img/kehai/paginas/kehai-page-04.png') }}"
-            >
-
-              <img
-                src="{{ url_for('static', filename='img/kehai/paginas/kehai-page-04.png') }}"
-                alt="Página 4 do livro KEHAI"
-              >
-
-            </button>
-
-
-            <button
-              data-image="{{ url_for('static', filename='img/kehai/paginas/kehai-page-05.png') }}"
-            >
-
-              <img
-                src="{{ url_for('static', filename='img/kehai/paginas/kehai-page-05.png') }}"
-                alt="Página 5 do livro KEHAI"
-              >
-
-            </button>
-
-
-          </div>
-
+        
         </div>
 
 
@@ -1980,6 +2068,81 @@
 
   </div>
 
+  <!-- =====================================================
+       LIGHTBOX — PÁGINAS DO LIVRO
+       ===================================================== -->
+  
+  <div
+    class="kehai-book-lightbox"
+    id="kehaiBookLightbox"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Visualização ampliada do livro KEHAI"
+  >
+  
+  
+    <!-- FECHAR -->
+  
+    <button
+      class="kehai-book-lightbox__close"
+      id="kehaiBookLightboxClose"
+      type="button"
+      aria-label="Fechar visualização"
+    >
+      ×
+    </button>
+  
+  
+  
+    <!-- ANTERIOR -->
+  
+    <button
+      class="kehai-book-lightbox__nav kehai-book-lightbox__nav--prev"
+      id="kehaiBookLightboxPrev"
+      type="button"
+      aria-label="Página anterior"
+    >
+      ←
+    </button>
+  
+  
+  
+    <!-- IMAGEM -->
+  
+    <div class="kehai-book-lightbox__content">
+  
+      <img
+        id="kehaiBookLightboxImage"
+        src=""
+        alt="Página ampliada do livro KEHAI"
+      >
+  
+      <div
+        class="kehai-book-lightbox__counter"
+        id="kehaiBookLightboxCounter"
+      >
+        01 / 05
+      </div>
+  
+    </div>
+  
+  
+  
+    <!-- PRÓXIMA -->
+  
+    <button
+      class="kehai-book-lightbox__nav kehai-book-lightbox__nav--next"
+      id="kehaiBookLightboxNext"
+      type="button"
+      aria-label="Próxima página"
+    >
+      →
+    </button>
+  
+  
+  </div>
+  
 
 
   <!-- =====================================================
