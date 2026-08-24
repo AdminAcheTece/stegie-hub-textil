@@ -1,4 +1,6 @@
 import os
+import mercadopago
+
 from flask import (
     Flask,
     render_template,
@@ -8,6 +10,7 @@ from flask import (
     flash,
     abort,
     session,
+    jsonify,
 )
 from jinja2 import ChoiceLoader, FileSystemLoader, FunctionLoader
 
@@ -79,6 +82,24 @@ app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 
 # Bust de cache (usado no base.html via config.get('ASSET_VERSION'))
 app.config["ASSET_VERSION"] = os.environ.get("ASSET_VERSION", "1")
+
+# -----------------------------
+# Mercado Pago
+# -----------------------------
+
+MERCADO_PAGO_ACCESS_TOKEN = os.environ.get(
+    "MERCADO_PAGO_ACCESS_TOKEN",
+    ""
+).strip()
+
+
+def get_mercadopago_sdk():
+    if not MERCADO_PAGO_ACCESS_TOKEN:
+        raise RuntimeError(
+            "MERCADO_PAGO_ACCESS_TOKEN não está configurado no servidor."
+        )
+
+    return mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
 
 # Logs de boot
 print(f"[BOOT] BASE_DIR={BASE_DIR}")
