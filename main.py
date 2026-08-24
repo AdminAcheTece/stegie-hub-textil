@@ -1,6 +1,11 @@
 import os
 import mercadopago
 
+from mercadopago.webhook import (
+    WebhookSignatureValidator,
+    InvalidWebhookSignatureError,
+)
+
 from flask import (
     Flask,
     render_template,
@@ -92,6 +97,10 @@ MERCADO_PAGO_ACCESS_TOKEN = os.environ.get(
     ""
 ).strip()
 
+MERCADO_PAGO_WEBHOOK_SECRET = os.environ.get(
+    "MERCADO_PAGO_WEBHOOK_SECRET",
+    ""
+).strip()
 
 def get_mercadopago_sdk():
     if not MERCADO_PAGO_ACCESS_TOKEN:
@@ -999,59 +1008,152 @@ def kehai_checkout():
 def kehai_mercadopago_webhook():
 
     try:
-        dados = request.get_json(silent=True) or {}
+
+        # -------------------------------------------------
+        # 1. Verificar se a chave secreta está configurada
+        # -------------------------------------------------
+
+        if not MERCADO_PAGO_WEBHOOK_SECRET:
+
+            print(
+                "[MERCADO PAGO WEBHOOK] "
+                "Assinatura secreta não configurada."
+            )
+
+            return jsonify({
+                "received": False,
+                "error": "Webhook não configurado."
+            }), 500
+
+
+        # -------------------------------------------------
+        # 2. Validar se a notificação veio do Mercado Pago
+        # -------------------------------------------------
+
+        x_signature = request.headers.get(
+            "x-signature"
+        )
+
+        x_request_id = request.headers.get(
+            "x-request-id"
+        )
+
+        data_id_query = request.args.get(
+            "data.id"
+        )
+
+
+        try:
+
+            WebhookSignatureValidator.validate(
+                x_signature,
+                x_request_id,
+                data_id_query,
+                MERCADO_PAGO_WEBHOOK_SECRET,
+            )
+
+        except InvalidWebhookSignatureError:
+
+            print(
+                "[MERCADO PAGO WEBHOOK] "
+                "Assinatura inválida."
+            )
+
+            return jsonify({
+                "received": False,
+                "error": "Assinatura inválida."
+            }), 401
+
+
+        # -------------------------------------------------
+        # 3. Ler os dados da notificação
+        # -------------------------------------------------
+
+        dados = request.get_json(
+            silent=True
+        ) or {}
+
 
         tipo = (
             dados.get("type")
             or request.args.get("type")
         )
 
+
         data_id = (
             dados.get("data", {}).get("id")
-            or request.args.get("data.id")
+            or data_id_query
         )
 
+
         print(
-            f"[MERCADO PAGO WEBHOOK] "
-            f"type={tipo} data_id={data_id}"
+            "[MERCADO PAGO WEBHOOK] "
+            f"type={tipo} "
+            f"data_id={data_id}"
         )
+
+
+        # -------------------------------------------------
+        # 4. Consultar o pagamento no Mercado Pago
+        # -------------------------------------------------
 
         if tipo == "payment" and data_id:
 
             sdk = get_mercadopago_sdk()
 
             pagamento_response = (
-                sdk.payment().get(data_id)
+                sdk.payment().get(
+                    data_id
+                )
             )
+
 
             pagamento = pagamento_response.get(
                 "response",
                 {}
             )
 
-            status = pagamento.get("status")
+
+            status = pagamento.get(
+                "status"
+            )
+
 
             external_reference = pagamento.get(
                 "external_reference"
             )
 
+
+            valor = pagamento.get(
+                "transaction_amount"
+            )
+
+
             print(
                 "[MERCADO PAGO WEBHOOK] "
                 f"payment_id={data_id} "
                 f"status={status} "
-                f"external_reference={external_reference}"
+                f"external_reference={external_reference} "
+                f"valor={valor}"
             )
+
+
+        # -------------------------------------------------
+        # 5. Confirmar recebimento
+        # -------------------------------------------------
 
         return jsonify({
             "received": True
         }), 200
 
+
     except Exception as erro:
 
         print(
             "[MERCADO PAGO WEBHOOK] "
-            f"Erro: {erro}"
+            f"Erro inesperado: {erro}"
         )
+
 
         return jsonify({
             "received": False
