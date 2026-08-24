@@ -1146,6 +1146,272 @@ def kehai_melhor_envio_callback():
     """
 
 # =====================================================
+# KEHAI - MELHOR ENVIO - COTAÇÃO DE FRETE
+# =====================================================
+
+@app.route(
+    "/api/kehai/frete",
+    methods=["POST"]
+)
+def kehai_calcular_frete():
+
+    try:
+
+        # ---------------------------------------------
+        # 1. Receber o CEP informado pelo comprador
+        # ---------------------------------------------
+
+        dados = request.get_json(
+            silent=True
+        ) or {}
+
+
+        cep_destino = str(
+            dados.get("cep", "")
+        )
+
+
+        cep_destino = (
+            cep_destino
+            .replace("-", "")
+            .replace(".", "")
+            .replace(" ", "")
+        )
+
+
+        if (
+            len(cep_destino) != 8
+            or not cep_destino.isdigit()
+        ):
+
+            return jsonify({
+                "success": False,
+                "error": "CEP inválido."
+            }), 400
+
+
+        # ---------------------------------------------
+        # 2. Carregar o token do Melhor Envio
+        # ---------------------------------------------
+
+        if not os.path.exists(
+            MELHOR_ENVIO_TOKEN_FILE
+        ):
+
+            return jsonify({
+                "success": False,
+                "error":
+                    "Melhor Envio ainda não autorizado."
+            }), 500
+
+
+        with open(
+            MELHOR_ENVIO_TOKEN_FILE,
+            "r",
+            encoding="utf-8"
+        ) as arquivo:
+
+            token_data = json.load(
+                arquivo
+            )
+
+
+        access_token = token_data.get(
+            "access_token"
+        )
+
+
+        if not access_token:
+
+            return jsonify({
+                "success": False,
+                "error":
+                    "Token do Melhor Envio não encontrado."
+            }), 500
+
+
+        # ---------------------------------------------
+        # 3. Montar a cotação
+        # ---------------------------------------------
+
+        payload = {
+
+            "from": {
+                "postal_code":
+                    "89260215"
+            },
+
+            "to": {
+                "postal_code":
+                    cep_destino
+            },
+
+            "products": [
+                {
+                    "id":
+                        "KEHAI-LIVRO-FISICO",
+
+                    "width":
+                        18,
+
+                    "height":
+                        4,
+
+                    "length":
+                        25,
+
+                    "weight":
+                        0.25,
+
+                    "insurance_value":
+                        79.90,
+
+                    "quantity":
+                        1
+                }
+            ],
+
+            "options": {
+                "receipt":
+                    False,
+
+                "own_hand":
+                    False,
+
+                "collect":
+                    False
+            }
+        }
+
+
+        # ---------------------------------------------
+        # 4. Chamar a API do Melhor Envio
+        # ---------------------------------------------
+
+        url = (
+            f"{MELHOR_ENVIO_BASE_URL}"
+            "/api/v2/me/shipment/calculate"
+        )
+
+
+        headers = {
+            "Authorization":
+                f"Bearer {access_token}",
+
+            "Accept":
+                "application/json",
+
+            "Content-Type":
+                "application/json",
+
+            "User-Agent":
+                MELHOR_ENVIO_USER_AGENT,
+        }
+
+
+        response = requests.post(
+            url,
+            json=payload,
+            headers=headers,
+            timeout=20,
+        )
+
+
+        if not response.ok:
+
+            print(
+                "[MELHOR ENVIO] "
+                f"Erro cotação: "
+                f"{response.status_code} "
+                f"{response.text}"
+            )
+
+            return jsonify({
+                "success": False,
+                "error":
+                    "Não foi possível calcular o frete."
+            }), 500
+
+
+        cotacoes = response.json()
+
+
+        # ---------------------------------------------
+        # 5. Filtrar somente cotações válidas
+        # ---------------------------------------------
+
+        opcoes = []
+
+
+        for cotacao in cotacoes:
+
+            if cotacao.get("error"):
+                continue
+
+
+            preco = (
+                cotacao.get("custom_price")
+                or cotacao.get("price")
+            )
+
+
+            prazo = (
+                cotacao.get(
+                    "custom_delivery_time"
+                )
+                or cotacao.get(
+                    "delivery_time"
+                )
+            )
+
+
+            company = (
+                cotacao.get("company")
+                or {}
+            )
+
+
+            opcoes.append({
+                "id":
+                    cotacao.get("id"),
+
+                "servico":
+                    cotacao.get("name"),
+
+                "transportadora":
+                    company.get("name"),
+
+                "preco":
+                    preco,
+
+                "prazo_dias":
+                    prazo,
+            })
+
+
+        return jsonify({
+            "success": True,
+            "cep":
+                cep_destino,
+            "opcoes":
+                opcoes
+        })
+
+
+    except Exception as erro:
+
+        print(
+            "[MELHOR ENVIO] "
+            f"Erro inesperado na cotação: {erro}"
+        )
+
+        return jsonify({
+            "success": False,
+            "error":
+                "Erro interno ao calcular o frete."
+        }), 500
+
+# =====================================================
 # KEHAI - CHECKOUT MERCADO PAGO
 # =====================================================
 
