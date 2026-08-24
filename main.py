@@ -150,7 +150,7 @@ MELHOR_ENVIO_USER_AGENT = os.environ.get(
 # Apenas para os testes no Sandbox.
 # Antes da produção criaremos armazenamento permanente.
 MELHOR_ENVIO_TOKEN_FILE = (
-    "/tmp/kehai_melhor_envio_token.json"
+    "/var/data/kehai_melhor_envio_token.json"
 )
 
 # Logs de boot
