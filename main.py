@@ -147,8 +147,7 @@ MELHOR_ENVIO_USER_AGENT = os.environ.get(
 ).strip()
 
 
-# Apenas para os testes no Sandbox.
-# Antes da produção criaremos armazenamento permanente.
+# Token OAuth salvo no disco persistente do Render.
 MELHOR_ENVIO_TOKEN_FILE = (
     "/var/data/kehai_melhor_envio_token.json"
 )
@@ -1467,6 +1466,70 @@ def kehai_calcular_frete():
             headers=headers,
             timeout=20,
         )
+
+
+        # ---------------------------------------------
+        # Se o token expirou, renovar e repetir
+        # ---------------------------------------------
+
+        if response.status_code == 401:
+
+            print(
+                "[MELHOR ENVIO] "
+                "Token expirado ou inválido. "
+                "Tentando renovação automática."
+            )
+
+
+            try:
+
+                novo_token_data = (
+                    renovar_token_melhor_envio()
+                )
+
+
+                novo_access_token = (
+                    novo_token_data.get(
+                        "access_token"
+                    )
+                )
+
+
+                if not novo_access_token:
+
+                    raise RuntimeError(
+                        "Novo access token não recebido."
+                    )
+
+
+                headers[
+                    "Authorization"
+                ] = (
+                    f"Bearer {novo_access_token}"
+                )
+
+
+                response = requests.post(
+                    url,
+                    json=payload,
+                    headers=headers,
+                    timeout=20,
+                )
+
+
+            except Exception as erro:
+
+                print(
+                    "[MELHOR ENVIO] "
+                    f"Falha na renovação automática: {erro}"
+                )
+
+
+                return jsonify({
+                    "success": False,
+                    "error":
+                        "A autorização do frete precisa ser renovada."
+                }), 500
 
 
         if not response.ok:
