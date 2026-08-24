@@ -1,4 +1,7 @@
 import os
+import json
+import secrets
+import requests
 import mercadopago
 
 from mercadopago.webhook import (
@@ -109,6 +112,46 @@ def get_mercadopago_sdk():
         )
 
     return mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
+
+# -----------------------------
+# Melhor Envio - Sandbox
+# -----------------------------
+
+MELHOR_ENVIO_BASE_URL = os.environ.get(
+    "MELHOR_ENVIO_BASE_URL",
+    "https://sandbox.melhorenvio.com.br"
+).rstrip("/")
+
+
+MELHOR_ENVIO_CLIENT_ID = os.environ.get(
+    "MELHOR_ENVIO_CLIENT_ID",
+    ""
+).strip()
+
+
+MELHOR_ENVIO_CLIENT_SECRET = os.environ.get(
+    "MELHOR_ENVIO_CLIENT_SECRET",
+    ""
+).strip()
+
+
+MELHOR_ENVIO_REDIRECT_URI = os.environ.get(
+    "MELHOR_ENVIO_REDIRECT_URI",
+    ""
+).strip()
+
+
+MELHOR_ENVIO_USER_AGENT = os.environ.get(
+    "MELHOR_ENVIO_USER_AGENT",
+    ""
+).strip()
+
+
+# Apenas para os testes no Sandbox.
+# Antes da produção criaremos armazenamento permanente.
+MELHOR_ENVIO_TOKEN_FILE = (
+    "/tmp/kehai_melhor_envio_token.json"
+)
 
 # Logs de boot
 print(f"[BOOT] BASE_DIR={BASE_DIR}")
@@ -929,6 +972,178 @@ def kehai():
 @app.route("/kehai/livro")
 def kehai_livro():
     return render_template("kehai_livro.html")
+
+# =====================================================
+# KEHAI - MELHOR ENVIO - AUTORIZAÇÃO
+# =====================================================
+
+@app.route("/api/kehai/melhor-envio/autorizar")
+def kehai_melhor_envio_autorizar():
+
+    if not all([
+        MELHOR_ENVIO_CLIENT_ID,
+        MELHOR_ENVIO_CLIENT_SECRET,
+        MELHOR_ENVIO_REDIRECT_URI,
+        MELHOR_ENVIO_USER_AGENT,
+    ]):
+        return (
+            "Configuração do Melhor Envio incompleta.",
+            500
+        )
+
+    state = secrets.token_urlsafe(24)
+
+    session[
+        "melhor_envio_oauth_state"
+    ] = state
+
+    params = {
+        "client_id": MELHOR_ENVIO_CLIENT_ID,
+        "redirect_uri": MELHOR_ENVIO_REDIRECT_URI,
+        "response_type": "code",
+        "state": state,
+        "scope": "shipping-calculate",
+    }
+
+    authorization_url = (
+        f"{MELHOR_ENVIO_BASE_URL}"
+        "/oauth/authorize"
+    )
+
+    return redirect(
+        authorization_url
+        + "?"
+        + requests.compat.urlencode(params)
+    )
+
+@app.route(
+    "/api/kehai/melhor-envio/callback"
+)
+def kehai_melhor_envio_callback():
+
+    erro = request.args.get("error")
+
+    if erro:
+        return (
+            f"Autorização negada: {erro}",
+            400
+        )
+
+
+    code = request.args.get("code")
+
+    state = request.args.get("state")
+
+
+    expected_state = session.pop(
+        "melhor_envio_oauth_state",
+        None
+    )
+
+
+    if (
+        not state
+        or not expected_state
+        or state != expected_state
+    ):
+        return (
+            "Estado de autorização inválido.",
+            400
+        )
+
+
+    if not code:
+        return (
+            "Código de autorização não recebido.",
+            400
+        )
+
+
+    token_url = (
+        f"{MELHOR_ENVIO_BASE_URL}"
+        "/oauth/token"
+    )
+
+
+    payload = {
+        "grant_type":
+            "authorization_code",
+
+        "client_id":
+            MELHOR_ENVIO_CLIENT_ID,
+
+        "client_secret":
+            MELHOR_ENVIO_CLIENT_SECRET,
+
+        "redirect_uri":
+            MELHOR_ENVIO_REDIRECT_URI,
+
+        "code":
+            code,
+    }
+
+
+    headers = {
+        "Accept":
+            "application/json",
+
+        "User-Agent":
+            MELHOR_ENVIO_USER_AGENT,
+    }
+
+
+    response = requests.post(
+        token_url,
+        data=payload,
+        headers=headers,
+        timeout=20,
+    )
+
+
+    if not response.ok:
+
+        print(
+            "[MELHOR ENVIO] "
+            f"Erro OAuth: {response.status_code} "
+            f"{response.text}"
+        )
+
+        return (
+            "Não foi possível concluir "
+            "a autorização do Melhor Envio.",
+            500
+        )
+
+
+    token_data = response.json()
+
+
+    # Armazenamento temporário apenas no Sandbox.
+    with open(
+        MELHOR_ENVIO_TOKEN_FILE,
+        "w",
+        encoding="utf-8"
+    ) as arquivo:
+
+        json.dump(
+            token_data,
+            arquivo
+        )
+
+
+    print(
+        "[MELHOR ENVIO] "
+        "Autorização concluída com sucesso."
+    )
+
+
+    return """
+    <h1>Melhor Envio autorizado</h1>
+    <p>
+        A integração KEHAI foi autorizada
+        com sucesso no ambiente Sandbox.
+    </p>
+    """
 
 # =====================================================
 # KEHAI - CHECKOUT MERCADO PAGO
