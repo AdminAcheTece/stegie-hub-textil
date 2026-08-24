@@ -91,175 +91,322 @@
     trackEvent;
 
 
-  /* =========================================================
-     4. CONFIGURAÇÃO DOS LINKS DE COMPRA
-     ========================================================= */
+    /* =========================================================
+       4. CONFIGURAÇÃO DOS LINKS DE COMPRA
+       ========================================================= */
 
-  const physicalButtons = [
+    const physicalButtons = [
 
-    $("#kehaiBuyPhysical"),
+      $("#kehaiBuyPhysical"),
 
-    $("#kehaiBuyFinal")
+      $("#kehaiBuyFinal")
 
-  ].filter(Boolean);
-
-
-  const signedButton =
-    $("#kehaiBuySigned");
+    ].filter(Boolean);
 
 
-  const ebookButton =
-    $("#kehaiBuyEbook");
+    const signedButton =
+      $("#kehaiBuySigned");
 
 
-  const corporateButton =
-    $("#kehaiCorporate");
+    const ebookButton =
+      $("#kehaiBuyEbook");
 
 
-  function configureCommercialLink(
-    element,
-    url,
-    eventName,
-    options = {}
-  ) {
-
-    if (!element) {
-      return;
-    }
+    const corporateButton =
+      $("#kehaiCorporate");
 
 
-    if (!url) {
+    /*
+      Links comerciais que ainda utilizarão
+      endereço externo/fixo.
+    */
+    function configureCommercialLink(
+      element,
+      url,
+      eventName,
+      options = {}
+    ) {
 
-      element.setAttribute(
-        "href",
-        "#"
-      );
-
-
-      element.dataset.kehaiMissingLink =
-        "true";
-
-    }
-
-    else {
-
-      element.setAttribute(
-        "href",
-        url
-      );
+      if (!element) {
+        return;
+      }
 
 
-      element.dataset.kehaiMissingLink =
-        "false";
-
-
-      if (
-        options.newTab === true
-      ) {
+      if (!url) {
 
         element.setAttribute(
-          "target",
-          "_blank"
+          "href",
+          "#"
         );
 
 
-        element.setAttribute(
-          "rel",
-          "noopener noreferrer"
-        );
+        element.dataset.kehaiMissingLink =
+          "true";
 
       }
 
-    }
+      else {
 
-
-    element.addEventListener(
-      "click",
-      (event) => {
-
-        trackEvent(
-          eventName,
-          {
-            destination:
-              url || "not_configured"
-          }
+        element.setAttribute(
+          "href",
+          url
         );
 
 
-        if (!url) {
+        element.dataset.kehaiMissingLink =
+          "false";
 
-          event.preventDefault();
+
+        if (
+          options.newTab === true
+        ) {
+
+          element.setAttribute(
+            "target",
+            "_blank"
+          );
 
 
-          console.warn(
-            `[KEHAI] O link "${eventName}" ainda não foi configurado em KEHAI_CONFIG.links.`
+          element.setAttribute(
+            "rel",
+            "noopener noreferrer"
           );
 
         }
 
       }
-    );
-
-  }
 
 
-  physicalButtons.forEach(
-    (button) => {
+      element.addEventListener(
+        "click",
+        (event) => {
 
-      configureCommercialLink(
+          trackEvent(
+            eventName,
+            {
+              destination:
+                url || "not_configured"
+            }
+          );
 
-        button,
 
-        KEHAI_CONFIG.links.physical,
+          if (!url) {
 
-        "click_buy_physical"
+            event.preventDefault();
 
+            console.warn(
+              `[KEHAI] O link "${eventName}" ainda não foi configurado.`
+            );
+
+          }
+
+        }
       );
 
     }
-  );
 
 
-  configureCommercialLink(
+    /*
+      Checkout Mercado Pago
+      Livro físico KEHAI
+    */
+    function configureMercadoPagoCheckout(
+      button
+    ) {
 
-    signedButton,
-
-    KEHAI_CONFIG.links.signed,
-
-    "click_buy_signed"
-
-  );
+      if (!button) {
+        return;
+      }
 
 
-  configureCommercialLink(
+      button.setAttribute(
+        "href",
+        "#"
+      );
 
-    ebookButton,
 
-    KEHAI_CONFIG.links.ebook,
+      button.addEventListener(
+        "click",
+        async (event) => {
 
-    "click_buy_ebook",
+          event.preventDefault();
 
-    {
-      newTab: true
+
+          /*
+            Evita dois cliques e,
+            consequentemente,
+            duas preferências simultâneas.
+          */
+          if (
+            button.dataset.kehaiCheckoutLoading
+            ===
+            "true"
+          ) {
+            return;
+          }
+
+
+          trackEvent(
+            "click_buy_physical",
+            {
+              destination:
+                "mercado_pago"
+            }
+          );
+
+
+          const originalHTML =
+            button.innerHTML;
+
+
+          button.dataset.kehaiCheckoutLoading =
+            "true";
+
+
+          button.setAttribute(
+            "aria-busy",
+            "true"
+          );
+
+
+          button.innerHTML =
+            "Abrindo checkout...";
+
+
+          try {
+
+            const response =
+              await fetch(
+                "/api/kehai/checkout",
+                {
+                  method:
+                    "POST",
+
+                  headers: {
+                    "Content-Type":
+                      "application/json"
+                  },
+
+                  body:
+                    JSON.stringify({
+                      product:
+                        "physical"
+                    })
+                }
+              );
+
+
+            const data =
+              await response.json();
+
+
+            if (
+              !response.ok
+              ||
+              !data.success
+            ) {
+
+              throw new Error(
+                data.error
+                ||
+                "Não foi possível criar o checkout."
+              );
+
+            }
+
+
+            if (
+              !data.checkout_url
+            ) {
+
+              throw new Error(
+                "O Mercado Pago não retornou a URL do checkout."
+              );
+
+            }
+
+
+            /*
+              Redireciona o comprador
+              para o Checkout Pro.
+            */
+            window.location.assign(
+              data.checkout_url
+            );
+
+          }
+
+          catch (error) {
+
+            console.error(
+              "[KEHAI] Erro ao iniciar Mercado Pago:",
+              error
+            );
+
+
+            alert(
+              "Não foi possível abrir o pagamento agora. Por favor, tente novamente."
+            );
+
+
+            button.dataset.kehaiCheckoutLoading =
+              "false";
+
+
+            button.removeAttribute(
+              "aria-busy"
+            );
+
+
+            button.innerHTML =
+              originalHTML;
+
+          }
+
+        }
+      );
+
     }
 
-  );
+
+    /*
+      Liga os dois botões de compra
+      do livro físico ao Mercado Pago.
+    */
+    physicalButtons.forEach(
+      configureMercadoPagoCheckout
+    );
 
 
-  configureCommercialLink(
+    /*
+      Demais modalidades permanecem
+      preparadas para configuração posterior.
+    */
+    configureCommercialLink(
+      signedButton,
+      KEHAI_CONFIG.links.signed,
+      "click_buy_signed"
+    );
 
-    corporateButton,
 
-    KEHAI_CONFIG.links.corporate,
+    configureCommercialLink(
+      ebookButton,
+      KEHAI_CONFIG.links.ebook,
+      "click_buy_ebook",
+      {
+        newTab: true
+      }
+    );
 
-    "click_corporate",
 
-    {
-      newTab: true
-    }
-
-  );
-
+    configureCommercialLink(
+      corporateButton,
+      KEHAI_CONFIG.links.corporate,
+      "click_corporate",
+      {
+        newTab: true
+      }
+    );
 
   /* =========================================================
      5. MENU MOBILE
