@@ -921,6 +921,76 @@ def kehai():
 def kehai_livro():
     return render_template("kehai_livro.html")
 
+# =====================================================
+# KEHAI - CHECKOUT MERCADO PAGO
+# =====================================================
+
+@app.route("/api/kehai/checkout", methods=["POST"])
+def kehai_checkout():
+
+    try:
+        dados = request.get_json(silent=True) or {}
+
+        produto = dados.get("product")
+
+        produtos_kehai = {
+            "physical": {
+                "title": "KEHAI - Livro Físico",
+                "quantity": 1,
+                "currency_id": "BRL",
+                "unit_price": 79.90,
+            }
+        }
+
+        if produto not in produtos_kehai:
+            return jsonify({
+                "success": False,
+                "error": "Produto inválido."
+            }), 400
+
+        sdk = get_mercadopago_sdk()
+
+        preference_data = {
+
+            "items": [
+                produtos_kehai[produto]
+            ],
+
+            "back_urls": {
+                "success": "https://www.stegie.com.br/kehai/compra/sucesso",
+                "failure": "https://www.stegie.com.br/kehai/compra/erro",
+                "pending": "https://www.stegie.com.br/kehai/compra/pendente",
+            },
+
+            "auto_return": "approved",
+
+            "external_reference": f"KEHAI-{produto}",
+        }
+
+        preference_response = sdk.preference().create(
+            preference_data
+        )
+
+        preference = preference_response["response"]
+
+        return jsonify({
+            "success": True,
+            "preference_id": preference.get("id"),
+            "checkout_url": preference.get("init_point"),
+            "sandbox_checkout_url": preference.get("sandbox_init_point"),
+        })
+
+    except Exception as erro:
+
+        print(
+            f"[MERCADO PAGO] Erro ao criar checkout: {erro}"
+        )
+
+        return jsonify({
+            "success": False,
+            "error": "Não foi possível iniciar o pagamento."
+        }), 500
+
 @app.route("/solucoes-vitrine")
 def solucoes_vitrine():
     return render_template("solucoes_vitrine.html")
