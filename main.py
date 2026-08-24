@@ -991,6 +991,33 @@ def kehai_checkout():
             "error": "Não foi possível iniciar o pagamento."
         }), 500
 
+# =====================================================
+# KEHAI - RETORNOS DO PAGAMENTO
+# =====================================================
+
+@app.route("/kehai/compra/sucesso")
+def kehai_compra_sucesso():
+    return """
+    <h1>Pagamento aprovado</h1>
+    <p>Obrigado pela sua compra do livro KEHAI.</p>
+    """
+
+
+@app.route("/kehai/compra/pendente")
+def kehai_compra_pendente():
+    return """
+    <h1>Pagamento pendente</h1>
+    <p>Seu pagamento está sendo processado.</p>
+    """
+
+
+@app.route("/kehai/compra/erro")
+def kehai_compra_erro():
+    return """
+    <h1>Pagamento não concluído</h1>
+    <p>Não foi possível concluir o pagamento.</p>
+    """
+
 @app.route("/solucoes-vitrine")
 def solucoes_vitrine():
     return render_template("solucoes_vitrine.html")
