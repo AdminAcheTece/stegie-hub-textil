@@ -992,6 +992,72 @@ def kehai_checkout():
         }), 500
 
 # =====================================================
+# KEHAI - WEBHOOK MERCADO PAGO
+# =====================================================
+
+@app.route("/api/kehai/webhook", methods=["POST"])
+def kehai_mercadopago_webhook():
+
+    try:
+        dados = request.get_json(silent=True) or {}
+
+        tipo = (
+            dados.get("type")
+            or request.args.get("type")
+        )
+
+        data_id = (
+            dados.get("data", {}).get("id")
+            or request.args.get("data.id")
+        )
+
+        print(
+            f"[MERCADO PAGO WEBHOOK] "
+            f"type={tipo} data_id={data_id}"
+        )
+
+        if tipo == "payment" and data_id:
+
+            sdk = get_mercadopago_sdk()
+
+            pagamento_response = (
+                sdk.payment().get(data_id)
+            )
+
+            pagamento = pagamento_response.get(
+                "response",
+                {}
+            )
+
+            status = pagamento.get("status")
+
+            external_reference = pagamento.get(
+                "external_reference"
+            )
+
+            print(
+                "[MERCADO PAGO WEBHOOK] "
+                f"payment_id={data_id} "
+                f"status={status} "
+                f"external_reference={external_reference}"
+            )
+
+        return jsonify({
+            "received": True
+        }), 200
+
+    except Exception as erro:
+
+        print(
+            "[MERCADO PAGO WEBHOOK] "
+            f"Erro: {erro}"
+        )
+
+        return jsonify({
+            "received": False
+        }), 500
+
+# =====================================================
 # KEHAI - RETORNOS DO PAGAMENTO
 # =====================================================
 
