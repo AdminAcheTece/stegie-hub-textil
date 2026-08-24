@@ -153,6 +153,175 @@ MELHOR_ENVIO_TOKEN_FILE = (
     "/var/data/kehai_melhor_envio_token.json"
 )
 
+# -----------------------------
+# Melhor Envio - Gerenciamento de Token
+# -----------------------------
+
+def carregar_token_melhor_envio():
+
+    if not os.path.exists(
+        MELHOR_ENVIO_TOKEN_FILE
+    ):
+        return None
+
+
+    try:
+
+        with open(
+            MELHOR_ENVIO_TOKEN_FILE,
+            "r",
+            encoding="utf-8"
+        ) as arquivo:
+
+            return json.load(
+                arquivo
+            )
+
+    except Exception as erro:
+
+        print(
+            "[MELHOR ENVIO] "
+            f"Erro ao carregar token: {erro}"
+        )
+
+        return None
+
+
+def salvar_token_melhor_envio(
+    token_data
+):
+
+    pasta = os.path.dirname(
+        MELHOR_ENVIO_TOKEN_FILE
+    )
+
+
+    os.makedirs(
+        pasta,
+        exist_ok=True
+    )
+
+
+    arquivo_temporario = (
+        MELHOR_ENVIO_TOKEN_FILE
+        + ".tmp"
+    )
+
+
+    with open(
+        arquivo_temporario,
+        "w",
+        encoding="utf-8"
+    ) as arquivo:
+
+        json.dump(
+            token_data,
+            arquivo
+        )
+
+
+    os.replace(
+        arquivo_temporario,
+        MELHOR_ENVIO_TOKEN_FILE
+    )
+
+
+def renovar_token_melhor_envio():
+
+    token_atual = (
+        carregar_token_melhor_envio()
+    )
+
+
+    if not token_atual:
+
+        raise RuntimeError(
+            "Token do Melhor Envio não encontrado."
+        )
+
+
+    refresh_token = token_atual.get(
+        "refresh_token"
+    )
+
+
+    if not refresh_token:
+
+        raise RuntimeError(
+            "Refresh token do Melhor Envio não encontrado."
+        )
+
+
+    token_url = (
+        f"{MELHOR_ENVIO_BASE_URL}"
+        "/oauth/token"
+    )
+
+
+    payload = {
+
+        "grant_type":
+            "refresh_token",
+
+        "client_id":
+            MELHOR_ENVIO_CLIENT_ID,
+
+        "client_secret":
+            MELHOR_ENVIO_CLIENT_SECRET,
+
+        "refresh_token":
+            refresh_token,
+    }
+
+
+    headers = {
+
+        "Accept":
+            "application/json",
+
+        "User-Agent":
+            MELHOR_ENVIO_USER_AGENT,
+    }
+
+
+    response = requests.post(
+        token_url,
+        data=payload,
+        headers=headers,
+        timeout=20,
+    )
+
+
+    if not response.ok:
+
+        print(
+            "[MELHOR ENVIO] "
+            "Falha ao renovar token. "
+            f"HTTP {response.status_code}"
+        )
+
+        raise RuntimeError(
+            "Não foi possível renovar "
+            "o token do Melhor Envio."
+        )
+
+
+    novo_token = response.json()
+
+
+    salvar_token_melhor_envio(
+        novo_token
+    )
+
+
+    print(
+        "[MELHOR ENVIO] "
+        "Token renovado com sucesso."
+    )
+
+
+    return novo_token
+
 # Logs de boot
 print(f"[BOOT] BASE_DIR={BASE_DIR}")
 print(f"[BOOT] TEMPLATE_DIRS={TEMPLATE_DIRS}")
@@ -1118,17 +1287,9 @@ def kehai_melhor_envio_callback():
     token_data = response.json()
 
 
-    # Armazenamento temporário apenas no Sandbox.
-    with open(
-        MELHOR_ENVIO_TOKEN_FILE,
-        "w",
-        encoding="utf-8"
-    ) as arquivo:
-
-        json.dump(
-            token_data,
-            arquivo
-        )
+    salvar_token_melhor_envio(
+        token_data
+    )
 
 
     print(
@@ -1194,41 +1355,32 @@ def kehai_calcular_frete():
         # 2. Carregar o token do Melhor Envio
         # ---------------------------------------------
 
-        if not os.path.exists(
-            MELHOR_ENVIO_TOKEN_FILE
-        ):
-
+        token_data = (
+            carregar_token_melhor_envio()
+        )
+        
+        
+        if not token_data:
+        
             return jsonify({
                 "success": False,
                 "error":
                     "Melhor Envio ainda não autorizado."
             }), 500
-
-
-        with open(
-            MELHOR_ENVIO_TOKEN_FILE,
-            "r",
-            encoding="utf-8"
-        ) as arquivo:
-
-            token_data = json.load(
-                arquivo
-            )
-
-
+        
+        
         access_token = token_data.get(
             "access_token"
         )
-
-
+        
+        
         if not access_token:
-
+        
             return jsonify({
                 "success": False,
                 "error":
                     "Token do Melhor Envio não encontrado."
             }), 500
-
 
         # ---------------------------------------------
         # 3. Montar a cotação
