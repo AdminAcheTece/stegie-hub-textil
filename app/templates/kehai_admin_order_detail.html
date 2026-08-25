@@ -43,7 +43,7 @@
         <div class="kehai-admin-summary">
           <div>
             <span>Pagamento</span>
-            <strong>{{ pedido.status }}</strong>
+            <strong>{% if pedido.status == 'paid' %}Pago{% elif pedido.status == 'payment_pending' %}Pendente{% elif pedido.status == 'payment_failed' %}Falhou{% else %}{{ pedido.status }}{% endif %}</strong>
           </div>
           <div>
             <span>Operação</span>
@@ -302,38 +302,66 @@
         </section>
 
         <section class="kehai-admin-panel kehai-admin-operation kehai-admin-tracking-card">
-          <p class="kehai-admin-eyebrow">RASTREAMENTO</p>
-          <h2>Acompanhar entrega</h2>
+          <p class="kehai-admin-eyebrow">JORNADA DO PEDIDO</p>
+          <h2>{{ pedido.timeline_current_label }}</h2>
 
-          {% if pedido.me_shipment_id %}
-            <div class="kehai-admin-tracking-status {% if pedido.tracking_is_problem %}is-problem{% elif pedido.tracking_is_delivered %}is-delivered{% endif %}">
-              <span>Status logístico</span>
-              <strong>{{ pedido.tracking_status_label }}</strong>
-            </div>
+          {% if pedido.status == 'paid' %}
+            <ol class="kehai-admin-timeline" aria-label="Linha do tempo do pedido">
+              {% for etapa in pedido.timeline %}
+                <li class="kehai-admin-timeline__item is-{{ etapa.state }}">
+                  <div class="kehai-admin-timeline__marker" aria-hidden="true">
+                    {% if etapa.state in ['done', 'done-current'] %}✓{% else %}{{ etapa.number }}{% endif %}
+                  </div>
+                  <div class="kehai-admin-timeline__content">
+                    <div class="kehai-admin-timeline__head">
+                      <strong>{{ etapa.label }}</strong>
+                      {% if etapa.date and etapa.date_label != '—' %}
+                        <time>{{ etapa.date_label }}</time>
+                      {% endif %}
+                    </div>
+                    <small>{{ etapa.description }}</small>
+                  </div>
+                </li>
+              {% endfor %}
+            </ol>
 
-            <dl class="kehai-admin-dl kehai-admin-dl--tracking">
-              <div><dt>Código</dt><dd>{{ pedido.tracking_code or 'Ainda não informado' }}</dd></div>
-              <div><dt>Último evento</dt><dd>{{ pedido.me_tracking_event_at or '—' }}</dd></div>
-              <div><dt>Última sincronização</dt><dd>{{ pedido.me_tracking_updated_at or '—' }}</dd></div>
-              <div><dt>Origem</dt><dd>{{ pedido.me_tracking_source or '—' }}</dd></div>
-              {% if pedido.me_webhook_event %}
-                <div><dt>Evento</dt><dd>{{ pedido.me_webhook_event }}</dd></div>
-              {% endif %}
-            </dl>
+            {% if pedido.me_shipment_id %}
+              <div class="kehai-admin-tracking-summary {% if pedido.tracking_is_problem %}is-problem{% elif pedido.tracking_is_delivered %}is-delivered{% endif %}">
+                <div>
+                  <span>Última atualização</span>
+                  <strong>{{ pedido.tracking_event_label }}</strong>
+                </div>
+                <div>
+                  <span>Quando</span>
+                  <strong>{{ pedido.tracking_event_at_label }}</strong>
+                </div>
+                <div>
+                  <span>Origem</span>
+                  <strong>{{ pedido.tracking_source_label }}</strong>
+                </div>
+              </div>
+
+              <div class="kehai-admin-tracking-code">
+                <span>Código de rastreamento</span>
+                <strong>{{ pedido.tracking_code or 'Aguardando transportadora' }}</strong>
+              </div>
+            {% endif %}
 
             {% if pedido.me_tracking_last_error %}
               <div class="kehai-admin-alert kehai-admin-alert--error">
-                <strong>Último erro de rastreamento</strong><br>
+                <strong>Atenção no rastreamento</strong><br>
                 {{ pedido.me_tracking_last_error }}
               </div>
             {% endif %}
 
             <div class="kehai-admin-shipping-actions">
-              <form method="post" action="{{ url_for('kehai_admin_me_tracking', order_number=pedido.order_number) }}">
-                <button class="kehai-admin-btn kehai-admin-btn--outline" type="submit">
-                  Atualizar rastreamento agora
-                </button>
-              </form>
+              {% if pedido.me_shipment_id %}
+                <form method="post" action="{{ url_for('kehai_admin_me_tracking', order_number=pedido.order_number) }}">
+                  <button class="kehai-admin-btn kehai-admin-btn--outline" type="submit">
+                    Atualizar rastreamento agora
+                  </button>
+                </form>
+              {% endif %}
 
               {% if pedido.me_tracking_url %}
                 <a
@@ -347,12 +375,26 @@
               {% endif %}
             </div>
 
+            {% if pedido.me_shipment_id %}
+              <details class="kehai-admin-technical-details">
+                <summary>Ver detalhes técnicos</summary>
+                <dl class="kehai-admin-dl kehai-admin-dl--tracking">
+                  <div><dt>ID do envio</dt><dd>{{ pedido.me_shipment_id }}</dd></div>
+                  <div><dt>Protocolo</dt><dd>{{ pedido.me_protocol or '—' }}</dd></div>
+                  <div><dt>Status técnico</dt><dd>{{ pedido.me_tracking_status or pedido.me_shipment_status or '—' }}</dd></div>
+                  <div><dt>Evento bruto</dt><dd>{{ pedido.me_webhook_event or '—' }}</dd></div>
+                  <div><dt>Origem técnica</dt><dd>{{ pedido.me_tracking_source or '—' }}</dd></div>
+                  <div><dt>Sincronizado em</dt><dd>{{ pedido.tracking_updated_at_label }}</dd></div>
+                </dl>
+              </details>
+            {% endif %}
+
             <p class="kehai-admin-help">
-              As mudanças de status também chegam automaticamente pelo webhook do Melhor Envio. O botão acima é apenas uma consulta manual de segurança.
+              As atualizações chegam automaticamente pelo Melhor Envio. A consulta manual fica disponível apenas como contingência.
             </p>
           {% else %}
             <div class="kehai-admin-alert">
-              O rastreamento ficará disponível depois que o envio for criado no Melhor Envio.
+              A jornada será iniciada quando o pagamento do pedido for confirmado.
             </div>
           {% endif %}
         </section>
