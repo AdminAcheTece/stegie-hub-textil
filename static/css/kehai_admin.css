@@ -621,3 +621,213 @@ body.kehai-admin-page {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
+
+/* =========================================================
+   KEHAI — JORNADA / LINHA DO TEMPO OPERACIONAL
+   ========================================================= */
+
+.kehai-admin-timeline {
+  margin: 26px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kehai-admin-timeline__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 13px;
+  min-height: 76px;
+}
+
+.kehai-admin-timeline__item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 36px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--ka-line);
+}
+
+.kehai-admin-timeline__item.is-done:not(:last-child)::before,
+.kehai-admin-timeline__item.is-current:not(:last-child)::before,
+.kehai-admin-timeline__item.is-done-current:not(:last-child)::before {
+  background: rgba(31, 90, 80, .42);
+}
+
+.kehai-admin-timeline__marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--ka-line);
+  border-radius: 50%;
+  background: var(--ka-card);
+  color: var(--ka-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.kehai-admin-timeline__item.is-done .kehai-admin-timeline__marker,
+.kehai-admin-timeline__item.is-done-current .kehai-admin-timeline__marker {
+  border-color: var(--ka-green);
+  background: var(--ka-green);
+  color: #fff;
+}
+
+.kehai-admin-timeline__item.is-current .kehai-admin-timeline__marker {
+  border: 2px solid var(--ka-green);
+  background: #fff;
+  color: var(--ka-green);
+  box-shadow: 0 0 0 5px rgba(31, 90, 80, .08);
+}
+
+.kehai-admin-timeline__content {
+  padding: 2px 0 20px;
+}
+
+.kehai-admin-timeline__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.kehai-admin-timeline__head strong {
+  font-size: 15px;
+}
+
+.kehai-admin-timeline__head time {
+  flex: 0 0 auto;
+  color: var(--ka-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.kehai-admin-timeline__content small {
+  display: block;
+  margin-top: 4px;
+  color: var(--ka-muted);
+  line-height: 1.45;
+}
+
+.kehai-admin-timeline__item.is-pending {
+  opacity: .58;
+}
+
+.kehai-admin-timeline__item.is-current .kehai-admin-timeline__head strong,
+.kehai-admin-timeline__item.is-done-current .kehai-admin-timeline__head strong {
+  color: var(--ka-green-deep);
+}
+
+.kehai-admin-tracking-summary {
+  display: grid;
+  grid-template-columns: 1.4fr .8fr .8fr;
+  gap: 1px;
+  margin: 18px 0;
+  border: 1px solid var(--ka-line);
+  background: var(--ka-line);
+}
+
+.kehai-admin-tracking-summary > div {
+  padding: 14px 15px;
+  background: var(--ka-card);
+}
+
+.kehai-admin-tracking-summary span,
+.kehai-admin-tracking-code span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ka-muted);
+  font-size: 11px;
+}
+
+.kehai-admin-tracking-summary strong {
+  display: block;
+  font-size: 13px;
+}
+
+.kehai-admin-tracking-summary.is-delivered {
+  border-color: rgba(31, 90, 80, .28);
+}
+
+.kehai-admin-tracking-summary.is-problem {
+  border-color: rgba(141, 52, 46, .32);
+}
+
+.kehai-admin-tracking-code {
+  margin-bottom: 18px;
+  padding: 15px 17px;
+  border-left: 3px solid var(--ka-green);
+  background: rgba(31, 90, 80, .06);
+}
+
+.kehai-admin-tracking-code strong {
+  display: block;
+  font-size: 16px;
+  letter-spacing: .02em;
+}
+
+.kehai-admin-technical-details {
+  margin-top: 20px;
+  border-top: 1px solid var(--ka-line);
+  border-bottom: 1px solid var(--ka-line);
+}
+
+.kehai-admin-technical-details summary {
+  padding: 15px 0;
+  cursor: pointer;
+  color: var(--ka-green);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.kehai-admin-technical-details[open] summary {
+  margin-bottom: 8px;
+}
+
+.kehai-admin-technical-details .kehai-admin-dl {
+  padding-bottom: 17px;
+}
+
+.kehai-admin-journey-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 1px solid rgba(31, 90, 80, .22);
+  border-radius: 999px;
+  background: rgba(31, 90, 80, .06);
+  color: var(--ka-green-deep);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.kehai-admin-journey-pill.is-delivered {
+  background: rgba(31, 90, 80, .12);
+}
+
+.kehai-admin-journey-pill.is-problem {
+  border-color: rgba(141, 52, 46, .25);
+  background: rgba(141, 52, 46, .06);
+  color: var(--ka-danger);
+}
+
+@media (max-width: 720px) {
+  .kehai-admin-tracking-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .kehai-admin-timeline__head {
+    display: block;
+  }
+
+  .kehai-admin-timeline__head time {
+    display: block;
+    margin-top: 4px;
+  }
+}
