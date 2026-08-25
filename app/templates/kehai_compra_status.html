@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="robots"
+    content="noindex,nofollow"
+  >
+
+  {% if page_kind == 'success' %}
+    <title>Pedido confirmado | KEHAI</title>
+  {% elif page_kind == 'pending' %}
+    <title>Pagamento em processamento | KEHAI</title>
+  {% else %}
+    <title>Pagamento não concluído | KEHAI</title>
+  {% endif %}
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/kehai_compra_status.css') }}?v={{ config.get('ASSET_VERSION','1') }}"
+  >
+
+</head>
+
+<body class="kehai-status-page">
+
+  <header class="kehai-status-header">
+
+    <div class="kehai-status-container kehai-status-header__inner">
+
+      <a
+        href="/kehai/livro"
+        class="kehai-status-brand"
+        aria-label="Voltar ao KEHAI"
+      >
+        <img
+          src="{{ url_for('static', filename='img/kehai/logo-kehai-dark.png') }}"
+          alt="KEHAI"
+        >
+      </a>
+
+      <span>
+        Compra segura
+      </span>
+
+    </div>
+
+  </header>
+
+
+  <main class="kehai-status-main">
+
+    <div class="kehai-status-container kehai-status-layout">
+
+      <section class="kehai-status-card">
+
+        {% set paid = pedido and pedido.status == 'paid' %}
+        {% set payment_pending = pedido and pedido.status in ['payment_pending', 'checkout_created', 'awaiting_payment'] %}
+
+        {% if page_kind == 'success' and paid %}
+
+          <div class="kehai-status-icon kehai-status-icon--success" aria-hidden="true">
+            ✓
+          </div>
+
+          <div class="kehai-status-eyebrow">
+            PAGAMENTO CONFIRMADO
+          </div>
+
+          <h1>
+            Seu exemplar do KEHAI está confirmado.
+          </h1>
+
+          <p class="kehai-status-lead">
+            Obrigado pela sua compra. O pagamento foi confirmado e o próximo passo é a preparação do seu exemplar para envio.
+          </p>
+
+        {% elif page_kind in ['success', 'pending'] and payment_pending %}
+
+          <div class="kehai-status-icon kehai-status-icon--pending" aria-hidden="true">
+            ···
+          </div>
+
+          <div class="kehai-status-eyebrow">
+            PAGAMENTO EM PROCESSAMENTO
+          </div>
+
+          <h1>
+            Recebemos seu pedido.
+          </h1>
+
+          <p class="kehai-status-lead">
+            O Mercado Pago ainda está processando a confirmação. Assim que o pagamento for aprovado, seu pedido seguirá para preparação.
+          </p>
+
+        {% elif page_kind == 'failure' %}
+
+          <div class="kehai-status-icon kehai-status-icon--failure" aria-hidden="true">
+            ×
+          </div>
+
+          <div class="kehai-status-eyebrow">
+            PAGAMENTO NÃO CONCLUÍDO
+          </div>
+
+          <h1>
+            Sua compra ainda não foi finalizada.
+          </h1>
+
+          <p class="kehai-status-lead">
+            Nenhuma nova cobrança será feita por esta página. Você pode voltar ao livro e iniciar novamente o pagamento quando desejar.
+          </p>
+
+        {% else %}
+
+          <div class="kehai-status-icon kehai-status-icon--pending" aria-hidden="true">
+            ···
+          </div>
+
+          <div class="kehai-status-eyebrow">
+            PEDIDO RECEBIDO
+          </div>
+
+          <h1>
+            Estamos confirmando os dados da sua compra.
+          </h1>
+
+          <p class="kehai-status-lead">
+            Aguarde alguns instantes. Se o pagamento já foi aprovado, a confirmação também ficará registrada no pedido.
+          </p>
+
+        {% endif %}
+
+
+        {% if pedido %}
+
+          <div class="kehai-status-order-number">
+
+            <span>
+              PEDIDO
+            </span>
+
+            <strong>
+              {{ pedido.order_number }}
+            </strong>
+
+          </div>
+
+
+          <div class="kehai-status-summary">
+
+            <div>
+              <span>Livro KEHAI</span>
+              <strong>{{ pedido.subtotal_formatado }}</strong>
+            </div>
+
+            <div>
+              <span>
+                Frete — {{ pedido.shipping_service }}
+              </span>
+              <strong>{{ pedido.frete_formatado }}</strong>
+            </div>
+
+            <div class="kehai-status-summary__total">
+              <span>Total</span>
+              <strong>{{ pedido.total_formatado }}</strong>
+            </div>
+
+          </div>
+
+
+          <div class="kehai-status-delivery">
+
+            <div class="kehai-status-small-label">
+              ENTREGA
+            </div>
+
+            <strong>
+              {{ pedido.customer_name }}
+            </strong>
+
+            <p>
+              {{ pedido.street }}, {{ pedido.address_number }}{% if pedido.complement %} — {{ pedido.complement }}{% endif %}<br>
+              {{ pedido.district }} · {{ pedido.city }}/{{ pedido.state }} · CEP {{ pedido.postal_code }}
+            </p>
+
+            {% if pedido.shipping_delivery_days %}
+              <small>
+                Prazo estimado informado na cotação: {{ pedido.shipping_delivery_days }} {% if pedido.shipping_delivery_days == 1 %}dia útil{% else %}dias úteis{% endif %}.
+              </small>
+            {% endif %}
+
+          </div>
+
+        {% endif %}
+
+
+        {% if page_kind == 'success' and paid %}
+
+          <div class="kehai-status-next">
+
+            <div class="kehai-status-small-label">
+              O QUE ACONTECE AGORA
+            </div>
+
+            <ol>
+
+              <li class="is-complete">
+                <span>1</span>
+                <div>
+                  <strong>Pagamento confirmado</strong>
+                  <small>Sua compra foi validada com segurança.</small>
+                </div>
+              </li>
+
+              <li>
+                <span>2</span>
+                <div>
+                  <strong>Preparação do exemplar</strong>
+                  <small>O pedido segue para separação e preparação.</small>
+                </div>
+              </li>
+
+              <li>
+                <span>3</span>
+                <div>
+                  <strong>Postagem e rastreamento</strong>
+                  <small>Após a postagem, os dados de envio poderão ser informados ao comprador.</small>
+                </div>
+              </li>
+
+            </ol>
+
+          </div>
+
+        {% endif %}
+
+
+        <div class="kehai-status-actions">
+
+          <a
+            href="/kehai/livro"
+            class="kehai-status-button kehai-status-button--primary"
+          >
+            Voltar ao KEHAI
+          </a>
+
+          {% if page_kind == 'failure' %}
+            <a
+              href="/kehai/livro#comprar"
+              class="kehai-status-button kehai-status-button--secondary"
+            >
+              Tentar novamente
+            </a>
+          {% endif %}
+
+        </div>
+
+
+        <div class="kehai-status-security">
+          <span aria-hidden="true">✓</span>
+          <p>
+            O pagamento é processado pelo Mercado Pago. O valor do produto e do frete é confirmado no servidor antes da criação do checkout.
+          </p>
+        </div>
+
+      </section>
+
+
+      <aside class="kehai-status-aside">
+
+        <img
+          src="{{ url_for('static', filename='img/kehai/mockup-kehai.png') }}"
+          alt="Livro KEHAI"
+        >
+
+        <div class="kehai-status-small-label">
+          LIVRO FÍSICO
+        </div>
+
+        <h2>
+          KEHAI
+        </h2>
+
+        <p>
+          A liderança que reconhece valor antes que ele se perca.
+        </p>
+
+        <div class="kehai-status-rule"></div>
+
+        <blockquote>
+          Reconheça valor antes que ele se perca.
+        </blockquote>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+
+  <footer class="kehai-status-footer">
+
+    <div class="kehai-status-container">
+      © 2026 KEHAI · Vandré Stein · Uma iniciativa vinculada à STEGIE.
+    </div>
+
+  </footer>
+
+</body>
+
+</html>
