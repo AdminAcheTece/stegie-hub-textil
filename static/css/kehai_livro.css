@@ -5729,3 +5729,397 @@ button:focus-visible {
   }
 
 }
+
+
+
+/* =========================================================
+   30. CHECKOUT — REFINAMENTO FINAL
+   ========================================================= */
+
+.kehai-book-checkout__progress {
+
+  position:
+    sticky;
+
+  top:
+    109px;
+
+  z-index:
+    4;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap:
+    0;
+
+  padding:
+    0 34px;
+
+  border-bottom:
+    1px solid var(--kehai-line);
+
+  background:
+    rgba(250, 248, 242, .97);
+
+  backdrop-filter:
+    blur(12px);
+
+}
+
+
+.kehai-book-checkout__progress-step {
+
+  position:
+    relative;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  min-height:
+    44px;
+
+  color:
+    #8A887F;
+
+  font-size:
+    12px;
+
+}
+
+
+.kehai-book-checkout__progress-step::after {
+
+  content:
+    "";
+
+  position:
+    absolute;
+
+  left:
+    0;
+
+  right:
+    0;
+
+  bottom:
+    -1px;
+
+  height:
+    2px;
+
+  background:
+    transparent;
+
+}
+
+
+.kehai-book-checkout__progress-step > span {
+
+  width:
+    22px;
+
+  height:
+    22px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  border:
+    1px solid #CFC9BA;
+
+  border-radius:
+    50%;
+
+  background:
+    #FFFEFA;
+
+  font-family:
+    var(--kehai-font-serif);
+
+  font-size:
+    11px;
+
+}
+
+
+.kehai-book-checkout__progress-step strong {
+
+  font-weight:
+    600;
+
+}
+
+
+.kehai-book-checkout__progress-step.is-active {
+
+  color:
+    var(--kehai-green-deep);
+
+}
+
+
+.kehai-book-checkout__progress-step.is-active::after {
+
+  background:
+    var(--kehai-gold);
+
+}
+
+
+.kehai-book-checkout__progress-step.is-active > span {
+
+  border-color:
+    var(--kehai-gold);
+
+  color:
+    var(--kehai-gold);
+
+}
+
+
+.kehai-book-checkout__progress-step.is-complete {
+
+  color:
+    var(--kehai-green);
+
+}
+
+
+.kehai-book-checkout__progress-step.is-complete > span {
+
+  border-color:
+    var(--kehai-green);
+
+  background:
+    var(--kehai-green);
+
+  color:
+    #FFFFFF;
+
+}
+
+
+/* Modal um pouco mais compacto em telas grandes. */
+
+@media
+(min-width: 901px) {
+
+  .kehai-book-checkout {
+
+    padding:
+      12px;
+
+  }
+
+
+  .kehai-book-checkout__dialog {
+
+    width:
+      min(1240px, calc(100vw - 24px));
+
+    max-height:
+      calc(100vh - 24px);
+
+  }
+
+
+  .kehai-book-checkout__header {
+
+    padding:
+      20px 28px;
+
+  }
+
+
+  .kehai-book-checkout__identity img {
+
+    width:
+      46px;
+
+    height:
+      46px;
+
+  }
+
+
+  .kehai-book-checkout__header h2 {
+
+    font-size:
+      28px;
+
+  }
+
+
+  .kehai-book-checkout__form {
+
+    padding:
+      26px 30px 30px;
+
+  }
+
+
+  .kehai-book-checkout__section {
+
+    padding-bottom:
+      24px;
+
+  }
+
+
+  .kehai-book-checkout__section
+  +
+  .kehai-book-checkout__section {
+
+    padding-top:
+      22px;
+
+  }
+
+
+  .kehai-book-checkout__section-text {
+
+    margin-bottom:
+      14px;
+
+  }
+
+
+  .kehai-book-checkout__fields {
+
+    gap:
+      13px 16px;
+
+  }
+
+
+  .kehai-book-checkout__field input {
+
+    min-height:
+      44px;
+
+    padding:
+      8px 12px;
+
+  }
+
+
+  .kehai-book-checkout__summary {
+
+    top:
+      154px;
+
+    gap:
+      20px;
+
+    padding:
+      28px;
+
+  }
+
+
+  .kehai-book-checkout__product {
+
+    padding-bottom:
+      20px;
+
+  }
+
+}
+
+
+/* Botão realmente indisponível enquanto o formulário não estiver pronto. */
+
+.kehai-book-checkout__submit[disabled] {
+
+  border-color:
+    #CAC7BE;
+
+  background:
+    #D9D6CE;
+
+  color:
+    #77756F !important;
+
+  opacity:
+    1;
+
+  cursor:
+    not-allowed;
+
+  box-shadow:
+    none;
+
+}
+
+
+.kehai-book-checkout__submit[disabled][aria-busy="true"] {
+
+  background:
+    rgba(31, 81, 72, .68);
+
+  border-color:
+    transparent;
+
+  color:
+    #FFFFFF !important;
+
+  cursor:
+    wait;
+
+}
+
+
+@media
+(max-width: 900px) {
+
+  .kehai-book-checkout__progress {
+
+    position:
+      static;
+
+    top:
+      auto;
+
+    padding:
+      0 20px;
+
+  }
+
+}
+
+
+@media
+(max-width: 600px) {
+
+  .kehai-book-checkout__progress-step {
+
+    min-height:
+      40px;
+
+  }
+
+
+  .kehai-book-checkout__progress-step strong {
+
+    display:
+      none;
+
+  }
+
+}
