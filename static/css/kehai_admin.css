@@ -552,3 +552,72 @@ body.kehai-admin-page {
   font-size: 13px;
   line-height: 1.55;
 }
+
+
+/* =========================================================
+   KEHAI — RASTREAMENTO AUTOMÁTICO
+   ========================================================= */
+
+.kehai-admin-field-help {
+  display: block;
+  margin-top: -4px;
+  color: var(--ka-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.kehai-admin-form input[readonly] {
+  background: #f1eee5;
+  color: var(--ka-muted);
+}
+
+.kehai-admin-tracking-card {
+  overflow: hidden;
+}
+
+.kehai-admin-tracking-status {
+  margin: 22px 0;
+  padding: 18px 20px;
+  border: 1px solid rgba(31, 90, 80, .24);
+  border-left: 4px solid var(--ka-green);
+  background: rgba(31, 90, 80, .06);
+}
+
+.kehai-admin-tracking-status span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--ka-muted);
+  font-size: 12px;
+}
+
+.kehai-admin-tracking-status strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 400;
+}
+
+.kehai-admin-tracking-status.is-delivered {
+  border-left-color: var(--ka-green);
+  background: rgba(31, 90, 80, .10);
+}
+
+.kehai-admin-tracking-status.is-problem {
+  border-color: rgba(141, 52, 46, .24);
+  border-left-color: var(--ka-danger);
+  background: rgba(141, 52, 46, .06);
+}
+
+.kehai-admin-dl--tracking {
+  margin-bottom: 22px;
+}
+
+.kehai-admin-muted {
+  color: var(--ka-muted);
+}
+
+@media (min-width: 981px) {
+  .kehai-admin-metrics {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
