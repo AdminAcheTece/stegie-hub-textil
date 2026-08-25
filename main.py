@@ -5,8 +5,9 @@ import sqlite3
 import requests
 import mercadopago
 
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
+from functools import wraps
 
 from mercadopago.webhook import (
     WebhookSignatureValidator,
@@ -94,6 +95,19 @@ app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 
 # Bust de cache (usado no base.html via config.get('ASSET_VERSION'))
 app.config["ASSET_VERSION"] = os.environ.get("ASSET_VERSION", "1")
+
+# Sessões mais seguras no ambiente publicado.
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_SECURE"] = bool(os.environ.get("RENDER"))
+app.permanent_session_lifetime = timedelta(hours=8)
+
+# Acesso administrativo do pós-venda KEHAI.
+# Configure esta variável no Render e não salve a senha no GitHub.
+KEHAI_ADMIN_PASSWORD = os.environ.get(
+    "KEHAI_ADMIN_PASSWORD",
+    ""
+).strip()
 
 # -----------------------------
 # Mercado Pago
@@ -435,10 +449,43 @@ def inicializar_banco_kehai():
 
                 mp_preference_id TEXT,
                 mp_payment_id TEXT,
-                mp_payment_status TEXT
+                mp_payment_status TEXT,
+
+                fulfillment_status TEXT NOT NULL DEFAULT 'pending',
+                fulfillment_updated_at TEXT,
+                tracking_code TEXT,
+                shipped_at TEXT,
+                delivered_at TEXT,
+                internal_notes TEXT
             )
             """
         )
+
+        # Migração segura para bancos criados em versões anteriores.
+        existing_columns = {
+            row["name"]
+            for row in conn.execute("PRAGMA table_info(kehai_orders)").fetchall()
+        }
+
+        migrations = {
+            "fulfillment_status":
+                "ALTER TABLE kehai_orders ADD COLUMN fulfillment_status TEXT NOT NULL DEFAULT 'pending'",
+            "fulfillment_updated_at":
+                "ALTER TABLE kehai_orders ADD COLUMN fulfillment_updated_at TEXT",
+            "tracking_code":
+                "ALTER TABLE kehai_orders ADD COLUMN tracking_code TEXT",
+            "shipped_at":
+                "ALTER TABLE kehai_orders ADD COLUMN shipped_at TEXT",
+            "delivered_at":
+                "ALTER TABLE kehai_orders ADD COLUMN delivered_at TEXT",
+            "internal_notes":
+                "ALTER TABLE kehai_orders ADD COLUMN internal_notes TEXT",
+        }
+
+        for column_name, statement in migrations.items():
+            if column_name not in existing_columns:
+                conn.execute(statement)
+
         conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_kehai_orders_status "
             "ON kehai_orders(status)"
@@ -551,6 +598,12 @@ def atualizar_pedido_kehai(order_number, **fields):
         "mp_preference_id",
         "mp_payment_id",
         "mp_payment_status",
+        "fulfillment_status",
+        "fulfillment_updated_at",
+        "tracking_code",
+        "shipped_at",
+        "delivered_at",
+        "internal_notes",
     }
 
     updates = {
@@ -2165,6 +2218,207 @@ def contexto_pedido_kehai(pedido):
         pedido["total_cents"]
     )
     return contexto
+
+
+FULFILLMENT_LABELS = {
+    "pending": "Aguardando preparação",
+    "preparing": "Em preparação",
+    "ready_to_ship": "Pronto para envio",
+    "shipped": "Enviado",
+    "delivered": "Entregue",
+    "cancelled": "Cancelado",
+}
+
+
+def formatar_cep_kehai(value):
+    digits = "".join(ch for ch in str(value or "") if ch.isdigit())
+    if len(digits) == 8:
+        return f"{digits[:5]}-{digits[5:]}"
+    return str(value or "")
+
+
+def contexto_admin_pedido_kehai(pedido):
+    contexto = contexto_pedido_kehai(pedido) or {}
+    contexto["fulfillment_label"] = FULFILLMENT_LABELS.get(
+        contexto.get("fulfillment_status") or "pending",
+        contexto.get("fulfillment_status") or "—",
+    )
+    contexto["postal_code_formatado"] = formatar_cep_kehai(
+        contexto.get("postal_code")
+    )
+    return contexto
+
+
+def listar_pedidos_kehai(status_pagamento="", fulfillment_status=""):
+    clauses = []
+    values = []
+
+    if status_pagamento:
+        clauses.append("status = ?")
+        values.append(status_pagamento)
+
+    if fulfillment_status:
+        clauses.append("fulfillment_status = ?")
+        values.append(fulfillment_status)
+
+    where_sql = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+
+    with get_kehai_db() as conn:
+        rows = conn.execute(
+            "SELECT * FROM kehai_orders"
+            + where_sql
+            + " ORDER BY id DESC LIMIT 300",
+            values,
+        ).fetchall()
+
+    return [contexto_admin_pedido_kehai(dict(row)) for row in rows]
+
+
+def kehai_admin_required(view_function):
+    @wraps(view_function)
+    def wrapped(*args, **kwargs):
+        if session.get("kehai_admin_authenticated") is not True:
+            return redirect(url_for("kehai_admin_login"))
+        return view_function(*args, **kwargs)
+    return wrapped
+
+
+# =====================================================
+# KEHAI - PAINEL ADMINISTRATIVO / PÓS-VENDA
+# =====================================================
+
+@app.route("/kehai/admin/login", methods=["GET", "POST"])
+def kehai_admin_login():
+    if session.get("kehai_admin_authenticated") is True:
+        return redirect(url_for("kehai_admin_orders"))
+
+    error = None
+
+    if request.method == "POST":
+        password = str(request.form.get("password") or "")
+
+        if not KEHAI_ADMIN_PASSWORD:
+            error = (
+                "A senha administrativa ainda não foi configurada no servidor."
+            )
+        elif secrets.compare_digest(password, KEHAI_ADMIN_PASSWORD):
+            session.clear()
+            session.permanent = True
+            session["kehai_admin_authenticated"] = True
+            return redirect(url_for("kehai_admin_orders"))
+        else:
+            error = "Senha inválida."
+
+    return render_template(
+        "kehai_admin_login.html",
+        error=error,
+        admin_configured=bool(KEHAI_ADMIN_PASSWORD),
+    )
+
+
+@app.route("/kehai/admin/logout", methods=["POST"])
+@kehai_admin_required
+def kehai_admin_logout():
+    session.pop("kehai_admin_authenticated", None)
+    return redirect(url_for("kehai_admin_login"))
+
+
+@app.route("/kehai/admin/pedidos")
+@kehai_admin_required
+def kehai_admin_orders():
+    payment_filter = str(request.args.get("payment") or "").strip()
+    fulfillment_filter = str(request.args.get("fulfillment") or "").strip()
+
+    pedidos = listar_pedidos_kehai(
+        status_pagamento=payment_filter,
+        fulfillment_status=fulfillment_filter,
+    )
+
+    all_orders = listar_pedidos_kehai()
+    counts = {
+        "paid": sum(1 for p in all_orders if p.get("status") == "paid"),
+        "pending": sum(
+            1 for p in all_orders
+            if p.get("status") == "paid"
+            and (p.get("fulfillment_status") or "pending") == "pending"
+        ),
+        "preparing": sum(
+            1 for p in all_orders
+            if (p.get("fulfillment_status") or "pending") == "preparing"
+        ),
+        "ready_to_ship": sum(
+            1 for p in all_orders
+            if (p.get("fulfillment_status") or "pending") == "ready_to_ship"
+        ),
+        "shipped": sum(
+            1 for p in all_orders
+            if (p.get("fulfillment_status") or "pending") == "shipped"
+        ),
+    }
+
+    return render_template(
+        "kehai_admin_orders.html",
+        pedidos=pedidos,
+        counts=counts,
+        payment_filter=payment_filter,
+        fulfillment_filter=fulfillment_filter,
+        fulfillment_labels=FULFILLMENT_LABELS,
+    )
+
+
+@app.route("/kehai/admin/pedidos/<order_number>")
+@kehai_admin_required
+def kehai_admin_order_detail(order_number):
+    pedido = buscar_pedido_kehai(order_number)
+    if not pedido:
+        abort(404)
+
+    return render_template(
+        "kehai_admin_order_detail.html",
+        pedido=contexto_admin_pedido_kehai(pedido),
+        fulfillment_labels=FULFILLMENT_LABELS,
+    )
+
+
+@app.route(
+    "/kehai/admin/pedidos/<order_number>/operacao",
+    methods=["POST"],
+)
+@kehai_admin_required
+def kehai_admin_order_operation(order_number):
+    pedido = buscar_pedido_kehai(order_number)
+    if not pedido:
+        abort(404)
+
+    target_status = str(request.form.get("fulfillment_status") or "").strip()
+    tracking_code = str(request.form.get("tracking_code") or "").strip()
+    internal_notes = str(request.form.get("internal_notes") or "").strip()
+
+    if target_status not in FULFILLMENT_LABELS:
+        abort(400)
+
+    if pedido.get("status") != "paid" and target_status not in {"pending", "cancelled"}:
+        return (
+            "Este pedido ainda não possui pagamento confirmado.",
+            409,
+        )
+
+    fields = {
+        "fulfillment_status": target_status,
+        "fulfillment_updated_at": agora_iso(),
+        "tracking_code": tracking_code or None,
+        "internal_notes": internal_notes or None,
+    }
+
+    if target_status == "shipped":
+        fields["shipped_at"] = pedido.get("shipped_at") or agora_iso()
+
+    if target_status == "delivered":
+        fields["delivered_at"] = pedido.get("delivered_at") or agora_iso()
+
+    atualizar_pedido_kehai(order_number, **fields)
+
+    return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
 
 
 # =====================================================
