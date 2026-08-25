@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ pedido.order_number }} — KEHAI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kehai_admin.css') }}?v={{ config.get('ASSET_VERSION','1') }}">
+</head>
+<body class="kehai-admin-page">
+
+  <header class="kehai-admin-header">
+    <div>
+      <a class="kehai-admin-back" href="{{ url_for('kehai_admin_orders') }}">← Pedidos</a>
+      <p class="kehai-admin-eyebrow">KEHAI · PEDIDO</p>
+      <h1>{{ pedido.order_number }}</h1>
+    </div>
+
+    <form method="post" action="{{ url_for('kehai_admin_logout') }}">
+      <button class="kehai-admin-btn kehai-admin-btn--ghost" type="submit">Sair</button>
+    </form>
+  </header>
+
+  <main class="kehai-admin-shell kehai-admin-order-grid">
+
+    <section class="kehai-admin-panel">
+      <p class="kehai-admin-eyebrow">RESUMO</p>
+      <h2>{{ pedido.customer_name }}</h2>
+
+      <div class="kehai-admin-summary">
+        <div>
+          <span>Pagamento</span>
+          <strong>{{ pedido.status }}</strong>
+        </div>
+        <div>
+          <span>Operação</span>
+          <strong>{{ pedido.fulfillment_label }}</strong>
+        </div>
+        <div>
+          <span>Total</span>
+          <strong>{{ pedido.total_formatado }}</strong>
+        </div>
+      </div>
+
+      <div class="kehai-admin-section">
+        <h3>Produto e frete</h3>
+        <dl class="kehai-admin-dl">
+          <div><dt>Produto</dt><dd>{{ pedido.product_title }}</dd></div>
+          <div><dt>Subtotal</dt><dd>{{ pedido.subtotal_formatado }}</dd></div>
+          <div><dt>Serviço</dt><dd>{{ pedido.shipping_service }} · {{ pedido.shipping_company }}</dd></div>
+          <div><dt>Frete</dt><dd>{{ pedido.frete_formatado }}</dd></div>
+          <div><dt>Prazo cotado</dt><dd>{{ pedido.shipping_delivery_days or '—' }} dias úteis</dd></div>
+        </dl>
+      </div>
+
+      <div class="kehai-admin-section">
+        <h3>Cliente</h3>
+        <dl class="kehai-admin-dl">
+          <div><dt>Nome</dt><dd>{{ pedido.customer_name }}</dd></div>
+          <div><dt>E-mail</dt><dd>{{ pedido.customer_email }}</dd></div>
+          <div><dt>Telefone</dt><dd>{{ pedido.customer_phone }}</dd></div>
+        </dl>
+      </div>
+
+      <div class="kehai-admin-section">
+        <h3>Entrega</h3>
+        <address>
+          {{ pedido.street }}, {{ pedido.address_number }}
+          {% if pedido.complement %} — {{ pedido.complement }}{% endif %}<br>
+          {{ pedido.district }} · {{ pedido.city }}/{{ pedido.state }}<br>
+          CEP {{ pedido.postal_code_formatado }}
+        </address>
+      </div>
+
+      <div class="kehai-admin-section">
+        <h3>Mercado Pago</h3>
+        <dl class="kehai-admin-dl">
+          <div><dt>Payment ID</dt><dd>{{ pedido.mp_payment_id or '—' }}</dd></div>
+          <div><dt>Status</dt><dd>{{ pedido.mp_payment_status or '—' }}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <aside class="kehai-admin-panel kehai-admin-operation">
+      <p class="kehai-admin-eyebrow">EXPEDIÇÃO</p>
+      <h2>Atualizar pedido</h2>
+
+      {% if pedido.status != 'paid' %}
+        <div class="kehai-admin-alert">
+          Este pedido ainda não possui pagamento confirmado. Etapas de preparação e envio ficam bloqueadas.
+        </div>
+      {% endif %}
+
+      <form
+        method="post"
+        action="{{ url_for('kehai_admin_order_operation', order_number=pedido.order_number) }}"
+        class="kehai-admin-form"
+      >
+        <label for="fulfillment_status">Etapa operacional</label>
+        <select id="fulfillment_status" name="fulfillment_status">
+          {% for value, label in fulfillment_labels.items() %}
+            <option value="{{ value }}" {% if pedido.fulfillment_status == value %}selected{% endif %}>
+              {{ label }}
+            </option>
+          {% endfor %}
+        </select>
+
+        <label for="tracking_code">Código de rastreamento</label>
+        <input
+          id="tracking_code"
+          name="tracking_code"
+          type="text"
+          value="{{ pedido.tracking_code or '' }}"
+          placeholder="Será integrado ao Melhor Envio na próxima fase"
+        >
+
+        <label for="internal_notes">Observações internas</label>
+        <textarea
+          id="internal_notes"
+          name="internal_notes"
+          rows="5"
+          placeholder="Ex.: exemplar separado, embalagem pronta..."
+        >{{ pedido.internal_notes or '' }}</textarea>
+
+        <button class="kehai-admin-btn kehai-admin-btn--primary" type="submit">
+          Salvar atualização
+        </button>
+      </form>
+
+      <div class="kehai-admin-operation__note">
+        <strong>Próxima integração</strong>
+        <p>
+          A geração automática da etiqueta do Melhor Envio será conectada aqui, depois da configuração dos dados fiscais e do remetente.
+        </p>
+      </div>
+    </aside>
+
+  </main>
+</body>
+</html>
