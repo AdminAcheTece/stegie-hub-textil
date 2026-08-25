@@ -1999,6 +1999,175 @@ def kehai_checkout():
         }), 500
 
 # =====================================================
+# KEHAI - SINCRONIZAÇÃO DO RETORNO DO MERCADO PAGO
+# =====================================================
+
+def _mp_em_centavos(valor):
+    if valor is None:
+        return None
+
+    try:
+        return reais_para_centavos(valor)
+    except (ValueError, TypeError):
+        return None
+
+
+def sincronizar_pagamento_kehai(payment_id, expected_order_number=None):
+    """
+    Confirma o pagamento diretamente na API do Mercado Pago.
+
+    É usado na página de retorno para que a experiência do comprador
+    não dependa da ordem de chegada entre redirect e webhook.
+    O webhook continua sendo a confirmação assíncrona principal.
+    """
+    payment_id = str(payment_id or "").strip()
+
+    if not payment_id:
+        return None
+
+    sdk = get_mercadopago_sdk()
+    pagamento_response = sdk.payment().get(payment_id)
+    pagamento = pagamento_response.get("response", {}) or {}
+
+    status = pagamento.get("status")
+    external_reference = pagamento.get("external_reference")
+    transaction_amount = pagamento.get("transaction_amount")
+    transaction_details = pagamento.get("transaction_details") or {}
+    total_paid_amount = transaction_details.get("total_paid_amount")
+
+    merchant_order_id = (pagamento.get("order") or {}).get("id")
+    merchant_order = {}
+
+    if merchant_order_id:
+        try:
+            merchant_response = requests.get(
+                (
+                    "https://api.mercadopago.com/"
+                    f"merchant_orders/{merchant_order_id}"
+                ),
+                headers={
+                    "Authorization": f"Bearer {MERCADO_PAGO_ACCESS_TOKEN}",
+                    "Accept": "application/json",
+                },
+                timeout=20,
+            )
+
+            if merchant_response.ok:
+                merchant_order = merchant_response.json()
+        except Exception as erro:
+            print(
+                "[MERCADO PAGO RETORNO] "
+                f"Merchant Order indisponível: {erro}"
+            )
+
+    merchant_external_reference = merchant_order.get("external_reference")
+    if merchant_external_reference:
+        external_reference = merchant_external_reference
+
+    if (
+        expected_order_number
+        and
+        str(external_reference or "") != str(expected_order_number)
+    ):
+        print(
+            "[MERCADO PAGO RETORNO] "
+            "external_reference divergente. "
+            f"esperado={expected_order_number} "
+            f"recebido={external_reference}"
+        )
+        return buscar_pedido_kehai(expected_order_number)
+
+    pedido = buscar_pedido_kehai(external_reference)
+    if not pedido:
+        return None
+
+    transaction_amount_cents = _mp_em_centavos(transaction_amount)
+    total_paid_amount_cents = _mp_em_centavos(total_paid_amount)
+    merchant_total_cents = _mp_em_centavos(
+        merchant_order.get("total_amount")
+    )
+    merchant_paid_cents = _mp_em_centavos(
+        merchant_order.get("paid_amount")
+    )
+    merchant_shipping_cents = _mp_em_centavos(
+        merchant_order.get("shipping_cost")
+    )
+    merchant_order_status = merchant_order.get("order_status")
+
+    order_status = pedido["status"]
+
+    if status == "approved":
+        checks = [
+            total_paid_amount_cents == pedido["total_cents"],
+            (
+                transaction_amount_cents is None
+                or transaction_amount_cents == pedido["subtotal_cents"]
+            ),
+            (
+                merchant_total_cents is None
+                or merchant_total_cents == pedido["subtotal_cents"]
+            ),
+            (
+                merchant_paid_cents is None
+                or merchant_paid_cents == pedido["subtotal_cents"]
+            ),
+            (
+                merchant_shipping_cents is None
+                or merchant_shipping_cents == pedido["shipping_price_cents"]
+            ),
+            merchant_order_status in {None, "paid"},
+        ]
+
+        order_status = (
+            "paid"
+            if all(checks)
+            else "payment_amount_mismatch"
+        )
+
+    elif status in {"pending", "in_process", "in_mediation"}:
+        if pedido["status"] != "paid":
+            order_status = "payment_pending"
+
+    elif status in {"rejected", "cancelled"}:
+        if pedido["status"] != "paid":
+            order_status = "payment_failed"
+
+    elif status in {"refunded", "charged_back"}:
+        order_status = status
+
+    atualizar_pedido_kehai(
+        pedido["order_number"],
+        status=order_status,
+        mp_payment_id=payment_id,
+        mp_payment_status=status,
+    )
+
+    return buscar_pedido_kehai(pedido["order_number"])
+
+
+def formatar_brl_centavos(cents):
+    valor = Decimal(int(cents or 0)) / Decimal(100)
+    return f"R$ {valor:.2f}".replace(".", ",")
+
+
+def contexto_pedido_kehai(pedido):
+    if not pedido:
+        return None
+
+    contexto = dict(pedido)
+    contexto["subtotal_formatado"] = formatar_brl_centavos(
+        pedido["subtotal_cents"]
+    )
+    contexto["frete_formatado"] = formatar_brl_centavos(
+        pedido["shipping_price_cents"]
+    )
+    contexto["total_formatado"] = formatar_brl_centavos(
+        pedido["total_cents"]
+    )
+    return contexto
+
+
+# =====================================================
 # KEHAI - WEBHOOK MERCADO PAGO
 # =====================================================
 
@@ -2390,28 +2559,55 @@ def kehai_mercadopago_webhook():
 # KEHAI - RETORNOS DO PAGAMENTO
 # =====================================================
 
+def _render_kehai_compra_status(page_kind):
+    order_number = str(request.args.get("order") or "").strip()
+    payment_id = str(
+        request.args.get("payment_id")
+        or request.args.get("collection_id")
+        or ""
+    ).strip()
+
+    pedido = buscar_pedido_kehai(order_number) if order_number else None
+
+    # No retorno do Mercado Pago, confirma de forma segura na API.
+    # Isso deixa a página correta mesmo se o webhook chegar alguns
+    # segundos depois do redirect.
+    if payment_id and order_number:
+        try:
+            pedido_sincronizado = sincronizar_pagamento_kehai(
+                payment_id,
+                expected_order_number=order_number,
+            )
+            if pedido_sincronizado:
+                pedido = pedido_sincronizado
+        except Exception as erro:
+            print(
+                "[MERCADO PAGO RETORNO] "
+                f"Falha ao sincronizar pagamento: {erro}"
+            )
+
+    return render_template(
+        "kehai_compra_status.html",
+        page_kind=page_kind,
+        pedido=contexto_pedido_kehai(pedido),
+        payment_id=payment_id or None,
+    )
+
+
 @app.route("/kehai/compra/sucesso")
 def kehai_compra_sucesso():
-    return """
-    <h1>Pagamento aprovado</h1>
-    <p>Obrigado pela sua compra do livro KEHAI.</p>
-    """
+    return _render_kehai_compra_status("success")
 
 
 @app.route("/kehai/compra/pendente")
 def kehai_compra_pendente():
-    return """
-    <h1>Pagamento pendente</h1>
-    <p>Seu pagamento está sendo processado.</p>
-    """
+    return _render_kehai_compra_status("pending")
 
 
 @app.route("/kehai/compra/erro")
 def kehai_compra_erro():
-    return """
-    <h1>Pagamento não concluído</h1>
-    <p>Não foi possível concluir o pagamento.</p>
-    """
+    return _render_kehai_compra_status("failure")
+
 
 @app.route("/solucoes-vitrine")
 def solucoes_vitrine():
