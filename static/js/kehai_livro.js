@@ -200,6 +200,18 @@
       $("#kehaiCheckoutSubmit");
 
 
+    const checkoutProgressShipping =
+      $("[data-kehai-progress='shipping']");
+
+
+    const checkoutProgressData =
+      $("[data-kehai-progress='data']");
+
+
+    const checkoutProgressPayment =
+      $("[data-kehai-progress='payment']");
+
+
     const KEHAI_PHYSICAL_PRICE_CENTS =
       7990;
 
@@ -474,6 +486,9 @@
 
       }
 
+
+      updateCheckoutReadiness();
+
     }
 
 
@@ -624,6 +639,9 @@
 
 
       updateCheckoutSummary();
+
+
+      updateCheckoutReadiness();
 
 
       trackEvent(
@@ -1158,6 +1176,9 @@
 
         }
 
+
+        updateCheckoutReadiness();
+
       }
 
     }
@@ -1199,6 +1220,9 @@
 
 
       setCheckoutError();
+
+
+      updateCheckoutReadiness();
 
 
       window.requestAnimationFrame(
@@ -1248,6 +1272,226 @@
       checkoutStateData
         .lastTrigger
         ?.focus?.();
+
+    }
+
+
+    function shippingIsReady() {
+
+      const cep =
+        normalizeCep(
+          checkoutCep?.value
+        );
+
+
+      return Boolean(
+        cep
+        &&
+        cep === checkoutStateData.quotedCep
+        &&
+        checkoutStateData.selectedShipping
+      );
+
+    }
+
+
+    function customerDataIsReady() {
+
+      const requiredInputs = [
+        checkoutName,
+        checkoutEmail,
+        checkoutPhone,
+        checkoutStreet,
+        checkoutNumber,
+        checkoutDistrict,
+        checkoutCity,
+        checkoutState
+      ].filter(Boolean);
+
+
+      const fieldsValid =
+        requiredInputs.every(
+          (input) => {
+
+            const value =
+              String(input.value || "")
+                .trim();
+
+
+            if (!value) {
+              return false;
+            }
+
+
+            if (
+              input.type === "email"
+              &&
+              !input.checkValidity()
+            ) {
+              return false;
+            }
+
+
+            if (
+              input === checkoutState
+              &&
+              !/^[A-Za-z]{2}$/
+                .test(value)
+            ) {
+              return false;
+            }
+
+
+            return true;
+
+          }
+        );
+
+
+      const phoneDigits =
+        String(
+          checkoutPhone?.value || ""
+        )
+          .replace(/\D/g, "");
+
+
+      return (
+        fieldsValid
+        &&
+        phoneDigits.length >= 10
+      );
+
+    }
+
+
+    function updateCheckoutProgress() {
+
+      const shippingReady =
+        shippingIsReady();
+
+
+      const dataReady =
+        customerDataIsReady();
+
+
+      const paymentReady =
+        shippingReady
+        &&
+        dataReady;
+
+
+      [
+        checkoutProgressShipping,
+        checkoutProgressData,
+        checkoutProgressPayment
+      ]
+        .filter(Boolean)
+        .forEach(
+          (step) => {
+            step.classList.remove(
+              "is-active",
+              "is-complete"
+            );
+          }
+        );
+
+
+      if (checkoutProgressShipping) {
+
+        checkoutProgressShipping
+          .classList
+          .toggle(
+            "is-complete",
+            shippingReady
+          );
+
+        checkoutProgressShipping
+          .classList
+          .toggle(
+            "is-active",
+            !shippingReady
+          );
+
+      }
+
+
+      if (checkoutProgressData) {
+
+        checkoutProgressData
+          .classList
+          .toggle(
+            "is-complete",
+            paymentReady
+          );
+
+        checkoutProgressData
+          .classList
+          .toggle(
+            "is-active",
+            shippingReady
+            &&
+            !dataReady
+          );
+
+      }
+
+
+      if (checkoutProgressPayment) {
+
+        checkoutProgressPayment
+          .classList
+          .toggle(
+            "is-active",
+            paymentReady
+          );
+
+      }
+
+    }
+
+
+    function updateCheckoutReadiness() {
+
+      updateCheckoutProgress();
+
+
+      if (!checkoutSubmit) {
+        return;
+      }
+
+
+      const ready =
+        shippingIsReady()
+        &&
+        customerDataIsReady();
+
+
+      const disabled =
+        !ready
+        ||
+        checkoutStateData.submitting;
+
+
+      checkoutSubmit.disabled =
+        disabled;
+
+
+      checkoutSubmit.setAttribute(
+        "aria-disabled",
+        String(disabled)
+      );
+
+
+      if (
+        !checkoutStateData.submitting
+      ) {
+
+        checkoutSubmit.textContent =
+          ready
+            ? "Ir para o pagamento"
+            : "Complete os dados para continuar";
+
+      }
 
     }
 
@@ -1426,20 +1670,34 @@
       }
 
 
-      checkoutSubmit.disabled =
-        submitting;
-
-
       checkoutSubmit.setAttribute(
         "aria-busy",
         String(submitting)
       );
 
 
-      checkoutSubmit.textContent =
-        submitting
-          ? "Preparando pagamento..."
-          : "Ir para o pagamento";
+      if (submitting) {
+
+        checkoutSubmit.disabled =
+          true;
+
+
+        checkoutSubmit.setAttribute(
+          "aria-disabled",
+          "true"
+        );
+
+
+        checkoutSubmit.textContent =
+          "Preparando pagamento...";
+
+      }
+
+      else {
+
+        updateCheckoutReadiness();
+
+      }
 
     }
 
@@ -1690,6 +1948,9 @@
       }
 
     }
+
+
+    updateCheckoutReadiness();
 
 
     /*
@@ -1948,6 +2209,9 @@
                 invalidateCreatedOrder();
 
               }
+
+
+              updateCheckoutReadiness();
 
             }
           );
