@@ -448,3 +448,107 @@ body.kehai-admin-page {
     padding: 22px;
   }
 }
+
+
+/* =========================================================
+   KEHAI — MELHOR ENVIO / EXPEDIÇÃO
+   ========================================================= */
+
+.kehai-admin-flashes {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.kehai-admin-alert--success {
+  border-left-color: var(--ka-green);
+  background: rgba(31, 90, 80, .08);
+  color: var(--ka-green-deep);
+}
+
+.kehai-admin-operation-stack {
+  display: grid;
+  gap: 24px;
+  align-self: start;
+}
+
+.kehai-admin-operation-stack .kehai-admin-operation {
+  position: static;
+}
+
+.kehai-admin-shipping-flow {
+  display: grid;
+  gap: 0;
+  margin: 26px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kehai-admin-shipping-flow li {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--ka-line);
+}
+
+.kehai-admin-shipping-flow li > span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--ka-line);
+  border-radius: 50%;
+  color: var(--ka-muted);
+  font-size: 12px;
+}
+
+.kehai-admin-shipping-flow li.is-done > span {
+  border-color: var(--ka-green);
+  background: var(--ka-green);
+  color: #fff;
+}
+
+.kehai-admin-shipping-flow strong {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.kehai-admin-shipping-flow small {
+  display: block;
+  color: var(--ka-muted);
+  line-height: 1.45;
+}
+
+.kehai-admin-shipping-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.kehai-admin-shipping-actions form,
+.kehai-admin-shipping-actions .kehai-admin-btn {
+  width: 100%;
+}
+
+.kehai-admin-btn-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.kehai-admin-btn:disabled {
+  cursor: not-allowed;
+  border-color: var(--ka-line);
+  background: #ddd9cf;
+  color: #8a887f;
+  opacity: .8;
+}
+
+.kehai-admin-help {
+  margin: 18px 0 0;
+  color: var(--ka-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
