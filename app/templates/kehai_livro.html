@@ -1358,11 +1358,17 @@
 
             </div>
 
+            <div class="kehai-book-offer__shipping-note">
+              Frete calculado pelo CEP
+            </div>
+
 
             <a
               href="#"
               id="kehaiBuyPhysical"
               class="kehai-book-btn kehai-book-btn--primary kehai-book-btn--full"
+              data-kehai-checkout-trigger
+              aria-haspopup="dialog"
             >
 
               Comprar Livro Físico
@@ -1739,6 +1745,8 @@
           href="#"
           id="kehaiBuyFinal"
           class="kehai-book-btn kehai-book-btn--ivory kehai-book-btn--large"
+          data-kehai-checkout-trigger
+          aria-haspopup="dialog"
         >
 
           Comprar o Livro
@@ -2145,12 +2153,415 @@
   
 
 
+
+  <!-- =====================================================
+       CHECKOUT — LIVRO FÍSICO
+       ===================================================== -->
+
+  <div
+    class="kehai-book-checkout"
+    id="kehaiCheckout"
+    aria-hidden="true"
+  >
+
+    <button
+      class="kehai-book-checkout__backdrop"
+      type="button"
+      data-kehai-checkout-close
+      aria-label="Fechar compra"
+      tabindex="-1"
+    ></button>
+
+    <section
+      class="kehai-book-checkout__dialog"
+      id="kehaiCheckoutDialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="kehaiCheckoutTitle"
+      aria-describedby="kehaiCheckoutDescription"
+      tabindex="-1"
+    >
+
+      <header class="kehai-book-checkout__header">
+
+        <div class="kehai-book-checkout__identity">
+
+          <img
+            src="{{ url_for('static', filename='img/kehai/simbolo-kehai.png') }}"
+            alt=""
+            aria-hidden="true"
+          >
+
+          <div>
+
+            <span class="kehai-book-checkout__eyebrow">
+              COMPRA SEGURA
+            </span>
+
+            <h2 id="kehaiCheckoutTitle">
+              Seu exemplar do KEHAI
+            </h2>
+
+            <p id="kehaiCheckoutDescription">
+              Informe o CEP, confirme seus dados e siga para o pagamento seguro.
+            </p>
+
+          </div>
+
+        </div>
+
+        <button
+          class="kehai-book-checkout__close"
+          type="button"
+          data-kehai-checkout-close
+          aria-label="Fechar compra"
+        >
+          ×
+        </button>
+
+      </header>
+
+
+      <div class="kehai-book-checkout__grid">
+
+        <form
+          class="kehai-book-checkout__form"
+          id="kehaiCheckoutForm"
+          novalidate
+        >
+
+          <!-- ENTREGA -->
+
+          <fieldset class="kehai-book-checkout__section">
+
+            <legend>
+              <span>1</span>
+              Entrega
+            </legend>
+
+            <p class="kehai-book-checkout__section-text">
+              Digite o CEP para consultar as opções de envio disponíveis.
+            </p>
+
+            <div class="kehai-book-checkout__cep-row">
+
+              <label class="kehai-book-checkout__field">
+
+                <span>CEP</span>
+
+                <input
+                  type="text"
+                  id="kehaiCheckoutCep"
+                  name="postal_code"
+                  inputmode="numeric"
+                  autocomplete="postal-code"
+                  maxlength="9"
+                  placeholder="00000-000"
+                  required
+                >
+
+              </label>
+
+              <button
+                class="kehai-book-btn kehai-book-btn--outline kehai-book-checkout__shipping-button"
+                id="kehaiCheckoutCalculateShipping"
+                type="button"
+              >
+                Calcular frete
+              </button>
+
+            </div>
+
+            <div
+              class="kehai-book-checkout__status"
+              id="kehaiCheckoutShippingStatus"
+              aria-live="polite"
+            ></div>
+
+            <div
+              class="kehai-book-checkout__shipping-options"
+              id="kehaiCheckoutShippingOptions"
+            ></div>
+
+          </fieldset>
+
+
+          <!-- DADOS -->
+
+          <fieldset class="kehai-book-checkout__section">
+
+            <legend>
+              <span>2</span>
+              Seus dados
+            </legend>
+
+            <div class="kehai-book-checkout__fields">
+
+              <label class="kehai-book-checkout__field kehai-book-checkout__field--full">
+
+                <span>Nome completo</span>
+
+                <input
+                  type="text"
+                  id="kehaiCheckoutName"
+                  name="name"
+                  autocomplete="name"
+                  placeholder="Seu nome completo"
+                  required
+                >
+
+              </label>
+
+              <label class="kehai-book-checkout__field">
+
+                <span>E-mail</span>
+
+                <input
+                  type="email"
+                  id="kehaiCheckoutEmail"
+                  name="email"
+                  autocomplete="email"
+                  placeholder="voce@exemplo.com"
+                  required
+                >
+
+              </label>
+
+              <label class="kehai-book-checkout__field">
+
+                <span>Telefone</span>
+
+                <input
+                  type="tel"
+                  id="kehaiCheckoutPhone"
+                  name="phone"
+                  autocomplete="tel"
+                  inputmode="tel"
+                  placeholder="(47) 99999-9999"
+                  required
+                >
+
+              </label>
+
+            </div>
+
+          </fieldset>
+
+
+          <!-- ENDEREÇO -->
+
+          <fieldset class="kehai-book-checkout__section">
+
+            <legend>
+              <span>3</span>
+              Endereço de entrega
+            </legend>
+
+            <p class="kehai-book-checkout__section-text">
+              O endereço pode ser preenchido automaticamente pelo CEP. Revise os dados antes de continuar.
+            </p>
+
+            <div class="kehai-book-checkout__fields">
+
+              <label class="kehai-book-checkout__field kehai-book-checkout__field--wide">
+
+                <span>Rua / Avenida</span>
+
+                <input
+                  type="text"
+                  id="kehaiCheckoutStreet"
+                  name="street"
+                  autocomplete="address-line1"
+                  required
+                >
+
+              </label>
+
+              <label class="kehai-book-checkout__field kehai-book-checkout__field--narrow">
+
+                <span>Número</span>
+
+                <input
+                  type="text"
+                  id="kehaiCheckoutNumber"
+                  name="number"
+                  autocomplete="address-line2"
+                  required
+                >
+
+              </label>
+
+              <label class="kehai-book-checkout__field">
+
+                <span>Complemento</span>
+
+                <input
+                  type="text"
+                  id="kehaiCheckoutComplement"
+                  name="complement"
+                  autocomplete="address-line2"
+                  placeholder="Opcional"
+                >
+
+              </label>
+
+              <label class="kehai-book-checkout__field">
+
+                <span>Bairro</span>
+
+                <input
+                  type="text"
+                  id="kehaiCheckoutDistrict"
+                  name="district"
+                  required
+                >
+
+              </label>
+
+              <label class="kehai-book-checkout__field kehai-book-checkout__field--wide">
+
+                <span>Cidade</span>
+
+                <input
+                  type="text"
+                  id="kehaiCheckoutCity"
+                  name="city"
+                  autocomplete="address-level2"
+                  required
+                >
+
+              </label>
+
+              <label class="kehai-book-checkout__field kehai-book-checkout__field--narrow">
+
+                <span>UF</span>
+
+                <input
+                  type="text"
+                  id="kehaiCheckoutState"
+                  name="state"
+                  autocomplete="address-level1"
+                  maxlength="2"
+                  placeholder="SC"
+                  required
+                >
+
+              </label>
+
+            </div>
+
+          </fieldset>
+
+        </form>
+
+
+        <!-- RESUMO -->
+
+        <aside class="kehai-book-checkout__summary">
+
+          <div class="kehai-book-checkout__product">
+
+            <img
+              src="{{ url_for('static', filename='img/kehai/mockup-kehai.png') }}"
+              alt="Livro KEHAI"
+            >
+
+            <div>
+
+              <span>
+                LIVRO FÍSICO
+              </span>
+
+              <strong>
+                KEHAI
+              </strong>
+
+              <small>
+                A liderança que reconhece valor antes que ele se perca.
+              </small>
+
+            </div>
+
+          </div>
+
+          <div class="kehai-book-checkout__totals">
+
+            <div>
+
+              <span>Livro KEHAI</span>
+
+              <strong>
+                R$ 79,90
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span id="kehaiCheckoutShippingLabel">
+                Frete
+              </span>
+
+              <strong id="kehaiCheckoutShippingPrice">
+                A calcular
+              </strong>
+
+            </div>
+
+            <div class="kehai-book-checkout__total">
+
+              <span>Total</span>
+
+              <strong id="kehaiCheckoutTotal">
+                R$ 79,90
+              </strong>
+
+            </div>
+
+          </div>
+
+          <div
+            class="kehai-book-checkout__error"
+            id="kehaiCheckoutError"
+            role="alert"
+            aria-live="assertive"
+          ></div>
+
+          <button
+            class="kehai-book-btn kehai-book-btn--primary kehai-book-btn--full kehai-book-checkout__submit"
+            id="kehaiCheckoutSubmit"
+            type="submit"
+            form="kehaiCheckoutForm"
+          >
+            Ir para o pagamento
+          </button>
+
+          <div class="kehai-book-checkout__security">
+
+            <span aria-hidden="true">✓</span>
+
+            <p>
+              O preço e o frete são confirmados no servidor antes do pagamento.
+              O pagamento é processado com segurança pelo Mercado Pago.
+            </p>
+
+          </div>
+
+        </aside>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
   <!-- =====================================================
        JAVASCRIPT
        ===================================================== -->
 
   <script
-    src="{{ url_for('static', filename='js/kehai_livro.js') }}?v=3"
+    src="{{ url_for('static', filename='js/kehai_livro.js') }}?v={{ config.get('ASSET_VERSION','1') }}"
     defer
   ></script>
 
