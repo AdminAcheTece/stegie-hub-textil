@@ -42,6 +42,10 @@
         <span>Enviados</span>
         <strong>{{ counts.shipped }}</strong>
       </article>
+      <article>
+        <span>Entregues</span>
+        <strong>{{ counts.delivered }}</strong>
+      </article>
     </section>
 
     <section class="kehai-admin-panel">
@@ -84,6 +88,7 @@
                 <th>Cliente</th>
                 <th>Pagamento</th>
                 <th>Operação</th>
+                <th>Rastreio</th>
                 <th>Frete</th>
                 <th>Total</th>
                 <th></th>
@@ -109,6 +114,14 @@
                     <span class="kehai-admin-badge kehai-admin-badge--fulfillment">
                       {{ pedido.fulfillment_label }}
                     </span>
+                  </td>
+                  <td>
+                    {% if pedido.me_shipment_id %}
+                      <strong>{{ pedido.tracking_code or 'Aguardando código' }}</strong>
+                      <small>{{ pedido.tracking_status_label }}</small>
+                    {% else %}
+                      <span class="kehai-admin-muted">—</span>
+                    {% endif %}
                   </td>
                   <td>
                     {{ pedido.shipping_service }}
