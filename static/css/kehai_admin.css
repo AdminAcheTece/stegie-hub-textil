@@ -1,0 +1,450 @@
+/* =========================================================
+   KEHAI — PAINEL ADMINISTRATIVO / PÓS-VENDA
+   Arquivo: static/css/kehai_admin.css
+   ========================================================= */
+
+:root {
+  --ka-bg: #f4f1e7;
+  --ka-card: #fbf9f3;
+  --ka-ink: #102f2a;
+  --ka-muted: #6b6b64;
+  --ka-green: #1f5a50;
+  --ka-green-deep: #123d36;
+  --ka-gold: #b78f3e;
+  --ka-line: #d9d1c2;
+  --ka-white: #fff;
+  --ka-danger: #8d342e;
+  --ka-shadow: 0 18px 60px rgba(15, 43, 38, .08);
+}
+
+* { box-sizing: border-box; }
+
+body.kehai-admin-page {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ka-bg);
+  color: var(--ka-ink);
+  font-family: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.kehai-admin-page h1,
+.kehai-admin-page h2,
+.kehai-admin-page h3,
+.kehai-admin-page p {
+  margin-top: 0;
+}
+
+.kehai-admin-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 38px clamp(24px, 5vw, 76px) 28px;
+  border-bottom: 1px solid var(--ka-line);
+  background: rgba(251, 249, 243, .88);
+}
+
+.kehai-admin-header h1 {
+  margin: 5px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 400;
+}
+
+.kehai-admin-eyebrow {
+  margin-bottom: 7px;
+  color: var(--ka-green);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.kehai-admin-muted { color: var(--ka-muted); }
+
+.kehai-admin-shell {
+  width: min(1380px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 38px 0 70px;
+}
+
+.kehai-admin-metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.kehai-admin-metrics article {
+  padding: 22px 24px;
+  border: 1px solid var(--ka-line);
+  background: var(--ka-card);
+}
+
+.kehai-admin-metrics span {
+  display: block;
+  color: var(--ka-muted);
+  font-size: 13px;
+}
+
+.kehai-admin-metrics strong {
+  display: block;
+  margin-top: 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 400;
+}
+
+.kehai-admin-panel {
+  border: 1px solid var(--ka-line);
+  background: var(--ka-card);
+  box-shadow: var(--ka-shadow);
+}
+
+.kehai-admin-panel__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  padding: 28px 30px;
+  border-bottom: 1px solid var(--ka-line);
+}
+
+.kehai-admin-panel h2 {
+  margin-bottom: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.kehai-admin-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.kehai-admin-filters select,
+.kehai-admin-form input,
+.kehai-admin-form select,
+.kehai-admin-form textarea {
+  min-height: 46px;
+  border: 1px solid var(--ka-line);
+  border-radius: 2px;
+  background: var(--ka-white);
+  color: var(--ka-ink);
+  font: inherit;
+}
+
+.kehai-admin-filters select {
+  padding: 0 40px 0 13px;
+}
+
+.kehai-admin-table-wrap { overflow-x: auto; }
+
+.kehai-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.kehai-admin-table th,
+.kehai-admin-table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--ka-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.kehai-admin-table th {
+  color: var(--ka-muted);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.kehai-admin-table small {
+  display: block;
+  margin-top: 4px;
+  color: var(--ka-muted);
+}
+
+.kehai-admin-badge {
+  display: inline-flex;
+  padding: 6px 9px;
+  border: 1px solid var(--ka-line);
+  border-radius: 999px;
+  background: #f4f1e7;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.kehai-admin-badge--paid {
+  border-color: rgba(31, 90, 80, .24);
+  background: rgba(31, 90, 80, .08);
+  color: var(--ka-green-deep);
+}
+
+.kehai-admin-badge--payment_failed,
+.kehai-admin-badge--refunded {
+  color: var(--ka-danger);
+}
+
+.kehai-admin-badge--fulfillment {
+  background: #fff;
+}
+
+.kehai-admin-link,
+.kehai-admin-back {
+  color: var(--ka-green);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.kehai-admin-empty {
+  padding: 46px 30px;
+  color: var(--ka-muted);
+  text-align: center;
+}
+
+.kehai-admin-btn {
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.kehai-admin-btn--primary {
+  border-color: var(--ka-green);
+  background: var(--ka-green);
+  color: #fff;
+}
+
+.kehai-admin-btn--outline {
+  border-color: var(--ka-green);
+  background: transparent;
+  color: var(--ka-green);
+}
+
+.kehai-admin-btn--ghost {
+  border-color: var(--ka-line);
+  background: transparent;
+  color: var(--ka-ink);
+}
+
+.kehai-admin-login-page {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.kehai-admin-login {
+  width: min(480px, 100%);
+}
+
+.kehai-admin-login__card {
+  padding: 42px;
+  border: 1px solid var(--ka-line);
+  background: var(--ka-card);
+  box-shadow: var(--ka-shadow);
+}
+
+.kehai-admin-mark {
+  margin-bottom: 34px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  letter-spacing: .12em;
+}
+
+.kehai-admin-login h1 {
+  margin-bottom: 12px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 42px;
+  font-weight: 400;
+}
+
+.kehai-admin-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.kehai-admin-form label {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.kehai-admin-form input,
+.kehai-admin-form select,
+.kehai-admin-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+}
+
+.kehai-admin-form textarea {
+  resize: vertical;
+}
+
+.kehai-admin-form .kehai-admin-btn {
+  margin-top: 12px;
+}
+
+.kehai-admin-alert {
+  margin: 20px 0;
+  padding: 14px 16px;
+  border-left: 3px solid var(--ka-gold);
+  background: rgba(183, 143, 62, .08);
+  color: var(--ka-muted);
+}
+
+.kehai-admin-alert--error {
+  border-left-color: var(--ka-danger);
+}
+
+.kehai-admin-order-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, .75fr);
+  gap: 24px;
+}
+
+.kehai-admin-order-grid > .kehai-admin-panel {
+  padding: 30px;
+}
+
+.kehai-admin-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 26px 0 30px;
+}
+
+.kehai-admin-summary div {
+  padding: 18px;
+  border: 1px solid var(--ka-line);
+}
+
+.kehai-admin-summary span {
+  display: block;
+  color: var(--ka-muted);
+  font-size: 12px;
+}
+
+.kehai-admin-summary strong {
+  display: block;
+  margin-top: 5px;
+}
+
+.kehai-admin-section {
+  padding: 26px 0;
+  border-top: 1px solid var(--ka-line);
+}
+
+.kehai-admin-section h3 {
+  font-size: 15px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.kehai-admin-dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.kehai-admin-dl div {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.kehai-admin-dl dt {
+  color: var(--ka-muted);
+}
+
+.kehai-admin-dl dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.kehai-admin-section address {
+  color: var(--ka-muted);
+  font-style: normal;
+  line-height: 1.65;
+}
+
+.kehai-admin-operation {
+  align-self: start;
+  position: sticky;
+  top: 22px;
+}
+
+.kehai-admin-operation__note {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--ka-line);
+  color: var(--ka-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 980px) {
+  .kehai-admin-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .kehai-admin-order-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kehai-admin-operation {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .kehai-admin-header {
+    padding: 28px 20px 22px;
+  }
+
+  .kehai-admin-shell {
+    width: calc(100% - 28px);
+    padding-top: 20px;
+  }
+
+  .kehai-admin-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kehai-admin-panel__top {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 22px;
+  }
+
+  .kehai-admin-filters {
+    display: grid;
+  }
+
+  .kehai-admin-filters select,
+  .kehai-admin-filters .kehai-admin-btn {
+    width: 100%;
+  }
+
+  .kehai-admin-login__card {
+    padding: 30px 24px;
+  }
+
+  .kehai-admin-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .kehai-admin-dl div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .kehai-admin-order-grid > .kehai-admin-panel {
+    padding: 22px;
+  }
+}
