@@ -2122,9 +2122,101 @@ def kehai_mercadopago_webhook():
             )
 
 
-            valor = pagamento.get(
+            transaction_amount = pagamento.get(
                 "transaction_amount"
             )
+
+
+            transaction_details = (
+                pagamento.get("transaction_details")
+                or {}
+            )
+
+
+            total_paid_amount = transaction_details.get(
+                "total_paid_amount"
+            )
+
+
+            merchant_order_id = (
+                (pagamento.get("order") or {}).get("id")
+            )
+
+
+            merchant_order = {}
+
+            if merchant_order_id:
+                try:
+                    merchant_order_response = requests.get(
+                        (
+                            "https://api.mercadopago.com/"
+                            f"merchant_orders/{merchant_order_id}"
+                        ),
+                        headers={
+                            "Authorization":
+                                f"Bearer {MERCADO_PAGO_ACCESS_TOKEN}",
+                            "Accept": "application/json",
+                        },
+                        timeout=20,
+                    )
+
+                    if merchant_order_response.ok:
+                        merchant_order = (
+                            merchant_order_response.json()
+                        )
+                    else:
+                        print(
+                            "[MERCADO PAGO WEBHOOK] "
+                            "Não foi possível consultar Merchant Order. "
+                            f"HTTP {merchant_order_response.status_code}"
+                        )
+
+                except Exception as erro_merchant_order:
+                    print(
+                        "[MERCADO PAGO WEBHOOK] "
+                        "Erro ao consultar Merchant Order: "
+                        f"{erro_merchant_order}"
+                    )
+
+
+            merchant_external_reference = (
+                merchant_order.get("external_reference")
+            )
+
+            if merchant_external_reference:
+                external_reference = (
+                    merchant_external_reference
+                )
+
+
+            merchant_paid_amount = merchant_order.get(
+                "paid_amount"
+            )
+
+
+            merchant_total_amount = merchant_order.get(
+                "total_amount"
+            )
+
+
+            merchant_shipping_cost = merchant_order.get(
+                "shipping_cost"
+            )
+
+
+            # O Checkout Pro mantém o valor do produto em
+            # transaction_amount e o frete separado. Por isso,
+            # para validar quanto o comprador realmente pagou,
+            # priorizamos paid_amount da Merchant Order e, como
+            # fallback, transaction_details.total_paid_amount.
+            valor_total_pago = (
+                merchant_paid_amount
+                if merchant_paid_amount is not None
+                else total_paid_amount
+            )
+
+            if valor_total_pago is None:
+                valor_total_pago = transaction_amount
 
 
             print(
@@ -2132,7 +2224,12 @@ def kehai_mercadopago_webhook():
                 f"payment_id={data_id} "
                 f"status={status} "
                 f"external_reference={external_reference} "
-                f"valor={valor}"
+                f"transaction_amount={transaction_amount} "
+                f"total_paid_amount={total_paid_amount} "
+                f"merchant_order_id={merchant_order_id} "
+                f"merchant_total_amount={merchant_total_amount} "
+                f"merchant_paid_amount={merchant_paid_amount} "
+                f"merchant_shipping_cost={merchant_shipping_cost}"
             )
 
 
@@ -2140,20 +2237,48 @@ def kehai_mercadopago_webhook():
 
             if pedido:
                 try:
-                    valor_cents = reais_para_centavos(valor)
-                except ValueError:
-                    valor_cents = None
+                    valor_total_pago_cents = (
+                        reais_para_centavos(valor_total_pago)
+                    )
+                except (ValueError, TypeError):
+                    valor_total_pago_cents = None
+
+                try:
+                    merchant_total_cents = (
+                        reais_para_centavos(merchant_total_amount)
+                        if merchant_total_amount is not None
+                        else None
+                    )
+                except (ValueError, TypeError):
+                    merchant_total_cents = None
 
                 order_status = pedido["status"]
 
                 if status == "approved":
-                    if valor_cents == pedido["total_cents"]:
+                    valor_pago_confere = (
+                        valor_total_pago_cents
+                        == pedido["total_cents"]
+                    )
+
+                    total_pedido_mp_confere = (
+                        merchant_total_cents is None
+                        or merchant_total_cents
+                        == pedido["total_cents"]
+                    )
+
+                    if (
+                        valor_pago_confere
+                        and total_pedido_mp_confere
+                    ):
                         order_status = "paid"
                     else:
                         order_status = "payment_amount_mismatch"
                         print(
                             "[MERCADO PAGO WEBHOOK] "
-                            "Valor recebido diferente do pedido."
+                            "Valor total pago diferente do pedido. "
+                            f"esperado_cents={pedido['total_cents']} "
+                            f"pago_cents={valor_total_pago_cents} "
+                            f"merchant_total_cents={merchant_total_cents}"
                         )
 
                 elif status in {"pending", "in_process", "in_mediation"}:
