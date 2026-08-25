@@ -2221,6 +2221,38 @@
 
       </header>
 
+      <div
+        class="kehai-book-checkout__progress"
+        id="kehaiCheckoutProgress"
+        aria-label="Etapas da compra"
+      >
+
+        <div
+          class="kehai-book-checkout__progress-step is-active"
+          data-kehai-progress="shipping"
+        >
+          <span>1</span>
+          <strong>Frete</strong>
+        </div>
+
+        <div
+          class="kehai-book-checkout__progress-step"
+          data-kehai-progress="data"
+        >
+          <span>2</span>
+          <strong>Dados</strong>
+        </div>
+
+        <div
+          class="kehai-book-checkout__progress-step"
+          data-kehai-progress="payment"
+        >
+          <span>3</span>
+          <strong>Pagamento</strong>
+        </div>
+
+      </div>
+
 
       <div class="kehai-book-checkout__grid">
 
@@ -2532,8 +2564,10 @@
             id="kehaiCheckoutSubmit"
             type="submit"
             form="kehaiCheckoutForm"
+            disabled
+            aria-disabled="true"
           >
-            Ir para o pagamento
+            Complete os dados para continuar
           </button>
 
           <div class="kehai-book-checkout__security">
