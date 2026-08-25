@@ -156,6 +156,10 @@
       $("#kehaiCheckoutPhone");
 
 
+    const checkoutDocument =
+      $("#kehaiCheckoutDocument");
+
+
     const checkoutStreet =
       $("#kehaiCheckoutStreet");
 
@@ -360,6 +364,50 @@
         `${digits.slice(2, 7)}-`
         +
         digits.slice(7)
+      );
+
+    }
+
+
+    function formatCpf(
+      value
+    ) {
+
+      const digits =
+        String(value || "")
+          .replace(/\D/g, "")
+          .slice(0, 11);
+
+
+      if (digits.length <= 3) {
+        return digits;
+      }
+
+
+      if (digits.length <= 6) {
+        return `${digits.slice(0, 3)}.${digits.slice(3)}`;
+      }
+
+
+      if (digits.length <= 9) {
+        return (
+          `${digits.slice(0, 3)}.`
+          +
+          `${digits.slice(3, 6)}.`
+          +
+          digits.slice(6)
+        );
+      }
+
+
+      return (
+        `${digits.slice(0, 3)}.`
+        +
+        `${digits.slice(3, 6)}.`
+        +
+        `${digits.slice(6, 9)}-`
+        +
+        digits.slice(9)
       );
 
     }
@@ -1301,6 +1349,7 @@
         checkoutName,
         checkoutEmail,
         checkoutPhone,
+        checkoutDocument,
         checkoutStreet,
         checkoutNumber,
         checkoutDistrict,
@@ -1355,10 +1404,19 @@
           .replace(/\D/g, "");
 
 
+      const documentDigits =
+        String(
+          checkoutDocument?.value || ""
+        )
+          .replace(/\D/g, "");
+
+
       return (
         fieldsValid
         &&
         phoneDigits.length >= 10
+        &&
+        documentDigits.length === 11
       );
 
     }
@@ -1535,6 +1593,7 @@
         checkoutName,
         checkoutEmail,
         checkoutPhone,
+        checkoutDocument,
         checkoutStreet,
         checkoutNumber,
         checkoutDistrict,
@@ -1652,6 +1711,38 @@
       }
 
 
+      const documentDigits =
+        String(
+          checkoutDocument?.value || ""
+        )
+          .replace(/\D/g, "");
+
+
+      if (
+        documentDigits.length !== 11
+      ) {
+
+        checkoutDocument
+          ?.classList
+          .add(
+            "is-invalid"
+          );
+
+
+        setCheckoutError(
+          "Informe um CPF válido com 11 dígitos."
+        );
+
+
+        checkoutDocument
+          ?.focus();
+
+
+        return false;
+
+      }
+
+
       return true;
 
     }
@@ -1748,6 +1839,10 @@
 
                   phone:
                     checkoutPhone.value
+                      .replace(/\D/g, ""),
+
+                  document:
+                    checkoutDocument.value
                       .replace(/\D/g, "")
 
                 },
@@ -2165,6 +2260,20 @@
           checkoutPhone.value =
             formatPhone(
               checkoutPhone.value
+            );
+
+        }
+      );
+
+
+    checkoutDocument
+      ?.addEventListener(
+        "input",
+        () => {
+
+          checkoutDocument.value =
+            formatCpf(
+              checkoutDocument.value
             );
 
         }
