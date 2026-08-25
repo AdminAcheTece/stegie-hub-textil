@@ -88,7 +88,7 @@
                 <th>Cliente</th>
                 <th>Pagamento</th>
                 <th>Operação</th>
-                <th>Rastreio</th>
+                <th>Jornada</th>
                 <th>Frete</th>
                 <th>Total</th>
                 <th></th>
@@ -107,7 +107,7 @@
                   </td>
                   <td>
                     <span class="kehai-admin-badge kehai-admin-badge--{{ pedido.status }}">
-                      {{ pedido.status }}
+                      {% if pedido.status == 'paid' %}Pago{% elif pedido.status == 'payment_pending' %}Pendente{% elif pedido.status == 'payment_failed' %}Falhou{% else %}{{ pedido.status }}{% endif %}
                     </span>
                   </td>
                   <td>
@@ -116,11 +116,13 @@
                     </span>
                   </td>
                   <td>
-                    {% if pedido.me_shipment_id %}
-                      <strong>{{ pedido.tracking_code or 'Aguardando código' }}</strong>
-                      <small>{{ pedido.tracking_status_label }}</small>
-                    {% else %}
-                      <span class="kehai-admin-muted">—</span>
+                    <span class="kehai-admin-journey-pill {% if pedido.tracking_is_problem %}is-problem{% elif pedido.tracking_is_delivered %}is-delivered{% endif %}">
+                      {{ pedido.timeline_current_label }}
+                    </span>
+                    {% if pedido.tracking_code %}
+                      <small>{{ pedido.tracking_code }}</small>
+                    {% elif pedido.me_shipment_id %}
+                      <small>Aguardando código de rastreamento</small>
                     {% endif %}
                   </td>
                   <td>
