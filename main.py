@@ -9,6 +9,7 @@ import requests
 import mercadopago
 
 from datetime import datetime, timezone, timedelta
+from zoneinfo import ZoneInfo
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from functools import wraps
 
@@ -665,6 +666,7 @@ def inicializar_banco_kehai():
                 mp_preference_id TEXT,
                 mp_payment_id TEXT,
                 mp_payment_status TEXT,
+                payment_confirmed_at TEXT,
 
                 fulfillment_status TEXT NOT NULL DEFAULT 'pending',
                 fulfillment_updated_at TEXT,
@@ -684,6 +686,7 @@ def inicializar_banco_kehai():
                 me_last_error TEXT,
 
                 me_protocol TEXT,
+                me_released_at TEXT,
                 me_tracking_status TEXT,
                 me_tracking_url TEXT,
                 me_tracking_event_at TEXT,
@@ -702,6 +705,8 @@ def inicializar_banco_kehai():
         }
 
         migrations = {
+            "payment_confirmed_at":
+                "ALTER TABLE kehai_orders ADD COLUMN payment_confirmed_at TEXT",
             "fulfillment_status":
                 "ALTER TABLE kehai_orders ADD COLUMN fulfillment_status TEXT NOT NULL DEFAULT 'pending'",
             "fulfillment_updated_at":
@@ -736,6 +741,8 @@ def inicializar_banco_kehai():
                 "ALTER TABLE kehai_orders ADD COLUMN me_last_error TEXT",
             "me_protocol":
                 "ALTER TABLE kehai_orders ADD COLUMN me_protocol TEXT",
+            "me_released_at":
+                "ALTER TABLE kehai_orders ADD COLUMN me_released_at TEXT",
             "me_tracking_status":
                 "ALTER TABLE kehai_orders ADD COLUMN me_tracking_status TEXT",
             "me_tracking_url":
@@ -755,6 +762,33 @@ def inicializar_banco_kehai():
         for column_name, statement in migrations.items():
             if column_name not in existing_columns:
                 conn.execute(statement)
+
+        # Backfill de marcos para pedidos criados antes desta versão.
+        # Para pagamentos antigos, created_at é usado apenas como aproximação
+        # visual quando não há data de aprovação armazenada.
+        conn.execute(
+            """
+            UPDATE kehai_orders
+            SET payment_confirmed_at = created_at
+            WHERE status = 'paid'
+              AND (payment_confirmed_at IS NULL OR payment_confirmed_at = '')
+            """
+        )
+
+        conn.execute(
+            """
+            UPDATE kehai_orders
+            SET me_released_at = COALESCE(me_purchased_at, me_tracking_event_at)
+            WHERE (me_released_at IS NULL OR me_released_at = '')
+              AND (
+                    me_purchased_at IS NOT NULL
+                    OR me_tracking_status IN (
+                        'released', 'generated', 'posted', 'received',
+                        'delivered', 'undelivered', 'paused', 'suspended'
+                    )
+                  )
+            """
+        )
 
         conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_kehai_orders_status "
@@ -888,6 +922,7 @@ def atualizar_pedido_kehai(order_number, **fields):
         "mp_preference_id",
         "mp_payment_id",
         "mp_payment_status",
+        "payment_confirmed_at",
         "fulfillment_status",
         "fulfillment_updated_at",
         "tracking_code",
@@ -905,6 +940,7 @@ def atualizar_pedido_kehai(order_number, **fields):
         "me_printed_at",
         "me_last_error",
         "me_protocol",
+        "me_released_at",
         "me_tracking_status",
         "me_tracking_url",
         "me_tracking_event_at",
@@ -2507,11 +2543,20 @@ def sincronizar_pagamento_kehai(payment_id, expected_order_number=None):
     elif status in {"refunded", "charged_back"}:
         order_status = status
 
+    payment_confirmed_at = pedido.get("payment_confirmed_at")
+    if order_status == "paid" and not payment_confirmed_at:
+        payment_confirmed_at = (
+            pagamento.get("date_approved")
+            or pagamento.get("date_last_updated")
+            or agora_iso()
+        )
+
     atualizar_pedido_kehai(
         pedido["order_number"],
         status=order_status,
         mp_payment_id=payment_id,
         mp_payment_status=status,
+        payment_confirmed_at=payment_confirmed_at,
     )
 
     return buscar_pedido_kehai(pedido["order_number"])
@@ -2552,7 +2597,7 @@ FULFILLMENT_LABELS = {
 MELHOR_ENVIO_TRACKING_LABELS = {
     "pending": "Pendente",
     "released": "Frete liberado",
-    "generated": "Etiqueta gerada",
+    "generated": "Etiqueta pronta",
     "received": "Recebido no ponto de distribuição",
     "posted": "Postado",
     "delivered": "Entregue",
@@ -2562,6 +2607,57 @@ MELHOR_ENVIO_TRACKING_LABELS = {
     "paused": "Entrega pausada",
     "suspended": "Entrega suspensa",
 }
+
+
+MELHOR_ENVIO_EVENT_LABELS = {
+    "order.created": "Envio criado no Melhor Envio",
+    "order.pending": "Envio retornou ao carrinho",
+    "order.released": "Frete liberado pelo Melhor Envio",
+    "order.generated": "Etiqueta gerada e pronta",
+    "order.received": "Encomenda recebida em ponto de distribuição",
+    "order.posted": "Objeto postado",
+    "order.delivered": "Entrega confirmada",
+    "order.cancelled": "Envio cancelado",
+    "order.undelivered": "Tentativa de entrega sem sucesso",
+    "order.paused": "Entrega pausada — requer atenção",
+    "order.suspended": "Entrega suspensa",
+}
+
+
+def label_evento_melhor_envio(event):
+    event = str(event or "").strip()
+    if not event:
+        return "Aguardando nova atualização"
+    return MELHOR_ENVIO_EVENT_LABELS.get(
+        event,
+        event.replace("order.", "").replace("_", " ").capitalize(),
+    )
+
+
+def label_origem_rastreamento(source):
+    source = str(source or "").strip().lower()
+    if source == "webhook":
+        return "Atualização automática"
+    if source == "api":
+        return "Consulta manual"
+    return "—" if not source else source.capitalize()
+
+
+def formatar_data_hora_br(value):
+    """Converte timestamps ISO/UTC para horário de Brasília."""
+    text = str(value or "").strip()
+    if not text:
+        return "—"
+
+    try:
+        normalized = text.replace("Z", "+00:00")
+        dt = datetime.fromisoformat(normalized)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        dt_br = dt.astimezone(ZoneInfo("America/Sao_Paulo"))
+        return dt_br.strftime("%d/%m/%Y · %H:%M")
+    except (ValueError, TypeError):
+        return text
 
 
 def label_status_rastreamento_melhor_envio(status):
@@ -2593,6 +2689,140 @@ def mascarar_cpf_kehai(value):
     if len(digits) == 11:
         return f"***.***.***-{digits[-2:]}"
     return "—"
+
+
+def construir_timeline_pedido_kehai(contexto):
+    status_pagamento = str(contexto.get("status") or "").lower()
+    status_logistico = str(contexto.get("me_tracking_status") or "").lower()
+    fulfillment = str(contexto.get("fulfillment_status") or "pending").lower()
+
+    pagamento_ok = (
+        status_pagamento == "paid"
+        or bool(contexto.get("payment_confirmed_at"))
+    )
+
+    frete_liberado = bool(
+        contexto.get("me_released_at")
+        or contexto.get("me_purchased_at")
+        or status_logistico in {
+            "released", "generated", "received", "posted", "delivered",
+            "undelivered", "paused", "suspended",
+        }
+    )
+
+    etiqueta_pronta = bool(
+        contexto.get("me_generated_at")
+        or contexto.get("me_label_url")
+        or str(contexto.get("me_shipment_status") or "").lower()
+           in {"generated", "label_ready"}
+        or status_logistico in {
+            "generated", "received", "posted", "delivered",
+            "undelivered", "paused", "suspended",
+        }
+    )
+
+    postado = bool(
+        contexto.get("shipped_at")
+        or fulfillment in {"shipped", "delivered"}
+        or status_logistico in {
+            "posted", "received", "delivered",
+            "undelivered", "paused", "suspended",
+        }
+    )
+
+    entregue = bool(
+        contexto.get("delivered_at")
+        or fulfillment == "delivered"
+        or status_logistico == "delivered"
+    )
+
+    # "Em trânsito" é uma camada de apresentação: inicia após a postagem
+    # e permanece ativa até a entrega, mesmo que a API use "posted".
+    em_transito = postado
+
+    if entregue:
+        current_index = 6
+    elif em_transito:
+        current_index = 5
+    elif etiqueta_pronta:
+        current_index = 3
+    elif frete_liberado:
+        current_index = 2
+    elif pagamento_ok:
+        current_index = 1
+    else:
+        current_index = 0
+
+    raw_steps = [
+        {
+            "key": "payment",
+            "label": "Pagamento confirmado",
+            "description": "Pagamento aprovado e pedido liberado.",
+            "date": contexto.get("payment_confirmed_at") or (
+                contexto.get("created_at") if pagamento_ok else None
+            ),
+        },
+        {
+            "key": "released",
+            "label": "Frete liberado",
+            "description": "Frete comprado e liberado para geração.",
+            "date": contexto.get("me_released_at") or contexto.get("me_purchased_at"),
+        },
+        {
+            "key": "label",
+            "label": "Etiqueta pronta",
+            "description": "Etiqueta gerada e disponível para impressão.",
+            "date": contexto.get("me_generated_at") or contexto.get("me_printed_at"),
+        },
+        {
+            "key": "posted",
+            "label": "Postado",
+            "description": "Objeto entregue à rede de transporte.",
+            "date": contexto.get("shipped_at"),
+        },
+        {
+            "key": "transit",
+            "label": "Em trânsito",
+            "description": "Encomenda a caminho do destinatário.",
+            "date": contexto.get("shipped_at"),
+        },
+        {
+            "key": "delivered",
+            "label": "Entregue",
+            "description": "Entrega confirmada ao destinatário.",
+            "date": contexto.get("delivered_at"),
+        },
+    ]
+
+    steps = []
+    for index, item in enumerate(raw_steps, start=1):
+        state = "pending"
+        if current_index:
+            if index < current_index:
+                state = "done"
+            elif index == current_index:
+                state = "current"
+        if entregue and index == 6:
+            state = "done-current"
+
+        item = dict(item)
+        item["number"] = index
+        item["state"] = state
+        item["date_label"] = formatar_data_hora_br(item.get("date"))
+        steps.append(item)
+
+    current_label = (
+        raw_steps[current_index - 1]["label"]
+        if current_index
+        else "Aguardando pagamento"
+    )
+
+    if status_logistico in {"undelivered", "paused", "suspended"}:
+        current_label = label_status_rastreamento_melhor_envio(status_logistico)
+    elif status_logistico in {"cancelled", "canceled"} or fulfillment == "cancelled":
+        current_label = "Envio cancelado"
+
+    return steps, current_label
 
 
 def contexto_admin_pedido_kehai(pedido):
@@ -2638,6 +2868,26 @@ def contexto_admin_pedido_kehai(pedido):
     contexto["tracking_is_delivered"] = (
         str(contexto.get("me_tracking_status") or "").lower() == "delivered"
     )
+    contexto["tracking_event_label"] = label_evento_melhor_envio(
+        contexto.get("me_webhook_event")
+    )
+    contexto["tracking_source_label"] = label_origem_rastreamento(
+        contexto.get("me_tracking_source")
+    )
+    contexto["tracking_event_at_label"] = formatar_data_hora_br(
+        contexto.get("me_tracking_event_at")
+    )
+    contexto["tracking_updated_at_label"] = formatar_data_hora_br(
+        contexto.get("me_tracking_updated_at")
+    )
+    contexto["payment_confirmed_at_label"] = formatar_data_hora_br(
+        contexto.get("payment_confirmed_at")
+    )
+
+    timeline, timeline_current_label = construir_timeline_pedido_kehai(contexto)
+    contexto["timeline"] = timeline
+    contexto["timeline_current_label"] = timeline_current_label
+
     return contexto
 
 
@@ -3038,16 +3288,28 @@ def aplicar_rastreamento_melhor_envio(
     # publicou um código próprio.
     tracking_code = tracking or self_tracking or str(pedido.get("tracking_code") or "").strip()
 
+    event_at = _data_evento_rastreamento_melhor_envio(data)
+
     fields = {
         "me_protocol": protocol or None,
         "me_tracking_status": status or pedido.get("me_tracking_status"),
         "me_tracking_url": tracking_url or pedido.get("me_tracking_url"),
-        "me_tracking_event_at": _data_evento_rastreamento_melhor_envio(data),
+        "me_tracking_event_at": event_at,
         "me_tracking_updated_at": agora_iso(),
         "me_tracking_source": source,
         "me_webhook_event": str(event or "").strip() or pedido.get("me_webhook_event"),
         "me_tracking_last_error": None,
     }
+
+    if status == "released" and not pedido.get("me_released_at"):
+        fields["me_released_at"] = (
+            data.get("paid_at") or event_at or agora_iso()
+        )
+
+    if status == "generated" and not pedido.get("me_generated_at"):
+        fields["me_generated_at"] = (
+            data.get("generated_at") or event_at or agora_iso()
+        )
 
     if tracking_code:
         fields["tracking_code"] = tracking_code
@@ -3073,6 +3335,7 @@ def aplicar_rastreamento_melhor_envio(
                 fields["shipped_at"] = (
                     pedido.get("shipped_at")
                     or data.get("posted_at")
+                    or event_at
                     or agora_iso()
                 )
 
@@ -3904,11 +4167,20 @@ def kehai_mercadopago_webhook():
                 elif status in {"refunded", "charged_back"}:
                     order_status = status
 
+                payment_confirmed_at = pedido.get("payment_confirmed_at")
+                if order_status == "paid" and not payment_confirmed_at:
+                    payment_confirmed_at = (
+                        pagamento.get("date_approved")
+                        or pagamento.get("date_last_updated")
+                        or agora_iso()
+                    )
+
                 atualizar_pedido_kehai(
                     pedido["order_number"],
                     status=order_status,
                     mp_payment_id=str(data_id),
                     mp_payment_status=status,
+                    payment_confirmed_at=payment_confirmed_at,
                 )
 
 
