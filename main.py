@@ -410,6 +410,71 @@ def somente_digitos(value):
     return "".join(ch for ch in str(value or "") if ch.isdigit())
 
 
+def validar_chave_nfe_modelo_55(chave):
+    """
+    Valida a estrutura básica da chave de acesso de uma NF-e modelo 55.
+
+    Regras verificadas:
+    - exatamente 44 dígitos;
+    - modelo do documento fiscal = 55;
+    - dígito verificador (módulo 11) correto;
+    - em produção, o CNPJ embutido na chave deve coincidir com o
+      CNPJ do remetente configurado no Render.
+
+    No Sandbox do Melhor Envio, a conferência de correspondência do
+    CNPJ é propositalmente dispensada para permitir chaves fictícias
+    estruturais de teste. Em produção, essa conferência é obrigatória.
+    """
+    chave = somente_digitos(chave)
+
+    if len(chave) != 44:
+        return False, "A chave da NF-e deve conter exatamente 44 dígitos."
+
+    # Estrutura da chave:
+    # cUF(2) + AAMM(4) + CNPJ(14) + modelo(2) + série(3) +
+    # nNF(9) + tpEmis(1) + cNF(8) + cDV(1)
+    modelo = chave[20:22]
+    if modelo != "55":
+        return False, (
+            "A chave informada não é de uma NF-e modelo 55. "
+            f"Modelo encontrado na chave: {modelo or '—'}."
+        )
+
+    base = chave[:43]
+    dv_informado = int(chave[43])
+
+    peso = 2
+    soma = 0
+    for caractere in reversed(base):
+        soma += int(caractere) * peso
+        peso += 1
+        if peso > 9:
+            peso = 2
+
+    resto = soma % 11
+    dv_calculado = 0 if resto in (0, 1) else 11 - resto
+
+    if dv_informado != dv_calculado:
+        return False, (
+            "A chave da NF-e possui dígito verificador inválido. "
+            "Revise a chave antes de continuar."
+        )
+
+    # Fora do Sandbox, garante que a nota pertence à mesma empresa
+    # configurada como remetente da operação KEHAI.
+    if "sandbox" not in MELHOR_ENVIO_BASE_URL.lower():
+        cnpj_remetente = somente_digitos(MELHOR_ENVIO_FROM_COMPANY_DOCUMENT)
+        cnpj_na_chave = chave[6:20]
+
+        if len(cnpj_remetente) == 14 and cnpj_na_chave != cnpj_remetente:
+            return False, (
+                "O CNPJ existente na chave da NF-e não corresponde "
+                "ao CNPJ do remetente configurado no Render."
+            )
+
+    return True, None
+
+
 def melhor_envio_request(method, endpoint, *, json_payload=None, timeout=30):
     """
     Executa chamada autenticada ao Melhor Envio e tenta renovar
@@ -2530,8 +2595,9 @@ def criar_envio_melhor_envio(pedido):
         raise RuntimeError("Informe o CPF do destinatário antes de preparar o envio.")
 
     invoice_key = somente_digitos(pedido.get("invoice_key"))
-    if len(invoice_key) != 44:
-        raise RuntimeError("Informe a chave de NF-e com 44 dígitos antes de preparar o envio.")
+    nfe_valida, nfe_erro = validar_chave_nfe_modelo_55(invoice_key)
+    if not nfe_valida:
+        raise RuntimeError(nfe_erro)
 
     company_document = somente_digitos(MELHOR_ENVIO_FROM_COMPANY_DOCUMENT)
     if len(company_document) != 14:
@@ -2942,8 +3008,9 @@ def kehai_admin_order_fiscal(order_number):
         flash("Informe um CPF válido com 11 dígitos.", "error")
         return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
 
-    if len(invoice_key) != 44:
-        flash("Informe a chave da NF-e com 44 dígitos.", "error")
+    nfe_valida, nfe_erro = validar_chave_nfe_modelo_55(invoice_key)
+    if not nfe_valida:
+        flash(nfe_erro, "error")
         return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
 
     atualizar_pedido_kehai(
