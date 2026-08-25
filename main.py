@@ -1,8 +1,12 @@
 import os
 import json
 import secrets
+import sqlite3
 import requests
 import mercadopago
+
+from datetime import datetime, timezone
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 
 from mercadopago.webhook import (
     WebhookSignatureValidator,
@@ -147,7 +151,7 @@ MELHOR_ENVIO_USER_AGENT = os.environ.get(
 ).strip()
 
 
-# Token OAuth salvo no disco persistente do Render.
+# Token OAuth persistente no disco do Render.
 MELHOR_ENVIO_TOKEN_FILE = (
     "/var/data/kehai_melhor_envio_token.json"
 )
@@ -320,6 +324,258 @@ def renovar_token_melhor_envio():
 
 
     return novo_token
+
+# -----------------------------
+# KEHAI - Pedidos e persistência
+# -----------------------------
+
+KEHAI_DATA_DIR = os.environ.get(
+    "KEHAI_DATA_DIR",
+    "/var/data"
+).strip() or "/var/data"
+
+KEHAI_DB_PATH = os.path.join(
+    KEHAI_DATA_DIR,
+    "kehai.sqlite3"
+)
+
+KEHAI_ORIGIN_POSTAL_CODE = "89260215"
+
+KEHAI_PRODUCTS = {
+    "physical": {
+        "code": "KEHAI-LIVRO-FISICO",
+        "title": "KEHAI - Livro Físico",
+        "quantity": 1,
+        "unit_price_cents": 7990,
+        "weight": 0.25,
+        "length": 25,
+        "width": 18,
+        "height": 4,
+    }
+}
+
+
+def agora_iso():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def normalizar_cep(value):
+    cep = "".join(ch for ch in str(value or "") if ch.isdigit())
+    return cep if len(cep) == 8 else None
+
+
+def reais_para_centavos(value):
+    try:
+        decimal_value = Decimal(str(value)).quantize(
+            Decimal("0.01"),
+            rounding=ROUND_HALF_UP,
+        )
+    except (InvalidOperation, TypeError, ValueError):
+        raise ValueError("Valor monetário inválido.")
+
+    return int(decimal_value * 100)
+
+
+def centavos_para_reais(cents):
+    return float(
+        (Decimal(int(cents)) / Decimal(100)).quantize(
+            Decimal("0.01")
+        )
+    )
+
+
+def get_kehai_db():
+    os.makedirs(KEHAI_DATA_DIR, exist_ok=True)
+
+    conn = sqlite3.connect(
+        KEHAI_DB_PATH,
+        timeout=15,
+    )
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA foreign_keys=ON")
+    return conn
+
+
+def inicializar_banco_kehai():
+    with get_kehai_db() as conn:
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS kehai_orders (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                order_number TEXT UNIQUE,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'awaiting_payment',
+
+                product_code TEXT NOT NULL,
+                product_title TEXT NOT NULL,
+                quantity INTEGER NOT NULL DEFAULT 1,
+                unit_price_cents INTEGER NOT NULL,
+                subtotal_cents INTEGER NOT NULL,
+
+                shipping_service_id TEXT NOT NULL,
+                shipping_service TEXT NOT NULL,
+                shipping_company TEXT NOT NULL,
+                shipping_price_cents INTEGER NOT NULL,
+                shipping_delivery_days INTEGER,
+                total_cents INTEGER NOT NULL,
+
+                customer_name TEXT NOT NULL,
+                customer_email TEXT NOT NULL,
+                customer_phone TEXT NOT NULL,
+
+                postal_code TEXT NOT NULL,
+                street TEXT NOT NULL,
+                address_number TEXT NOT NULL,
+                complement TEXT,
+                district TEXT NOT NULL,
+                city TEXT NOT NULL,
+                state TEXT NOT NULL,
+
+                mp_preference_id TEXT,
+                mp_payment_id TEXT,
+                mp_payment_status TEXT
+            )
+            """
+        )
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_kehai_orders_status "
+            "ON kehai_orders(status)"
+        )
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_kehai_orders_payment "
+            "ON kehai_orders(mp_payment_id)"
+        )
+
+    print(f"[KEHAI DB] Banco pronto em {KEHAI_DB_PATH}")
+
+
+def criar_pedido_kehai(data):
+    created_at = agora_iso()
+    temp_number = f"TMP-{secrets.token_hex(10)}"
+
+    with get_kehai_db() as conn:
+        cursor = conn.execute(
+            """
+            INSERT INTO kehai_orders (
+                order_number,
+                created_at,
+                updated_at,
+                status,
+                product_code,
+                product_title,
+                quantity,
+                unit_price_cents,
+                subtotal_cents,
+                shipping_service_id,
+                shipping_service,
+                shipping_company,
+                shipping_price_cents,
+                shipping_delivery_days,
+                total_cents,
+                customer_name,
+                customer_email,
+                customer_phone,
+                postal_code,
+                street,
+                address_number,
+                complement,
+                district,
+                city,
+                state
+            ) VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            )
+            """,
+            (
+                temp_number,
+                created_at,
+                created_at,
+                "awaiting_payment",
+                data["product_code"],
+                data["product_title"],
+                data["quantity"],
+                data["unit_price_cents"],
+                data["subtotal_cents"],
+                str(data["shipping_service_id"]),
+                data["shipping_service"],
+                data["shipping_company"],
+                data["shipping_price_cents"],
+                data.get("shipping_delivery_days"),
+                data["total_cents"],
+                data["customer_name"],
+                data["customer_email"],
+                data["customer_phone"],
+                data["postal_code"],
+                data["street"],
+                data["address_number"],
+                data.get("complement", ""),
+                data["district"],
+                data["city"],
+                data["state"],
+            ),
+        )
+
+        order_id = cursor.lastrowid
+        date_part = datetime.now().strftime("%Y%m%d")
+        order_number = f"KEHAI-{date_part}-{order_id:06d}"
+
+        conn.execute(
+            "UPDATE kehai_orders SET order_number = ? WHERE id = ?",
+            (order_number, order_id),
+        )
+
+        row = conn.execute(
+            "SELECT * FROM kehai_orders WHERE id = ?",
+            (order_id,),
+        ).fetchone()
+
+    return dict(row)
+
+
+def buscar_pedido_kehai(order_number):
+    with get_kehai_db() as conn:
+        row = conn.execute(
+            "SELECT * FROM kehai_orders WHERE order_number = ?",
+            (str(order_number or "").strip(),),
+        ).fetchone()
+
+    return dict(row) if row else None
+
+
+def atualizar_pedido_kehai(order_number, **fields):
+    allowed = {
+        "status",
+        "updated_at",
+        "mp_preference_id",
+        "mp_payment_id",
+        "mp_payment_status",
+    }
+
+    updates = {
+        key: value
+        for key, value in fields.items()
+        if key in allowed
+    }
+
+    updates["updated_at"] = agora_iso()
+
+    if not updates:
+        return
+
+    set_clause = ", ".join(f"{key} = ?" for key in updates)
+    values = list(updates.values()) + [order_number]
+
+    with get_kehai_db() as conn:
+        conn.execute(
+            f"UPDATE kehai_orders SET {set_clause} WHERE order_number = ?",
+            values,
+        )
+
+
+# Cria a estrutura automaticamente quando o app sobe no Render/Gunicorn.
+inicializar_banco_kehai()
 
 # Logs de boot
 print(f"[BOOT] BASE_DIR={BASE_DIR}")
@@ -1142,6 +1398,132 @@ def kehai_livro():
     return render_template("kehai_livro.html")
 
 # =====================================================
+# KEHAI - MELHOR ENVIO - FUNÇÕES DE FRETE
+# =====================================================
+
+def obter_opcoes_frete_kehai(cep_destino):
+    cep_destino = normalizar_cep(cep_destino)
+    if not cep_destino:
+        raise ValueError("CEP inválido.")
+
+    token_data = carregar_token_melhor_envio()
+    if not token_data:
+        raise RuntimeError("Melhor Envio ainda não autorizado.")
+
+    access_token = token_data.get("access_token")
+    if not access_token:
+        raise RuntimeError("Token do Melhor Envio não encontrado.")
+
+    product = KEHAI_PRODUCTS["physical"]
+
+    payload = {
+        "from": {
+            "postal_code": KEHAI_ORIGIN_POSTAL_CODE,
+        },
+        "to": {
+            "postal_code": cep_destino,
+        },
+        "products": [
+            {
+                "id": product["code"],
+                "width": product["width"],
+                "height": product["height"],
+                "length": product["length"],
+                "weight": product["weight"],
+                "insurance_value": centavos_para_reais(
+                    product["unit_price_cents"]
+                ),
+                "quantity": product["quantity"],
+            }
+        ],
+        "options": {
+            "receipt": False,
+            "own_hand": False,
+            "collect": False,
+        },
+    }
+
+    url = (
+        f"{MELHOR_ENVIO_BASE_URL}"
+        "/api/v2/me/shipment/calculate"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "User-Agent": MELHOR_ENVIO_USER_AGENT,
+    }
+
+    response = requests.post(
+        url,
+        json=payload,
+        headers=headers,
+        timeout=20,
+    )
+
+    if response.status_code == 401:
+        print(
+            "[MELHOR ENVIO] Token expirado ou inválido. "
+            "Tentando renovação automática."
+        )
+
+        novo_token_data = renovar_token_melhor_envio()
+        novo_access_token = novo_token_data.get("access_token")
+
+        if not novo_access_token:
+            raise RuntimeError("Novo access token não recebido.")
+
+        headers["Authorization"] = f"Bearer {novo_access_token}"
+
+        response = requests.post(
+            url,
+            json=payload,
+            headers=headers,
+            timeout=20,
+        )
+
+    if not response.ok:
+        print(
+            "[MELHOR ENVIO] Erro cotação: "
+            f"{response.status_code} {response.text}"
+        )
+        raise RuntimeError("Não foi possível calcular o frete.")
+
+    cotacoes = response.json()
+    opcoes = []
+
+    for cotacao in cotacoes:
+        if cotacao.get("error"):
+            continue
+
+        preco_raw = (
+            cotacao.get("custom_price")
+            or cotacao.get("price")
+        )
+        prazo = (
+            cotacao.get("custom_delivery_time")
+            or cotacao.get("delivery_time")
+        )
+        company = cotacao.get("company") or {}
+
+        try:
+            preco_cents = reais_para_centavos(preco_raw)
+        except ValueError:
+            continue
+
+        opcoes.append({
+            "id": str(cotacao.get("id")),
+            "servico": cotacao.get("name") or "Frete",
+            "transportadora": company.get("name") or "Transportadora",
+            "preco": f"{preco_cents / 100:.2f}",
+            "preco_cents": preco_cents,
+            "prazo_dias": prazo,
+        })
+
+    return cep_destino, opcoes
+
+# =====================================================
 # KEHAI - MELHOR ENVIO - AUTORIZAÇÃO
 # =====================================================
 
@@ -1314,316 +1696,162 @@ def kehai_melhor_envio_callback():
     methods=["POST"]
 )
 def kehai_calcular_frete():
-
     try:
-
-        # ---------------------------------------------
-        # 1. Receber o CEP informado pelo comprador
-        # ---------------------------------------------
-
-        dados = request.get_json(
-            silent=True
-        ) or {}
-
-
-        cep_destino = str(
+        dados = request.get_json(silent=True) or {}
+        cep_destino, opcoes = obter_opcoes_frete_kehai(
             dados.get("cep", "")
         )
 
-
-        cep_destino = (
-            cep_destino
-            .replace("-", "")
-            .replace(".", "")
-            .replace(" ", "")
-        )
-
-
-        if (
-            len(cep_destino) != 8
-            or not cep_destino.isdigit()
-        ):
-
-            return jsonify({
-                "success": False,
-                "error": "CEP inválido."
-            }), 400
-
-
-        # ---------------------------------------------
-        # 2. Carregar o token do Melhor Envio
-        # ---------------------------------------------
-
-        token_data = (
-            carregar_token_melhor_envio()
-        )
-        
-        
-        if not token_data:
-        
-            return jsonify({
-                "success": False,
-                "error":
-                    "Melhor Envio ainda não autorizado."
-            }), 500
-        
-        
-        access_token = token_data.get(
-            "access_token"
-        )
-        
-        
-        if not access_token:
-        
-            return jsonify({
-                "success": False,
-                "error":
-                    "Token do Melhor Envio não encontrado."
-            }), 500
-
-        # ---------------------------------------------
-        # 3. Montar a cotação
-        # ---------------------------------------------
-
-        payload = {
-
-            "from": {
-                "postal_code":
-                    "89260215"
-            },
-
-            "to": {
-                "postal_code":
-                    cep_destino
-            },
-
-            "products": [
-                {
-                    "id":
-                        "KEHAI-LIVRO-FISICO",
-
-                    "width":
-                        18,
-
-                    "height":
-                        4,
-
-                    "length":
-                        25,
-
-                    "weight":
-                        0.25,
-
-                    "insurance_value":
-                        79.90,
-
-                    "quantity":
-                        1
-                }
-            ],
-
-            "options": {
-                "receipt":
-                    False,
-
-                "own_hand":
-                    False,
-
-                "collect":
-                    False
-            }
-        }
-
-
-        # ---------------------------------------------
-        # 4. Chamar a API do Melhor Envio
-        # ---------------------------------------------
-
-        url = (
-            f"{MELHOR_ENVIO_BASE_URL}"
-            "/api/v2/me/shipment/calculate"
-        )
-
-
-        headers = {
-            "Authorization":
-                f"Bearer {access_token}",
-
-            "Accept":
-                "application/json",
-
-            "Content-Type":
-                "application/json",
-
-            "User-Agent":
-                MELHOR_ENVIO_USER_AGENT,
-        }
-
-
-        response = requests.post(
-            url,
-            json=payload,
-            headers=headers,
-            timeout=20,
-        )
-
-
-        # ---------------------------------------------
-        # Se o token expirou, renovar e repetir
-        # ---------------------------------------------
-
-        if response.status_code == 401:
-
-            print(
-                "[MELHOR ENVIO] "
-                "Token expirado ou inválido. "
-                "Tentando renovação automática."
-            )
-
-
-            try:
-
-                novo_token_data = (
-                    renovar_token_melhor_envio()
-                )
-
-
-                novo_access_token = (
-                    novo_token_data.get(
-                        "access_token"
-                    )
-                )
-
-
-                if not novo_access_token:
-
-                    raise RuntimeError(
-                        "Novo access token não recebido."
-                    )
-
-
-                headers[
-                    "Authorization"
-                ] = (
-                    f"Bearer {novo_access_token}"
-                )
-
-
-                response = requests.post(
-                    url,
-                    json=payload,
-                    headers=headers,
-                    timeout=20,
-                )
-
-
-            except Exception as erro:
-
-                print(
-                    "[MELHOR ENVIO] "
-                    f"Falha na renovação automática: {erro}"
-                )
-
-
-                return jsonify({
-                    "success": False,
-                    "error":
-                        "A autorização do frete precisa ser renovada."
-                }), 500
-
-
-        if not response.ok:
-
-            print(
-                "[MELHOR ENVIO] "
-                f"Erro cotação: "
-                f"{response.status_code} "
-                f"{response.text}"
-            )
-
-            return jsonify({
-                "success": False,
-                "error":
-                    "Não foi possível calcular o frete."
-            }), 500
-
-
-        cotacoes = response.json()
-
-
-        # ---------------------------------------------
-        # 5. Filtrar somente cotações válidas
-        # ---------------------------------------------
-
-        opcoes = []
-
-
-        for cotacao in cotacoes:
-
-            if cotacao.get("error"):
-                continue
-
-
-            preco = (
-                cotacao.get("custom_price")
-                or cotacao.get("price")
-            )
-
-
-            prazo = (
-                cotacao.get(
-                    "custom_delivery_time"
-                )
-                or cotacao.get(
-                    "delivery_time"
-                )
-            )
-
-
-            company = (
-                cotacao.get("company")
-                or {}
-            )
-
-
-            opcoes.append({
-                "id":
-                    cotacao.get("id"),
-
-                "servico":
-                    cotacao.get("name"),
-
-                "transportadora":
-                    company.get("name"),
-
-                "preco":
-                    preco,
-
-                "prazo_dias":
-                    prazo,
-            })
-
-
         return jsonify({
             "success": True,
-            "cep":
-                cep_destino,
-            "opcoes":
-                opcoes
+            "cep": cep_destino,
+            "opcoes": [
+                {
+                    "id": item["id"],
+                    "servico": item["servico"],
+                    "transportadora": item["transportadora"],
+                    "preco": item["preco"],
+                    "prazo_dias": item["prazo_dias"],
+                }
+                for item in opcoes
+            ],
         })
 
+    except ValueError as erro:
+        return jsonify({
+            "success": False,
+            "error": str(erro),
+        }), 400
 
     except Exception as erro:
-
         print(
             "[MELHOR ENVIO] "
             f"Erro inesperado na cotação: {erro}"
         )
-
         return jsonify({
             "success": False,
-            "error":
-                "Erro interno ao calcular o frete."
+            "error": "Erro interno ao calcular o frete.",
+        }), 500
+
+# =====================================================
+# KEHAI - CRIAÇÃO DE PEDIDO
+# =====================================================
+
+@app.route("/api/kehai/pedido", methods=["POST"])
+def kehai_criar_pedido():
+    try:
+        dados = request.get_json(silent=True) or {}
+
+        product_key = str(dados.get("product") or "physical").strip()
+        product = KEHAI_PRODUCTS.get(product_key)
+        if not product:
+            return jsonify({
+                "success": False,
+                "error": "Produto inválido.",
+            }), 400
+
+        customer = dados.get("customer") or {}
+        address = dados.get("address") or {}
+
+        name = str(customer.get("name") or "").strip()
+        email = str(customer.get("email") or "").strip().lower()
+        phone = str(customer.get("phone") or "").strip()
+
+        postal_code = normalizar_cep(address.get("postal_code"))
+        street = str(address.get("street") or "").strip()
+        address_number = str(address.get("number") or "").strip()
+        complement = str(address.get("complement") or "").strip()
+        district = str(address.get("district") or "").strip()
+        city = str(address.get("city") or "").strip()
+        state = str(address.get("state") or "").strip().upper()
+
+        required = {
+            "Nome": name,
+            "E-mail": email,
+            "Telefone": phone,
+            "CEP": postal_code,
+            "Rua": street,
+            "Número": address_number,
+            "Bairro": district,
+            "Cidade": city,
+            "UF": state,
+        }
+        missing = [label for label, value in required.items() if not value]
+        if missing:
+            return jsonify({
+                "success": False,
+                "error": "Preencha: " + ", ".join(missing) + ".",
+            }), 400
+
+        shipping_service_id = str(
+            dados.get("shipping_service_id") or ""
+        ).strip()
+        if not shipping_service_id:
+            return jsonify({
+                "success": False,
+                "error": "Selecione uma opção de frete.",
+            }), 400
+
+        _, opcoes = obter_opcoes_frete_kehai(postal_code)
+        frete = next(
+            (
+                item
+                for item in opcoes
+                if str(item["id"]) == shipping_service_id
+            ),
+            None,
+        )
+
+        if not frete:
+            return jsonify({
+                "success": False,
+                "error": "Opção de frete inválida ou indisponível.",
+            }), 400
+
+        unit_price_cents = product["unit_price_cents"]
+        quantity = product["quantity"]
+        subtotal_cents = unit_price_cents * quantity
+        shipping_price_cents = frete["preco_cents"]
+        total_cents = subtotal_cents + shipping_price_cents
+
+        pedido = criar_pedido_kehai({
+            "product_code": product["code"],
+            "product_title": product["title"],
+            "quantity": quantity,
+            "unit_price_cents": unit_price_cents,
+            "subtotal_cents": subtotal_cents,
+            "shipping_service_id": frete["id"],
+            "shipping_service": frete["servico"],
+            "shipping_company": frete["transportadora"],
+            "shipping_price_cents": shipping_price_cents,
+            "shipping_delivery_days": frete["prazo_dias"],
+            "total_cents": total_cents,
+            "customer_name": name,
+            "customer_email": email,
+            "customer_phone": phone,
+            "postal_code": postal_code,
+            "street": street,
+            "address_number": address_number,
+            "complement": complement,
+            "district": district,
+            "city": city,
+            "state": state,
+        })
+
+        return jsonify({
+            "success": True,
+            "order_number": pedido["order_number"],
+            "status": pedido["status"],
+            "subtotal": f"{pedido['subtotal_cents'] / 100:.2f}",
+            "frete": f"{pedido['shipping_price_cents'] / 100:.2f}",
+            "total": f"{pedido['total_cents'] / 100:.2f}",
+        }), 201
+
+    except Exception as erro:
+        print(f"[KEHAI PEDIDO] Erro ao criar pedido: {erro}")
+        return jsonify({
+            "success": False,
+            "error": "Não foi possível criar o pedido.",
         }), 500
 
 # =====================================================
@@ -1632,68 +1860,142 @@ def kehai_calcular_frete():
 
 @app.route("/api/kehai/checkout", methods=["POST"])
 def kehai_checkout():
-
     try:
         dados = request.get_json(silent=True) or {}
+        order_number = str(dados.get("order_number") or "").strip()
 
-        produto = dados.get("product")
+        # Compatibilidade temporária com a landing atual durante Sandbox.
+        if not order_number:
+            produto = dados.get("product")
+            if produto == "physical" and "sandbox" in MELHOR_ENVIO_BASE_URL.lower():
+                sdk = get_mercadopago_sdk()
+                product = KEHAI_PRODUCTS["physical"]
+                preference_data = {
+                    "items": [
+                        {
+                            "title": product["title"],
+                            "quantity": product["quantity"],
+                            "currency_id": "BRL",
+                            "unit_price": centavos_para_reais(
+                                product["unit_price_cents"]
+                            ),
+                        }
+                    ],
+                    "back_urls": {
+                        "success": "https://www.stegie.com.br/kehai/compra/sucesso",
+                        "failure": "https://www.stegie.com.br/kehai/compra/erro",
+                        "pending": "https://www.stegie.com.br/kehai/compra/pendente",
+                    },
+                    "auto_return": "approved",
+                    "external_reference": "KEHAI-physical-test",
+                }
 
-        produtos_kehai = {
-            "physical": {
-                "title": "KEHAI - Livro Físico",
-                "quantity": 1,
-                "currency_id": "BRL",
-                "unit_price": 79.90,
-            }
-        }
+                preference_response = sdk.preference().create(preference_data)
+                preference = preference_response.get("response", {})
 
-        if produto not in produtos_kehai:
+                return jsonify({
+                    "success": True,
+                    "preference_id": preference.get("id"),
+                    "checkout_url": preference.get("init_point"),
+                    "sandbox_checkout_url": preference.get("sandbox_init_point"),
+                    "legacy_test": True,
+                })
+
             return jsonify({
                 "success": False,
-                "error": "Produto inválido."
+                "error": "Pedido não informado.",
             }), 400
+
+        pedido = buscar_pedido_kehai(order_number)
+        if not pedido:
+            return jsonify({
+                "success": False,
+                "error": "Pedido não encontrado.",
+            }), 404
+
+        if pedido["status"] == "paid":
+            return jsonify({
+                "success": False,
+                "error": "Este pedido já está pago.",
+            }), 409
 
         sdk = get_mercadopago_sdk()
 
         preference_data = {
-
             "items": [
-                produtos_kehai[produto]
+                {
+                    "title": pedido["product_title"],
+                    "quantity": pedido["quantity"],
+                    "currency_id": "BRL",
+                    "unit_price": centavos_para_reais(
+                        pedido["unit_price_cents"]
+                    ),
+                }
             ],
-
-            "back_urls": {
-                "success": "https://www.stegie.com.br/kehai/compra/sucesso",
-                "failure": "https://www.stegie.com.br/kehai/compra/erro",
-                "pending": "https://www.stegie.com.br/kehai/compra/pendente",
+            "payer": {
+                "name": pedido["customer_name"],
+                "email": pedido["customer_email"],
             },
-
+            "shipments": {
+                "cost": centavos_para_reais(
+                    pedido["shipping_price_cents"]
+                ),
+                "receiver_address": {
+                    "zip_code": pedido["postal_code"],
+                    "street_name": pedido["street"],
+                    "street_number": pedido["address_number"],
+                    "floor": pedido["complement"] or "",
+                    "city_name": pedido["city"],
+                    "state_name": pedido["state"],
+                },
+            },
+            "back_urls": {
+                "success": (
+                    "https://www.stegie.com.br/kehai/compra/sucesso"
+                    f"?order={pedido['order_number']}"
+                ),
+                "failure": (
+                    "https://www.stegie.com.br/kehai/compra/erro"
+                    f"?order={pedido['order_number']}"
+                ),
+                "pending": (
+                    "https://www.stegie.com.br/kehai/compra/pendente"
+                    f"?order={pedido['order_number']}"
+                ),
+            },
             "auto_return": "approved",
-
-            "external_reference": f"KEHAI-{produto}",
+            "external_reference": pedido["order_number"],
         }
 
-        preference_response = sdk.preference().create(
-            preference_data
-        )
+        preference_response = sdk.preference().create(preference_data)
+        preference = preference_response.get("response", {})
+        preference_id = preference.get("id")
+        checkout_url = preference.get("init_point")
 
-        preference = preference_response["response"]
+        if not preference_id or not checkout_url:
+            raise RuntimeError(
+                "Mercado Pago não retornou uma preferência válida."
+            )
+
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            status="checkout_created",
+            mp_preference_id=preference_id,
+        )
 
         return jsonify({
             "success": True,
-            "preference_id": preference.get("id"),
-            "checkout_url": preference.get("init_point"),
+            "order_number": pedido["order_number"],
+            "preference_id": preference_id,
+            "checkout_url": checkout_url,
             "sandbox_checkout_url": preference.get("sandbox_init_point"),
         })
 
     except Exception as erro:
-
-        print(
-            f"[MERCADO PAGO] Erro ao criar checkout: {erro}"
-        )
-
+        print(f"[MERCADO PAGO] Erro ao criar checkout: {erro}")
         return jsonify({
             "success": False,
-            "error": "Não foi possível iniciar o pagamento."
+            "error": "Não foi possível iniciar o pagamento.",
         }), 500
 
 # =====================================================
@@ -1832,6 +2134,45 @@ def kehai_mercadopago_webhook():
                 f"external_reference={external_reference} "
                 f"valor={valor}"
             )
+
+
+            pedido = buscar_pedido_kehai(external_reference)
+
+            if pedido:
+                try:
+                    valor_cents = reais_para_centavos(valor)
+                except ValueError:
+                    valor_cents = None
+
+                order_status = pedido["status"]
+
+                if status == "approved":
+                    if valor_cents == pedido["total_cents"]:
+                        order_status = "paid"
+                    else:
+                        order_status = "payment_amount_mismatch"
+                        print(
+                            "[MERCADO PAGO WEBHOOK] "
+                            "Valor recebido diferente do pedido."
+                        )
+
+                elif status in {"pending", "in_process", "in_mediation"}:
+                    if pedido["status"] != "paid":
+                        order_status = "payment_pending"
+
+                elif status in {"rejected", "cancelled"}:
+                    if pedido["status"] != "paid":
+                        order_status = "payment_failed"
+
+                elif status in {"refunded", "charged_back"}:
+                    order_status = status
+
+                atualizar_pedido_kehai(
+                    pedido["order_number"],
+                    status=order_status,
+                    mp_payment_id=str(data_id),
+                    mp_payment_status=status,
+                )
 
 
         # -------------------------------------------------
