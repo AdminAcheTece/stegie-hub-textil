@@ -99,6 +99,9 @@
           <dl class="kehai-admin-dl">
             <div><dt>ID do envio</dt><dd>{{ pedido.me_shipment_id or '—' }}</dd></div>
             <div><dt>Status técnico</dt><dd>{{ pedido.me_shipment_status or 'Não iniciado' }}</dd></div>
+            <div><dt>Protocolo</dt><dd>{{ pedido.me_protocol or '—' }}</dd></div>
+            <div><dt>Rastreamento</dt><dd>{{ pedido.tracking_code or 'Aguardando transportadora' }}</dd></div>
+            <div><dt>Status logístico</dt><dd>{{ pedido.tracking_status_label }}</dd></div>
             <div><dt>NF-e</dt><dd>{% if pedido.invoice_key %}{{ pedido.invoice_key }}{% else %}—{% endif %}</dd></div>
           </dl>
         </div>
@@ -136,8 +139,10 @@
               name="tracking_code"
               type="text"
               value="{{ pedido.tracking_code or '' }}"
-              placeholder="Será preenchido após a postagem/rastreio"
+              placeholder="Preenchido automaticamente pelo Melhor Envio"
+              readonly
             >
+            <small class="kehai-admin-field-help">O código é atualizado automaticamente pelo webhook/rastreamento do Melhor Envio.</small>
 
             <label for="internal_notes">Observações internas</label>
             <textarea
@@ -294,6 +299,62 @@
           <p class="kehai-admin-help">
             No Sandbox, a compra pode levar alguns minutos para ser liberada antes da geração da etiqueta.
           </p>
+        </section>
+
+        <section class="kehai-admin-panel kehai-admin-operation kehai-admin-tracking-card">
+          <p class="kehai-admin-eyebrow">RASTREAMENTO</p>
+          <h2>Acompanhar entrega</h2>
+
+          {% if pedido.me_shipment_id %}
+            <div class="kehai-admin-tracking-status {% if pedido.tracking_is_problem %}is-problem{% elif pedido.tracking_is_delivered %}is-delivered{% endif %}">
+              <span>Status logístico</span>
+              <strong>{{ pedido.tracking_status_label }}</strong>
+            </div>
+
+            <dl class="kehai-admin-dl kehai-admin-dl--tracking">
+              <div><dt>Código</dt><dd>{{ pedido.tracking_code or 'Ainda não informado' }}</dd></div>
+              <div><dt>Último evento</dt><dd>{{ pedido.me_tracking_event_at or '—' }}</dd></div>
+              <div><dt>Última sincronização</dt><dd>{{ pedido.me_tracking_updated_at or '—' }}</dd></div>
+              <div><dt>Origem</dt><dd>{{ pedido.me_tracking_source or '—' }}</dd></div>
+              {% if pedido.me_webhook_event %}
+                <div><dt>Evento</dt><dd>{{ pedido.me_webhook_event }}</dd></div>
+              {% endif %}
+            </dl>
+
+            {% if pedido.me_tracking_last_error %}
+              <div class="kehai-admin-alert kehai-admin-alert--error">
+                <strong>Último erro de rastreamento</strong><br>
+                {{ pedido.me_tracking_last_error }}
+              </div>
+            {% endif %}
+
+            <div class="kehai-admin-shipping-actions">
+              <form method="post" action="{{ url_for('kehai_admin_me_tracking', order_number=pedido.order_number) }}">
+                <button class="kehai-admin-btn kehai-admin-btn--outline" type="submit">
+                  Atualizar rastreamento agora
+                </button>
+              </form>
+
+              {% if pedido.me_tracking_url %}
+                <a
+                  class="kehai-admin-btn kehai-admin-btn--primary kehai-admin-btn-link"
+                  href="{{ pedido.me_tracking_url }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Acompanhar no Melhor Rastreio
+                </a>
+              {% endif %}
+            </div>
+
+            <p class="kehai-admin-help">
+              As mudanças de status também chegam automaticamente pelo webhook do Melhor Envio. O botão acima é apenas uma consulta manual de segurança.
+            </p>
+          {% else %}
+            <div class="kehai-admin-alert">
+              O rastreamento ficará disponível depois que o envio for criado no Melhor Envio.
+            </div>
+          {% endif %}
         </section>
 
       </aside>
