@@ -1,6 +1,9 @@
 import os
 import json
 import secrets
+import base64
+import hashlib
+import hmac
 import sqlite3
 import requests
 import mercadopago
@@ -150,6 +153,15 @@ MELHOR_ENVIO_CLIENT_ID = os.environ.get(
 MELHOR_ENVIO_CLIENT_SECRET = os.environ.get(
     "MELHOR_ENVIO_CLIENT_SECRET",
     ""
+).strip()
+
+
+# O Melhor Envio assina os webhooks com o secret do aplicativo.
+# Por padrão usamos o mesmo CLIENT_SECRET já configurado.
+# A variável dedicada é opcional, caso queira separar a configuração.
+MELHOR_ENVIO_WEBHOOK_SECRET = os.environ.get(
+    "MELHOR_ENVIO_WEBHOOK_SECRET",
+    MELHOR_ENVIO_CLIENT_SECRET,
 ).strip()
 
 
@@ -669,7 +681,16 @@ def inicializar_banco_kehai():
                 me_purchased_at TEXT,
                 me_generated_at TEXT,
                 me_printed_at TEXT,
-                me_last_error TEXT
+                me_last_error TEXT,
+
+                me_protocol TEXT,
+                me_tracking_status TEXT,
+                me_tracking_url TEXT,
+                me_tracking_event_at TEXT,
+                me_tracking_updated_at TEXT,
+                me_tracking_source TEXT,
+                me_webhook_event TEXT,
+                me_tracking_last_error TEXT
             )
             """
         )
@@ -713,6 +734,22 @@ def inicializar_banco_kehai():
                 "ALTER TABLE kehai_orders ADD COLUMN me_printed_at TEXT",
             "me_last_error":
                 "ALTER TABLE kehai_orders ADD COLUMN me_last_error TEXT",
+            "me_protocol":
+                "ALTER TABLE kehai_orders ADD COLUMN me_protocol TEXT",
+            "me_tracking_status":
+                "ALTER TABLE kehai_orders ADD COLUMN me_tracking_status TEXT",
+            "me_tracking_url":
+                "ALTER TABLE kehai_orders ADD COLUMN me_tracking_url TEXT",
+            "me_tracking_event_at":
+                "ALTER TABLE kehai_orders ADD COLUMN me_tracking_event_at TEXT",
+            "me_tracking_updated_at":
+                "ALTER TABLE kehai_orders ADD COLUMN me_tracking_updated_at TEXT",
+            "me_tracking_source":
+                "ALTER TABLE kehai_orders ADD COLUMN me_tracking_source TEXT",
+            "me_webhook_event":
+                "ALTER TABLE kehai_orders ADD COLUMN me_webhook_event TEXT",
+            "me_tracking_last_error":
+                "ALTER TABLE kehai_orders ADD COLUMN me_tracking_last_error TEXT",
         }
 
         for column_name, statement in migrations.items():
@@ -726,6 +763,10 @@ def inicializar_banco_kehai():
         conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_kehai_orders_payment "
             "ON kehai_orders(mp_payment_id)"
+        )
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_kehai_orders_me_shipment "
+            "ON kehai_orders(me_shipment_id)"
         )
 
     print(f"[KEHAI DB] Banco pronto em {KEHAI_DB_PATH}")
@@ -826,6 +867,20 @@ def buscar_pedido_kehai(order_number):
     return dict(row) if row else None
 
 
+def buscar_pedido_kehai_por_shipment_id(shipment_id):
+    shipment_id = str(shipment_id or "").strip()
+    if not shipment_id:
+        return None
+
+    with get_kehai_db() as conn:
+        row = conn.execute(
+            "SELECT * FROM kehai_orders WHERE me_shipment_id = ?",
+            (shipment_id,),
+        ).fetchone()
+
+    return dict(row) if row else None
+
+
 def atualizar_pedido_kehai(order_number, **fields):
     allowed = {
         "status",
@@ -849,6 +904,14 @@ def atualizar_pedido_kehai(order_number, **fields):
         "me_generated_at",
         "me_printed_at",
         "me_last_error",
+        "me_protocol",
+        "me_tracking_status",
+        "me_tracking_url",
+        "me_tracking_event_at",
+        "me_tracking_updated_at",
+        "me_tracking_source",
+        "me_webhook_event",
+        "me_tracking_last_error",
     }
 
     updates = {
@@ -2486,6 +2549,31 @@ FULFILLMENT_LABELS = {
 }
 
 
+MELHOR_ENVIO_TRACKING_LABELS = {
+    "pending": "Pendente",
+    "released": "Frete liberado",
+    "generated": "Etiqueta gerada",
+    "received": "Recebido no ponto de distribuição",
+    "posted": "Postado",
+    "delivered": "Entregue",
+    "cancelled": "Cancelado",
+    "canceled": "Cancelado",
+    "undelivered": "Não entregue",
+    "paused": "Entrega pausada",
+    "suspended": "Entrega suspensa",
+}
+
+
+def label_status_rastreamento_melhor_envio(status):
+    status = str(status or "").strip().lower()
+    if not status:
+        return "Aguardando atualização"
+    return MELHOR_ENVIO_TRACKING_LABELS.get(
+        status,
+        status.replace("_", " ").capitalize(),
+    )
+
+
 def formatar_cep_kehai(value):
     digits = "".join(ch for ch in str(value or "") if ch.isdigit())
     if len(digits) == 8:
@@ -2540,6 +2628,16 @@ def contexto_admin_pedido_kehai(pedido):
         MELHOR_ENVIO_FROM_POSTAL_CODE,
         MELHOR_ENVIO_FROM_STATE_ABBR,
     ])
+    contexto["tracking_status_label"] = label_status_rastreamento_melhor_envio(
+        contexto.get("me_tracking_status")
+    )
+    contexto["tracking_is_problem"] = (
+        str(contexto.get("me_tracking_status") or "").lower()
+        in {"undelivered", "paused", "suspended", "cancelled", "canceled"}
+    )
+    contexto["tracking_is_delivered"] = (
+        str(contexto.get("me_tracking_status") or "").lower() == "delivered"
+    )
     return contexto
 
 
@@ -2850,6 +2948,240 @@ def obter_link_etiqueta_melhor_envio(pedido):
 
 
 # =====================================================
+# KEHAI - MELHOR ENVIO - RASTREAMENTO
+# =====================================================
+
+def _extrair_item_rastreamento_melhor_envio(payload, shipment_id):
+    """
+    A API já retornou formatos diferentes ao longo do tempo.
+    Este extrator aceita resposta direta, lista, chaveada pelo ID
+    ou encapsulada em 'data'/'orders'.
+    """
+    shipment_id = str(shipment_id or "").strip()
+
+    if isinstance(payload, dict):
+        if str(payload.get("id") or "").strip() == shipment_id:
+            return payload
+
+        keyed = payload.get(shipment_id)
+        if isinstance(keyed, dict):
+            item = dict(keyed)
+            item.setdefault("id", shipment_id)
+            return item
+
+        for key in ("data", "orders", "results"):
+            if key in payload:
+                found = _extrair_item_rastreamento_melhor_envio(
+                    payload[key], shipment_id
+                )
+                if found:
+                    return found
+
+        # Algumas respostas vêm com um único objeto aninhado.
+        dict_values = [value for value in payload.values() if isinstance(value, dict)]
+        if len(dict_values) == 1:
+            found = _extrair_item_rastreamento_melhor_envio(
+                dict_values[0], shipment_id
+            )
+            if found:
+                return found
+
+    if isinstance(payload, list):
+        for item in payload:
+            found = _extrair_item_rastreamento_melhor_envio(item, shipment_id)
+            if found:
+                return found
+
+    return None
+
+
+def _data_evento_rastreamento_melhor_envio(data):
+    for key in (
+        "delivered_at",
+        "posted_at",
+        "generated_at",
+        "paid_at",
+        "created_at",
+        "updated_at",
+    ):
+        value = data.get(key) if isinstance(data, dict) else None
+        if value:
+            return str(value)
+    return agora_iso()
+
+
+def aplicar_rastreamento_melhor_envio(
+    pedido,
+    data,
+    *,
+    source="api",
+    event=None,
+):
+    if not pedido or not isinstance(data, dict):
+        raise RuntimeError("Dados de rastreamento inválidos.")
+
+    shipment_id = str(data.get("id") or pedido.get("me_shipment_id") or "").strip()
+    if not shipment_id:
+        raise RuntimeError("O rastreamento não informou o ID do envio.")
+
+    if pedido.get("me_shipment_id") and str(pedido["me_shipment_id"]) != shipment_id:
+        raise RuntimeError("O retorno do Melhor Envio pertence a outro envio.")
+
+    status = str(data.get("status") or "").strip().lower()
+    protocol = str(data.get("protocol") or pedido.get("me_protocol") or "").strip()
+    tracking = str(data.get("tracking") or "").strip()
+    self_tracking = str(data.get("self_tracking") or "").strip()
+    tracking_url = str(data.get("tracking_url") or "").strip()
+
+    # Preferimos o rastreio oficial da transportadora. O self_tracking
+    # é usado apenas como fallback quando a transportadora ainda não
+    # publicou um código próprio.
+    tracking_code = tracking or self_tracking or str(pedido.get("tracking_code") or "").strip()
+
+    fields = {
+        "me_protocol": protocol or None,
+        "me_tracking_status": status or pedido.get("me_tracking_status"),
+        "me_tracking_url": tracking_url or pedido.get("me_tracking_url"),
+        "me_tracking_event_at": _data_evento_rastreamento_melhor_envio(data),
+        "me_tracking_updated_at": agora_iso(),
+        "me_tracking_source": source,
+        "me_webhook_event": str(event or "").strip() or pedido.get("me_webhook_event"),
+        "me_tracking_last_error": None,
+    }
+
+    if tracking_code:
+        fields["tracking_code"] = tracking_code
+
+    current_fulfillment = str(pedido.get("fulfillment_status") or "pending")
+
+    # Nunca regredimos um pedido já entregue por causa de uma
+    # notificação atrasada/cacheada.
+    if current_fulfillment != "delivered":
+        if status == "delivered":
+            fields["fulfillment_status"] = "delivered"
+            fields["fulfillment_updated_at"] = agora_iso()
+            fields["delivered_at"] = (
+                data.get("delivered_at") or pedido.get("delivered_at") or agora_iso()
+            )
+            if not pedido.get("shipped_at"):
+                fields["shipped_at"] = data.get("posted_at") or agora_iso()
+
+        elif status in {"posted", "received", "undelivered", "paused", "suspended"}:
+            if current_fulfillment not in {"cancelled"}:
+                fields["fulfillment_status"] = "shipped"
+                fields["fulfillment_updated_at"] = agora_iso()
+                fields["shipped_at"] = (
+                    pedido.get("shipped_at")
+                    or data.get("posted_at")
+                    or agora_iso()
+                )
+
+        elif status in {"cancelled", "canceled"}:
+            fields["fulfillment_status"] = "cancelled"
+            fields["fulfillment_updated_at"] = agora_iso()
+
+    atualizar_pedido_kehai(pedido["order_number"], **fields)
+    return buscar_pedido_kehai(pedido["order_number"])
+
+
+def sincronizar_rastreamento_melhor_envio(pedido):
+    shipment_id = str(pedido.get("me_shipment_id") or "").strip()
+    if not shipment_id:
+        raise RuntimeError("O pedido ainda não possui ID de envio do Melhor Envio.")
+
+    response = melhor_envio_request(
+        "POST",
+        "/api/v2/me/shipment/tracking",
+        json_payload={"orders": [shipment_id]},
+        timeout=30,
+    )
+
+    if not response.ok:
+        message = response.text[:1200]
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            me_tracking_last_error=(
+                f"Rastreamento HTTP {response.status_code}: {message}"
+            ),
+        )
+        raise RuntimeError(
+            f"Não foi possível consultar o rastreamento (HTTP {response.status_code})."
+        )
+
+    try:
+        payload = response.json()
+    except ValueError:
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            me_tracking_last_error="O Melhor Envio retornou rastreamento sem JSON válido.",
+        )
+        raise RuntimeError("Resposta de rastreamento inválida.")
+
+    item = _extrair_item_rastreamento_melhor_envio(payload, shipment_id)
+    if not item:
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            me_tracking_last_error=(
+                "A consulta foi aceita, mas não retornou o envio solicitado."
+            ),
+        )
+        raise RuntimeError("O Melhor Envio não retornou o envio solicitado.")
+
+    return aplicar_rastreamento_melhor_envio(
+        pedido,
+        item,
+        source="api",
+    )
+
+
+def validar_assinatura_webhook_melhor_envio(raw_body, received_signature):
+    secret = MELHOR_ENVIO_WEBHOOK_SECRET
+    if not secret or not received_signature:
+        return False
+
+    digest = hmac.new(
+        secret.encode("utf-8"),
+        raw_body,
+        hashlib.sha256,
+    ).digest()
+
+    expected_base64 = base64.b64encode(digest).decode("ascii")
+    expected_hex = digest.hex()
+    received = str(received_signature).strip()
+
+    candidates = {
+        expected_base64,
+        expected_base64.rstrip("="),
+        expected_hex,
+        f"sha256={expected_hex}",
+    }
+
+    return any(
+        secrets.compare_digest(received, candidate)
+        for candidate in candidates
+    )
+
+
+def localizar_pedido_por_webhook_melhor_envio(data):
+    shipment_id = str(data.get("id") or "").strip()
+    pedido = buscar_pedido_kehai_por_shipment_id(shipment_id)
+    if pedido:
+        return pedido
+
+    # Fallback pela tag que já enviamos ao criar a etiqueta.
+    for tag_item in data.get("tags") or []:
+        if not isinstance(tag_item, dict):
+            continue
+        tag = str(tag_item.get("tag") or "").strip()
+        if tag.startswith("KEHAI-"):
+            pedido = buscar_pedido_kehai(tag)
+            if pedido:
+                return pedido
+
+    return None
+
+
+# =====================================================
 # KEHAI - PAINEL ADMINISTRATIVO / PÓS-VENDA
 # =====================================================
 
@@ -2920,6 +3252,10 @@ def kehai_admin_orders():
             1 for p in all_orders
             if (p.get("fulfillment_status") or "pending") == "shipped"
         ),
+        "delivered": sum(
+            1 for p in all_orders
+            if (p.get("fulfillment_status") or "pending") == "delivered"
+        ),
     }
 
     return render_template(
@@ -2957,7 +3293,6 @@ def kehai_admin_order_operation(order_number):
         abort(404)
 
     target_status = str(request.form.get("fulfillment_status") or "").strip()
-    tracking_code = str(request.form.get("tracking_code") or "").strip()
     internal_notes = str(request.form.get("internal_notes") or "").strip()
 
     if target_status not in FULFILLMENT_LABELS:
@@ -2972,7 +3307,8 @@ def kehai_admin_order_operation(order_number):
     fields = {
         "fulfillment_status": target_status,
         "fulfillment_updated_at": agora_iso(),
-        "tracking_code": tracking_code or None,
+        # O rastreamento agora é gerenciado pelo Melhor Envio.
+        # Não sobrescrevemos tracking_code pelo formulário manual.
         "internal_notes": internal_notes or None,
     }
 
@@ -3105,6 +3441,108 @@ def kehai_admin_me_print(order_number):
         flash(str(erro), "error")
 
     return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
+
+
+@app.route(
+    "/kehai/admin/pedidos/<order_number>/melhor-envio/rastreamento",
+    methods=["POST"],
+)
+@kehai_admin_required
+def kehai_admin_me_tracking(order_number):
+    pedido = buscar_pedido_kehai(order_number)
+    if not pedido:
+        abort(404)
+
+    try:
+        atualizado = sincronizar_rastreamento_melhor_envio(pedido)
+        tracking_label = label_status_rastreamento_melhor_envio(
+            atualizado.get("me_tracking_status")
+        )
+        tracking_code = atualizado.get("tracking_code")
+        if tracking_code:
+            flash(
+                f"Rastreamento atualizado: {tracking_label} · {tracking_code}.",
+                "success",
+            )
+        else:
+            flash(
+                f"Rastreamento atualizado: {tracking_label}. "
+                "A transportadora ainda não informou o código de rastreio.",
+                "success",
+            )
+    except Exception as erro:
+        print(f"[MELHOR ENVIO ADMIN] Rastreio: {erro}")
+        flash(str(erro), "error")
+
+    return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
+
+
+# =====================================================
+# KEHAI - WEBHOOK MELHOR ENVIO
+# =====================================================
+
+@app.route("/api/kehai/melhor-envio/webhook", methods=["GET", "POST"])
+def kehai_melhor_envio_webhook():
+    # GET serve apenas como health-check da URL pública.
+    if request.method == "GET":
+        return jsonify({
+            "ok": True,
+            "service": "kehai-melhor-envio-webhook",
+            "signature_configured": bool(MELHOR_ENVIO_WEBHOOK_SECRET),
+        })
+
+    raw_body = request.get_data(cache=True)
+    received_signature = request.headers.get("X-ME-Signature", "")
+
+    if not MELHOR_ENVIO_WEBHOOK_SECRET:
+        print("[MELHOR ENVIO WEBHOOK] Secret do aplicativo não configurado.")
+        return jsonify({"received": False, "error": "Webhook não configurado."}), 500
+
+    if not validar_assinatura_webhook_melhor_envio(
+        raw_body,
+        received_signature,
+    ):
+        print("[MELHOR ENVIO WEBHOOK] Assinatura inválida.")
+        return jsonify({"received": False, "error": "Assinatura inválida."}), 401
+
+    payload = request.get_json(silent=True)
+    if not isinstance(payload, dict):
+        return jsonify({"received": False, "error": "JSON inválido."}), 400
+
+    event = str(payload.get("event") or "").strip()
+    data = payload.get("data")
+
+    if not event.startswith("order.") or not isinstance(data, dict):
+        # Eventos desconhecidos são reconhecidos com 200 para evitar
+        # retentativas desnecessárias do provedor.
+        return jsonify({"received": True, "ignored": True}), 200
+
+    pedido = localizar_pedido_por_webhook_melhor_envio(data)
+    if not pedido:
+        print(
+            "[MELHOR ENVIO WEBHOOK] Pedido não localizado para shipment=",
+            data.get("id"),
+        )
+        return jsonify({"received": True, "matched": False}), 200
+
+    try:
+        atualizado = aplicar_rastreamento_melhor_envio(
+            pedido,
+            data,
+            source="webhook",
+            event=event,
+        )
+    except Exception as erro:
+        print(f"[MELHOR ENVIO WEBHOOK] Falha ao processar: {erro}")
+        # Retornamos erro para permitir as retentativas oficiais.
+        return jsonify({"received": False, "error": "processing_failed"}), 500
+
+    return jsonify({
+        "received": True,
+        "matched": True,
+        "order": atualizado.get("order_number"),
+        "status": atualizado.get("me_tracking_status"),
+    }), 200
 
 
 # =====================================================
