@@ -179,7 +179,7 @@ MELHOR_ENVIO_SCOPES = " ".join([
 
 
 # Dados do remetente comercial.
-# Configure no Render; não salve CNPJ/IE/endereço fiscal no GitHub.
+# Configure no Render; não salve CNPJ/endereço fiscal no GitHub.
 MELHOR_ENVIO_FROM_NAME = os.environ.get(
     "MELHOR_ENVIO_FROM_NAME", ""
 ).strip()
@@ -196,9 +196,6 @@ MELHOR_ENVIO_FROM_COMPANY_DOCUMENT = os.environ.get(
     "MELHOR_ENVIO_FROM_COMPANY_DOCUMENT", ""
 ).strip()
 
-MELHOR_ENVIO_FROM_STATE_REGISTER = os.environ.get(
-    "MELHOR_ENVIO_FROM_STATE_REGISTER", ""
-).strip()
 
 MELHOR_ENVIO_FROM_ECONOMIC_ACTIVITY_CODE = os.environ.get(
     "MELHOR_ENVIO_FROM_ECONOMIC_ACTIVITY_CODE", ""
@@ -464,7 +461,6 @@ def validar_configuracao_remetente_melhor_envio():
         "MELHOR_ENVIO_FROM_EMAIL": MELHOR_ENVIO_FROM_EMAIL,
         "MELHOR_ENVIO_FROM_PHONE": MELHOR_ENVIO_FROM_PHONE,
         "MELHOR_ENVIO_FROM_COMPANY_DOCUMENT": MELHOR_ENVIO_FROM_COMPANY_DOCUMENT,
-        "MELHOR_ENVIO_FROM_STATE_REGISTER": MELHOR_ENVIO_FROM_STATE_REGISTER,
         "MELHOR_ENVIO_FROM_ADDRESS": MELHOR_ENVIO_FROM_ADDRESS,
         "MELHOR_ENVIO_FROM_NUMBER": MELHOR_ENVIO_FROM_NUMBER,
         "MELHOR_ENVIO_FROM_DISTRICT": MELHOR_ENVIO_FROM_DISTRICT,
@@ -2472,7 +2468,6 @@ def contexto_admin_pedido_kehai(pedido):
         MELHOR_ENVIO_FROM_EMAIL,
         MELHOR_ENVIO_FROM_PHONE,
         MELHOR_ENVIO_FROM_COMPANY_DOCUMENT,
-        MELHOR_ENVIO_FROM_STATE_REGISTER,
         MELHOR_ENVIO_FROM_ADDRESS,
         MELHOR_ENVIO_FROM_NUMBER,
         MELHOR_ENVIO_FROM_DISTRICT,
@@ -2549,7 +2544,6 @@ def criar_envio_melhor_envio(pedido):
         "email": MELHOR_ENVIO_FROM_EMAIL,
         "phone": somente_digitos(MELHOR_ENVIO_FROM_PHONE),
         "company_document": company_document,
-        "state_register": MELHOR_ENVIO_FROM_STATE_REGISTER,
         "address": MELHOR_ENVIO_FROM_ADDRESS,
         "complement": MELHOR_ENVIO_FROM_COMPLEMENT,
         "number": MELHOR_ENVIO_FROM_NUMBER,
