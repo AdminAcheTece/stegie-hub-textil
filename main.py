@@ -2204,19 +2204,14 @@ def kehai_mercadopago_webhook():
             )
 
 
-            # O Checkout Pro mantém o valor do produto em
-            # transaction_amount e o frete separado. Por isso,
-            # para validar quanto o comprador realmente pagou,
-            # priorizamos paid_amount da Merchant Order e, como
-            # fallback, transaction_details.total_paid_amount.
-            valor_total_pago = (
-                merchant_paid_amount
-                if merchant_paid_amount is not None
-                else total_paid_amount
+            merchant_order_status = merchant_order.get(
+                "order_status"
             )
 
-            if valor_total_pago is None:
-                valor_total_pago = transaction_amount
+
+            merchant_status = merchant_order.get(
+                "status"
+            )
 
 
             print(
@@ -2227,6 +2222,8 @@ def kehai_mercadopago_webhook():
                 f"transaction_amount={transaction_amount} "
                 f"total_paid_amount={total_paid_amount} "
                 f"merchant_order_id={merchant_order_id} "
+                f"merchant_status={merchant_status} "
+                f"merchant_order_status={merchant_order_status} "
                 f"merchant_total_amount={merchant_total_amount} "
                 f"merchant_paid_amount={merchant_paid_amount} "
                 f"merchant_shipping_cost={merchant_shipping_cost}"
@@ -2236,49 +2233,117 @@ def kehai_mercadopago_webhook():
             pedido = buscar_pedido_kehai(external_reference)
 
             if pedido:
-                try:
-                    valor_total_pago_cents = (
-                        reais_para_centavos(valor_total_pago)
-                    )
-                except (ValueError, TypeError):
-                    valor_total_pago_cents = None
+                # -------------------------------------------------
+                # 5. Validar os valores do pedido
+                # -------------------------------------------------
+                #
+                # No Checkout Pro com frete em shipments.cost, os
+                # valores observados e confirmados no Mercado Pago são:
+                #
+                # transaction_amount                  = subtotal do produto
+                # Merchant Order total_amount         = subtotal do produto
+                # Merchant Order paid_amount          = subtotal do produto
+                # Merchant Order shipping_cost        = frete
+                # transaction_details.total_paid_amount = produto + frete
+                #
+                # Portanto, o valor total efetivamente desembolsado pelo
+                # comprador é total_paid_amount, e não paid_amount da
+                # Merchant Order.
 
-                try:
-                    merchant_total_cents = (
-                        reais_para_centavos(merchant_total_amount)
-                        if merchant_total_amount is not None
-                        else None
-                    )
-                except (ValueError, TypeError):
-                    merchant_total_cents = None
+                def _valor_mp_em_centavos(valor):
+                    if valor is None:
+                        return None
+
+                    try:
+                        return reais_para_centavos(valor)
+                    except (ValueError, TypeError):
+                        return None
+
+
+                transaction_amount_cents = (
+                    _valor_mp_em_centavos(transaction_amount)
+                )
+
+                total_paid_amount_cents = (
+                    _valor_mp_em_centavos(total_paid_amount)
+                )
+
+                merchant_total_cents = (
+                    _valor_mp_em_centavos(merchant_total_amount)
+                )
+
+                merchant_paid_cents = (
+                    _valor_mp_em_centavos(merchant_paid_amount)
+                )
+
+                merchant_shipping_cents = (
+                    _valor_mp_em_centavos(merchant_shipping_cost)
+                )
+
 
                 order_status = pedido["status"]
 
                 if status == "approved":
-                    valor_pago_confere = (
-                        valor_total_pago_cents
+                    # Validação principal: o comprador pagou exatamente
+                    # subtotal + frete registrados no nosso pedido.
+                    total_pago_confere = (
+                        total_paid_amount_cents
                         == pedido["total_cents"]
                     )
 
-                    total_pedido_mp_confere = (
+                    # Valida também os componentes individualmente.
+                    subtotal_payment_confere = (
+                        transaction_amount_cents is None
+                        or transaction_amount_cents
+                        == pedido["subtotal_cents"]
+                    )
+
+                    subtotal_merchant_total_confere = (
                         merchant_total_cents is None
                         or merchant_total_cents
-                        == pedido["total_cents"]
+                        == pedido["subtotal_cents"]
                     )
 
-                    if (
-                        valor_pago_confere
-                        and total_pedido_mp_confere
-                    ):
+                    subtotal_merchant_paid_confere = (
+                        merchant_paid_cents is None
+                        or merchant_paid_cents
+                        == pedido["subtotal_cents"]
+                    )
+
+                    frete_confere = (
+                        merchant_shipping_cents is None
+                        or merchant_shipping_cents
+                        == pedido["shipping_price_cents"]
+                    )
+
+                    merchant_order_pago = (
+                        merchant_order_status in {None, "paid"}
+                    )
+
+                    if all([
+                        total_pago_confere,
+                        subtotal_payment_confere,
+                        subtotal_merchant_total_confere,
+                        subtotal_merchant_paid_confere,
+                        frete_confere,
+                        merchant_order_pago,
+                    ]):
                         order_status = "paid"
                     else:
                         order_status = "payment_amount_mismatch"
+
                         print(
                             "[MERCADO PAGO WEBHOOK] "
-                            "Valor total pago diferente do pedido. "
-                            f"esperado_cents={pedido['total_cents']} "
-                            f"pago_cents={valor_total_pago_cents} "
-                            f"merchant_total_cents={merchant_total_cents}"
+                            "Falha na validação financeira do pedido. "
+                            f"esperado_subtotal_cents={pedido['subtotal_cents']} "
+                            f"esperado_frete_cents={pedido['shipping_price_cents']} "
+                            f"esperado_total_cents={pedido['total_cents']} "
+                            f"transaction_amount_cents={transaction_amount_cents} "
+                            f"total_paid_amount_cents={total_paid_amount_cents} "
+                            f"merchant_total_cents={merchant_total_cents} "
+                            f"merchant_paid_cents={merchant_paid_cents} "
+                            f"merchant_shipping_cents={merchant_shipping_cents} "
+                            f"merchant_order_status={merchant_order_status}"
                         )
 
                 elif status in {"pending", "in_process", "in_mediation"}:
