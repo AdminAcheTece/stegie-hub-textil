@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KEHAI — Pedidos</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kehai_admin.css') }}?v={{ config.get('ASSET_VERSION','1') }}">
+</head>
+<body class="kehai-admin-page">
+
+  <header class="kehai-admin-header">
+    <div>
+      <p class="kehai-admin-eyebrow">KEHAI · PÓS-VENDA</p>
+      <h1>Pedidos</h1>
+    </div>
+
+    <form method="post" action="{{ url_for('kehai_admin_logout') }}">
+      <button class="kehai-admin-btn kehai-admin-btn--ghost" type="submit">Sair</button>
+    </form>
+  </header>
+
+  <main class="kehai-admin-shell">
+
+    <section class="kehai-admin-metrics">
+      <article>
+        <span>Pagos</span>
+        <strong>{{ counts.paid }}</strong>
+      </article>
+      <article>
+        <span>A preparar</span>
+        <strong>{{ counts.pending }}</strong>
+      </article>
+      <article>
+        <span>Em preparação</span>
+        <strong>{{ counts.preparing }}</strong>
+      </article>
+      <article>
+        <span>Prontos p/ envio</span>
+        <strong>{{ counts.ready_to_ship }}</strong>
+      </article>
+      <article>
+        <span>Enviados</span>
+        <strong>{{ counts.shipped }}</strong>
+      </article>
+    </section>
+
+    <section class="kehai-admin-panel">
+      <div class="kehai-admin-panel__top">
+        <div>
+          <p class="kehai-admin-eyebrow">OPERAÇÃO</p>
+          <h2>Fila de pedidos</h2>
+        </div>
+
+        <form class="kehai-admin-filters" method="get">
+          <select name="payment" aria-label="Filtrar pagamento">
+            <option value="">Todos os pagamentos</option>
+            <option value="paid" {% if payment_filter == 'paid' %}selected{% endif %}>Pagos</option>
+            <option value="payment_pending" {% if payment_filter == 'payment_pending' %}selected{% endif %}>Pendentes</option>
+            <option value="payment_failed" {% if payment_filter == 'payment_failed' %}selected{% endif %}>Falhos</option>
+            <option value="refunded" {% if payment_filter == 'refunded' %}selected{% endif %}>Reembolsados</option>
+          </select>
+
+          <select name="fulfillment" aria-label="Filtrar operação">
+            <option value="">Todas as etapas</option>
+            {% for value, label in fulfillment_labels.items() %}
+              <option value="{{ value }}" {% if fulfillment_filter == value %}selected{% endif %}>
+                {{ label }}
+              </option>
+            {% endfor %}
+          </select>
+
+          <button class="kehai-admin-btn kehai-admin-btn--outline" type="submit">
+            Filtrar
+          </button>
+        </form>
+      </div>
+
+      {% if pedidos %}
+        <div class="kehai-admin-table-wrap">
+          <table class="kehai-admin-table">
+            <thead>
+              <tr>
+                <th>Pedido</th>
+                <th>Cliente</th>
+                <th>Pagamento</th>
+                <th>Operação</th>
+                <th>Frete</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for pedido in pedidos %}
+                <tr>
+                  <td>
+                    <strong>{{ pedido.order_number }}</strong>
+                    <small>{{ pedido.created_at }}</small>
+                  </td>
+                  <td>
+                    {{ pedido.customer_name }}
+                    <small>{{ pedido.customer_email }}</small>
+                  </td>
+                  <td>
+                    <span class="kehai-admin-badge kehai-admin-badge--{{ pedido.status }}">
+                      {{ pedido.status }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="kehai-admin-badge kehai-admin-badge--fulfillment">
+                      {{ pedido.fulfillment_label }}
+                    </span>
+                  </td>
+                  <td>
+                    {{ pedido.shipping_service }}
+                    <small>{{ pedido.frete_formatado }}</small>
+                  </td>
+                  <td><strong>{{ pedido.total_formatado }}</strong></td>
+                  <td>
+                    <a class="kehai-admin-link" href="{{ url_for('kehai_admin_order_detail', order_number=pedido.order_number) }}">
+                      Abrir
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="kehai-admin-empty">
+          Nenhum pedido encontrado com os filtros selecionados.
+        </div>
+      {% endif %}
+    </section>
+
+  </main>
+</body>
+</html>
