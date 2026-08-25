@@ -165,6 +165,75 @@ MELHOR_ENVIO_USER_AGENT = os.environ.get(
 ).strip()
 
 
+# Permissões necessárias para cotação + compra + geração + impressão.
+MELHOR_ENVIO_SCOPES = " ".join([
+    "shipping-calculate",
+    "cart-read",
+    "cart-write",
+    "shipping-checkout",
+    "shipping-generate",
+    "shipping-print",
+    "shipping-tracking",
+    "orders-read",
+])
+
+
+# Dados do remetente comercial.
+# Configure no Render; não salve CNPJ/IE/endereço fiscal no GitHub.
+MELHOR_ENVIO_FROM_NAME = os.environ.get(
+    "MELHOR_ENVIO_FROM_NAME", ""
+).strip()
+
+MELHOR_ENVIO_FROM_EMAIL = os.environ.get(
+    "MELHOR_ENVIO_FROM_EMAIL", ""
+).strip()
+
+MELHOR_ENVIO_FROM_PHONE = os.environ.get(
+    "MELHOR_ENVIO_FROM_PHONE", ""
+).strip()
+
+MELHOR_ENVIO_FROM_COMPANY_DOCUMENT = os.environ.get(
+    "MELHOR_ENVIO_FROM_COMPANY_DOCUMENT", ""
+).strip()
+
+MELHOR_ENVIO_FROM_STATE_REGISTER = os.environ.get(
+    "MELHOR_ENVIO_FROM_STATE_REGISTER", ""
+).strip()
+
+MELHOR_ENVIO_FROM_ECONOMIC_ACTIVITY_CODE = os.environ.get(
+    "MELHOR_ENVIO_FROM_ECONOMIC_ACTIVITY_CODE", ""
+).strip()
+
+MELHOR_ENVIO_FROM_ADDRESS = os.environ.get(
+    "MELHOR_ENVIO_FROM_ADDRESS", ""
+).strip()
+
+MELHOR_ENVIO_FROM_NUMBER = os.environ.get(
+    "MELHOR_ENVIO_FROM_NUMBER", ""
+).strip()
+
+MELHOR_ENVIO_FROM_COMPLEMENT = os.environ.get(
+    "MELHOR_ENVIO_FROM_COMPLEMENT", ""
+).strip()
+
+MELHOR_ENVIO_FROM_DISTRICT = os.environ.get(
+    "MELHOR_ENVIO_FROM_DISTRICT", ""
+).strip()
+
+MELHOR_ENVIO_FROM_CITY = os.environ.get(
+    "MELHOR_ENVIO_FROM_CITY", ""
+).strip()
+
+MELHOR_ENVIO_FROM_POSTAL_CODE = os.environ.get(
+    "MELHOR_ENVIO_FROM_POSTAL_CODE",
+    "89260215"
+).strip()
+
+MELHOR_ENVIO_FROM_STATE_ABBR = os.environ.get(
+    "MELHOR_ENVIO_FROM_STATE_ABBR", ""
+).strip().upper()
+
+
 # Token OAuth persistente no disco do Render.
 MELHOR_ENVIO_TOKEN_FILE = (
     "/var/data/kehai_melhor_envio_token.json"
@@ -339,6 +408,78 @@ def renovar_token_melhor_envio():
 
     return novo_token
 
+
+def somente_digitos(value):
+    return "".join(ch for ch in str(value or "") if ch.isdigit())
+
+
+def melhor_envio_request(method, endpoint, *, json_payload=None, timeout=30):
+    """
+    Executa chamada autenticada ao Melhor Envio e tenta renovar
+    o access_token uma vez em caso de 401.
+    """
+    token_data = carregar_token_melhor_envio()
+    if not token_data or not token_data.get("access_token"):
+        raise RuntimeError("Melhor Envio ainda não autorizado.")
+
+    url = f"{MELHOR_ENVIO_BASE_URL}{endpoint}"
+
+    def _headers(access_token):
+        return {
+            "Authorization": f"Bearer {access_token}",
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "User-Agent": MELHOR_ENVIO_USER_AGENT,
+        }
+
+    access_token = token_data["access_token"]
+    response = requests.request(
+        method.upper(),
+        url,
+        json=json_payload,
+        headers=_headers(access_token),
+        timeout=timeout,
+    )
+
+    if response.status_code == 401:
+        novo_token = renovar_token_melhor_envio()
+        access_token = novo_token.get("access_token")
+        if not access_token:
+            raise RuntimeError("Novo access token não recebido.")
+
+        response = requests.request(
+            method.upper(),
+            url,
+            json=json_payload,
+            headers=_headers(access_token),
+            timeout=timeout,
+        )
+
+    return response
+
+
+def validar_configuracao_remetente_melhor_envio():
+    campos = {
+        "MELHOR_ENVIO_FROM_NAME": MELHOR_ENVIO_FROM_NAME,
+        "MELHOR_ENVIO_FROM_EMAIL": MELHOR_ENVIO_FROM_EMAIL,
+        "MELHOR_ENVIO_FROM_PHONE": MELHOR_ENVIO_FROM_PHONE,
+        "MELHOR_ENVIO_FROM_COMPANY_DOCUMENT": MELHOR_ENVIO_FROM_COMPANY_DOCUMENT,
+        "MELHOR_ENVIO_FROM_STATE_REGISTER": MELHOR_ENVIO_FROM_STATE_REGISTER,
+        "MELHOR_ENVIO_FROM_ADDRESS": MELHOR_ENVIO_FROM_ADDRESS,
+        "MELHOR_ENVIO_FROM_NUMBER": MELHOR_ENVIO_FROM_NUMBER,
+        "MELHOR_ENVIO_FROM_DISTRICT": MELHOR_ENVIO_FROM_DISTRICT,
+        "MELHOR_ENVIO_FROM_CITY": MELHOR_ENVIO_FROM_CITY,
+        "MELHOR_ENVIO_FROM_POSTAL_CODE": MELHOR_ENVIO_FROM_POSTAL_CODE,
+        "MELHOR_ENVIO_FROM_STATE_ABBR": MELHOR_ENVIO_FROM_STATE_ABBR,
+    }
+    missing = [key for key, value in campos.items() if not str(value or "").strip()]
+    if missing:
+        raise RuntimeError(
+            "Configuração fiscal/remetente incompleta no Render: "
+            + ", ".join(missing)
+        )
+
+
 # -----------------------------
 # KEHAI - Pedidos e persistência
 # -----------------------------
@@ -438,6 +579,7 @@ def inicializar_banco_kehai():
                 customer_name TEXT NOT NULL,
                 customer_email TEXT NOT NULL,
                 customer_phone TEXT NOT NULL,
+                customer_document TEXT,
 
                 postal_code TEXT NOT NULL,
                 street TEXT NOT NULL,
@@ -456,7 +598,17 @@ def inicializar_banco_kehai():
                 tracking_code TEXT,
                 shipped_at TEXT,
                 delivered_at TEXT,
-                internal_notes TEXT
+                internal_notes TEXT,
+
+                invoice_key TEXT,
+                me_shipment_id TEXT,
+                me_shipment_status TEXT,
+                me_label_url TEXT,
+                me_cart_created_at TEXT,
+                me_purchased_at TEXT,
+                me_generated_at TEXT,
+                me_printed_at TEXT,
+                me_last_error TEXT
             )
             """
         )
@@ -480,6 +632,26 @@ def inicializar_banco_kehai():
                 "ALTER TABLE kehai_orders ADD COLUMN delivered_at TEXT",
             "internal_notes":
                 "ALTER TABLE kehai_orders ADD COLUMN internal_notes TEXT",
+            "customer_document":
+                "ALTER TABLE kehai_orders ADD COLUMN customer_document TEXT",
+            "invoice_key":
+                "ALTER TABLE kehai_orders ADD COLUMN invoice_key TEXT",
+            "me_shipment_id":
+                "ALTER TABLE kehai_orders ADD COLUMN me_shipment_id TEXT",
+            "me_shipment_status":
+                "ALTER TABLE kehai_orders ADD COLUMN me_shipment_status TEXT",
+            "me_label_url":
+                "ALTER TABLE kehai_orders ADD COLUMN me_label_url TEXT",
+            "me_cart_created_at":
+                "ALTER TABLE kehai_orders ADD COLUMN me_cart_created_at TEXT",
+            "me_purchased_at":
+                "ALTER TABLE kehai_orders ADD COLUMN me_purchased_at TEXT",
+            "me_generated_at":
+                "ALTER TABLE kehai_orders ADD COLUMN me_generated_at TEXT",
+            "me_printed_at":
+                "ALTER TABLE kehai_orders ADD COLUMN me_printed_at TEXT",
+            "me_last_error":
+                "ALTER TABLE kehai_orders ADD COLUMN me_last_error TEXT",
         }
 
         for column_name, statement in migrations.items():
@@ -524,6 +696,7 @@ def criar_pedido_kehai(data):
                 customer_name,
                 customer_email,
                 customer_phone,
+                customer_document,
                 postal_code,
                 street,
                 address_number,
@@ -532,7 +705,7 @@ def criar_pedido_kehai(data):
                 city,
                 state
             ) VALUES (
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             )
             """,
             (
@@ -554,6 +727,7 @@ def criar_pedido_kehai(data):
                 data["customer_name"],
                 data["customer_email"],
                 data["customer_phone"],
+                data.get("customer_document"),
                 data["postal_code"],
                 data["street"],
                 data["address_number"],
@@ -604,6 +778,16 @@ def atualizar_pedido_kehai(order_number, **fields):
         "shipped_at",
         "delivered_at",
         "internal_notes",
+        "customer_document",
+        "invoice_key",
+        "me_shipment_id",
+        "me_shipment_status",
+        "me_label_url",
+        "me_cart_created_at",
+        "me_purchased_at",
+        "me_generated_at",
+        "me_printed_at",
+        "me_last_error",
     }
 
     updates = {
@@ -1605,7 +1789,7 @@ def kehai_melhor_envio_autorizar():
         "redirect_uri": MELHOR_ENVIO_REDIRECT_URI,
         "response_type": "code",
         "state": state,
-        "scope": "shipping-calculate",
+        "scope": MELHOR_ENVIO_SCOPES,
     }
 
     authorization_url = (
@@ -1809,6 +1993,9 @@ def kehai_criar_pedido():
         name = str(customer.get("name") or "").strip()
         email = str(customer.get("email") or "").strip().lower()
         phone = str(customer.get("phone") or "").strip()
+        customer_document = somente_digitos(
+            customer.get("document") or ""
+        )
 
         postal_code = normalizar_cep(address.get("postal_code"))
         street = str(address.get("street") or "").strip()
@@ -1822,6 +2009,7 @@ def kehai_criar_pedido():
             "Nome": name,
             "E-mail": email,
             "Telefone": phone,
+            "CPF": customer_document,
             "CEP": postal_code,
             "Rua": street,
             "Número": address_number,
@@ -1834,6 +2022,12 @@ def kehai_criar_pedido():
             return jsonify({
                 "success": False,
                 "error": "Preencha: " + ", ".join(missing) + ".",
+            }), 400
+
+        if len(customer_document) != 11:
+            return jsonify({
+                "success": False,
+                "error": "Informe um CPF válido com 11 dígitos.",
             }), 400
 
         shipping_service_id = str(
@@ -1882,6 +2076,7 @@ def kehai_criar_pedido():
             "customer_name": name,
             "customer_email": email,
             "customer_phone": phone,
+            "customer_document": customer_document,
             "postal_code": postal_code,
             "street": street,
             "address_number": address_number,
@@ -2237,15 +2432,54 @@ def formatar_cep_kehai(value):
     return str(value or "")
 
 
+def formatar_cpf_kehai(value):
+    digits = somente_digitos(value)
+    if len(digits) == 11:
+        return f"{digits[:3]}.{digits[3:6]}.{digits[6:9]}-{digits[9:]}"
+    return str(value or "")
+
+
+def mascarar_cpf_kehai(value):
+    digits = somente_digitos(value)
+    if len(digits) == 11:
+        return f"***.***.***-{digits[-2:]}"
+    return "—"
+
+
 def contexto_admin_pedido_kehai(pedido):
     contexto = contexto_pedido_kehai(pedido) or {}
-    contexto["fulfillment_label"] = FULFILLMENT_LABELS.get(
-        contexto.get("fulfillment_status") or "pending",
-        contexto.get("fulfillment_status") or "—",
-    )
+    if (
+        contexto.get("status") != "paid"
+        and (contexto.get("fulfillment_status") or "pending") == "pending"
+    ):
+        contexto["fulfillment_label"] = "Aguardando pagamento"
+    else:
+        contexto["fulfillment_label"] = FULFILLMENT_LABELS.get(
+            contexto.get("fulfillment_status") or "pending",
+            contexto.get("fulfillment_status") or "—",
+        )
     contexto["postal_code_formatado"] = formatar_cep_kehai(
         contexto.get("postal_code")
     )
+    contexto["customer_document_formatado"] = formatar_cpf_kehai(
+        contexto.get("customer_document")
+    )
+    contexto["customer_document_masked"] = mascarar_cpf_kehai(
+        contexto.get("customer_document")
+    )
+    contexto["sender_configured"] = all([
+        MELHOR_ENVIO_FROM_NAME,
+        MELHOR_ENVIO_FROM_EMAIL,
+        MELHOR_ENVIO_FROM_PHONE,
+        MELHOR_ENVIO_FROM_COMPANY_DOCUMENT,
+        MELHOR_ENVIO_FROM_STATE_REGISTER,
+        MELHOR_ENVIO_FROM_ADDRESS,
+        MELHOR_ENVIO_FROM_NUMBER,
+        MELHOR_ENVIO_FROM_DISTRICT,
+        MELHOR_ENVIO_FROM_CITY,
+        MELHOR_ENVIO_FROM_POSTAL_CODE,
+        MELHOR_ENVIO_FROM_STATE_ABBR,
+    ])
     return contexto
 
 
@@ -2281,6 +2515,278 @@ def kehai_admin_required(view_function):
             return redirect(url_for("kehai_admin_login"))
         return view_function(*args, **kwargs)
     return wrapped
+
+
+# =====================================================
+# KEHAI - MELHOR ENVIO - ETIQUETA / EXPEDIÇÃO
+# =====================================================
+
+def criar_envio_melhor_envio(pedido):
+    if pedido.get("status") != "paid":
+        raise RuntimeError("O pedido precisa estar pago antes de preparar o envio.")
+
+    if pedido.get("me_shipment_id"):
+        return pedido["me_shipment_id"]
+
+    validar_configuracao_remetente_melhor_envio()
+
+    cpf = somente_digitos(pedido.get("customer_document"))
+    if len(cpf) != 11:
+        raise RuntimeError("Informe o CPF do destinatário antes de preparar o envio.")
+
+    invoice_key = somente_digitos(pedido.get("invoice_key"))
+    if len(invoice_key) != 44:
+        raise RuntimeError("Informe a chave de NF-e com 44 dígitos antes de preparar o envio.")
+
+    company_document = somente_digitos(MELHOR_ENVIO_FROM_COMPANY_DOCUMENT)
+    if len(company_document) != 14:
+        raise RuntimeError("O CNPJ do remetente deve conter 14 dígitos.")
+
+    product = KEHAI_PRODUCTS["physical"]
+
+    from_data = {
+        "name": MELHOR_ENVIO_FROM_NAME,
+        "email": MELHOR_ENVIO_FROM_EMAIL,
+        "phone": somente_digitos(MELHOR_ENVIO_FROM_PHONE),
+        "company_document": company_document,
+        "state_register": MELHOR_ENVIO_FROM_STATE_REGISTER,
+        "address": MELHOR_ENVIO_FROM_ADDRESS,
+        "complement": MELHOR_ENVIO_FROM_COMPLEMENT,
+        "number": MELHOR_ENVIO_FROM_NUMBER,
+        "district": MELHOR_ENVIO_FROM_DISTRICT,
+        "city": MELHOR_ENVIO_FROM_CITY,
+        "postal_code": somente_digitos(MELHOR_ENVIO_FROM_POSTAL_CODE),
+        "state_abbr": MELHOR_ENVIO_FROM_STATE_ABBR,
+    }
+
+    if MELHOR_ENVIO_FROM_ECONOMIC_ACTIVITY_CODE:
+        from_data["economic_activity_code"] = somente_digitos(
+            MELHOR_ENVIO_FROM_ECONOMIC_ACTIVITY_CODE
+        )
+
+    payload = {
+        "service": int(str(pedido["shipping_service_id"])),
+        "from": from_data,
+        "to": {
+            "name": pedido["customer_name"],
+            "email": pedido["customer_email"],
+            "phone": somente_digitos(pedido["customer_phone"]),
+            "document": cpf,
+            "address": pedido["street"],
+            "complement": pedido.get("complement") or "",
+            "number": pedido["address_number"],
+            "district": pedido["district"],
+            "city": pedido["city"],
+            "postal_code": somente_digitos(pedido["postal_code"]),
+            "country_id": "BR",
+            "state_abbr": pedido["state"],
+        },
+        "products": [
+            {
+                "name": product["title"],
+                "quantity": int(pedido.get("quantity") or 1),
+                "unitary_value": centavos_para_reais(
+                    pedido.get("unit_price_cents") or product["unit_price_cents"]
+                ),
+            }
+        ],
+        "volumes": [
+            {
+                "height": product["height"],
+                "width": product["width"],
+                "length": product["length"],
+                "weight": product["weight"],
+            }
+        ],
+        "options": {
+            "platform": "KEHAI - Loja Oficial",
+            "reminder": pedido["order_number"],
+            "insurance_value": centavos_para_reais(
+                pedido.get("subtotal_cents") or product["unit_price_cents"]
+            ),
+            "receipt": False,
+            "own_hand": False,
+            "reverse": False,
+            "invoice": {
+                "key": invoice_key,
+            },
+            "tags": [
+                {
+                    "tag": pedido["order_number"],
+                    "url": url_for(
+                        "kehai_admin_order_detail",
+                        order_number=pedido["order_number"],
+                        _external=True,
+                        _scheme="https",
+                    ),
+                }
+            ],
+        },
+    }
+
+    response = melhor_envio_request(
+        "POST",
+        "/api/v2/me/cart",
+        json_payload=payload,
+        timeout=30,
+    )
+
+    if response.status_code not in (200, 201):
+        message = response.text[:1200]
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            me_last_error=f"Carrinho HTTP {response.status_code}: {message}",
+        )
+        raise RuntimeError(
+            f"Melhor Envio recusou a criação do envio (HTTP {response.status_code})."
+        )
+
+    data = response.json()
+    shipment_id = (
+        data.get("id")
+        or data.get("order", {}).get("id")
+        or data.get("data", {}).get("id")
+    )
+
+    if not shipment_id:
+        raise RuntimeError("O Melhor Envio não retornou o ID da etiqueta.")
+
+    atualizar_pedido_kehai(
+        pedido["order_number"],
+        me_shipment_id=str(shipment_id),
+        me_shipment_status="cart",
+        me_cart_created_at=agora_iso(),
+        me_last_error=None,
+    )
+
+    return str(shipment_id)
+
+
+def comprar_envio_melhor_envio(pedido):
+    shipment_id = pedido.get("me_shipment_id")
+    if not shipment_id:
+        raise RuntimeError("Prepare o envio no carrinho antes de comprar o frete.")
+
+    if pedido.get("me_purchased_at"):
+        return True
+
+    response = melhor_envio_request(
+        "POST",
+        "/api/v2/me/shipment/checkout",
+        json_payload={"orders": [str(shipment_id)]},
+        timeout=30,
+    )
+
+    if not response.ok:
+        message = response.text[:1200]
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            me_last_error=f"Checkout HTTP {response.status_code}: {message}",
+        )
+        raise RuntimeError(
+            f"Não foi possível comprar o frete no Melhor Envio (HTTP {response.status_code})."
+        )
+
+    atualizar_pedido_kehai(
+        pedido["order_number"],
+        me_shipment_status="purchased",
+        me_purchased_at=agora_iso(),
+        me_last_error=None,
+    )
+    return True
+
+
+def gerar_etiqueta_melhor_envio(pedido):
+    shipment_id = pedido.get("me_shipment_id")
+    if not shipment_id or not pedido.get("me_purchased_at"):
+        raise RuntimeError("Compre o frete antes de gerar a etiqueta.")
+
+    if pedido.get("me_generated_at"):
+        return True
+
+    response = melhor_envio_request(
+        "POST",
+        "/api/v2/me/shipment/generate",
+        json_payload={"orders": [str(shipment_id)]},
+        timeout=30,
+    )
+
+    if not response.ok:
+        message = response.text[:1200]
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            me_last_error=f"Geração HTTP {response.status_code}: {message}",
+        )
+        raise RuntimeError(
+            f"Não foi possível gerar a etiqueta (HTTP {response.status_code})."
+        )
+
+    atualizar_pedido_kehai(
+        pedido["order_number"],
+        me_shipment_status="generated",
+        me_generated_at=agora_iso(),
+        me_last_error=None,
+    )
+    return True
+
+
+def obter_link_etiqueta_melhor_envio(pedido):
+    shipment_id = pedido.get("me_shipment_id")
+    if not shipment_id or not pedido.get("me_generated_at"):
+        raise RuntimeError("Gere a etiqueta antes de solicitar a impressão.")
+
+    response = melhor_envio_request(
+        "POST",
+        "/api/v2/me/shipment/print",
+        json_payload={
+            "mode": "public",
+            "orders": [str(shipment_id)],
+        },
+        timeout=30,
+    )
+
+    if not response.ok:
+        message = response.text[:1200]
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            me_last_error=f"Impressão HTTP {response.status_code}: {message}",
+        )
+        raise RuntimeError(
+            f"Não foi possível obter o link da etiqueta (HTTP {response.status_code})."
+        )
+
+    try:
+        data = response.json()
+    except ValueError:
+        data = {}
+
+    label_url = None
+    if isinstance(data, dict):
+        label_url = (
+            data.get("url")
+            or data.get("link")
+            or (data.get("data") or {}).get("url")
+        )
+
+    if not label_url:
+        raw_text = (response.text or "").strip().strip('"')
+        if raw_text.startswith("http://") or raw_text.startswith("https://"):
+            label_url = raw_text
+
+    if not label_url:
+        raise RuntimeError("O Melhor Envio não retornou o link de impressão.")
+
+    atualizar_pedido_kehai(
+        pedido["order_number"],
+        me_label_url=label_url,
+        me_shipment_status="label_ready",
+        me_printed_at=agora_iso(),
+        fulfillment_status="ready_to_ship",
+        fulfillment_updated_at=agora_iso(),
+        me_last_error=None,
+    )
+
+    return label_url
 
 
 # =====================================================
@@ -2417,6 +2923,125 @@ def kehai_admin_order_operation(order_number):
         fields["delivered_at"] = pedido.get("delivered_at") or agora_iso()
 
     atualizar_pedido_kehai(order_number, **fields)
+
+    return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
+
+
+@app.route(
+    "/kehai/admin/pedidos/<order_number>/fiscal",
+    methods=["POST"],
+)
+@kehai_admin_required
+def kehai_admin_order_fiscal(order_number):
+    pedido = buscar_pedido_kehai(order_number)
+    if not pedido:
+        abort(404)
+
+    customer_document = somente_digitos(
+        request.form.get("customer_document") or ""
+    )
+    invoice_key = somente_digitos(
+        request.form.get("invoice_key") or ""
+    )
+
+    if len(customer_document) != 11:
+        flash("Informe um CPF válido com 11 dígitos.", "error")
+        return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
+
+    if len(invoice_key) != 44:
+        flash("Informe a chave da NF-e com 44 dígitos.", "error")
+        return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
+
+    atualizar_pedido_kehai(
+        order_number,
+        customer_document=customer_document,
+        invoice_key=invoice_key,
+        me_last_error=None,
+    )
+
+    flash("Dados fiscais do envio salvos.", "success")
+    return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
+
+
+@app.route(
+    "/kehai/admin/pedidos/<order_number>/melhor-envio/preparar",
+    methods=["POST"],
+)
+@kehai_admin_required
+def kehai_admin_me_prepare(order_number):
+    pedido = buscar_pedido_kehai(order_number)
+    if not pedido:
+        abort(404)
+
+    try:
+        criar_envio_melhor_envio(pedido)
+        flash("Envio inserido no carrinho do Melhor Envio.", "success")
+    except Exception as erro:
+        print(f"[MELHOR ENVIO ADMIN] Preparar: {erro}")
+        flash(str(erro), "error")
+
+    return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
+
+
+@app.route(
+    "/kehai/admin/pedidos/<order_number>/melhor-envio/comprar",
+    methods=["POST"],
+)
+@kehai_admin_required
+def kehai_admin_me_purchase(order_number):
+    pedido = buscar_pedido_kehai(order_number)
+    if not pedido:
+        abort(404)
+
+    try:
+        comprar_envio_melhor_envio(pedido)
+        flash("Frete comprado no Melhor Envio.", "success")
+    except Exception as erro:
+        print(f"[MELHOR ENVIO ADMIN] Comprar: {erro}")
+        flash(str(erro), "error")
+
+    return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
+
+
+@app.route(
+    "/kehai/admin/pedidos/<order_number>/melhor-envio/gerar",
+    methods=["POST"],
+)
+@kehai_admin_required
+def kehai_admin_me_generate(order_number):
+    pedido = buscar_pedido_kehai(order_number)
+    if not pedido:
+        abort(404)
+
+    try:
+        gerar_etiqueta_melhor_envio(pedido)
+        flash(
+            "Etiqueta gerada. Aguarde alguns segundos antes de solicitar a impressão.",
+            "success",
+        )
+    except Exception as erro:
+        print(f"[MELHOR ENVIO ADMIN] Gerar: {erro}")
+        flash(str(erro), "error")
+
+    return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
+
+
+@app.route(
+    "/kehai/admin/pedidos/<order_number>/melhor-envio/imprimir",
+    methods=["POST"],
+)
+@kehai_admin_required
+def kehai_admin_me_print(order_number):
+    pedido = buscar_pedido_kehai(order_number)
+    if not pedido:
+        abort(404)
+
+    try:
+        obter_link_etiqueta_melhor_envio(pedido)
+        flash("Link de impressão da etiqueta obtido.", "success")
+    except Exception as erro:
+        print(f"[MELHOR ENVIO ADMIN] Imprimir: {erro}")
+        flash(str(erro), "error")
 
     return redirect(url_for("kehai_admin_order_detail", order_number=order_number))
 
