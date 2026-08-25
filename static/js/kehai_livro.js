@@ -92,16 +92,12 @@
 
 
     /* =========================================================
-       4. CONFIGURAÇÃO DOS LINKS DE COMPRA
+       4. COMPRA DO LIVRO FÍSICO
+       CEP → FRETE → PEDIDO → MERCADO PAGO
        ========================================================= */
 
-    const physicalButtons = [
-
-      $("#kehaiBuyPhysical"),
-
-      $("#kehaiBuyFinal")
-
-    ].filter(Boolean);
+    const physicalButtons =
+      $$("[data-kehai-checkout-trigger]");
 
 
     const signedButton =
@@ -114,6 +110,1586 @@
 
     const corporateButton =
       $("#kehaiCorporate");
+
+
+    const checkout =
+      $("#kehaiCheckout");
+
+
+    const checkoutDialog =
+      $("#kehaiCheckoutDialog");
+
+
+    const checkoutForm =
+      $("#kehaiCheckoutForm");
+
+
+    const checkoutCloseButtons =
+      $$("[data-kehai-checkout-close]");
+
+
+    const checkoutCep =
+      $("#kehaiCheckoutCep");
+
+
+    const checkoutCalculateShipping =
+      $("#kehaiCheckoutCalculateShipping");
+
+
+    const checkoutShippingStatus =
+      $("#kehaiCheckoutShippingStatus");
+
+
+    const checkoutShippingOptions =
+      $("#kehaiCheckoutShippingOptions");
+
+
+    const checkoutName =
+      $("#kehaiCheckoutName");
+
+
+    const checkoutEmail =
+      $("#kehaiCheckoutEmail");
+
+
+    const checkoutPhone =
+      $("#kehaiCheckoutPhone");
+
+
+    const checkoutStreet =
+      $("#kehaiCheckoutStreet");
+
+
+    const checkoutNumber =
+      $("#kehaiCheckoutNumber");
+
+
+    const checkoutComplement =
+      $("#kehaiCheckoutComplement");
+
+
+    const checkoutDistrict =
+      $("#kehaiCheckoutDistrict");
+
+
+    const checkoutCity =
+      $("#kehaiCheckoutCity");
+
+
+    const checkoutState =
+      $("#kehaiCheckoutState");
+
+
+    const checkoutShippingLabel =
+      $("#kehaiCheckoutShippingLabel");
+
+
+    const checkoutShippingPrice =
+      $("#kehaiCheckoutShippingPrice");
+
+
+    const checkoutTotal =
+      $("#kehaiCheckoutTotal");
+
+
+    const checkoutError =
+      $("#kehaiCheckoutError");
+
+
+    const checkoutSubmit =
+      $("#kehaiCheckoutSubmit");
+
+
+    const KEHAI_PHYSICAL_PRICE_CENTS =
+      7990;
+
+
+    const checkoutStateData = {
+
+      selectedShipping:
+        null,
+
+      quotedCep:
+        "",
+
+      orderNumber:
+        null,
+
+      submitting:
+        false,
+
+      lastTrigger:
+        null
+
+    };
+
+
+    const brlFormatter =
+      new Intl.NumberFormat(
+        "pt-BR",
+        {
+          style:
+            "currency",
+
+          currency:
+            "BRL"
+        }
+      );
+
+
+    function moneyFromCents(
+      cents
+    ) {
+
+      return brlFormatter.format(
+        Number(cents || 0) / 100
+      );
+
+    }
+
+
+    function normalizeCep(
+      value
+    ) {
+
+      const digits =
+        String(value || "")
+          .replace(/\D/g, "")
+          .slice(0, 8);
+
+
+      return digits.length === 8
+        ? digits
+        : "";
+
+    }
+
+
+    function formatCep(
+      value
+    ) {
+
+      const digits =
+        String(value || "")
+          .replace(/\D/g, "")
+          .slice(0, 8);
+
+
+      if (
+        digits.length <= 5
+      ) {
+
+        return digits;
+
+      }
+
+
+      return (
+        digits.slice(0, 5)
+        +
+        "-"
+        +
+        digits.slice(5)
+      );
+
+    }
+
+
+    function formatPhone(
+      value
+    ) {
+
+      const digits =
+        String(value || "")
+          .replace(/\D/g, "")
+          .slice(0, 11);
+
+
+      if (
+        digits.length <= 2
+      ) {
+
+        return digits;
+
+      }
+
+
+      if (
+        digits.length <= 6
+      ) {
+
+        return (
+          `(${digits.slice(0, 2)}) `
+          +
+          digits.slice(2)
+        );
+
+      }
+
+
+      if (
+        digits.length <= 10
+      ) {
+
+        return (
+          `(${digits.slice(0, 2)}) `
+          +
+          `${digits.slice(2, 6)}-`
+          +
+          digits.slice(6)
+        );
+
+      }
+
+
+      return (
+        `(${digits.slice(0, 2)}) `
+        +
+        `${digits.slice(2, 7)}-`
+        +
+        digits.slice(7)
+      );
+
+    }
+
+
+    function setCheckoutError(
+      message = ""
+    ) {
+
+      if (!checkoutError) {
+        return;
+      }
+
+
+      checkoutError.textContent =
+        message;
+
+
+      checkoutError.classList.toggle(
+        "is-visible",
+        Boolean(message)
+      );
+
+    }
+
+
+    function setShippingStatus(
+      message = "",
+      type = ""
+    ) {
+
+      if (!checkoutShippingStatus) {
+        return;
+      }
+
+
+      checkoutShippingStatus.textContent =
+        message;
+
+
+      checkoutShippingStatus.classList.remove(
+        "is-loading",
+        "is-error",
+        "is-success"
+      );
+
+
+      if (type) {
+
+        checkoutShippingStatus
+          .classList
+          .add(
+            `is-${type}`
+          );
+
+      }
+
+    }
+
+
+    function invalidateCreatedOrder() {
+
+      checkoutStateData.orderNumber =
+        null;
+
+    }
+
+
+    function resetShippingSelection(
+      options = {}
+    ) {
+
+      checkoutStateData.selectedShipping =
+        null;
+
+
+      checkoutStateData.quotedCep =
+        "";
+
+
+      invalidateCreatedOrder();
+
+
+      if (
+        checkoutShippingOptions
+        &&
+        options.keepOptions !== true
+      ) {
+
+        checkoutShippingOptions.innerHTML =
+          "";
+
+      }
+
+
+      if (
+        checkoutShippingLabel
+      ) {
+
+        checkoutShippingLabel.textContent =
+          "Frete";
+
+      }
+
+
+      if (
+        checkoutShippingPrice
+      ) {
+
+        checkoutShippingPrice.textContent =
+          "A calcular";
+
+      }
+
+
+      if (
+        checkoutTotal
+      ) {
+
+        checkoutTotal.textContent =
+          moneyFromCents(
+            KEHAI_PHYSICAL_PRICE_CENTS
+          );
+
+      }
+
+    }
+
+
+    function updateCheckoutSummary() {
+
+      const shipping =
+        checkoutStateData.selectedShipping;
+
+
+      const shippingCents =
+        shipping
+          ? Number(shipping.preco_cents || 0)
+          : 0;
+
+
+      if (
+        checkoutShippingLabel
+      ) {
+
+        checkoutShippingLabel.textContent =
+          shipping
+            ? (
+                "Frete — "
+                +
+                shipping.servico
+              )
+            : "Frete";
+
+      }
+
+
+      if (
+        checkoutShippingPrice
+      ) {
+
+        checkoutShippingPrice.textContent =
+          shipping
+            ? moneyFromCents(
+                shippingCents
+              )
+            : "A calcular";
+
+      }
+
+
+      if (
+        checkoutTotal
+      ) {
+
+        checkoutTotal.textContent =
+          moneyFromCents(
+            KEHAI_PHYSICAL_PRICE_CENTS
+            +
+            shippingCents
+          );
+
+      }
+
+    }
+
+
+    function selectShippingOption(
+      shippingId
+    ) {
+
+      if (
+        !checkoutShippingOptions
+      ) {
+        return;
+      }
+
+
+      const optionElement =
+        checkoutShippingOptions
+          .querySelector(
+            `[data-shipping-id="${CSS.escape(String(shippingId))}"]`
+          );
+
+
+      if (!optionElement) {
+        return;
+      }
+
+
+      const raw =
+        optionElement
+          .dataset
+          .shippingData;
+
+
+      if (!raw) {
+        return;
+      }
+
+
+      try {
+
+        checkoutStateData.selectedShipping =
+          JSON.parse(raw);
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "[KEHAI] Opção de frete inválida:",
+          error
+        );
+
+        return;
+
+      }
+
+
+      $$(
+        ".kehai-book-checkout__shipping-option",
+        checkoutShippingOptions
+      ).forEach(
+        (element) => {
+
+          const selected =
+            element ===
+            optionElement;
+
+
+          element.classList.toggle(
+            "is-selected",
+            selected
+          );
+
+
+          const radio =
+            $("input[type='radio']", element);
+
+
+          if (radio) {
+
+            radio.checked =
+              selected;
+
+          }
+
+        }
+      );
+
+
+      invalidateCreatedOrder();
+
+
+      updateCheckoutSummary();
+
+
+      trackEvent(
+        "select_shipping",
+        {
+          service:
+            checkoutStateData
+              .selectedShipping
+              ?.servico,
+
+          company:
+            checkoutStateData
+              .selectedShipping
+              ?.transportadora,
+
+          price:
+            checkoutStateData
+              .selectedShipping
+              ?.preco
+        }
+      );
+
+    }
+
+
+    function renderShippingOptions(
+      options
+    ) {
+
+      if (
+        !checkoutShippingOptions
+      ) {
+        return;
+      }
+
+
+      checkoutShippingOptions.innerHTML =
+        "";
+
+
+      const normalized =
+        (Array.isArray(options)
+          ? options
+          : [])
+          .map(
+            (item) => {
+
+              const priceNumber =
+                Number.parseFloat(
+                  String(item.preco || "0")
+                    .replace(",", ".")
+                );
+
+
+              return {
+                ...item,
+
+                preco_cents:
+                  Math.round(
+                    priceNumber * 100
+                  )
+              };
+
+            }
+          )
+          .filter(
+            (item) =>
+              item.id
+              &&
+              Number.isFinite(
+                item.preco_cents
+              )
+          )
+          .sort(
+            (a, b) =>
+              a.preco_cents
+              -
+              b.preco_cents
+          );
+
+
+      if (
+        !normalized.length
+      ) {
+
+        setShippingStatus(
+          "Não encontramos uma opção de entrega para este CEP.",
+          "error"
+        );
+
+
+        resetShippingSelection({
+          keepOptions:
+            true
+        });
+
+
+        return;
+
+      }
+
+
+      normalized.forEach(
+        (item) => {
+
+          const label =
+            document.createElement(
+              "label"
+            );
+
+
+          label.className =
+            "kehai-book-checkout__shipping-option";
+
+
+          label.dataset.shippingId =
+            String(item.id);
+
+
+          label.dataset.shippingData =
+            JSON.stringify(
+              item
+            );
+
+
+          const prazo =
+            item.prazo_dias
+              ? (
+                  `${item.prazo_dias} `
+                  +
+                  (
+                    Number(item.prazo_dias) === 1
+                      ? "dia útil"
+                      : "dias úteis"
+                  )
+                )
+              : "Prazo informado pela transportadora";
+
+
+          label.innerHTML =
+            `
+              <input
+                type="radio"
+                name="kehai_shipping"
+                value="${String(item.id)}"
+              >
+
+              <span class="kehai-book-checkout__shipping-option-main">
+
+                <strong>
+                  ${item.servico || "Entrega"}
+                  ·
+                  ${item.transportadora || "Transportadora"}
+                </strong>
+
+                <span>
+                  Prazo estimado: ${prazo}
+                </span>
+
+              </span>
+
+              <span class="kehai-book-checkout__shipping-option-price">
+                ${moneyFromCents(item.preco_cents)}
+              </span>
+            `;
+
+
+          const radio =
+            $("input", label);
+
+
+          radio?.addEventListener(
+            "change",
+            () => {
+
+              selectShippingOption(
+                item.id
+              );
+
+            }
+          );
+
+
+          checkoutShippingOptions
+            .appendChild(
+              label
+            );
+
+        }
+      );
+
+
+      selectShippingOption(
+        normalized[0].id
+      );
+
+
+      setShippingStatus(
+        normalized.length === 1
+          ? "Opção de entrega encontrada."
+          : `${normalized.length} opções de entrega encontradas.`,
+        "success"
+      );
+
+    }
+
+
+    async function fetchJson(
+      url,
+      options = {}
+    ) {
+
+      const response =
+        await fetch(
+          url,
+          options
+        );
+
+
+      let data =
+        {};
+
+
+      try {
+
+        data =
+          await response.json();
+
+      }
+
+      catch (error) {
+
+        data =
+          {};
+
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error
+          ||
+          "Não foi possível concluir a solicitação."
+        );
+
+      }
+
+
+      return data;
+
+    }
+
+
+    async function autofillAddressByCep(
+      cep
+    ) {
+
+      if (!cep) {
+        return;
+      }
+
+
+      try {
+
+        const response =
+          await fetch(
+            `https://viacep.com.br/ws/${cep}/json/`,
+            {
+              headers: {
+                "Accept":
+                  "application/json"
+              }
+            }
+          );
+
+
+        if (!response.ok) {
+          return;
+        }
+
+
+        const data =
+          await response.json();
+
+
+        if (
+          !data
+          ||
+          data.erro
+        ) {
+          return;
+        }
+
+
+        if (
+          checkoutStreet
+          &&
+          data.logradouro
+        ) {
+
+          checkoutStreet.value =
+            data.logradouro;
+
+        }
+
+
+        if (
+          checkoutDistrict
+          &&
+          data.bairro
+        ) {
+
+          checkoutDistrict.value =
+            data.bairro;
+
+        }
+
+
+        if (
+          checkoutCity
+          &&
+          data.localidade
+        ) {
+
+          checkoutCity.value =
+            data.localidade;
+
+        }
+
+
+        if (
+          checkoutState
+          &&
+          data.uf
+        ) {
+
+          checkoutState.value =
+            String(data.uf)
+              .toUpperCase();
+
+        }
+
+
+        invalidateCreatedOrder();
+
+      }
+
+      catch (error) {
+
+        /*
+          O preenchimento automático é
+          apenas uma conveniência.
+          A compra continua funcionando
+          caso o serviço externo esteja
+          indisponível.
+        */
+
+        console.info(
+          "[KEHAI] CEP sem preenchimento automático."
+        );
+
+      }
+
+    }
+
+
+    async function calculateShipping() {
+
+      const cep =
+        normalizeCep(
+          checkoutCep?.value
+        );
+
+
+      setCheckoutError();
+
+
+      if (!cep) {
+
+        checkoutCep
+          ?.classList
+          .add(
+            "is-invalid"
+          );
+
+
+        setShippingStatus(
+          "Digite um CEP válido com 8 números.",
+          "error"
+        );
+
+
+        checkoutCep
+          ?.focus();
+
+
+        return;
+
+      }
+
+
+      checkoutCep
+        ?.classList
+        .remove(
+          "is-invalid"
+        );
+
+
+      resetShippingSelection();
+
+
+      checkoutStateData.quotedCep =
+        cep;
+
+
+      setShippingStatus(
+        "Consultando as opções de entrega...",
+        "loading"
+      );
+
+
+      if (
+        checkoutCalculateShipping
+      ) {
+
+        checkoutCalculateShipping.disabled =
+          true;
+
+
+        checkoutCalculateShipping.textContent =
+          "Calculando...";
+
+      }
+
+
+      try {
+
+        const data =
+          await fetchJson(
+            "/api/kehai/frete",
+            {
+              method:
+                "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  cep:
+                    cep
+                })
+            }
+          );
+
+
+        if (!data.success) {
+
+          throw new Error(
+            data.error
+            ||
+            "Não foi possível calcular o frete."
+          );
+
+        }
+
+
+        checkoutStateData.quotedCep =
+          cep;
+
+
+        renderShippingOptions(
+          data.opcoes
+        );
+
+
+        autofillAddressByCep(
+          cep
+        );
+
+
+        trackEvent(
+          "calculate_shipping",
+          {
+            cep_prefix:
+              cep.slice(0, 5),
+
+            options:
+              Array.isArray(data.opcoes)
+                ? data.opcoes.length
+                : 0
+          }
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "[KEHAI] Erro ao calcular frete:",
+          error
+        );
+
+
+        resetShippingSelection();
+
+
+        setShippingStatus(
+          error.message
+          ||
+          "Não foi possível calcular o frete agora.",
+          "error"
+        );
+
+      }
+
+      finally {
+
+        if (
+          checkoutCalculateShipping
+        ) {
+
+          checkoutCalculateShipping.disabled =
+            false;
+
+
+          checkoutCalculateShipping.textContent =
+            "Calcular frete";
+
+        }
+
+      }
+
+    }
+
+
+    function openCheckout(
+      trigger = null
+    ) {
+
+      if (
+        !checkout
+        ||
+        !checkoutDialog
+      ) {
+        return;
+      }
+
+
+      checkoutStateData.lastTrigger =
+        trigger
+        ||
+        document.activeElement;
+
+
+      checkout.classList.add(
+        "is-open"
+      );
+
+
+      checkout.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+
+      document.body.classList.add(
+        "kehai-checkout-open"
+      );
+
+
+      setCheckoutError();
+
+
+      window.requestAnimationFrame(
+        () => {
+
+          (
+            checkoutCep
+            ||
+            checkoutDialog
+          )
+            ?.focus();
+
+        }
+      );
+
+
+      trackEvent(
+        "open_checkout_physical"
+      );
+
+    }
+
+
+    function closeCheckout() {
+
+      if (!checkout) {
+        return;
+      }
+
+
+      checkout.classList.remove(
+        "is-open"
+      );
+
+
+      checkout.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+
+      document.body.classList.remove(
+        "kehai-checkout-open"
+      );
+
+
+      checkoutStateData
+        .lastTrigger
+        ?.focus?.();
+
+    }
+
+
+    function validateCheckoutForm() {
+
+      setCheckoutError();
+
+
+      const cep =
+        normalizeCep(
+          checkoutCep?.value
+        );
+
+
+      if (
+        !cep
+        ||
+        cep !==
+          checkoutStateData.quotedCep
+        ||
+        !checkoutStateData.selectedShipping
+      ) {
+
+        setCheckoutError(
+          "Calcule o frete e confirme uma opção de entrega antes de continuar."
+        );
+
+
+        checkoutCep
+          ?.focus();
+
+
+        return false;
+
+      }
+
+
+      const requiredInputs = [
+
+        checkoutName,
+        checkoutEmail,
+        checkoutPhone,
+        checkoutStreet,
+        checkoutNumber,
+        checkoutDistrict,
+        checkoutCity,
+        checkoutState
+
+      ].filter(Boolean);
+
+
+      let firstInvalid =
+        null;
+
+
+      requiredInputs.forEach(
+        (input) => {
+
+          const value =
+            String(
+              input.value || ""
+            ).trim();
+
+
+          let valid =
+            Boolean(value);
+
+
+          if (
+            input.type === "email"
+          ) {
+
+            valid =
+              valid
+              &&
+              input.checkValidity();
+
+          }
+
+
+          if (
+            input === checkoutState
+          ) {
+
+            valid =
+              /^[A-Za-z]{2}$/
+                .test(value);
+
+          }
+
+
+          input.classList.toggle(
+            "is-invalid",
+            !valid
+          );
+
+
+          if (
+            !valid
+            &&
+            !firstInvalid
+          ) {
+
+            firstInvalid =
+              input;
+
+          }
+
+        }
+      );
+
+
+      if (firstInvalid) {
+
+        setCheckoutError(
+          "Revise os campos destacados antes de continuar."
+        );
+
+
+        firstInvalid.focus();
+
+
+        return false;
+
+      }
+
+
+      const phoneDigits =
+        String(
+          checkoutPhone?.value || ""
+        )
+          .replace(/\D/g, "");
+
+
+      if (
+        phoneDigits.length < 10
+      ) {
+
+        checkoutPhone
+          ?.classList
+          .add(
+            "is-invalid"
+          );
+
+
+        setCheckoutError(
+          "Informe um telefone válido com DDD."
+        );
+
+
+        checkoutPhone
+          ?.focus();
+
+
+        return false;
+
+      }
+
+
+      return true;
+
+    }
+
+
+    function setCheckoutSubmitting(
+      submitting
+    ) {
+
+      checkoutStateData.submitting =
+        submitting;
+
+
+      if (!checkoutSubmit) {
+        return;
+      }
+
+
+      checkoutSubmit.disabled =
+        submitting;
+
+
+      checkoutSubmit.setAttribute(
+        "aria-busy",
+        String(submitting)
+      );
+
+
+      checkoutSubmit.textContent =
+        submitting
+          ? "Preparando pagamento..."
+          : "Ir para o pagamento";
+
+    }
+
+
+    async function createOrderIfNeeded() {
+
+      if (
+        checkoutStateData.orderNumber
+      ) {
+
+        return checkoutStateData.orderNumber;
+
+      }
+
+
+      const shipping =
+        checkoutStateData.selectedShipping;
+
+
+      const orderData =
+        await fetchJson(
+          "/api/kehai/pedido",
+          {
+            method:
+              "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+
+                product:
+                  "physical",
+
+                shipping_service_id:
+                  String(shipping.id),
+
+                customer: {
+
+                  name:
+                    checkoutName.value.trim(),
+
+                  email:
+                    checkoutEmail.value.trim(),
+
+                  phone:
+                    checkoutPhone.value
+                      .replace(/\D/g, "")
+
+                },
+
+                address: {
+
+                  postal_code:
+                    normalizeCep(
+                      checkoutCep.value
+                    ),
+
+                  street:
+                    checkoutStreet.value.trim(),
+
+                  number:
+                    checkoutNumber.value.trim(),
+
+                  complement:
+                    checkoutComplement
+                      ?.value
+                      ?.trim()
+                      ||
+                      "",
+
+                  district:
+                    checkoutDistrict.value.trim(),
+
+                  city:
+                    checkoutCity.value.trim(),
+
+                  state:
+                    checkoutState.value
+                      .trim()
+                      .toUpperCase()
+
+                }
+
+              })
+          }
+        );
+
+
+      if (
+        !orderData.success
+        ||
+        !orderData.order_number
+      ) {
+
+        throw new Error(
+          orderData.error
+          ||
+          "Não foi possível criar o pedido."
+        );
+
+      }
+
+
+      checkoutStateData.orderNumber =
+        orderData.order_number;
+
+
+      trackEvent(
+        "create_order",
+        {
+          order_number:
+            orderData.order_number,
+
+          total:
+            orderData.total
+        }
+      );
+
+
+      return orderData.order_number;
+
+    }
+
+
+    async function openMercadoPagoForOrder(
+      orderNumber
+    ) {
+
+      const checkoutData =
+        await fetchJson(
+          "/api/kehai/checkout",
+          {
+            method:
+              "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+                order_number:
+                  orderNumber
+              })
+          }
+        );
+
+
+      if (
+        !checkoutData.success
+        ||
+        !checkoutData.checkout_url
+      ) {
+
+        throw new Error(
+          checkoutData.error
+          ||
+          "O Mercado Pago não retornou o checkout."
+        );
+
+      }
+
+
+      trackEvent(
+        "begin_payment",
+        {
+          order_number:
+            orderNumber,
+
+          destination:
+            "mercado_pago"
+        }
+      );
+
+
+      window.location.assign(
+        checkoutData.checkout_url
+      );
+
+    }
+
+
+    async function submitPhysicalOrder(
+      event
+    ) {
+
+      event.preventDefault();
+
+
+      if (
+        checkoutStateData.submitting
+      ) {
+        return;
+      }
+
+
+      if (
+        !validateCheckoutForm()
+      ) {
+        return;
+      }
+
+
+      setCheckoutSubmitting(
+        true
+      );
+
+
+      setCheckoutError();
+
+
+      try {
+
+        const orderNumber =
+          await createOrderIfNeeded();
+
+
+        await openMercadoPagoForOrder(
+          orderNumber
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "[KEHAI] Erro ao iniciar a compra:",
+          error
+        );
+
+
+        setCheckoutError(
+          error.message
+          ||
+          "Não foi possível iniciar o pagamento. Tente novamente."
+        );
+
+
+        setCheckoutSubmitting(
+          false
+        );
+
+      }
+
+    }
 
 
     /*
@@ -194,8 +1770,11 @@
 
             event.preventDefault();
 
-            console.warn(
-              `[KEHAI] O link "${eventName}" ainda não foi configurado.`
+
+            alert(
+              options.missingMessage
+              ||
+              "Esta modalidade estará disponível em breve."
             );
 
           }
@@ -207,185 +1786,288 @@
 
 
     /*
-      Checkout Mercado Pago
-      Livro físico KEHAI
+      Abre o checkout interno para
+      todos os CTAs do livro físico.
     */
-    function configureMercadoPagoCheckout(
-      button
-    ) {
+    physicalButtons.forEach(
+      (button) => {
 
-      if (!button) {
-        return;
+        button.addEventListener(
+          "click",
+          (event) => {
+
+            event.preventDefault();
+
+
+            openCheckout(
+              button
+            );
+
+          }
+        );
+
       }
+    );
 
 
-      button.setAttribute(
-        "href",
-        "#"
+    checkoutCloseButtons.forEach(
+      (button) => {
+
+        button.addEventListener(
+          "click",
+          closeCheckout
+        );
+
+      }
+    );
+
+
+    checkoutCalculateShipping
+      ?.addEventListener(
+        "click",
+        calculateShipping
       );
 
 
-      button.addEventListener(
-        "click",
-        async (event) => {
+    checkoutCep
+      ?.addEventListener(
+        "input",
+        () => {
+
+          const previous =
+            normalizeCep(
+              checkoutCep.value
+            );
+
+
+          checkoutCep.value =
+            formatCep(
+              checkoutCep.value
+            );
+
+
+          checkoutCep
+            .classList
+            .remove(
+              "is-invalid"
+            );
+
+
+          if (
+            checkoutStateData.quotedCep
+            &&
+            previous !==
+              checkoutStateData.quotedCep
+          ) {
+
+            resetShippingSelection();
+
+
+            setShippingStatus(
+              "CEP alterado. Calcule o frete novamente."
+            );
+
+          }
+
+
+          invalidateCreatedOrder();
+
+        }
+      );
+
+
+    checkoutCep
+      ?.addEventListener(
+        "keydown",
+        (event) => {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            event.preventDefault();
+
+
+            calculateShipping();
+
+          }
+
+        }
+      );
+
+
+    checkoutPhone
+      ?.addEventListener(
+        "input",
+        () => {
+
+          checkoutPhone.value =
+            formatPhone(
+              checkoutPhone.value
+            );
+
+        }
+      );
+
+
+    checkoutState
+      ?.addEventListener(
+        "input",
+        () => {
+
+          checkoutState.value =
+            checkoutState.value
+              .replace(/[^A-Za-z]/g, "")
+              .slice(0, 2)
+              .toUpperCase();
+
+        }
+      );
+
+
+    checkoutForm
+      ?.querySelectorAll(
+        "input"
+      )
+      .forEach(
+        (input) => {
+
+          input.addEventListener(
+            "input",
+            () => {
+
+              input.classList.remove(
+                "is-invalid"
+              );
+
+
+              if (
+                input !== checkoutCep
+              ) {
+
+                invalidateCreatedOrder();
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+
+    checkoutForm
+      ?.addEventListener(
+        "submit",
+        submitPhysicalOrder
+      );
+
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        const checkoutOpen =
+          checkout
+            ?.classList
+            .contains(
+              "is-open"
+            );
+
+
+        if (!checkoutOpen) {
+          return;
+        }
+
+
+        if (
+          event.key === "Escape"
+        ) {
 
           event.preventDefault();
 
 
-          /*
-            Evita dois cliques e,
-            consequentemente,
-            duas preferências simultâneas.
-          */
-          if (
-            button.dataset.kehaiCheckoutLoading
-            ===
-            "true"
-          ) {
-            return;
-          }
+          closeCheckout();
 
 
-          trackEvent(
-            "click_buy_physical",
-            {
-              destination:
-                "mercado_pago"
-            }
-          );
-
-
-          const originalHTML =
-            button.innerHTML;
-
-
-          button.dataset.kehaiCheckoutLoading =
-            "true";
-
-
-          button.setAttribute(
-            "aria-busy",
-            "true"
-          );
-
-
-          button.innerHTML =
-            "Abrindo checkout...";
-
-
-          try {
-
-            const response =
-              await fetch(
-                "/api/kehai/checkout",
-                {
-                  method:
-                    "POST",
-
-                  headers: {
-                    "Content-Type":
-                      "application/json"
-                  },
-
-                  body:
-                    JSON.stringify({
-                      product:
-                        "physical"
-                    })
-                }
-              );
-
-
-            const data =
-              await response.json();
-
-
-            if (
-              !response.ok
-              ||
-              !data.success
-            ) {
-
-              throw new Error(
-                data.error
-                ||
-                "Não foi possível criar o checkout."
-              );
-
-            }
-
-
-            if (
-              !data.checkout_url
-            ) {
-
-              throw new Error(
-                "O Mercado Pago não retornou a URL do checkout."
-              );
-
-            }
-
-
-            /*
-              Redireciona o comprador
-              para o Checkout Pro.
-            */
-            window.location.assign(
-              data.checkout_url
-            );
-
-          }
-
-          catch (error) {
-
-            console.error(
-              "[KEHAI] Erro ao iniciar Mercado Pago:",
-              error
-            );
-
-
-            alert(
-              "Não foi possível abrir o pagamento agora. Por favor, tente novamente."
-            );
-
-
-            button.dataset.kehaiCheckoutLoading =
-              "false";
-
-
-            button.removeAttribute(
-              "aria-busy"
-            );
-
-
-            button.innerHTML =
-              originalHTML;
-
-          }
+          return;
 
         }
-      );
-
-    }
 
 
-    /*
-      Liga os dois botões de compra
-      do livro físico ao Mercado Pago.
-    */
-    physicalButtons.forEach(
-      configureMercadoPagoCheckout
+        if (
+          event.key !== "Tab"
+          ||
+          !checkoutDialog
+        ) {
+          return;
+        }
+
+
+        const focusable =
+          $$(
+            'button:not([disabled]), input:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+            checkoutDialog
+          )
+            .filter(
+              (element) =>
+                element.offsetParent !== null
+            );
+
+
+        if (!focusable.length) {
+          return;
+        }
+
+
+        const first =
+          focusable[0];
+
+
+        const last =
+          focusable[
+            focusable.length - 1
+          ];
+
+
+        if (
+          event.shiftKey
+          &&
+          document.activeElement === first
+        ) {
+
+          event.preventDefault();
+
+
+          last.focus();
+
+        }
+
+        else if (
+          !event.shiftKey
+          &&
+          document.activeElement === last
+        ) {
+
+          event.preventDefault();
+
+
+          first.focus();
+
+        }
+
+      }
     );
 
 
-    /*
-      Demais modalidades permanecem
-      preparadas para configuração posterior.
-    */
     configureCommercialLink(
       signedButton,
       KEHAI_CONFIG.links.signed,
-      "click_buy_signed"
+      "click_buy_signed",
+      {
+        missingMessage:
+          "A edição autografada estará disponível em breve."
+      }
     );
 
 
@@ -394,7 +2076,11 @@
       KEHAI_CONFIG.links.ebook,
       "click_buy_ebook",
       {
-        newTab: true
+        newTab:
+          true,
+
+        missingMessage:
+          "A versão digital estará disponível em breve."
       }
     );
 
@@ -404,9 +2090,14 @@
       KEHAI_CONFIG.links.corporate,
       "click_corporate",
       {
-        newTab: true
+        newTab:
+          true,
+
+        missingMessage:
+          "O canal de compras corporativas estará disponível em breve."
       }
     );
+
 
   /* =========================================================
      5. MENU MOBILE
