@@ -3343,285 +3343,6 @@ def sincronizar_pagamento_kehai(payment_id, expected_order_number=None):
         )
         return buscar_pedido_kehai(expected_order_number)
 
-# -------------------------------------------------
-# KEHAI EBOOK - PROCESSAR PEDIDO DIGITAL
-# -------------------------------------------------
-
-pedido_ebook = (
-    buscar_pedido_ebook_kehai(
-        external_reference
-    )
-)
-
-
-if pedido_ebook:
-
-    print(
-        "[KEHAI EBOOK WEBHOOK] "
-        f"Pedido digital localizado: "
-        f"{pedido_ebook['order_number']}"
-    )
-
-
-    # ---------------------------------------------
-    # Converter valores para centavos
-    # ---------------------------------------------
-
-    try:
-
-        transaction_amount_cents_ebook = (
-            reais_para_centavos(
-                transaction_amount
-            )
-            if transaction_amount
-            is not None
-            else None
-        )
-
-    except (
-        ValueError,
-        TypeError,
-    ):
-
-        transaction_amount_cents_ebook = (
-            None
-        )
-
-
-    try:
-
-        total_paid_amount_cents_ebook = (
-            reais_para_centavos(
-                total_paid_amount
-            )
-            if total_paid_amount
-            is not None
-            else None
-        )
-
-    except (
-        ValueError,
-        TypeError,
-    ):
-
-        total_paid_amount_cents_ebook = (
-            None
-        )
-
-
-    order_status_ebook = (
-        pedido_ebook["status"]
-    )
-
-
-    # ---------------------------------------------
-    # PAGAMENTO APROVADO
-    # ---------------------------------------------
-
-    if status == "approved":
-
-        valor_esperado = (
-            pedido_ebook[
-                "total_cents"
-            ]
-        )
-
-
-        transaction_confere = (
-
-            transaction_amount_cents_ebook
-            is None
-
-            or
-
-            transaction_amount_cents_ebook
-            ==
-            valor_esperado
-
-        )
-
-
-        total_pago_confere = (
-
-            total_paid_amount_cents_ebook
-            is None
-
-            or
-
-            total_paid_amount_cents_ebook
-            ==
-            valor_esperado
-
-        )
-
-
-        if (
-            transaction_confere
-            and
-            total_pago_confere
-        ):
-
-            order_status_ebook = (
-                "paid"
-            )
-
-
-            print(
-                "[KEHAI EBOOK WEBHOOK] "
-                "Pagamento aprovado e "
-                "valor validado."
-            )
-
-
-        else:
-
-            order_status_ebook = (
-                "payment_amount_mismatch"
-            )
-
-
-            print(
-                "[KEHAI EBOOK WEBHOOK] "
-                "ALERTA: valor recebido "
-                "diferente do pedido. "
-                f"esperado={valor_esperado} "
-                f"transaction="
-                f"{transaction_amount_cents_ebook} "
-                f"total_paid="
-                f"{total_paid_amount_cents_ebook}"
-            )
-
-
-    # ---------------------------------------------
-    # PAGAMENTO PENDENTE
-    # ---------------------------------------------
-
-    elif status in {
-        "pending",
-        "in_process",
-        "in_mediation",
-    }:
-
-        if (
-            pedido_ebook["status"]
-            !=
-            "paid"
-        ):
-
-            order_status_ebook = (
-                "payment_pending"
-            )
-
-
-    # ---------------------------------------------
-    # PAGAMENTO RECUSADO
-    # ---------------------------------------------
-
-    elif status in {
-        "rejected",
-        "cancelled",
-    }:
-
-        if (
-            pedido_ebook["status"]
-            !=
-            "paid"
-        ):
-
-            order_status_ebook = (
-                "payment_failed"
-            )
-
-
-    # ---------------------------------------------
-    # ESTORNO / CHARGEBACK
-    # ---------------------------------------------
-
-    elif status in {
-        "refunded",
-        "charged_back",
-    }:
-
-        order_status_ebook = status
-
-
-    # ---------------------------------------------
-    # DATA DE CONFIRMAÇÃO
-    # ---------------------------------------------
-
-    payment_confirmed_at_ebook = (
-        pedido_ebook.get(
-            "payment_confirmed_at"
-        )
-    )
-
-
-    if (
-        order_status_ebook
-        ==
-        "paid"
-
-        and
-
-        not payment_confirmed_at_ebook
-    ):
-
-        payment_confirmed_at_ebook = (
-
-            pagamento.get(
-                "date_approved"
-            )
-
-            or
-
-            pagamento.get(
-                "date_last_updated"
-            )
-
-            or
-
-            agora_iso()
-
-        )
-
-
-    # ---------------------------------------------
-    # ATUALIZAR PEDIDO DIGITAL
-    # ---------------------------------------------
-
-    atualizar_pedido_ebook_kehai(
-
-        pedido_ebook[
-            "order_number"
-        ],
-
-        status=
-            order_status_ebook,
-
-        mp_payment_id=
-            str(data_id),
-
-        mp_payment_status=
-            status,
-
-        payment_confirmed_at=
-            payment_confirmed_at_ebook,
-
-    )
-
-
-    print(
-        "[KEHAI EBOOK WEBHOOK] "
-        f"Pedido "
-        f"{pedido_ebook['order_number']} "
-        f"atualizado para "
-        f"{order_status_ebook}"
-    )
-
-
-    return jsonify({
-        "received": True
-    }), 200
     
     pedido = buscar_pedido_kehai(external_reference)
     if not pedido:
@@ -5314,6 +5035,305 @@ def kehai_melhor_envio_webhook():
 
 
 # =====================================================
+# KEHAI EBOOK - PROCESSAMENTO DO WEBHOOK
+# =====================================================
+
+def processar_pagamento_ebook_webhook(
+    *,
+    external_reference,
+    payment_id,
+    status,
+    transaction_amount,
+    total_paid_amount,
+    merchant_total_amount,
+    merchant_paid_amount,
+    merchant_order_status,
+    pagamento,
+):
+
+    pedido = buscar_pedido_ebook_kehai(
+        external_reference
+    )
+
+    if not pedido:
+        return False
+
+
+    def em_centavos(valor):
+
+        if valor is None:
+            return None
+
+        try:
+
+            return reais_para_centavos(
+                valor
+            )
+
+        except (
+            ValueError,
+            TypeError,
+        ):
+
+            return None
+
+
+    transaction_cents = em_centavos(
+        transaction_amount
+    )
+
+    total_paid_cents = em_centavos(
+        total_paid_amount
+    )
+
+    merchant_total_cents = em_centavos(
+        merchant_total_amount
+    )
+
+    merchant_paid_cents = em_centavos(
+        merchant_paid_amount
+    )
+
+
+    order_status = (
+        pedido["status"]
+    )
+
+
+    # ---------------------------------------------
+    # PAGAMENTO APROVADO
+    # ---------------------------------------------
+
+    if status == "approved":
+
+        esperado = (
+            pedido["total_cents"]
+        )
+
+
+        checks = [
+
+            transaction_cents
+            ==
+            esperado,
+
+            (
+                total_paid_cents
+                is None
+
+                or
+
+                total_paid_cents
+                ==
+                esperado
+            ),
+
+            (
+                merchant_total_cents
+                is None
+
+                or
+
+                merchant_total_cents
+                ==
+                esperado
+            ),
+
+            (
+                merchant_paid_cents
+                is None
+
+                or
+
+                merchant_paid_cents
+                ==
+                esperado
+            ),
+
+            merchant_order_status
+            in {
+                None,
+                "paid",
+            },
+
+        ]
+
+
+        order_status = (
+
+            "paid"
+
+            if all(checks)
+
+            else
+
+            "payment_amount_mismatch"
+
+        )
+
+
+        if (
+            order_status
+            !=
+            "paid"
+        ):
+
+            print(
+
+                "[KEHAI EBOOK WEBHOOK] "
+                "Falha na validação financeira. "
+
+                f"esperado_cents={esperado} "
+
+                f"transaction_cents="
+                f"{transaction_cents} "
+
+                f"total_paid_cents="
+                f"{total_paid_cents} "
+
+                f"merchant_total_cents="
+                f"{merchant_total_cents} "
+
+                f"merchant_paid_cents="
+                f"{merchant_paid_cents}"
+
+            )
+
+
+    # ---------------------------------------------
+    # PAGAMENTO PENDENTE
+    # ---------------------------------------------
+
+    elif status in {
+
+        "pending",
+        "in_process",
+        "in_mediation",
+
+    }:
+
+        if (
+            pedido["status"]
+            !=
+            "paid"
+        ):
+
+            order_status = (
+                "payment_pending"
+            )
+
+
+    # ---------------------------------------------
+    # PAGAMENTO RECUSADO
+    # ---------------------------------------------
+
+    elif status in {
+
+        "rejected",
+        "cancelled",
+
+    }:
+
+        if (
+            pedido["status"]
+            !=
+            "paid"
+        ):
+
+            order_status = (
+                "payment_failed"
+            )
+
+
+    # ---------------------------------------------
+    # ESTORNO / CHARGEBACK
+    # ---------------------------------------------
+
+    elif status in {
+
+        "refunded",
+        "charged_back",
+
+    }:
+
+        order_status = status
+
+
+    payment_confirmed_at = (
+        pedido.get(
+            "payment_confirmed_at"
+        )
+    )
+
+
+    if (
+
+        order_status
+        ==
+        "paid"
+
+        and
+
+        not payment_confirmed_at
+
+    ):
+
+        payment_confirmed_at = (
+
+            pagamento.get(
+                "date_approved"
+            )
+
+            or
+
+            pagamento.get(
+                "date_last_updated"
+            )
+
+            or
+
+            agora_iso()
+
+        )
+
+
+    atualizar_pedido_ebook_kehai(
+
+        pedido[
+            "order_number"
+        ],
+
+        status=
+            order_status,
+
+        mp_payment_id=
+            str(payment_id),
+
+        mp_payment_status=
+            status,
+
+        payment_confirmed_at=
+            payment_confirmed_at,
+
+    )
+
+
+    print(
+
+        "[KEHAI EBOOK WEBHOOK] "
+
+        f"Pedido "
+        f"{pedido['order_number']} "
+
+        f"atualizado para "
+        f"{order_status}"
+
+    )
+
+
+    return True
+
+# =====================================================
 # KEHAI - WEBHOOK MERCADO PAGO
 # =====================================================
 
@@ -5544,6 +5564,45 @@ def kehai_mercadopago_webhook():
                 f"merchant_shipping_cost={merchant_shipping_cost}"
             )
 
+            pedido_ebook_processado = (
+                processar_pagamento_ebook_webhook(
+
+                    external_reference=
+                        external_reference,
+
+                    payment_id=
+                        data_id,
+
+                    status=
+                        status,
+
+                    transaction_amount=
+                        transaction_amount,
+
+                    total_paid_amount=
+                        total_paid_amount,
+
+                    merchant_total_amount=
+                        merchant_total_amount,
+
+                    merchant_paid_amount=
+                        merchant_paid_amount,
+
+                    merchant_order_status=
+                        merchant_order_status,
+
+                    pagamento=
+                        pagamento,
+
+                )
+            )
+
+
+            if pedido_ebook_processado:
+
+                return jsonify({
+                    "received": True
+                }), 200
 
             pedido = buscar_pedido_kehai(external_reference)
 
