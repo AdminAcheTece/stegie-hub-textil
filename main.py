@@ -5,6 +5,7 @@ import base64
 import hashlib
 import hmac
 import sqlite3
+import re
 import requests
 import mercadopago
 
@@ -610,6 +611,16 @@ KEHAI_PRODUCTS = {
     }
 }
 
+# -----------------------------
+# KEHAI - Produto digital
+# -----------------------------
+
+KEHAI_EBOOK_PRODUCT = {
+    "code": "KEHAI-EBOOK",
+    "title": "KEHAI - eBook",
+    "quantity": 1,
+    "unit_price_cents": 2990,
+}    
 
 def agora_iso():
     return datetime.now(timezone.utc).isoformat()
@@ -1026,9 +1037,338 @@ def atualizar_pedido_kehai(order_number, **fields):
             values,
         )
 
+# =====================================================
+# KEHAI - PEDIDOS DO EBOOK
+# =====================================================
+
+def inicializar_banco_ebook_kehai():
+
+    with get_kehai_db() as conn:
+
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS kehai_ebook_orders (
+
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+                order_number TEXT UNIQUE NOT NULL,
+
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+
+                status TEXT NOT NULL
+                    DEFAULT 'awaiting_payment',
+
+                product_code TEXT NOT NULL,
+                product_title TEXT NOT NULL,
+
+                quantity INTEGER NOT NULL
+                    DEFAULT 1,
+
+                unit_price_cents INTEGER NOT NULL,
+                subtotal_cents INTEGER NOT NULL,
+                total_cents INTEGER NOT NULL,
+
+                customer_name TEXT NOT NULL,
+                customer_email TEXT NOT NULL,
+
+                mp_preference_id TEXT,
+                mp_payment_id TEXT,
+                mp_payment_status TEXT,
+                payment_confirmed_at TEXT,
+
+                download_token TEXT UNIQUE,
+                download_count INTEGER NOT NULL
+                    DEFAULT 0,
+
+                download_last_at TEXT,
+
+                email_access_sent_at TEXT,
+                email_access_message_id TEXT,
+                email_last_error TEXT
+
+            )
+            """
+        )
+
+
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS
+            idx_kehai_ebook_orders_status
+
+            ON kehai_ebook_orders(status)
+            """
+        )
+
+
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS
+            idx_kehai_ebook_orders_payment
+
+            ON kehai_ebook_orders(mp_payment_id)
+            """
+        )
+
+
+    print(
+        "[KEHAI EBOOK DB] "
+        "Tabela de pedidos digitais pronta."
+    )
+
+
+def criar_pedido_ebook_kehai(
+    customer_name,
+    customer_email,
+):
+
+    created_at = agora_iso()
+
+    temp_number = (
+        "EBTMP-"
+        + secrets.token_hex(10)
+    )
+
+
+    download_token = (
+        secrets.token_urlsafe(32)
+    )
+
+
+    product = KEHAI_EBOOK_PRODUCT
+
+
+    quantity = product["quantity"]
+
+    unit_price_cents = (
+        product["unit_price_cents"]
+    )
+
+    subtotal_cents = (
+        unit_price_cents
+        *
+        quantity
+    )
+
+    total_cents = subtotal_cents
+
+
+    with get_kehai_db() as conn:
+
+        cursor = conn.execute(
+            """
+            INSERT INTO kehai_ebook_orders (
+
+                order_number,
+
+                created_at,
+                updated_at,
+
+                status,
+
+                product_code,
+                product_title,
+
+                quantity,
+
+                unit_price_cents,
+                subtotal_cents,
+                total_cents,
+
+                customer_name,
+                customer_email,
+
+                download_token
+
+            )
+
+            VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            )
+            """,
+
+            (
+                temp_number,
+
+                created_at,
+                created_at,
+
+                "awaiting_payment",
+
+                product["code"],
+                product["title"],
+
+                quantity,
+
+                unit_price_cents,
+                subtotal_cents,
+                total_cents,
+
+                customer_name,
+                customer_email,
+
+                download_token,
+            ),
+        )
+
+
+        order_id = cursor.lastrowid
+
+
+        date_part = (
+            datetime.now()
+            .strftime("%Y%m%d")
+        )
+
+
+        order_number = (
+            f"KEHAI-EB-"
+            f"{date_part}-"
+            f"{order_id:06d}"
+        )
+
+
+        conn.execute(
+            """
+            UPDATE kehai_ebook_orders
+
+            SET order_number = ?
+
+            WHERE id = ?
+            """,
+
+            (
+                order_number,
+                order_id,
+            ),
+        )
+
+
+        row = conn.execute(
+            """
+            SELECT *
+
+            FROM kehai_ebook_orders
+
+            WHERE id = ?
+            """,
+
+            (
+                order_id,
+            ),
+        ).fetchone()
+
+
+    return dict(row)
+
+
+def buscar_pedido_ebook_kehai(
+    order_number
+):
+
+    order_number = str(
+        order_number or ""
+    ).strip()
+
+
+    if not order_number:
+
+        return None
+
+
+    with get_kehai_db() as conn:
+
+        row = conn.execute(
+            """
+            SELECT *
+
+            FROM kehai_ebook_orders
+
+            WHERE order_number = ?
+            """,
+
+            (
+                order_number,
+            ),
+        ).fetchone()
+
+
+    return dict(row) if row else None
+
+
+def atualizar_pedido_ebook_kehai(
+    order_number,
+    **fields,
+):
+
+    allowed = {
+
+        "status",
+
+        "mp_preference_id",
+        "mp_payment_id",
+        "mp_payment_status",
+
+        "payment_confirmed_at",
+
+        "download_count",
+        "download_last_at",
+
+        "email_access_sent_at",
+        "email_access_message_id",
+        "email_last_error",
+
+    }
+
+
+    updates = {
+
+        key: value
+
+        for key, value
+        in fields.items()
+
+        if key in allowed
+
+    }
+
+
+    updates["updated_at"] = agora_iso()
+
+
+    set_clause = ", ".join(
+        f"{key} = ?"
+        for key in updates
+    )
+
+
+    values = (
+        list(updates.values())
+        +
+        [order_number]
+    )
+
+
+    with get_kehai_db() as conn:
+
+        conn.execute(
+
+            f"""
+            UPDATE kehai_ebook_orders
+
+            SET {set_clause}
+
+            WHERE order_number = ?
+            """,
+
+            values,
+        )
+
 
 # Cria a estrutura automaticamente quando o app sobe no Render/Gunicorn.
 inicializar_banco_kehai()
+inicializar_banco_ebook_kehai()
 
 # Logs de boot
 print(f"[BOOT] BASE_DIR={BASE_DIR}")
@@ -1858,6 +2198,71 @@ def kehai_livro():
 def kehai_ebook():
     return render_template("kehai_ebook.html")
 
+@app.route(
+    "/kehai/ebook/compra/sucesso"
+)
+def kehai_ebook_compra_sucesso():
+
+    params = (
+        request.args
+        .to_dict(
+            flat=True
+        )
+    )
+
+    params["payment"] = "success"
+
+    return redirect(
+        url_for(
+            "kehai_ebook",
+            **params,
+        )
+    )
+
+
+@app.route(
+    "/kehai/ebook/compra/pendente"
+)
+def kehai_ebook_compra_pendente():
+
+    params = (
+        request.args
+        .to_dict(
+            flat=True
+        )
+    )
+
+    params["payment"] = "pending"
+
+    return redirect(
+        url_for(
+            "kehai_ebook",
+            **params,
+        )
+    )
+
+
+@app.route(
+    "/kehai/ebook/compra/erro"
+)
+def kehai_ebook_compra_erro():
+
+    params = (
+        request.args
+        .to_dict(
+            flat=True
+        )
+    )
+
+    params["payment"] = "failure"
+
+    return redirect(
+        url_for(
+            "kehai_ebook",
+            **params,
+        )
+    )
+
 # =====================================================
 # KEHAI - MELHOR ENVIO - FUNÇÕES DE FRETE
 # =====================================================
@@ -2324,6 +2729,323 @@ def kehai_criar_pedido():
         return jsonify({
             "success": False,
             "error": "Não foi possível criar o pedido.",
+        }), 500
+
+# =====================================================
+# KEHAI - CHECKOUT DIGITAL DO EBOOK
+# =====================================================
+
+@app.route(
+    "/api/kehai/ebook/checkout",
+    methods=["POST"],
+)
+def kehai_ebook_checkout():
+
+    try:
+
+        dados = (
+            request.get_json(
+                silent=True
+            )
+            or {}
+        )
+
+
+        customer = (
+            dados.get("customer")
+            or {}
+        )
+
+
+        name = str(
+            customer.get("name")
+            or ""
+        ).strip()
+
+
+        email = str(
+            customer.get("email")
+            or ""
+        ).strip().lower()
+
+
+        email_confirmation = str(
+            customer.get(
+                "email_confirmation"
+            )
+            or ""
+        ).strip().lower()
+
+
+        # ---------------------------------------------
+        # VALIDAÇÕES
+        # ---------------------------------------------
+
+        if len(name) < 2:
+
+            return jsonify({
+                "success": False,
+                "error":
+                    "Informe seu nome."
+            }), 400
+
+
+        email_pattern = (
+            r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+        )
+
+
+        if not re.match(
+            email_pattern,
+            email
+        ):
+
+            return jsonify({
+                "success": False,
+                "error":
+                    "Informe um e-mail válido."
+            }), 400
+
+
+        if (
+            email
+            !=
+            email_confirmation
+        ):
+
+            return jsonify({
+                "success": False,
+                "error":
+                    "Os dois e-mails precisam ser iguais."
+            }), 400
+
+
+        # ---------------------------------------------
+        # CRIAR PEDIDO DIGITAL
+        # ---------------------------------------------
+
+        pedido = (
+            criar_pedido_ebook_kehai(
+                customer_name=name,
+                customer_email=email,
+            )
+        )
+
+
+        # ---------------------------------------------
+        # MERCADO PAGO
+        # ---------------------------------------------
+
+        sdk = get_mercadopago_sdk()
+
+
+        preference_data = {
+
+            "items": [
+                {
+                    "id":
+                        pedido[
+                            "product_code"
+                        ],
+
+                    "title":
+                        pedido[
+                            "product_title"
+                        ],
+
+                    "quantity":
+                        pedido[
+                            "quantity"
+                        ],
+
+                    "currency_id":
+                        "BRL",
+
+                    "unit_price":
+                        centavos_para_reais(
+                            pedido[
+                                "unit_price_cents"
+                            ]
+                        ),
+                }
+            ],
+
+
+            "payer": {
+
+                "name":
+                    pedido[
+                        "customer_name"
+                    ],
+
+                "email":
+                    pedido[
+                        "customer_email"
+                    ],
+
+            },
+
+
+            "back_urls": {
+
+                "success": (
+                    "https://www.stegie.com.br/"
+                    "kehai/ebook/compra/sucesso"
+                    f"?order={pedido['order_number']}"
+                ),
+
+                "failure": (
+                    "https://www.stegie.com.br/"
+                    "kehai/ebook/compra/erro"
+                    f"?order={pedido['order_number']}"
+                ),
+
+                "pending": (
+                    "https://www.stegie.com.br/"
+                    "kehai/ebook/compra/pendente"
+                    f"?order={pedido['order_number']}"
+                ),
+
+            },
+
+
+            "auto_return":
+                "approved",
+
+
+            "external_reference":
+                pedido[
+                    "order_number"
+                ],
+
+        }
+
+
+        preference_response = (
+            sdk
+            .preference()
+            .create(
+                preference_data
+            )
+        )
+
+
+        preference = (
+            preference_response.get(
+                "response",
+                {}
+            )
+        )
+
+
+        preference_id = (
+            preference.get("id")
+        )
+
+
+        checkout_url = (
+            preference.get(
+                "init_point"
+            )
+        )
+
+
+        sandbox_checkout_url = (
+            preference.get(
+                "sandbox_init_point"
+            )
+        )
+
+
+        if (
+            not preference_id
+            or
+            not checkout_url
+        ):
+
+            atualizar_pedido_ebook_kehai(
+                pedido[
+                    "order_number"
+                ],
+
+                status=
+                    "checkout_error",
+            )
+
+
+            raise RuntimeError(
+                "Mercado Pago não retornou "
+                "uma preferência válida."
+            )
+
+
+        # ---------------------------------------------
+        # SALVAR PREFERÊNCIA
+        # ---------------------------------------------
+
+        atualizar_pedido_ebook_kehai(
+
+            pedido[
+                "order_number"
+            ],
+
+            status=
+                "checkout_created",
+
+            mp_preference_id=
+                preference_id,
+
+        )
+
+
+        print(
+            "[KEHAI EBOOK] "
+            f"Pedido criado: "
+            f"{pedido['order_number']} "
+            f"- {pedido['customer_email']}"
+        )
+
+
+        return jsonify({
+
+            "success":
+                True,
+
+            "order_number":
+                pedido[
+                    "order_number"
+                ],
+
+            "preference_id":
+                preference_id,
+
+            "checkout_url":
+                checkout_url,
+
+            "sandbox_checkout_url":
+                sandbox_checkout_url,
+
+        }), 201
+
+
+    except Exception as erro:
+
+        print(
+            "[KEHAI EBOOK] "
+            f"Erro ao iniciar checkout: "
+            f"{erro}"
+        )
+
+
+        return jsonify({
+
+            "success":
+                False,
+
+            "error":
+                "Não foi possível iniciar "
+                "o pagamento agora."
+
         }), 500
 
 # =====================================================
