@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="theme-color"
+    content="#F5F2E8"
+  >
+
+  <title>
+    eBook KEHAI — A liderança que reconhece valor antes que ele se perca
+  </title>
+
+  <meta
+    name="description"
+    content="eBook KEHAI — A liderança que reconhece valor antes que ele se perca, de Vandré Stein."
+  >
+
+  <link
+    rel="canonical"
+    href="https://www.stegie.com.br/kehai/ebook"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;1,400&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='CSS/kehai_ebook.css') }}?v={{ config.get('ASSET_VERSION','1') }}"
+  >
+
+</head>
+
+
+<body>
+
+  <header class="kehai-ebook-header">
+
+    <div class="kehai-ebook-shell">
+
+      <a
+        href="/kehai"
+        class="kehai-ebook-brand"
+        aria-label="KEHAI"
+      >
+
+        <img
+          src="{{ url_for('static', filename='IMG/kehai/logo-kehai-dark.png') }}"
+          alt="KEHAI"
+        >
+
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <section class="kehai-ebook-hero">
+
+      <div class="kehai-ebook-shell kehai-ebook-hero__content">
+
+        <div class="kehai-ebook-hero__text">
+
+          <span class="kehai-ebook-eyebrow">
+            EBOOK KEHAI
+          </span>
+
+          <h1>
+            A liderança que reconhece valor antes que ele se perca.
+          </h1>
+
+          <p class="kehai-ebook-subtitle">
+            Livro fundador da Filosofia KEHAI
+          </p>
+
+          <div class="kehai-ebook-status">
+            Página exclusiva do eBook criada com sucesso.
+          </div>
+
+          <p class="kehai-ebook-note">
+            A estrutura comercial e o checkout digital serão
+            adicionados nas próximas etapas.
+          </p>
+
+        </div>
+
+
+        <div class="kehai-ebook-hero__visual">
+
+          <img
+            src="{{ url_for('static', filename='IMG/kehai/mockup-kehai.png') }}"
+            alt="KEHAI — Livro de Vandré Stein"
+          >
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer class="kehai-ebook-footer">
+
+    <div class="kehai-ebook-shell">
+
+      <span>
+        KEHAI
+      </span>
+
+      <span>
+        Vandré Stein
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <script
+    src="{{ url_for('static', filename='JS/kehai_ebook.js') }}?v={{ config.get('ASSET_VERSION','1') }}"
+  ></script>
+
+</body>
+
+</html>
