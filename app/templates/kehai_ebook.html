@@ -1163,7 +1163,240 @@
 
   </footer>
 
+  <!-- =====================================================
+       CHECKOUT DIGITAL DO EBOOK
+       ===================================================== -->
+  
+  <div
+    class="kehai-ebook-checkout"
+    id="kehaiEbookCheckout"
+    aria-hidden="true"
+  >
+  
+    <button
+      class="kehai-ebook-checkout__backdrop"
+      type="button"
+      data-kehai-ebook-checkout-close
+      aria-label="Fechar compra"
+      tabindex="-1"
+    ></button>
+  
+  
+    <section
+      class="kehai-ebook-checkout__dialog"
+      id="kehaiEbookCheckoutDialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="kehaiEbookCheckoutTitle"
+      tabindex="-1"
+    >
+  
+  
+      <header
+        class="kehai-ebook-checkout__header"
+      >
+  
+        <div>
+  
+          <span
+            class="kehai-ebook-checkout__eyebrow"
+          >
+            COMPRA SEGURA
+          </span>
+  
+  
+          <h2
+            id="kehaiEbookCheckoutTitle"
+          >
+            Seu eBook KEHAI
+          </h2>
+  
+  
+          <p>
+            Informe seus dados para seguir
+            ao pagamento seguro.
+          </p>
+  
+        </div>
+  
+  
+        <button
+          class="kehai-ebook-checkout__close"
+          type="button"
+          data-kehai-ebook-checkout-close
+          aria-label="Fechar compra"
+        >
+          ×
+        </button>
+  
+      </header>
+  
+  
+  
+      <div
+        class="kehai-ebook-checkout__product"
+      >
+  
+        <div>
+  
+          <span>
+            EBOOK KEHAI
+          </span>
+  
+          <strong>
+            A liderança que reconhece valor antes que ele se perca.
+          </strong>
+  
+        </div>
+  
+  
+        <strong
+          class="kehai-ebook-checkout__price"
+        >
+          R$ 29,90
+        </strong>
+  
+      </div>
+  
+  
+  
+      <form
+        class="kehai-ebook-checkout__form"
+        id="kehaiEbookCheckoutForm"
+        novalidate
+      >
+  
+  
+        <label
+          class="kehai-ebook-checkout__field"
+        >
+  
+          <span>
+            Nome
+          </span>
+  
+  
+          <input
+            type="text"
+            id="kehaiEbookCheckoutName"
+            name="name"
+            autocomplete="name"
+            placeholder="Seu nome"
+            required
+          >
+  
+        </label>
+  
+  
+  
+        <label
+          class="kehai-ebook-checkout__field"
+        >
+  
+          <span>
+            E-mail
+          </span>
+  
+  
+          <input
+            type="email"
+            id="kehaiEbookCheckoutEmail"
+            name="email"
+            autocomplete="email"
+            placeholder="voce@exemplo.com"
+            required
+          >
+  
+        </label>
+  
+  
+  
+        <label
+          class="kehai-ebook-checkout__field"
+        >
+  
+          <span>
+            Confirme seu e-mail
+          </span>
+  
+  
+          <input
+            type="email"
+            id="kehaiEbookCheckoutEmailConfirmation"
+            name="email_confirmation"
+            autocomplete="off"
+            placeholder="Digite novamente seu e-mail"
+            required
+          >
+  
+        </label>
+  
+  
+  
+        <p
+          class="kehai-ebook-checkout__email-note"
+        >
+  
+          O e-mail informado será utilizado
+          para liberar o acesso ao seu eBook.
+  
+        </p>
+  
+  
+  
+        <div
+          class="kehai-ebook-checkout__error"
+          id="kehaiEbookCheckoutError"
+          role="alert"
+          hidden
+        ></div>
+  
+  
+  
+        <button
+          type="submit"
+          class="
+            kehai-ebook-btn
+            kehai-ebook-btn--primary
+            kehai-ebook-btn--large
+            kehai-ebook-btn--full
+          "
+          id="kehaiEbookCheckoutSubmit"
+          disabled
+        >
+          Complete seus dados
+        </button>
+  
+  
+  
+        <p
+          class="kehai-ebook-checkout__security"
+        >
+  
+          Você será direcionado ao Mercado Pago
+          para concluir o pagamento com segurança.
+  
+        </p>
+  
+  
+  
+        <p
+          class="kehai-ebook-checkout__legal"
+        >
+  
+          Ao continuar, você declara estar ciente
+          dos Termos de Uso e da Política de Privacidade.
+  
+        </p>
+  
+  
+      </form>
+  
+    </section>
+  
+  </div>
 
+  
   <!-- =====================================================
        JAVASCRIPT
        ===================================================== -->
