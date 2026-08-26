@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Compra do eBook KEHAI
+  </title>
+
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/kehai_ebook.css') }}?v={{ config.get('ASSET_VERSION','1') }}"
+  >
+
+</head>
+
+
+<body class="kehai-ebook-status-page">
+
+
+  <main class="kehai-ebook-status">
+
+
+    <div class="kehai-ebook-status__card">
+
+
+      <a
+        href="/kehai"
+        class="kehai-ebook-status__logo"
+      >
+
+        <img
+          src="{{ url_for('static', filename='img/kehai/logo-kehai-dark.png') }}"
+          alt="KEHAI"
+        >
+
+      </a>
+
+
+
+      {% if pedido and pedido.status == 'paid' %}
+
+
+        <span class="kehai-ebook-status__eyebrow">
+          PAGAMENTO CONFIRMADO
+        </span>
+
+
+        <h1>
+          Seu eBook KEHAI está quase pronto.
+        </h1>
+
+
+        <p>
+          O Mercado Pago confirmou seu pagamento.
+        </p>
+
+
+        <p>
+          Na próxima etapa iremos liberar
+          automaticamente o acesso ao eBook
+          e enviá-lo ao endereço:
+        </p>
+
+
+        <strong class="kehai-ebook-status__email">
+
+          {{ pedido.customer_email }}
+
+        </strong>
+
+
+
+      {% elif pedido and pedido.status == 'payment_pending' %}
+
+
+        <span class="kehai-ebook-status__eyebrow">
+          PAGAMENTO EM PROCESSAMENTO
+        </span>
+
+
+        <h1>
+          Estamos aguardando a confirmação.
+        </h1>
+
+
+        <p>
+          Seu pagamento ainda está sendo processado
+          pelo Mercado Pago.
+        </p>
+
+
+        <p>
+          Assim que a aprovação for confirmada,
+          o pedido será atualizado automaticamente.
+        </p>
+
+
+
+      {% elif pedido and pedido.status == 'payment_failed' %}
+
+
+        <span class="kehai-ebook-status__eyebrow">
+          PAGAMENTO NÃO CONCLUÍDO
+        </span>
+
+
+        <h1>
+          A compra não foi concluída.
+        </h1>
+
+
+        <p>
+          O Mercado Pago não confirmou este pagamento.
+        </p>
+
+
+        <a
+          href="/kehai/ebook#comprar"
+          class="
+            kehai-ebook-btn
+            kehai-ebook-btn--primary
+            kehai-ebook-btn--large
+          "
+        >
+          Tentar novamente
+        </a>
+
+
+
+      {% else %}
+
+
+        <span class="kehai-ebook-status__eyebrow">
+          PEDIDO KEHAI
+        </span>
+
+
+        <h1>
+          Estamos verificando seu pagamento.
+        </h1>
+
+
+        <p>
+          A confirmação pode levar alguns instantes.
+        </p>
+
+
+      {% endif %}
+
+
+
+      {% if pedido %}
+
+        <div class="kehai-ebook-status__order">
+
+          <span>
+            Pedido
+          </span>
+
+          <strong>
+            {{ pedido.order_number }}
+          </strong>
+
+        </div>
+
+      {% endif %}
+
+
+
+      <a
+        href="/kehai/ebook"
+        class="kehai-ebook-status__back"
+      >
+        Voltar ao KEHAI
+      </a>
+
+
+    </div>
+
+  </main>
+
+
+</body>
+
+</html>
