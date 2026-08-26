@@ -831,3 +831,71 @@ body.kehai-admin-page {
     margin-top: 4px;
   }
 }
+
+/* =========================================================
+   KEHAI — COMUNICAÇÃO AUTOMÁTICA COM O COMPRADOR
+   ========================================================= */
+
+.kehai-admin-email-list {
+  display: grid;
+  gap: 0;
+  margin: 22px 0;
+  border-top: 1px solid var(--ka-line);
+}
+
+.kehai-admin-email-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--ka-line);
+}
+
+.kehai-admin-email-item > div {
+  min-width: 0;
+}
+
+.kehai-admin-email-item strong {
+  display: block;
+  font-size: 14px;
+}
+
+.kehai-admin-email-item small {
+  display: block;
+  margin-top: 4px;
+  color: var(--ka-muted);
+  line-height: 1.4;
+}
+
+.kehai-admin-email-item.is-sent strong::before {
+  content: "✓";
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--ka-green);
+  color: #fff;
+  font-size: 11px;
+}
+
+.kehai-admin-btn--small {
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .kehai-admin-email-item {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .kehai-admin-email-item form,
+  .kehai-admin-email-item .kehai-admin-btn {
+    width: 100%;
+  }
+}
