@@ -1850,6 +1850,14 @@ def kehai():
 def kehai_livro():
     return render_template("kehai_livro.html")
 
+# ==========================================================
+# KEHAI — LANDING PAGE DO EBOOK
+# ==========================================================
+
+@app.route("/kehai/ebook")
+def kehai_ebook():
+    return render_template("kehai_ebook.html")
+
 # =====================================================
 # KEHAI - MELHOR ENVIO - FUNÇÕES DE FRETE
 # =====================================================
