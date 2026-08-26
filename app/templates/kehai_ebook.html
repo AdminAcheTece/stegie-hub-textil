@@ -3,11 +3,11 @@
 
 <head>
 
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1"
+    content="width=device-width, initial-scale=1.0"
   >
 
   <meta
@@ -16,18 +16,23 @@
   >
 
   <title>
-    eBook KEHAI — A liderança que reconhece valor antes que ele se perca
+    eBook KEHAI — A liderança que reconhece valor antes que ele se perca | Vandré Stein
   </title>
 
   <meta
     name="description"
-    content="eBook KEHAI — A liderança que reconhece valor antes que ele se perca, de Vandré Stein."
+    content="Conheça o eBook KEHAI, de Vandré Stein. Uma filosofia de liderança para perceber, discernir, preservar e potencializar valor antes que ele se perca."
   >
 
   <link
     rel="canonical"
     href="https://www.stegie.com.br/kehai/ebook"
   >
+
+
+  <!-- =====================================================
+       FONTES
+       ===================================================== -->
 
   <link
     rel="preconnect"
@@ -45,9 +50,14 @@
     rel="stylesheet"
   >
 
+
+  <!-- =====================================================
+       CSS
+       ===================================================== -->
+
   <link
     rel="stylesheet"
-    href="{{ url_for('static', filename='CSS/kehai_ebook.css') }}?v={{ config.get('ASSET_VERSION','1') }}"
+    href="{{ url_for('static', filename='css/kehai_ebook.css') }}?v={{ config.get('ASSET_VERSION','1') }}"
   >
 
 </head>
@@ -55,9 +65,18 @@
 
 <body>
 
-  <header class="kehai-ebook-header">
 
-    <div class="kehai-ebook-shell">
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
+  <header
+    class="kehai-ebook-header"
+    id="kehaiEbookHeader"
+  >
+
+    <div class="kehai-ebook-container kehai-ebook-header__inner">
+
 
       <a
         href="/kehai"
@@ -66,10 +85,97 @@
       >
 
         <img
-          src="{{ url_for('static', filename='IMG/kehai/logo-kehai-dark.png') }}"
+          src="{{ url_for('static', filename='img/kehai/logo-kehai-dark.png') }}"
           alt="KEHAI"
         >
 
+      </a>
+
+
+      <nav
+        class="kehai-ebook-nav"
+        aria-label="Navegação principal"
+      >
+
+        <a href="#ebook">
+          O eBook
+        </a>
+
+        <a href="#filosofia">
+          KEHAI
+        </a>
+
+        <a href="#movimentos">
+          Os 4 Movimentos
+        </a>
+
+        <a href="#por-dentro">
+          Por Dentro
+        </a>
+
+        <a href="#autor">
+          Autor
+        </a>
+
+      </nav>
+
+
+      <a
+        href="#comprar"
+        class="kehai-ebook-btn kehai-ebook-btn--primary kehai-ebook-header__cta"
+      >
+        Comprar eBook
+      </a>
+
+
+      <button
+        class="kehai-ebook-menu-toggle"
+        id="kehaiEbookMenuToggle"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+      >
+
+        <span></span>
+        <span></span>
+
+      </button>
+
+    </div>
+
+
+    <!-- MENU MOBILE -->
+
+    <div
+      class="kehai-ebook-mobile-menu"
+      id="kehaiEbookMobileMenu"
+    >
+
+      <a href="#ebook">
+        O eBook
+      </a>
+
+      <a href="#filosofia">
+        KEHAI
+      </a>
+
+      <a href="#movimentos">
+        Os 4 Movimentos
+      </a>
+
+      <a href="#por-dentro">
+        Por Dentro
+      </a>
+
+      <a href="#autor">
+        Autor
+      </a>
+
+      <a
+        href="#comprar"
+        class="kehai-ebook-btn kehai-ebook-btn--primary"
+      >
+        Comprar eBook
       </a>
 
     </div>
@@ -77,43 +183,140 @@
   </header>
 
 
+
   <main>
 
-    <section class="kehai-ebook-hero">
 
-      <div class="kehai-ebook-shell kehai-ebook-hero__content">
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
 
-        <div class="kehai-ebook-hero__text">
+    <section
+      class="kehai-ebook-hero"
+      id="ebook"
+    >
 
-          <span class="kehai-ebook-eyebrow">
+      <div class="kehai-ebook-hero__waves"></div>
+
+
+      <div class="kehai-ebook-container kehai-ebook-hero__grid">
+
+
+        <!-- CONTEÚDO -->
+
+        <div class="kehai-ebook-hero__content">
+
+
+          <div class="kehai-ebook-eyebrow">
             EBOOK KEHAI
-          </span>
+          </div>
+
 
           <h1>
             A liderança que reconhece valor antes que ele se perca.
           </h1>
 
-          <p class="kehai-ebook-subtitle">
-            Livro fundador da Filosofia KEHAI
-          </p>
 
-          <div class="kehai-ebook-status">
-            Página exclusiva do eBook criada com sucesso.
+          <!-- LIVRO MOBILE -->
+
+          <div class="kehai-ebook-hero__image kehai-ebook-hero__image--mobile">
+
+            <img
+              src="{{ url_for('static', filename='img/kehai/mockup-kehai.png') }}"
+              alt="eBook KEHAI de Vandré Stein"
+            >
+
           </div>
 
-          <p class="kehai-ebook-note">
-            A estrutura comercial e o checkout digital serão
-            adicionados nas próximas etapas.
-          </p>
+
+          <div class="kehai-ebook-hero__purchase">
+
+            <div class="kehai-ebook-price">
+              R$ 29,90
+            </div>
+
+
+            <a
+              href="#comprar"
+              class="kehai-ebook-btn kehai-ebook-btn--primary kehai-ebook-btn--large"
+            >
+              Quero meu eBook
+            </a>
+
+          </div>
+
+
+          <div class="kehai-ebook-hero__meta">
+
+            Edição digital
+            <span>•</span>
+            PDF
+            <span>•</span>
+            Acesso após confirmação do pagamento
+
+          </div>
+
+
+          <div class="kehai-ebook-hero__text">
+
+            <p>
+
+              Todos os dias, pessoas, conhecimentos, oportunidades,
+              talentos, tempo e confiança podem estar perdendo valor
+              diante dos nossos olhos.
+
+            </p>
+
+
+            <p>
+
+              Nem sempre porque alguém decidiu desperdiçá-los.
+
+            </p>
+
+
+            <p>
+
+              Muitas vezes, simplesmente porque deixamos de percebê-los.
+
+            </p>
+
+
+            <p>
+
+              <strong>
+
+                KEHAI é um convite para desenvolver um novo olhar sobre
+                liderança, organizações e valor.
+
+              </strong>
+
+            </p>
+
+          </div>
+
+
+          <a
+            href="#provocacao"
+            class="kehai-ebook-text-link"
+          >
+
+            Conhecer o KEHAI
+
+            <span>↓</span>
+
+          </a>
 
         </div>
 
 
-        <div class="kehai-ebook-hero__visual">
+        <!-- LIVRO DESKTOP -->
+
+        <div class="kehai-ebook-hero__image kehai-ebook-hero__image--desktop">
 
           <img
-            src="{{ url_for('static', filename='IMG/kehai/mockup-kehai.png') }}"
-            alt="KEHAI — Livro de Vandré Stein"
+            src="{{ url_for('static', filename='img/kehai/mockup-kehai.png') }}"
+            alt="eBook KEHAI — A liderança que reconhece valor antes que ele se perca"
           >
 
         </div>
@@ -122,29 +325,854 @@
 
     </section>
 
+
+
+    <!-- =====================================================
+         PROVOCAÇÃO
+         ===================================================== -->
+
+    <section
+      class="kehai-ebook-section kehai-ebook-section--dark"
+      id="provocacao"
+    >
+
+      <div class="kehai-ebook-container kehai-ebook-container--narrow kehai-ebook-center">
+
+
+        <div class="kehai-ebook-eyebrow kehai-ebook-eyebrow--light">
+
+          UMA PERGUNTA ANTERIOR À PERDA
+
+        </div>
+
+
+        <h2 class="kehai-ebook-serif kehai-ebook-display">
+
+          E se o maior desperdício de uma organização não for aquilo que ela perde?
+
+        </h2>
+
+
+        <p class="kehai-ebook-provocation__answer">
+
+          Mas aquilo que deixou de perceber enquanto ainda possuía valor?
+
+        </p>
+
+
+        <div class="kehai-ebook-values">
+
+          <span>IDEIAS</span>
+          <span>CONHECIMENTO</span>
+          <span>TALENTOS</span>
+          <span>TEMPO</span>
+          <span>CONFIANÇA</span>
+          <span>CULTURA</span>
+          <span>OPORTUNIDADES</span>
+
+        </div>
+
+
+        <div class="kehai-ebook-provocation__examples">
+
+          <p>Uma ideia que não foi ouvida.</p>
+
+          <p>Um conhecimento que nunca foi compartilhado.</p>
+
+          <p>Um profissional que poderia ter sido desenvolvido.</p>
+
+          <p>Um pequeno desvio que deixou de causar estranheza.</p>
+
+          <p>Uma conversa importante que foi adiada.</p>
+
+          <p>Uma oportunidade que ninguém reconheceu.</p>
+
+        </div>
+
+
+        <div class="kehai-ebook-provocation__closing">
+
+          <strong>
+
+            As grandes perdas raramente começam quando alguma coisa desaparece.
+
+          </strong>
+
+          <h3>
+            Elas começam antes.
+          </h3>
+
+          <p>
+            Quando aquilo que possuía valor deixa de ser percebido.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FILOSOFIA
+         ===================================================== -->
+
+    <section
+      class="kehai-ebook-section kehai-ebook-section--soft"
+      id="filosofia"
+    >
+
+      <div class="kehai-ebook-container kehai-ebook-two-columns">
+
+
+        <div>
+
+          <div class="kehai-ebook-eyebrow">
+            FILOSOFIA KEHAI
+          </div>
+
+
+          <h2>
+
+            Antes de preservar valor, precisamos aprender a reconhecê-lo.
+
+          </h2>
+
+        </div>
+
+
+        <div class="kehai-ebook-editorial-text">
+
+
+          <p>
+
+            Vivemos cercados por indicadores, informações,
+            tecnologias, reuniões e decisões.
+
+          </p>
+
+
+          <p>
+            Nunca tivemos tantos dados.
+          </p>
+
+
+          <p>
+
+            E talvez nunca tenha sido tão importante desenvolver a
+            capacidade de perceber <strong>o que realmente importa.</strong>
+
+          </p>
+
+
+          <p>
+
+            KEHAI nasce dessa inquietação.
+
+          </p>
+
+
+          <blockquote>
+
+            Reconhecer valor enquanto ainda existe tempo para agir.
+
+          </blockquote>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         4 MOVIMENTOS
+         ===================================================== -->
+
+    <section
+      class="kehai-ebook-section"
+      id="movimentos"
+    >
+
+      <div class="kehai-ebook-container">
+
+
+        <div class="kehai-ebook-section-title">
+
+          <div class="kehai-ebook-eyebrow">
+            OS QUATRO MOVIMENTOS
+          </div>
+
+
+          <h2>
+            Um novo olhar começa por quatro movimentos.
+          </h2>
+
+        </div>
+
+
+        <div class="kehai-ebook-movements">
+
+
+          <article class="kehai-ebook-movement">
+
+            <span>
+              01
+            </span>
+
+            <h3>
+              PERCEBER
+            </h3>
+
+            <p>
+
+              Reconhecer sinais, pessoas, conhecimentos,
+              oportunidades, riscos e valores que normalmente
+              passam despercebidos.
+
+            </p>
+
+            <strong>
+              Perceber revela.
+            </strong>
+
+          </article>
+
+
+          <article class="kehai-ebook-movement">
+
+            <span>
+              02
+            </span>
+
+            <h3>
+              DISCERNIR
+            </h3>
+
+            <p>
+
+              Compreender o que realmente importa,
+              separando aquilo que apenas chama atenção
+              daquilo que merece decisão.
+
+            </p>
+
+            <strong>
+              Discernir orienta.
+            </strong>
+
+          </article>
+
+
+          <article class="kehai-ebook-movement">
+
+            <span>
+              03
+            </span>
+
+            <h3>
+              PRESERVAR
+            </h3>
+
+            <p>
+
+              Proteger pessoas, conhecimento, confiança,
+              cultura e tudo aquilo que sustenta valor
+              antes que comece a se deteriorar.
+
+            </p>
+
+            <strong>
+              Preservar protege.
+            </strong>
+
+          </article>
+
+
+          <article class="kehai-ebook-movement">
+
+            <span>
+              04
+            </span>
+
+            <h3>
+              POTENCIALIZAR
+            </h3>
+
+            <p>
+
+              Desenvolver aquilo que possui valor para
+              que alcance uma capacidade ainda maior
+              de gerar impacto.
+
+            </p>
+
+            <strong>
+              Potencializar desenvolve.
+            </strong>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         O QUE O LIVRO PROPÕE
+         ===================================================== -->
+
+    <section class="kehai-ebook-section kehai-ebook-section--paper">
+
+      <div class="kehai-ebook-container">
+
+
+        <div class="kehai-ebook-section-title kehai-ebook-center">
+
+          <div class="kehai-ebook-eyebrow">
+            O QUE VOCÊ LEVA DESTA LEITURA
+          </div>
+
+
+          <h2>
+            Não apenas respostas. Um novo modo de observar.
+          </h2>
+
+        </div>
+
+
+        <div class="kehai-ebook-benefits">
+
+
+          <article>
+
+            <span>01</span>
+
+            <h3>
+              Perceber antes
+            </h3>
+
+            <p>
+
+              Desenvolver atenção para sinais que normalmente
+              só são percebidos depois que se transformam em problemas.
+
+            </p>
+
+          </article>
+
+
+          <article>
+
+            <span>02</span>
+
+            <h3>
+              Decidir melhor
+            </h3>
+
+            <p>
+
+              Aprender a fazer perguntas capazes de ampliar
+              a qualidade das decisões e da liderança.
+
+            </p>
+
+          </article>
+
+
+          <article>
+
+            <span>03</span>
+
+            <h3>
+              Preservar valor
+            </h3>
+
+            <p>
+
+              Reconhecer aquilo que precisa ser protegido
+              antes que pessoas, conhecimento, confiança
+              e oportunidades sejam perdidos.
+
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PARA QUEM
+         ===================================================== -->
+
+    <section class="kehai-ebook-section">
+
+      <div class="kehai-ebook-container kehai-ebook-audience">
+
+
+        <div>
+
+          <div class="kehai-ebook-eyebrow">
+            PARA QUEM É KEHAI
+          </div>
+
+
+          <h2>
+            Para quem influencia decisões, pessoas e futuro.
+          </h2>
+
+        </div>
+
+
+        <div class="kehai-ebook-audience__list">
+
+          <span>Diretores</span>
+          <span>Gerentes</span>
+          <span>Coordenadores</span>
+          <span>Supervisores</span>
+          <span>Líderes</span>
+          <span>Profissionais de RH</span>
+          <span>Qualidade</span>
+          <span>Educação Corporativa</span>
+          <span>Consultores</span>
+          <span>Professores</span>
+          <span>Empreendedores</span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         POR DENTRO
+         ===================================================== -->
+
+    <section
+      class="kehai-ebook-section kehai-ebook-section--soft"
+      id="por-dentro"
+    >
+
+      <div class="kehai-ebook-container">
+
+
+        <div class="kehai-ebook-section-title kehai-ebook-center">
+
+          <div class="kehai-ebook-eyebrow">
+            O LIVRO POR DENTRO
+          </div>
+
+
+          <h2>
+            Um livro para ser lido.
+          </h2>
+
+
+          <p class="kehai-ebook-section-subtitle">
+
+            E um olhar para ser levado de volta à realidade.
+
+          </p>
+
+        </div>
+
+
+        <div class="kehai-ebook-pages">
+
+
+          <div>
+
+            <img
+              src="{{ url_for('static', filename='img/kehai/paginas/kehai-page-01.png') }}"
+              alt="Página interna do livro KEHAI"
+              loading="lazy"
+            >
+
+          </div>
+
+
+          <div>
+
+            <img
+              src="{{ url_for('static', filename='img/kehai/paginas/kehai-page-02.png') }}"
+              alt="Página interna do livro KEHAI"
+              loading="lazy"
+            >
+
+          </div>
+
+
+          <div>
+
+            <img
+              src="{{ url_for('static', filename='img/kehai/paginas/kehai-page-03.png') }}"
+              alt="Página interna do livro KEHAI"
+              loading="lazy"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         AUTOR
+         ===================================================== -->
+
+    <section
+      class="kehai-ebook-section"
+      id="autor"
+    >
+
+      <div class="kehai-ebook-container kehai-ebook-author">
+
+
+        <div class="kehai-ebook-author__image">
+
+          <img
+            src="{{ url_for('static', filename='img/kehai/vandre-kehai.jpg') }}"
+            alt="Vandré Stein — autor de KEHAI"
+            loading="lazy"
+          >
+
+        </div>
+
+
+        <div class="kehai-ebook-author__content">
+
+          <div class="kehai-ebook-eyebrow">
+            O AUTOR
+          </div>
+
+
+          <h2>
+            Vandré Stein
+          </h2>
+
+
+          <p>
+
+            Especialista, educador e profissional com trajetória construída
+            dentro da indústria, da educação e do desenvolvimento de pessoas.
+
+          </p>
+
+
+          <p>
+
+            KEHAI nasce da observação de uma realidade recorrente:
+            organizações não perdem valor apenas quando algo desaparece.
+
+          </p>
+
+
+          <p>
+
+            Muitas perdas começam antes, quando aquilo que possuía valor
+            deixa de ser percebido.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         COMPRA
+         ===================================================== -->
+
+    <section
+      class="kehai-ebook-offer"
+      id="comprar"
+    >
+
+      <div class="kehai-ebook-container kehai-ebook-offer__grid">
+
+
+        <div class="kehai-ebook-offer__image">
+
+          <img
+            src="{{ url_for('static', filename='img/kehai/mockup-kehai.png') }}"
+            alt="eBook KEHAI"
+            loading="lazy"
+          >
+
+        </div>
+
+
+        <div class="kehai-ebook-offer__content">
+
+
+          <div class="kehai-ebook-eyebrow kehai-ebook-eyebrow--light">
+            EDIÇÃO DIGITAL
+          </div>
+
+
+          <h2>
+            KEHAI
+          </h2>
+
+
+          <p class="kehai-ebook-offer__subtitle">
+
+            A liderança que reconhece valor antes que ele se perca.
+
+          </p>
+
+
+          <div class="kehai-ebook-offer__details">
+
+            <div>
+              <span>Formato</span>
+              <strong>eBook digital</strong>
+            </div>
+
+            <div>
+              <span>Arquivo</span>
+              <strong>PDF</strong>
+            </div>
+
+            <div>
+              <span>Entrega</span>
+              <strong>Digital</strong>
+            </div>
+
+          </div>
+
+
+          <div class="kehai-ebook-offer__price">
+            R$ 29,90
+          </div>
+
+
+          <!--
+            Na ETAPA 3 este botão será conectado
+            ao checkout digital.
+          -->
+
+          <button
+            type="button"
+            class="kehai-ebook-btn kehai-ebook-btn--ivory kehai-ebook-btn--large kehai-ebook-btn--full"
+            id="kehaiEbookBuyButton"
+          >
+            Comprar eBook
+          </button>
+
+
+          <p class="kehai-ebook-offer__security">
+
+            Pagamento seguro pelo Mercado Pago.
+            O acesso ao eBook será liberado após a confirmação do pagamento.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FAQ
+         ===================================================== -->
+
+    <section class="kehai-ebook-section">
+
+      <div class="kehai-ebook-container kehai-ebook-faq">
+
+
+        <div class="kehai-ebook-section-title">
+
+          <div class="kehai-ebook-eyebrow">
+            DÚVIDAS
+          </div>
+
+          <h2>
+            Perguntas frequentes
+          </h2>
+
+        </div>
+
+
+        <div class="kehai-ebook-faq__items">
+
+
+          <details>
+
+            <summary>
+              O que estou comprando?
+            </summary>
+
+            <p>
+
+              Você está adquirindo a edição digital do livro KEHAI,
+              de Vandré Stein.
+
+            </p>
+
+          </details>
+
+
+          <details>
+
+            <summary>
+              O eBook é enviado fisicamente?
+            </summary>
+
+            <p>
+
+              Não. Esta página é exclusiva para a edição digital.
+              Não existe frete ou entrega física nesta compra.
+
+            </p>
+
+          </details>
+
+
+          <details>
+
+            <summary>
+              Como receberei o eBook?
+            </summary>
+
+            <p>
+
+              Após a confirmação do pagamento, o acesso digital
+              será disponibilizado ao comprador.
+
+            </p>
+
+          </details>
+
+
+          <details>
+
+            <summary>
+              O pagamento será seguro?
+            </summary>
+
+            <p>
+
+              Sim. O pagamento será processado pelo Mercado Pago.
+              Os dados financeiros não serão processados diretamente
+              pela página KEHAI.
+
+            </p>
+
+          </details>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
   </main>
 
 
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
   <footer class="kehai-ebook-footer">
 
-    <div class="kehai-ebook-shell">
+    <div class="kehai-ebook-container">
 
-      <span>
-        KEHAI
-      </span>
 
-      <span>
-        Vandré Stein
-      </span>
+      <div class="kehai-ebook-footer__top">
+
+        <div>
+
+          <img
+            src="{{ url_for('static', filename='img/kehai/logo-kehai-light.png') }}"
+            alt="KEHAI"
+          >
+
+          <p>
+            A liderança que reconhece valor antes que ele se perca.
+          </p>
+
+        </div>
+
+
+        <nav>
+
+          <a href="/kehai">
+            Filosofia KEHAI
+          </a>
+
+          <a href="/kehai/livro">
+            Livro físico
+          </a>
+
+          <a href="/contato">
+            Contato
+          </a>
+
+          <a href="/politica-de-privacidade">
+            Política de Privacidade
+          </a>
+
+          <a href="/termos-de-uso">
+            Termos de Uso
+          </a>
+
+        </nav>
+
+      </div>
+
+
+      <div class="kehai-ebook-footer__bottom">
+
+        <span>
+          © 2026 KEHAI · Vandré Stein
+        </span>
+
+        <span>
+          Uma iniciativa vinculada à STEGIE.
+        </span>
+
+      </div>
 
     </div>
 
   </footer>
 
 
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
   <script
-    src="{{ url_for('static', filename='JS/kehai_ebook.js') }}?v={{ config.get('ASSET_VERSION','1') }}"
+    src="{{ url_for('static', filename='js/kehai_ebook.js') }}?v={{ config.get('ASSET_VERSION','1') }}"
+    defer
   ></script>
+
 
 </body>
 
