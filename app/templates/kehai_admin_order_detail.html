@@ -301,6 +301,90 @@
           </p>
         </section>
 
+        <section class="kehai-admin-panel kehai-admin-operation kehai-admin-email-card">
+          <p class="kehai-admin-eyebrow">COMUNICAÇÃO</p>
+          <h2>E-mails ao comprador</h2>
+
+          {% if not pedido.email_configured %}
+            <div class="kehai-admin-alert">
+              O envio automático ainda não está configurado. Cadastre a API do Brevo e o remetente no Render.
+            </div>
+          {% endif %}
+
+          <div class="kehai-admin-email-list">
+            <article class="kehai-admin-email-item {% if pedido.email_confirmation_sent_at %}is-sent{% endif %}">
+              <div>
+                <strong>Pedido confirmado</strong>
+                <small>
+                  {% if pedido.email_confirmation_sent_at %}
+                    Enviado em {{ pedido.email_confirmation_sent_label }}
+                  {% else %}
+                    Aguardando disparo
+                  {% endif %}
+                </small>
+              </div>
+              {% if pedido.status == 'paid' %}
+                <form method="post" action="{{ url_for('kehai_admin_order_email', order_number=pedido.order_number, tipo='confirmation') }}">
+                  <button class="kehai-admin-btn kehai-admin-btn--outline kehai-admin-btn--small" type="submit">
+                    {% if pedido.email_confirmation_sent_at %}Reenviar{% else %}Enviar{% endif %}
+                  </button>
+                </form>
+              {% endif %}
+            </article>
+
+            <article class="kehai-admin-email-item {% if pedido.email_shipping_sent_at %}is-sent{% endif %}">
+              <div>
+                <strong>Pedido enviado</strong>
+                <small>
+                  {% if pedido.email_shipping_sent_at %}
+                    Enviado em {{ pedido.email_shipping_sent_label }}
+                  {% else %}
+                    Será enviado após a postagem
+                  {% endif %}
+                </small>
+              </div>
+              {% if pedido.fulfillment_status in ['shipped', 'delivered'] %}
+                <form method="post" action="{{ url_for('kehai_admin_order_email', order_number=pedido.order_number, tipo='shipping') }}">
+                  <button class="kehai-admin-btn kehai-admin-btn--outline kehai-admin-btn--small" type="submit">
+                    {% if pedido.email_shipping_sent_at %}Reenviar{% else %}Enviar{% endif %}
+                  </button>
+                </form>
+              {% endif %}
+            </article>
+
+            <article class="kehai-admin-email-item {% if pedido.email_delivery_sent_at %}is-sent{% endif %}">
+              <div>
+                <strong>Entrega confirmada</strong>
+                <small>
+                  {% if pedido.email_delivery_sent_at %}
+                    Enviado em {{ pedido.email_delivery_sent_label }}
+                  {% else %}
+                    Será enviado após a entrega
+                  {% endif %}
+                </small>
+              </div>
+              {% if pedido.fulfillment_status == 'delivered' %}
+                <form method="post" action="{{ url_for('kehai_admin_order_email', order_number=pedido.order_number, tipo='delivery') }}">
+                  <button class="kehai-admin-btn kehai-admin-btn--outline kehai-admin-btn--small" type="submit">
+                    {% if pedido.email_delivery_sent_at %}Reenviar{% else %}Enviar{% endif %}
+                  </button>
+                </form>
+              {% endif %}
+            </article>
+          </div>
+
+          {% if pedido.email_last_error %}
+            <div class="kehai-admin-alert kehai-admin-alert--error">
+              <strong>Último erro de e-mail</strong><br>
+              {{ pedido.email_last_error }}
+            </div>
+          {% endif %}
+
+          <p class="kehai-admin-help">
+            Os disparos automáticos são protegidos contra duplicidade. Os botões acima existem apenas para teste ou reenvio manual.
+          </p>
+        </section>
+
         <section class="kehai-admin-panel kehai-admin-operation kehai-admin-tracking-card">
           <p class="kehai-admin-eyebrow">JORNADA DO PEDIDO</p>
           <h2>{{ pedido.timeline_current_label }}</h2>
