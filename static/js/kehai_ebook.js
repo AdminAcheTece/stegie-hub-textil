@@ -831,8 +831,14 @@
       });
 
 
+      const paymentUrl =
+        data.sandbox_checkout_url
+        ||
+        data.checkout_url;
+      
+      
       window.location.assign(
-        data.checkout_url
+        paymentUrl
       );
 
     }
