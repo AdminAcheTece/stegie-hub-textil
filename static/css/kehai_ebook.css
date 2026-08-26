@@ -1,41 +1,413 @@
 :root {
-  --kehai-bg: #f5f2e8;
-  --kehai-paper: #ffffff;
-  --kehai-text: #151515;
-  --kehai-muted: #686860;
-  --kehai-dark: #101713;
-  --kehai-line: rgba(21, 21, 21, 0.12);
-  --kehai-accent: #a2874f;
+
+  --kehai-ivory: #F5F2E8;
+  --kehai-ivory-soft: #FAF8F2;
+  --kehai-paper: #EEE9DE;
+
+  --kehai-green: #1F5148;
+  --kehai-green-deep: #123A34;
+  --kehai-green-black: #0D2522;
+
+  --kehai-gold: #B3944F;
+
+  --kehai-ink: #161917;
+  --kehai-muted: #666963;
+
+  --kehai-line: #D8D2C4;
+  --kehai-white: #FFFEFA;
+
+  --kehai-container: 1240px;
+  --kehai-header-height: 84px;
+
+  --font-sans:
+    "Source Sans 3",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  --font-serif:
+    "Source Serif 4",
+    Georgia,
+    serif;
+
 }
 
 
-* {
+*,
+*::before,
+*::after {
+
   box-sizing: border-box;
+
 }
 
 
 html {
+
   scroll-behavior: smooth;
+
+  scroll-padding-top:
+    calc(
+      var(--kehai-header-height)
+      +
+      20px
+    );
+
 }
 
 
 body {
+
   margin: 0;
-  background: var(--kehai-bg);
-  color: var(--kehai-text);
-  font-family: "Source Sans 3", Arial, sans-serif;
+
+  background:
+    var(--kehai-ivory);
+
+  color:
+    var(--kehai-ink);
+
+  font-family:
+    var(--font-sans);
+
+  font-size:
+    17px;
+
+  line-height:
+    1.7;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+}
+
+
+body.kehai-menu-open {
+
+  overflow: hidden;
+
 }
 
 
 img {
+
   display: block;
+
   max-width: 100%;
+
 }
 
 
-.kehai-ebook-shell {
-  width: min(1180px, calc(100% - 48px));
-  margin: 0 auto;
+a {
+
+  color: inherit;
+
+  text-decoration: none;
+
+}
+
+
+button {
+
+  font: inherit;
+
+}
+
+
+button,
+a {
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+}
+
+
+/* =====================================================
+   ESTRUTURA
+   ===================================================== */
+
+.kehai-ebook-container {
+
+  width:
+    min(
+      calc(100% - 80px),
+      var(--kehai-container)
+    );
+
+  margin-inline:
+    auto;
+
+}
+
+
+.kehai-ebook-container--narrow {
+
+  max-width:
+    930px;
+
+}
+
+
+.kehai-ebook-center {
+
+  text-align:
+    center;
+
+}
+
+
+.kehai-ebook-serif {
+
+  font-family:
+    var(--font-serif);
+
+  font-weight:
+    400;
+
+}
+
+
+.kehai-ebook-section {
+
+  padding:
+    130px 0;
+
+}
+
+
+.kehai-ebook-section--soft {
+
+  background:
+    var(--kehai-ivory-soft);
+
+}
+
+
+.kehai-ebook-section--paper {
+
+  background:
+    var(--kehai-paper);
+
+}
+
+
+.kehai-ebook-section--dark {
+
+  background:
+    var(--kehai-green-deep);
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+/* =====================================================
+   TEXTOS
+   ===================================================== */
+
+.kehai-ebook-eyebrow {
+
+  margin-bottom:
+    22px;
+
+  color:
+    var(--kehai-green);
+
+  font-size:
+    12px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .15em;
+
+  line-height:
+    1.2;
+
+}
+
+
+.kehai-ebook-eyebrow--light {
+
+  color:
+    rgba(245, 242, 232, .70);
+
+}
+
+
+.kehai-ebook-section-title {
+
+  max-width:
+    800px;
+
+  margin-bottom:
+    64px;
+
+}
+
+
+.kehai-ebook-section-title.kehai-ebook-center {
+
+  margin-inline:
+    auto;
+
+  margin-bottom:
+    70px;
+
+}
+
+
+.kehai-ebook-section-title h2,
+.kehai-ebook-two-columns h2,
+.kehai-ebook-audience h2,
+.kehai-ebook-author h2 {
+
+  margin:
+    0;
+
+  font-size:
+    clamp(38px, 4vw, 52px);
+
+  font-weight:
+    500;
+
+  letter-spacing:
+    -.025em;
+
+  line-height:
+    1.1;
+
+}
+
+
+.kehai-ebook-section-subtitle {
+
+  margin:
+    22px 0 0;
+
+  font-family:
+    var(--font-serif);
+
+  color:
+    var(--kehai-muted);
+
+  font-size:
+    27px;
+
+}
+
+
+/* =====================================================
+   BOTÕES
+   ===================================================== */
+
+.kehai-ebook-btn {
+
+  display:
+    inline-flex;
+
+  min-height:
+    52px;
+
+  padding:
+    0 28px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    1px solid transparent;
+
+  border-radius:
+    3px;
+
+  cursor:
+    pointer;
+
+  font-size:
+    15px;
+
+  font-weight:
+    700;
+
+  transition:
+    .18s ease;
+
+}
+
+
+.kehai-ebook-btn:hover {
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+.kehai-ebook-btn--primary {
+
+  background:
+    var(--kehai-green);
+
+  color:
+    var(--kehai-white);
+
+}
+
+
+.kehai-ebook-btn--primary:hover {
+
+  background:
+    var(--kehai-green-deep);
+
+}
+
+
+.kehai-ebook-btn--ivory {
+
+  background:
+    var(--kehai-ivory);
+
+  color:
+    var(--kehai-green-black);
+
+}
+
+
+.kehai-ebook-btn--ivory:hover {
+
+  background:
+    var(--kehai-white);
+
+}
+
+
+.kehai-ebook-btn--large {
+
+  min-height:
+    58px;
+
+  padding:
+    0 34px;
+
+  font-size:
+    16px;
+
+}
+
+
+.kehai-ebook-btn--full {
+
+  width:
+    100%;
+
 }
 
 
@@ -44,27 +416,219 @@ img {
    ===================================================== */
 
 .kehai-ebook-header {
-  background: var(--kehai-bg);
-  border-bottom: 1px solid var(--kehai-line);
+
+  position:
+    sticky;
+
+  top:
+    0;
+
+  z-index:
+    1000;
+
+  height:
+    var(--kehai-header-height);
+
+  background:
+    rgba(245, 242, 232, .96);
+
+  border-bottom:
+    1px solid transparent;
+
 }
 
 
-.kehai-ebook-header .kehai-ebook-shell {
-  min-height: 88px;
-  display: flex;
-  align-items: center;
+.kehai-ebook-header.is-scrolled {
+
+  border-bottom-color:
+    rgba(22, 25, 23, .08);
+
+  box-shadow:
+    0 8px 30px rgba(13, 37, 34, .05);
+
+  backdrop-filter:
+    blur(12px);
+
+}
+
+
+.kehai-ebook-header__inner {
+
+  height:
+    100%;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    28px;
+
 }
 
 
 .kehai-ebook-brand {
-  display: inline-flex;
-  align-items: center;
+
+  flex:
+    0 0 auto;
+
 }
 
 
 .kehai-ebook-brand img {
-  width: 150px;
-  height: auto;
+
+  width:
+    185px;
+
+  max-height:
+    52px;
+
+  object-fit:
+    contain;
+
+  object-position:
+    left center;
+
+}
+
+
+.kehai-ebook-nav {
+
+  margin-left:
+    auto;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    26px;
+
+}
+
+
+.kehai-ebook-nav a {
+
+  font-size:
+    14px;
+
+  font-weight:
+    600;
+
+}
+
+
+.kehai-ebook-nav a:hover {
+
+  color:
+    var(--kehai-green);
+
+}
+
+
+.kehai-ebook-header__cta {
+
+  margin-left:
+    10px;
+
+}
+
+
+.kehai-ebook-menu-toggle {
+
+  display:
+    none;
+
+  position:
+    relative;
+
+  width:
+    44px;
+
+  height:
+    44px;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  cursor:
+    pointer;
+
+}
+
+
+.kehai-ebook-menu-toggle span {
+
+  position:
+    absolute;
+
+  left:
+    10px;
+
+  width:
+    24px;
+
+  height:
+    1px;
+
+  background:
+    var(--kehai-ink);
+
+}
+
+
+.kehai-ebook-menu-toggle span:first-child {
+
+  top:
+    17px;
+
+}
+
+
+.kehai-ebook-menu-toggle span:last-child {
+
+  top:
+    25px;
+
+}
+
+
+.kehai-ebook-menu-toggle[aria-expanded="true"]
+span:first-child {
+
+  top:
+    21px;
+
+  transform:
+    rotate(45deg);
+
+}
+
+
+.kehai-ebook-menu-toggle[aria-expanded="true"]
+span:last-child {
+
+  top:
+    21px;
+
+  transform:
+    rotate(-45deg);
+
+}
+
+
+.kehai-ebook-mobile-menu {
+
+  display:
+    none;
+
 }
 
 
@@ -73,96 +637,1137 @@ img {
    ===================================================== */
 
 .kehai-ebook-hero {
-  min-height: calc(100vh - 150px);
-  display: flex;
-  align-items: center;
-  padding: 70px 0 90px;
+
+  position:
+    relative;
+
+  min-height:
+    calc(
+      100vh
+      -
+      var(--kehai-header-height)
+    );
+
+  overflow:
+    hidden;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
 }
 
 
-.kehai-ebook-hero__content {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-  align-items: center;
-  gap: 70px;
+.kehai-ebook-hero__waves {
+
+  position:
+    absolute;
+
+  right:
+    -7vw;
+
+  bottom:
+    -10%;
+
+  width:
+    55vw;
+
+  height:
+    70%;
+
+  opacity:
+    .055;
+
+  background:
+    repeating-radial-gradient(
+      ellipse at 100% 90%,
+      transparent 0 26px,
+      var(--kehai-green) 27px 28px,
+      transparent 29px 49px
+    );
+
+  transform:
+    rotate(-8deg);
+
 }
 
 
-.kehai-ebook-eyebrow {
-  display: block;
-  margin-bottom: 24px;
+.kehai-ebook-hero__grid {
 
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  position:
+    relative;
 
-  color: var(--kehai-muted);
+  z-index:
+    1;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1.15fr)
+    minmax(350px, .85fr);
+
+  gap:
+    70px;
+
+  align-items:
+    center;
+
+  padding-top:
+    70px;
+
+  padding-bottom:
+    90px;
+
 }
 
 
 .kehai-ebook-hero h1 {
-  max-width: 700px;
-  margin: 0;
 
-  font-family: "Source Serif 4", Georgia, serif;
-  font-size: clamp(44px, 5vw, 72px);
-  font-weight: 400;
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  max-width:
+    760px;
+
+  margin:
+    0;
+
+  font-size:
+    clamp(47px, 5vw, 65px);
+
+  font-weight:
+    500;
+
+  letter-spacing:
+    -.035em;
+
+  line-height:
+    1.05;
+
 }
 
 
-.kehai-ebook-subtitle {
-  margin: 28px 0 0;
+.kehai-ebook-hero__purchase {
 
-  font-size: 20px;
-  line-height: 1.5;
-  color: var(--kehai-muted);
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    20px;
+
+  margin-top:
+    35px;
+
 }
 
 
-.kehai-ebook-status {
-  display: inline-block;
+.kehai-ebook-price {
 
-  margin-top: 42px;
-  padding: 13px 18px;
+  font-size:
+    30px;
 
-  border: 1px solid var(--kehai-line);
-  border-radius: 4px;
+  font-weight:
+    600;
 
-  background: rgba(255, 255, 255, 0.5);
+  letter-spacing:
+    -.03em;
 
-  font-size: 14px;
-  font-weight: 600;
 }
 
 
-.kehai-ebook-note {
-  max-width: 520px;
-  margin-top: 18px;
+.kehai-ebook-hero__meta {
 
-  color: var(--kehai-muted);
-  font-size: 15px;
-  line-height: 1.65;
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    8px;
+
+  margin-top:
+    15px;
+
+  color:
+    var(--kehai-muted);
+
+  font-size:
+    13px;
+
+}
+
+
+.kehai-ebook-hero__text {
+
+  max-width:
+    625px;
+
+  margin-top:
+    34px;
+
+  color:
+    var(--kehai-muted);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    20px;
+
+  line-height:
+    1.55;
+
+}
+
+
+.kehai-ebook-hero__text p {
+
+  margin:
+    0 0 14px;
+
+}
+
+
+.kehai-ebook-hero__text strong {
+
+  color:
+    var(--kehai-ink);
+
+  font-weight:
+    500;
+
+}
+
+
+.kehai-ebook-text-link {
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    9px;
+
+  margin-top:
+    15px;
+
+  color:
+    var(--kehai-green);
+
+  font-size:
+    14px;
+
+  font-weight:
+    700;
+
+}
+
+
+.kehai-ebook-hero__image {
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+}
+
+
+.kehai-ebook-hero__image img {
+
+  width:
+    min(100%, 470px);
+
+  max-height:
+    650px;
+
+  object-fit:
+    contain;
+
+  filter:
+    drop-shadow(
+      0 30px 32px
+      rgba(13, 37, 34, .16)
+    );
+
+}
+
+
+.kehai-ebook-hero__image--mobile {
+
+  display:
+    none;
+
 }
 
 
 /* =====================================================
-   LIVRO
+   PROVOCAÇÃO
    ===================================================== */
 
-.kehai-ebook-hero__visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.kehai-ebook-display {
+
+  margin:
+    0 auto;
+
+  max-width:
+    850px;
+
+  font-size:
+    clamp(42px, 5vw, 62px);
+
+  line-height:
+    1.13;
+
 }
 
 
-.kehai-ebook-hero__visual img {
-  width: min(100%, 500px);
-  max-height: 610px;
-  object-fit: contain;
+.kehai-ebook-provocation__answer {
+
+  margin:
+    30px auto 0;
+
+  max-width:
+    700px;
+
+  color:
+    rgba(245, 242, 232, .78);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    25px;
+
+}
+
+
+.kehai-ebook-values {
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    13px;
+
+  margin-top:
+    55px;
+
+}
+
+
+.kehai-ebook-values span {
+
+  padding:
+    8px 13px;
+
+  border:
+    1px solid rgba(245, 242, 232, .22);
+
+  font-size:
+    11px;
+
+  letter-spacing:
+    .12em;
+
+}
+
+
+.kehai-ebook-provocation__examples {
+
+  margin:
+    70px auto 0;
+
+  max-width:
+    700px;
+
+}
+
+
+.kehai-ebook-provocation__examples p {
+
+  margin:
+    0;
+
+  padding:
+    18px 0;
+
+  border-bottom:
+    1px solid rgba(245, 242, 232, .12);
+
+  color:
+    rgba(245, 242, 232, .76);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    20px;
+
+}
+
+
+.kehai-ebook-provocation__closing {
+
+  margin-top:
+    80px;
+
+}
+
+
+.kehai-ebook-provocation__closing strong {
+
+  display:
+    block;
+
+  color:
+    rgba(245, 242, 232, .72);
+
+  font-size:
+    17px;
+
+}
+
+
+.kehai-ebook-provocation__closing h3 {
+
+  margin:
+    15px 0;
+
+  color:
+    var(--kehai-gold);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    43px;
+
+  font-weight:
+    400;
+
+}
+
+
+.kehai-ebook-provocation__closing p {
+
+  margin:
+    0;
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    21px;
+
+}
+
+
+/* =====================================================
+   DUAS COLUNAS
+   ===================================================== */
+
+.kehai-ebook-two-columns {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    .9fr 1.1fr;
+
+  gap:
+    110px;
+
+}
+
+
+.kehai-ebook-editorial-text {
+
+  padding-left:
+    45px;
+
+  border-left:
+    2px solid var(--kehai-gold);
+
+  color:
+    var(--kehai-muted);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    20px;
+
+}
+
+
+.kehai-ebook-editorial-text p {
+
+  margin-top:
+    0;
+
+}
+
+
+.kehai-ebook-editorial-text blockquote {
+
+  margin:
+    35px 0 0;
+
+  color:
+    var(--kehai-green-deep);
+
+  font-size:
+    29px;
+
+  line-height:
+    1.4;
+
+}
+
+
+/* =====================================================
+   MOVIMENTOS
+   ===================================================== */
+
+.kehai-ebook-movements {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  border-top:
+    1px solid var(--kehai-line);
+
+  border-left:
+    1px solid var(--kehai-line);
+
+}
+
+
+.kehai-ebook-movement {
+
+  min-height:
+    365px;
+
+  padding:
+    35px 30px;
+
+  border-right:
+    1px solid var(--kehai-line);
+
+  border-bottom:
+    1px solid var(--kehai-line);
+
+}
+
+
+.kehai-ebook-movement > span {
+
+  color:
+    var(--kehai-gold);
+
+  font-size:
+    13px;
+
+  font-weight:
+    700;
+
+}
+
+
+.kehai-ebook-movement h3 {
+
+  margin:
+    50px 0 20px;
+
+  color:
+    var(--kehai-green-deep);
+
+  font-size:
+    20px;
+
+  letter-spacing:
+    .07em;
+
+}
+
+
+.kehai-ebook-movement p {
+
+  color:
+    var(--kehai-muted);
+
+  font-size:
+    15px;
+
+}
+
+
+.kehai-ebook-movement strong {
+
+  display:
+    block;
+
+  margin-top:
+    28px;
+
+  color:
+    var(--kehai-green);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    18px;
+
+  font-weight:
+    500;
+
+}
+
+
+/* =====================================================
+   BENEFÍCIOS
+   ===================================================== */
+
+.kehai-ebook-benefits {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap:
+    25px;
+
+}
+
+
+.kehai-ebook-benefits article {
+
+  padding:
+    45px;
+
+  background:
+    var(--kehai-ivory-soft);
+
+}
+
+
+.kehai-ebook-benefits article > span {
+
+  color:
+    var(--kehai-gold);
+
+  font-size:
+    13px;
+
+  font-weight:
+    700;
+
+}
+
+
+.kehai-ebook-benefits h3 {
+
+  margin:
+    35px 0 18px;
+
+  color:
+    var(--kehai-green-deep);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    28px;
+
+  font-weight:
+    500;
+
+}
+
+
+.kehai-ebook-benefits p {
+
+  margin:
+    0;
+
+  color:
+    var(--kehai-muted);
+
+}
+
+
+/* =====================================================
+   PÚBLICO
+   ===================================================== */
+
+.kehai-ebook-audience {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    100px;
+
+}
+
+
+.kehai-ebook-audience__list {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-content:
+    flex-start;
+
+  gap:
+    12px;
+
+}
+
+
+.kehai-ebook-audience__list span {
+
+  padding:
+    10px 15px;
+
+  border:
+    1px solid var(--kehai-line);
+
+  color:
+    var(--kehai-muted);
+
+  font-size:
+    13px;
+
+  font-weight:
+    600;
+
+}
+
+
+/* =====================================================
+   PÁGINAS
+   ===================================================== */
+
+.kehai-ebook-pages {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap:
+    28px;
+
+}
+
+
+.kehai-ebook-pages div {
+
+  padding:
+    13px;
+
+  background:
+    var(--kehai-white);
+
+  box-shadow:
+    0 20px 45px
+    rgba(13, 37, 34, .10);
+
+}
+
+
+.kehai-ebook-pages img {
+
+  width:
+    100%;
+
+  height:
+    auto;
+
+}
+
+
+/* =====================================================
+   AUTOR
+   ===================================================== */
+
+.kehai-ebook-author {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    .8fr 1.2fr;
+
+  gap:
+    95px;
+
+  align-items:
+    center;
+
+}
+
+
+.kehai-ebook-author__image img {
+
+  width:
+    100%;
+
+  max-height:
+    620px;
+
+  object-fit:
+    cover;
+
+}
+
+
+.kehai-ebook-author__content {
+
+  max-width:
+    650px;
+
+}
+
+
+.kehai-ebook-author__content p {
+
+  color:
+    var(--kehai-muted);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    19px;
+
+}
+
+
+/* =====================================================
+   OFERTA
+   ===================================================== */
+
+.kehai-ebook-offer {
+
+  padding:
+    120px 0;
+
+  background:
+    var(--kehai-green-black);
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-ebook-offer__grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    .85fr 1.15fr;
+
+  gap:
+    100px;
+
+  align-items:
+    center;
+
+}
+
+
+.kehai-ebook-offer__image {
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+}
+
+
+.kehai-ebook-offer__image img {
+
+  max-height:
+    570px;
+
+  filter:
+    drop-shadow(
+      0 30px 35px
+      rgba(0, 0, 0, .25)
+    );
+
+}
+
+
+.kehai-ebook-offer__content {
+
+  max-width:
+    600px;
+
+}
+
+
+.kehai-ebook-offer__content h2 {
+
+  margin:
+    0;
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    64px;
+
+  font-weight:
+    400;
+
+}
+
+
+.kehai-ebook-offer__subtitle {
+
+  margin:
+    10px 0 35px;
+
+  color:
+    rgba(245, 242, 232, .73);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    22px;
+
+}
+
+
+.kehai-ebook-offer__details {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  border-top:
+    1px solid rgba(245, 242, 232, .15);
+
+  border-bottom:
+    1px solid rgba(245, 242, 232, .15);
+
+}
+
+
+.kehai-ebook-offer__details div {
+
+  padding:
+    20px 10px 20px 0;
+
+}
+
+
+.kehai-ebook-offer__details span {
+
+  display:
+    block;
+
+  color:
+    rgba(245, 242, 232, .55);
+
+  font-size:
+    11px;
+
+  text-transform:
+    uppercase;
+
+}
+
+
+.kehai-ebook-offer__details strong {
+
+  display:
+    block;
+
+  margin-top:
+    5px;
+
+  font-size:
+    14px;
+
+}
+
+
+.kehai-ebook-offer__price {
+
+  margin:
+    35px 0 22px;
+
+  color:
+    var(--kehai-gold);
+
+  font-size:
+    48px;
+
+  font-weight:
+    600;
+
+}
+
+
+.kehai-ebook-offer__security {
+
+  margin:
+    18px 0 0;
+
+  color:
+    rgba(245, 242, 232, .57);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.5;
+
+}
+
+
+/* =====================================================
+   FAQ
+   ===================================================== */
+
+.kehai-ebook-faq {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    .7fr 1.3fr;
+
+  gap:
+    90px;
+
+}
+
+
+.kehai-ebook-faq__items {
+
+  border-top:
+    1px solid var(--kehai-line);
+
+}
+
+
+.kehai-ebook-faq details {
+
+  border-bottom:
+    1px solid var(--kehai-line);
+
+}
+
+
+.kehai-ebook-faq summary {
+
+  position:
+    relative;
+
+  padding:
+    24px 45px 24px 0;
+
+  cursor:
+    pointer;
+
+  list-style:
+    none;
+
+  font-weight:
+    600;
+
+}
+
+
+.kehai-ebook-faq summary::-webkit-details-marker {
+
+  display:
+    none;
+
+}
+
+
+.kehai-ebook-faq summary::after {
+
+  content:
+    "+";
+
+  position:
+    absolute;
+
+  right:
+    5px;
+
+  font-size:
+    24px;
+
+  font-weight:
+    300;
+
+}
+
+
+.kehai-ebook-faq details[open] summary::after {
+
+  content:
+    "−";
+
+}
+
+
+.kehai-ebook-faq details p {
+
+  margin:
+    0;
+
+  padding:
+    0 40px 26px 0;
+
+  color:
+    var(--kehai-muted);
+
 }
 
 
@@ -171,18 +1776,126 @@ img {
    ===================================================== */
 
 .kehai-ebook-footer {
-  border-top: 1px solid var(--kehai-line);
-  padding: 26px 0;
 
-  color: var(--kehai-muted);
-  font-size: 13px;
+  padding:
+    70px 0 30px;
+
+  background:
+    var(--kehai-green-black);
+
+  color:
+    var(--kehai-ivory);
+
+  border-top:
+    1px solid rgba(245, 242, 232, .10);
+
 }
 
 
-.kehai-ebook-footer .kehai-ebook-shell {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.kehai-ebook-footer__top {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  gap:
+    60px;
+
+}
+
+
+.kehai-ebook-footer__top img {
+
+  width:
+    170px;
+
+  max-height:
+    55px;
+
+  object-fit:
+    contain;
+
+  object-position:
+    left center;
+
+}
+
+
+.kehai-ebook-footer__top p {
+
+  max-width:
+    380px;
+
+  color:
+    rgba(245, 242, 232, .60);
+
+  font-family:
+    var(--font-serif);
+
+}
+
+
+.kehai-ebook-footer nav {
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-end;
+
+  gap:
+    8px;
+
+}
+
+
+.kehai-ebook-footer nav a {
+
+  color:
+    rgba(245, 242, 232, .70);
+
+  font-size:
+    13px;
+
+}
+
+
+.kehai-ebook-footer nav a:hover {
+
+  color:
+    var(--kehai-ivory);
+
+}
+
+
+.kehai-ebook-footer__bottom {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  margin-top:
+    60px;
+
+  padding-top:
+    25px;
+
+  border-top:
+    1px solid rgba(245, 242, 232, .10);
+
+  color:
+    rgba(245, 242, 232, .45);
+
+  font-size:
+    12px;
+
 }
 
 
@@ -190,46 +1903,362 @@ img {
    RESPONSIVO
    ===================================================== */
 
-@media (max-width: 850px) {
+@media (max-width: 1050px) {
 
-  .kehai-ebook-shell {
-    width: min(100% - 32px, 1180px);
+  .kehai-ebook-nav {
+
+    display:
+      none;
+
   }
 
 
-  .kehai-ebook-header .kehai-ebook-shell {
-    min-height: 74px;
+  .kehai-ebook-header__cta {
+
+    margin-left:
+      auto;
+
+  }
+
+
+  .kehai-ebook-menu-toggle {
+
+    display:
+      block;
+
+  }
+
+
+  .kehai-ebook-mobile-menu {
+
+    position:
+      fixed;
+
+    top:
+      var(--kehai-header-height);
+
+    left:
+      0;
+
+    right:
+      0;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      4px;
+
+    padding:
+      25px 40px 35px;
+
+    background:
+      var(--kehai-ivory);
+
+    border-bottom:
+      1px solid var(--kehai-line);
+
+    transform:
+      translateY(-130%);
+
+    transition:
+      .25s ease;
+
+  }
+
+
+  .kehai-ebook-mobile-menu.is-open {
+
+    transform:
+      translateY(0);
+
+  }
+
+
+  .kehai-ebook-mobile-menu > a {
+
+    padding:
+      10px 0;
+
+  }
+
+
+  .kehai-ebook-mobile-menu
+  .kehai-ebook-btn {
+
+    margin-top:
+      12px;
+
+  }
+
+
+  .kehai-ebook-hero__grid {
+
+    grid-template-columns:
+      1fr 390px;
+
+    gap:
+      45px;
+
+  }
+
+
+  .kehai-ebook-movements {
+
+    grid-template-columns:
+      1fr 1fr;
+
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  :root {
+
+    --kehai-header-height:
+      72px;
+
+  }
+
+
+  .kehai-ebook-container {
+
+    width:
+      calc(100% - 32px);
+
+  }
+
+
+  .kehai-ebook-section {
+
+    padding:
+      80px 0;
+
   }
 
 
   .kehai-ebook-brand img {
-    width: 125px;
+
+    width:
+      135px;
+
+  }
+
+
+  .kehai-ebook-header__cta {
+
+    display:
+      none;
+
   }
 
 
   .kehai-ebook-hero {
-    padding: 48px 0 70px;
+
+    min-height:
+      auto;
+
   }
 
 
-  .kehai-ebook-hero__content {
-    grid-template-columns: 1fr;
-    gap: 45px;
+  .kehai-ebook-hero__grid {
+
+    display:
+      block;
+
+    padding-top:
+      45px;
+
+    padding-bottom:
+      70px;
+
   }
 
 
   .kehai-ebook-hero h1 {
-    font-size: clamp(40px, 11vw, 60px);
+
+    font-size:
+      clamp(40px, 11vw, 54px);
+
   }
 
 
-  .kehai-ebook-hero__visual {
-    order: -1;
+  .kehai-ebook-hero__image--desktop {
+
+    display:
+      none;
+
   }
 
 
-  .kehai-ebook-hero__visual img {
-    max-height: 430px;
+  .kehai-ebook-hero__image--mobile {
+
+    display:
+      grid;
+
+    margin:
+      35px 0;
+
+  }
+
+
+  .kehai-ebook-hero__image img {
+
+    width:
+      min(100%, 340px);
+
+    max-height:
+      440px;
+
+  }
+
+
+  .kehai-ebook-hero__purchase {
+
+    align-items:
+      stretch;
+
+    flex-direction:
+      column;
+
+  }
+
+
+  .kehai-ebook-price {
+
+    font-size:
+      29px;
+
+  }
+
+
+  .kehai-ebook-btn--large {
+
+    width:
+      100%;
+
+  }
+
+
+  .kehai-ebook-two-columns,
+  .kehai-ebook-audience,
+  .kehai-ebook-author,
+  .kehai-ebook-offer__grid,
+  .kehai-ebook-faq {
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      45px;
+
+  }
+
+
+  .kehai-ebook-editorial-text {
+
+    padding-left:
+      25px;
+
+  }
+
+
+  .kehai-ebook-movements,
+  .kehai-ebook-benefits,
+  .kehai-ebook-pages {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .kehai-ebook-movement {
+
+    min-height:
+      auto;
+
+  }
+
+
+  .kehai-ebook-pages {
+
+    max-width:
+      500px;
+
+    margin:
+      0 auto;
+
+  }
+
+
+  .kehai-ebook-author__image {
+
+    max-width:
+      500px;
+
+  }
+
+
+  .kehai-ebook-offer {
+
+    padding:
+      80px 0;
+
+  }
+
+
+  .kehai-ebook-offer__image img {
+
+    max-height:
+      390px;
+
+  }
+
+
+  .kehai-ebook-offer__content h2 {
+
+    font-size:
+      52px;
+
+  }
+
+
+  .kehai-ebook-offer__details {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .kehai-ebook-offer__details div {
+
+    border-bottom:
+      1px solid rgba(245, 242, 232, .10);
+
+  }
+
+
+  .kehai-ebook-footer__top,
+  .kehai-ebook-footer__bottom {
+
+    flex-direction:
+      column;
+
+  }
+
+
+  .kehai-ebook-footer nav {
+
+    align-items:
+      flex-start;
+
   }
 
 }
