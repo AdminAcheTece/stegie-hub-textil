@@ -2198,24 +2198,116 @@ def kehai_livro():
 def kehai_ebook():
     return render_template("kehai_ebook.html")
 
+# =====================================================
+# KEHAI EBOOK - RETORNOS DO PAGAMENTO
+# =====================================================
+
+def _render_kehai_ebook_compra_status(
+    page_kind
+):
+
+    order_number = str(
+        request.args.get(
+            "order"
+        )
+        or ""
+    ).strip()
+
+
+    payment_id = str(
+
+        request.args.get(
+            "payment_id"
+        )
+
+        or
+
+        request.args.get(
+            "collection_id"
+        )
+
+        or
+
+        ""
+
+    ).strip()
+
+
+    pedido = (
+
+        buscar_pedido_ebook_kehai(
+            order_number
+        )
+
+        if order_number
+
+        else None
+
+    )
+
+
+    # Confirma diretamente na API do Mercado Pago.
+    if (
+        payment_id
+        and
+        order_number
+    ):
+
+        try:
+
+            pedido_sincronizado = (
+                sincronizar_pagamento_ebook_kehai(
+
+                    payment_id,
+
+                    expected_order_number=
+                        order_number,
+
+                )
+            )
+
+
+            if pedido_sincronizado:
+
+                pedido = (
+                    pedido_sincronizado
+                )
+
+
+        except Exception as erro:
+
+            print(
+                "[KEHAI EBOOK RETORNO] "
+                f"Falha ao sincronizar: "
+                f"{erro}"
+            )
+
+
+    return render_template(
+
+        "kehai_ebook_compra_status.html",
+
+        page_kind=
+            page_kind,
+
+        pedido=
+            pedido,
+
+        payment_id=
+            payment_id
+            or None,
+
+    )
+
+
 @app.route(
     "/kehai/ebook/compra/sucesso"
 )
 def kehai_ebook_compra_sucesso():
 
-    params = (
-        request.args
-        .to_dict(
-            flat=True
-        )
-    )
-
-    params["payment"] = "success"
-
-    return redirect(
-        url_for(
-            "kehai_ebook",
-            **params,
+    return (
+        _render_kehai_ebook_compra_status(
+            "success"
         )
     )
 
@@ -2225,19 +2317,9 @@ def kehai_ebook_compra_sucesso():
 )
 def kehai_ebook_compra_pendente():
 
-    params = (
-        request.args
-        .to_dict(
-            flat=True
-        )
-    )
-
-    params["payment"] = "pending"
-
-    return redirect(
-        url_for(
-            "kehai_ebook",
-            **params,
+    return (
+        _render_kehai_ebook_compra_status(
+            "pending"
         )
     )
 
@@ -2247,19 +2329,9 @@ def kehai_ebook_compra_pendente():
 )
 def kehai_ebook_compra_erro():
 
-    params = (
-        request.args
-        .to_dict(
-            flat=True
-        )
-    )
-
-    params["payment"] = "failure"
-
-    return redirect(
-        url_for(
-            "kehai_ebook",
-            **params,
+    return (
+        _render_kehai_ebook_compra_status(
+            "failure"
         )
     )
 
@@ -5648,6 +5720,265 @@ def kehai_mercadopago_webhook():
         return jsonify({
             "received": False
         }), 500
+
+# =====================================================
+# KEHAI EBOOK - SINCRONIZAÇÃO DO RETORNO
+# =====================================================
+
+def sincronizar_pagamento_ebook_kehai(
+    payment_id,
+    expected_order_number=None,
+):
+
+    payment_id = str(
+        payment_id
+        or ""
+    ).strip()
+
+
+    if not payment_id:
+
+        return None
+
+
+    sdk = get_mercadopago_sdk()
+
+
+    pagamento_response = (
+        sdk
+        .payment()
+        .get(
+            payment_id
+        )
+    )
+
+
+    pagamento = (
+        pagamento_response.get(
+            "response",
+            {}
+        )
+        or {}
+    )
+
+
+    status = pagamento.get(
+        "status"
+    )
+
+
+    external_reference = (
+        pagamento.get(
+            "external_reference"
+        )
+    )
+
+
+    # ---------------------------------------------
+    # PROTEÇÃO CONTRA PEDIDO DIFERENTE
+    # ---------------------------------------------
+
+    if (
+        expected_order_number
+
+        and
+
+        str(
+            external_reference
+            or ""
+        )
+
+        !=
+
+        str(
+            expected_order_number
+        )
+    ):
+
+        print(
+            "[KEHAI EBOOK RETORNO] "
+            "External reference diferente. "
+            f"esperado={expected_order_number} "
+            f"recebido={external_reference}"
+        )
+
+
+        return (
+            buscar_pedido_ebook_kehai(
+                expected_order_number
+            )
+        )
+
+
+    pedido = (
+        buscar_pedido_ebook_kehai(
+            external_reference
+        )
+    )
+
+
+    if not pedido:
+
+        return None
+
+
+    # ---------------------------------------------
+    # VALOR
+    # ---------------------------------------------
+
+    transaction_amount = (
+        pagamento.get(
+            "transaction_amount"
+        )
+    )
+
+
+    try:
+
+        valor_cents = (
+            reais_para_centavos(
+                transaction_amount
+            )
+            if transaction_amount
+            is not None
+            else None
+        )
+
+    except (
+        ValueError,
+        TypeError,
+    ):
+
+        valor_cents = None
+
+
+    order_status = (
+        pedido["status"]
+    )
+
+
+    # ---------------------------------------------
+    # STATUS
+    # ---------------------------------------------
+
+    if status == "approved":
+
+        if (
+            valor_cents
+            ==
+            pedido["total_cents"]
+        ):
+
+            order_status = "paid"
+
+        else:
+
+            order_status = (
+                "payment_amount_mismatch"
+            )
+
+
+    elif status in {
+        "pending",
+        "in_process",
+        "in_mediation",
+    }:
+
+        if (
+            pedido["status"]
+            !=
+            "paid"
+        ):
+
+            order_status = (
+                "payment_pending"
+            )
+
+
+    elif status in {
+        "rejected",
+        "cancelled",
+    }:
+
+        if (
+            pedido["status"]
+            !=
+            "paid"
+        ):
+
+            order_status = (
+                "payment_failed"
+            )
+
+
+    elif status in {
+        "refunded",
+        "charged_back",
+    }:
+
+        order_status = status
+
+
+    payment_confirmed_at = (
+        pedido.get(
+            "payment_confirmed_at"
+        )
+    )
+
+
+    if (
+        order_status == "paid"
+        and
+        not payment_confirmed_at
+    ):
+
+        payment_confirmed_at = (
+
+            pagamento.get(
+                "date_approved"
+            )
+
+            or
+
+            pagamento.get(
+                "date_last_updated"
+            )
+
+            or
+
+            agora_iso()
+
+        )
+
+
+    atualizar_pedido_ebook_kehai(
+
+        pedido[
+            "order_number"
+        ],
+
+        status=
+            order_status,
+
+        mp_payment_id=
+            payment_id,
+
+        mp_payment_status=
+            status,
+
+        payment_confirmed_at=
+            payment_confirmed_at,
+
+    )
+
+
+    return (
+        buscar_pedido_ebook_kehai(
+            pedido[
+                "order_number"
+            ]
+        )
+    )
 
 # =====================================================
 # KEHAI - RETORNOS DO PAGAMENTO
