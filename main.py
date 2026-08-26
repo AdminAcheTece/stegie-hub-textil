@@ -114,6 +114,33 @@ KEHAI_ADMIN_PASSWORD = os.environ.get(
 ).strip()
 
 # -----------------------------
+# E-mails transacionais KEHAI / Brevo
+# -----------------------------
+# Nunca salve a API Key no GitHub. Configure tudo no Render.
+BREVO_API_KEY = os.environ.get(
+    "BREVO_API_KEY",
+    ""
+).strip()
+
+KEHAI_EMAIL_FROM = os.environ.get(
+    "KEHAI_EMAIL_FROM",
+    ""
+).strip()
+
+KEHAI_EMAIL_FROM_NAME = os.environ.get(
+    "KEHAI_EMAIL_FROM_NAME",
+    "KEHAI"
+).strip() or "KEHAI"
+
+KEHAI_EMAIL_REPLY_TO = os.environ.get(
+    "KEHAI_EMAIL_REPLY_TO",
+    KEHAI_EMAIL_FROM,
+).strip()
+
+KEHAI_EMAIL_BASE_URL = "https://api.brevo.com/v3/smtp/email"
+
+
+# -----------------------------
 # Mercado Pago
 # -----------------------------
 
@@ -693,7 +720,15 @@ def inicializar_banco_kehai():
                 me_tracking_updated_at TEXT,
                 me_tracking_source TEXT,
                 me_webhook_event TEXT,
-                me_tracking_last_error TEXT
+                me_tracking_last_error TEXT,
+
+                email_confirmation_sent_at TEXT,
+                email_confirmation_message_id TEXT,
+                email_shipping_sent_at TEXT,
+                email_shipping_message_id TEXT,
+                email_delivery_sent_at TEXT,
+                email_delivery_message_id TEXT,
+                email_last_error TEXT
             )
             """
         )
@@ -757,6 +792,20 @@ def inicializar_banco_kehai():
                 "ALTER TABLE kehai_orders ADD COLUMN me_webhook_event TEXT",
             "me_tracking_last_error":
                 "ALTER TABLE kehai_orders ADD COLUMN me_tracking_last_error TEXT",
+            "email_confirmation_sent_at":
+                "ALTER TABLE kehai_orders ADD COLUMN email_confirmation_sent_at TEXT",
+            "email_confirmation_message_id":
+                "ALTER TABLE kehai_orders ADD COLUMN email_confirmation_message_id TEXT",
+            "email_shipping_sent_at":
+                "ALTER TABLE kehai_orders ADD COLUMN email_shipping_sent_at TEXT",
+            "email_shipping_message_id":
+                "ALTER TABLE kehai_orders ADD COLUMN email_shipping_message_id TEXT",
+            "email_delivery_sent_at":
+                "ALTER TABLE kehai_orders ADD COLUMN email_delivery_sent_at TEXT",
+            "email_delivery_message_id":
+                "ALTER TABLE kehai_orders ADD COLUMN email_delivery_message_id TEXT",
+            "email_last_error":
+                "ALTER TABLE kehai_orders ADD COLUMN email_last_error TEXT",
         }
 
         for column_name, statement in migrations.items():
@@ -948,6 +997,13 @@ def atualizar_pedido_kehai(order_number, **fields):
         "me_tracking_source",
         "me_webhook_event",
         "me_tracking_last_error",
+        "email_confirmation_sent_at",
+        "email_confirmation_message_id",
+        "email_shipping_sent_at",
+        "email_shipping_message_id",
+        "email_delivery_sent_at",
+        "email_delivery_message_id",
+        "email_last_error",
     }
 
     updates = {
@@ -2551,6 +2607,8 @@ def sincronizar_pagamento_kehai(payment_id, expected_order_number=None):
             or agora_iso()
         )
 
+    status_anterior = pedido.get("status")
+
     atualizar_pedido_kehai(
         pedido["order_number"],
         status=order_status,
@@ -2559,7 +2617,300 @@ def sincronizar_pagamento_kehai(payment_id, expected_order_number=None):
         payment_confirmed_at=payment_confirmed_at,
     )
 
+    pedido_atualizado = buscar_pedido_kehai(pedido["order_number"])
+
+    if order_status == "paid" and status_anterior != "paid":
+        tentar_email_kehai(
+            pedido_atualizado,
+            "confirmation",
+        )
+
     return buscar_pedido_kehai(pedido["order_number"])
+
+
+
+def email_kehai_configurado():
+    return bool(
+        BREVO_API_KEY
+        and KEHAI_EMAIL_FROM
+        and KEHAI_EMAIL_FROM_NAME
+    )
+
+
+def _email_texto_kehai(pedido, tipo):
+    order = pedido.get("order_number") or "—"
+    nome = pedido.get("customer_name") or "Cliente"
+    tracking = pedido.get("tracking_code") or "Aguardando transportadora"
+    tracking_url = pedido.get("me_tracking_url") or ""
+
+    if tipo == "confirmation":
+        return (
+            f"Olá, {nome}.\n\n"
+            f"Seu pedido {order} foi confirmado com sucesso.\n"
+            f"Total: {formatar_brl_centavos(pedido.get('total_cents'))}\n"
+            f"Frete: {pedido.get('shipping_service') or '—'} — "
+            f"{pedido.get('shipping_delivery_days') or '—'} dias úteis.\n\n"
+            "Agora seu exemplar seguirá para preparação e postagem.\n\n"
+            "KEHAI — Reconheça valor antes que ele se perca."
+        )
+
+    if tipo == "shipping":
+        extra = f"\nAcompanhe: {tracking_url}" if tracking_url else ""
+        return (
+            f"Olá, {nome}.\n\n"
+            f"Seu pedido {order} foi postado.\n"
+            f"Código de rastreamento: {tracking}.{extra}\n\n"
+            "Você pode acompanhar a entrega até o recebimento.\n\n"
+            "KEHAI — Reconheça valor antes que ele se perca."
+        )
+
+    if tipo == "delivery":
+        return (
+            f"Olá, {nome}.\n\n"
+            f"O Melhor Envio informou que o pedido {order} foi entregue.\n\n"
+            "Esperamos que o KEHAI acompanhe você em novas decisões, "
+            "conversas e formas de reconhecer valor.\n\n"
+            "KEHAI — Reconheça valor antes que ele se perca."
+        )
+
+    raise ValueError("Tipo de e-mail KEHAI inválido.")
+
+
+def _email_assunto_kehai(pedido, tipo):
+    order = pedido.get("order_number") or "KEHAI"
+
+    assuntos = {
+        "confirmation": f"Pedido confirmado — {order}",
+        "shipping": f"Seu KEHAI foi enviado — {order}",
+        "delivery": f"Seu KEHAI foi entregue — {order}",
+    }
+
+    if tipo not in assuntos:
+        raise ValueError("Tipo de e-mail KEHAI inválido.")
+
+    return assuntos[tipo]
+
+
+def _email_template_kehai(tipo):
+    templates = {
+        "confirmation": "emails/kehai_order_confirmed.html",
+        "shipping": "emails/kehai_order_shipped.html",
+        "delivery": "emails/kehai_order_delivered.html",
+    }
+
+    if tipo not in templates:
+        raise ValueError("Tipo de e-mail KEHAI inválido.")
+
+    return templates[tipo]
+
+
+def _campos_email_kehai(tipo):
+    campos = {
+        "confirmation": (
+            "email_confirmation_sent_at",
+            "email_confirmation_message_id",
+        ),
+        "shipping": (
+            "email_shipping_sent_at",
+            "email_shipping_message_id",
+        ),
+        "delivery": (
+            "email_delivery_sent_at",
+            "email_delivery_message_id",
+        ),
+    }
+
+    if tipo not in campos:
+        raise ValueError("Tipo de e-mail KEHAI inválido.")
+
+    return campos[tipo]
+
+
+def enviar_email_transacional_kehai(pedido, tipo, *, force=False):
+    """
+    Envia um e-mail transacional via Brevo.
+
+    - Idempotente por padrão: não reenvia o mesmo marco duas vezes.
+    - force=True é reservado ao painel administrativo para reenvio manual.
+    - Uma falha de e-mail nunca quebra pagamento, webhook ou rastreamento.
+    """
+    if not pedido:
+        return {
+            "ok": False,
+            "skipped": True,
+            "reason": "pedido_inexistente",
+        }
+
+    sent_field, message_field = _campos_email_kehai(tipo)
+
+    if not force and pedido.get(sent_field):
+        return {
+            "ok": True,
+            "skipped": True,
+            "reason": "ja_enviado",
+            "sent_at": pedido.get(sent_field),
+        }
+
+    destinatario = str(pedido.get("customer_email") or "").strip()
+    if not destinatario or "@" not in destinatario:
+        erro = "O pedido não possui um e-mail de destinatário válido."
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            email_last_error=erro,
+        )
+        return {
+            "ok": False,
+            "skipped": True,
+            "reason": "email_invalido",
+            "error": erro,
+        }
+
+    if not email_kehai_configurado():
+        erro = (
+            "E-mail transacional não configurado no Render. "
+            "Verifique BREVO_API_KEY e KEHAI_EMAIL_FROM."
+        )
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            email_last_error=erro,
+        )
+        return {
+            "ok": False,
+            "skipped": True,
+            "reason": "nao_configurado",
+            "error": erro,
+        }
+
+    assunto = _email_assunto_kehai(pedido, tipo)
+
+    try:
+        html_content = render_template(
+            _email_template_kehai(tipo),
+            pedido=contexto_admin_pedido_kehai(pedido),
+        )
+
+        payload = {
+            "sender": {
+                "name": KEHAI_EMAIL_FROM_NAME,
+                "email": KEHAI_EMAIL_FROM,
+            },
+            "to": [
+                {
+                    "name": pedido.get("customer_name") or "",
+                    "email": destinatario,
+                }
+            ],
+            "subject": assunto,
+            "htmlContent": html_content,
+            "textContent": _email_texto_kehai(pedido, tipo),
+            "tags": [
+                "kehai",
+                f"kehai-{tipo}",
+            ],
+            "headers": {
+                "X-KEHAI-Order": str(pedido.get("order_number") or ""),
+            },
+        }
+
+        if KEHAI_EMAIL_REPLY_TO:
+            payload["replyTo"] = {
+                "email": KEHAI_EMAIL_REPLY_TO,
+                "name": KEHAI_EMAIL_FROM_NAME,
+            }
+
+        response = requests.post(
+            KEHAI_EMAIL_BASE_URL,
+            headers={
+                "accept": "application/json",
+                "content-type": "application/json",
+                "api-key": BREVO_API_KEY,
+            },
+            json=payload,
+            timeout=20,
+        )
+
+        if not response.ok:
+            detalhe = response.text[:1200]
+            raise RuntimeError(
+                f"Brevo HTTP {response.status_code}: {detalhe}"
+            )
+
+        try:
+            body = response.json()
+        except ValueError:
+            body = {}
+
+        message_id = str(
+            body.get("messageId")
+            or body.get("message_id")
+            or ""
+        ).strip()
+
+        sent_at = agora_iso()
+
+        fields = {
+            sent_field: sent_at,
+            message_field: message_id or None,
+            "email_last_error": None,
+        }
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            **fields,
+        )
+
+        print(
+            "[KEHAI EMAIL] "
+            f"tipo={tipo} order={pedido['order_number']} "
+            f"destino={destinatario} message_id={message_id or '—'}"
+        )
+
+        return {
+            "ok": True,
+            "skipped": False,
+            "message_id": message_id,
+            "sent_at": sent_at,
+        }
+
+    except Exception as exc:
+        erro = str(exc)[:1600]
+
+        atualizar_pedido_kehai(
+            pedido["order_number"],
+            email_last_error=erro,
+        )
+
+        print(
+            "[KEHAI EMAIL] "
+            f"Falha tipo={tipo} order={pedido['order_number']}: {erro}"
+        )
+
+        return {
+            "ok": False,
+            "skipped": False,
+            "error": erro,
+        }
+
+
+def tentar_email_kehai(pedido, tipo):
+    """
+    Wrapper seguro para eventos automáticos.
+    Nunca propaga exceção para Mercado Pago/Melhor Envio.
+    """
+    try:
+        return enviar_email_transacional_kehai(
+            pedido,
+            tipo,
+            force=False,
+        )
+    except Exception as exc:
+        print(
+            "[KEHAI EMAIL] "
+            f"Erro inesperado no disparo automático: {exc}"
+        )
+        return {
+            "ok": False,
+            "error": str(exc),
+        }
 
 
 def formatar_brl_centavos(cents):
@@ -2887,6 +3238,17 @@ def contexto_admin_pedido_kehai(pedido):
     timeline, timeline_current_label = construir_timeline_pedido_kehai(contexto)
     contexto["timeline"] = timeline
     contexto["timeline_current_label"] = timeline_current_label
+
+    contexto["email_configured"] = email_kehai_configurado()
+    contexto["email_confirmation_sent_label"] = formatar_data_hora_br(
+        contexto.get("email_confirmation_sent_at")
+    )
+    contexto["email_shipping_sent_label"] = formatar_data_hora_br(
+        contexto.get("email_shipping_sent_at")
+    )
+    contexto["email_delivery_sent_label"] = formatar_data_hora_br(
+        contexto.get("email_delivery_sent_at")
+    )
 
     return contexto
 
@@ -3344,6 +3706,30 @@ def aplicar_rastreamento_melhor_envio(
             fields["fulfillment_updated_at"] = agora_iso()
 
     atualizar_pedido_kehai(pedido["order_number"], **fields)
+    pedido_atualizado = buscar_pedido_kehai(pedido["order_number"])
+
+    novo_fulfillment = str(
+        pedido_atualizado.get("fulfillment_status") or "pending"
+    )
+
+    if (
+        novo_fulfillment == "shipped"
+        and current_fulfillment != "shipped"
+    ):
+        tentar_email_kehai(
+            pedido_atualizado,
+            "shipping",
+        )
+
+    if (
+        novo_fulfillment == "delivered"
+        and current_fulfillment != "delivered"
+    ):
+        tentar_email_kehai(
+            pedido_atualizado,
+            "delivery",
+        )
+
     return buscar_pedido_kehai(pedido["order_number"])
 
 
@@ -3542,6 +3928,43 @@ def kehai_admin_order_detail(order_number):
         "kehai_admin_order_detail.html",
         pedido=contexto_admin_pedido_kehai(pedido),
         fulfillment_labels=FULFILLMENT_LABELS,
+    )
+
+
+
+@app.route(
+    "/kehai/admin/pedidos/<order_number>/email/<tipo>",
+    methods=["POST"],
+)
+@kehai_admin_required
+def kehai_admin_order_email(order_number, tipo):
+    pedido = buscar_pedido_kehai(order_number)
+    if not pedido:
+        abort(404)
+
+    if tipo not in {"confirmation", "shipping", "delivery"}:
+        abort(404)
+
+    result = enviar_email_transacional_kehai(
+        pedido,
+        tipo,
+        force=True,
+    )
+
+    if result.get("ok"):
+        flash("E-mail enviado com sucesso.", "success")
+    else:
+        flash(
+            "Não foi possível enviar o e-mail: "
+            + str(result.get("error") or result.get("reason") or "erro desconhecido"),
+            "error",
+        )
+
+    return redirect(
+        url_for(
+            "kehai_admin_order_detail",
+            order_number=order_number,
+        )
     )
 
 
@@ -4175,6 +4598,8 @@ def kehai_mercadopago_webhook():
                         or agora_iso()
                     )
 
+                status_anterior = pedido.get("status")
+
                 atualizar_pedido_kehai(
                     pedido["order_number"],
                     status=order_status,
@@ -4182,6 +4607,15 @@ def kehai_mercadopago_webhook():
                     mp_payment_status=status,
                     payment_confirmed_at=payment_confirmed_at,
                 )
+
+                if order_status == "paid" and status_anterior != "paid":
+                    pedido_atualizado = buscar_pedido_kehai(
+                        pedido["order_number"]
+                    )
+                    tentar_email_kehai(
+                        pedido_atualizado,
+                        "confirmation",
+                    )
 
 
         # -------------------------------------------------
