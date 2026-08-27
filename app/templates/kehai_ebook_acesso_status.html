@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Acesso ao eBook KEHAI
+  </title>
+
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/kehai_ebook.css') }}?v=3"
+  >
+
+</head>
+
+
+<body class="kehai-ebook-status-page">
+
+
+  <main class="kehai-ebook-status">
+
+
+    <div class="kehai-ebook-status__card">
+
+
+      <a
+        href="/kehai"
+        class="kehai-ebook-status__logo"
+      >
+
+        <img
+          src="{{ url_for('static', filename='img/kehai/logo-kehai-dark.png') }}"
+          alt="KEHAI"
+        >
+
+      </a>
+
+
+
+      {% if access_status == 'invalid' %}
+
+
+        <span class="kehai-ebook-status__eyebrow">
+          ACESSO NÃO ENCONTRADO
+        </span>
+
+
+        <h1>
+          Este link não é válido.
+        </h1>
+
+
+        <p>
+
+          Não conseguimos localizar uma compra
+          associada a este endereço.
+
+        </p>
+
+
+
+      {% elif access_status == 'not_paid' %}
+
+
+        <span class="kehai-ebook-status__eyebrow">
+          PAGAMENTO NÃO CONFIRMADO
+        </span>
+
+
+        <h1>
+          O eBook ainda não está disponível.
+        </h1>
+
+
+        <p>
+
+          O acesso é liberado somente depois
+          que o pagamento é confirmado.
+
+        </p>
+
+
+
+      {% elif access_status == 'limit' %}
+
+
+        <span class="kehai-ebook-status__eyebrow">
+          LIMITE DE ACESSOS
+        </span>
+
+
+        <h1>
+          O limite de downloads foi atingido.
+        </h1>
+
+
+        <p>
+
+          Por segurança, cada compra possui
+          um limite de downloads.
+
+        </p>
+
+
+        <p>
+
+          Caso precise recuperar seu acesso,
+          entre em contato conosco.
+
+        </p>
+
+
+
+      {% else %}
+
+
+        <span class="kehai-ebook-status__eyebrow">
+          ACESSO TEMPORARIAMENTE INDISPONÍVEL
+        </span>
+
+
+        <h1>
+          Não conseguimos abrir seu eBook agora.
+        </h1>
+
+
+        <p>
+
+          Tente novamente em alguns instantes.
+
+        </p>
+
+
+
+      {% endif %}
+
+
+
+      {% if pedido %}
+
+        <div class="kehai-ebook-status__order">
+
+          <span>
+            Pedido
+          </span>
+
+          <strong>
+            {{ pedido.order_number }}
+          </strong>
+
+        </div>
+
+      {% endif %}
+
+
+
+      <a
+        href="/kehai/ebook"
+        class="kehai-ebook-status__back"
+      >
+        Voltar ao KEHAI
+      </a>
+
+
+    </div>
+
+  </main>
+
+
+</body>
+
+</html>
