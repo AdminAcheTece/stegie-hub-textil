@@ -616,6 +616,15 @@ KEHAI_PRODUCTS = {
 # KEHAI EBOOK - CLOUDFLARE R2
 # =====================================================
 
+# Link real do R2:
+# válido por 10 minutos.
+KEHAI_R2_URL_EXPIRES_SECONDS = 600
+
+
+# Cada compra poderá solicitar
+# até 10 downloads.
+KEHAI_EBOOK_DOWNLOAD_LIMIT = 10
+
 def get_kehai_r2_config():
 
     config = {
@@ -848,7 +857,48 @@ def diagnosticar_kehai_r2():
             content_type,
 
     }
-    
+
+def gerar_url_temporaria_ebook_kehai():
+
+    config = (
+        get_kehai_r2_config()
+    )
+
+
+    client = (
+        get_kehai_r2_client()
+    )
+
+
+    url = (
+        client.generate_presigned_url(
+
+            ClientMethod=
+                "get_object",
+
+            Params={
+
+                "Bucket":
+                    config[
+                        "bucket_name"
+                    ],
+
+                "Key":
+                    config[
+                        "object_key"
+                    ],
+
+            },
+
+            ExpiresIn=
+                KEHAI_R2_URL_EXPIRES_SECONDS,
+
+        )
+    )
+
+
+    return url
+
 # -----------------------------
 # KEHAI - Produto digital
 # -----------------------------
@@ -1533,6 +1583,44 @@ def buscar_pedido_ebook_kehai(
 
 
     return dict(row) if row else None
+
+def buscar_pedido_ebook_por_token(
+    download_token
+):
+
+    download_token = str(
+        download_token
+        or ""
+    ).strip()
+
+
+    if not download_token:
+
+        return None
+
+
+    with get_kehai_db() as conn:
+
+        row = conn.execute(
+            """
+            SELECT *
+
+            FROM kehai_ebook_orders
+
+            WHERE download_token = ?
+            """,
+
+            (
+                download_token,
+            ),
+        ).fetchone()
+
+
+    return (
+        dict(row)
+        if row
+        else None
+    )
 
 
 def atualizar_pedido_ebook_kehai(
@@ -2596,6 +2684,174 @@ def kehai_ebook_compra_erro():
             "failure"
         )
     )
+
+# =====================================================
+# KEHAI EBOOK - ACESSO PROTEGIDO
+# =====================================================
+
+@app.route(
+    "/kehai/ebook/acesso/<download_token>"
+)
+def kehai_ebook_acesso(
+    download_token
+):
+
+    pedido = (
+        buscar_pedido_ebook_por_token(
+            download_token
+        )
+    )
+
+
+    # ---------------------------------------------
+    # TOKEN NÃO EXISTE
+    # ---------------------------------------------
+
+    if not pedido:
+
+        return render_template(
+
+            "kehai_ebook_acesso_status.html",
+
+            access_status=
+                "invalid",
+
+            pedido=
+                None,
+
+        ), 404
+
+
+    # ---------------------------------------------
+    # PEDIDO NÃO ESTÁ PAGO
+    # ---------------------------------------------
+
+    if (
+        pedido["status"]
+        !=
+        "paid"
+    ):
+
+        return render_template(
+
+            "kehai_ebook_acesso_status.html",
+
+            access_status=
+                "not_paid",
+
+            pedido=
+                pedido,
+
+        ), 403
+
+
+    # ---------------------------------------------
+    # LIMITE DE DOWNLOADS
+    # ---------------------------------------------
+
+    download_count = int(
+        pedido.get(
+            "download_count"
+        )
+        or 0
+    )
+
+
+    if (
+        download_count
+        >=
+        KEHAI_EBOOK_DOWNLOAD_LIMIT
+    ):
+
+        print(
+            "[KEHAI EBOOK DOWNLOAD] "
+            f"Limite atingido: "
+            f"{pedido['order_number']}"
+        )
+
+
+        return render_template(
+
+            "kehai_ebook_acesso_status.html",
+
+            access_status=
+                "limit",
+
+            pedido=
+                pedido,
+
+        ), 429
+
+
+    # ---------------------------------------------
+    # GERAR URL TEMPORÁRIA
+    # ---------------------------------------------
+
+    try:
+
+        download_url = (
+            gerar_url_temporaria_ebook_kehai()
+        )
+
+
+        novo_download_count = (
+            download_count
+            +
+            1
+        )
+
+
+        atualizar_pedido_ebook_kehai(
+
+            pedido[
+                "order_number"
+            ],
+
+            download_count=
+                novo_download_count,
+
+            download_last_at=
+                agora_iso(),
+
+        )
+
+
+        print(
+            "[KEHAI EBOOK DOWNLOAD] "
+            f"Acesso autorizado: "
+            f"{pedido['order_number']} "
+            f"download="
+            f"{novo_download_count}/"
+            f"{KEHAI_EBOOK_DOWNLOAD_LIMIT}"
+        )
+
+
+        return redirect(
+            download_url
+        )
+
+
+    except Exception as erro:
+
+        print(
+            "[KEHAI EBOOK DOWNLOAD] "
+            f"Erro ao gerar URL: "
+            f"{type(erro).__name__}: "
+            f"{erro}"
+        )
+
+
+        return render_template(
+
+            "kehai_ebook_acesso_status.html",
+
+            access_status=
+                "error",
+
+            pedido=
+                pedido,
+
+        ), 500
 
 # =====================================================
 # KEHAI - MELHOR ENVIO - FUNÇÕES DE FRETE
