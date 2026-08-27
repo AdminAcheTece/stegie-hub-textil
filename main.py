@@ -8,6 +8,7 @@ import sqlite3
 import re
 import requests
 import mercadopago
+import boto3
 
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
@@ -611,6 +612,243 @@ KEHAI_PRODUCTS = {
     }
 }
 
+# =====================================================
+# KEHAI EBOOK - CLOUDFLARE R2
+# =====================================================
+
+def get_kehai_r2_config():
+
+    config = {
+
+        "access_key_id":
+            os.environ.get(
+                "R2_ACCESS_KEY_ID",
+                ""
+            ).strip(),
+
+        "secret_access_key":
+            os.environ.get(
+                "R2_SECRET_ACCESS_KEY",
+                ""
+            ).strip(),
+
+        "endpoint_url":
+            os.environ.get(
+                "R2_ENDPOINT_URL",
+                ""
+            ).strip(),
+
+        "bucket_name":
+            os.environ.get(
+                "R2_BUCKET_NAME",
+                ""
+            ).strip(),
+
+        "object_key":
+            os.environ.get(
+                "R2_EBOOK_OBJECT_KEY",
+                ""
+            ).strip(),
+
+    }
+
+
+    missing = [
+
+        key
+
+        for key, value
+        in config.items()
+
+        if not value
+
+    ]
+
+
+    if missing:
+
+        raise RuntimeError(
+
+            "Configuração R2 incompleta. "
+            "Variáveis ausentes: "
+            + ", ".join(missing)
+
+        )
+
+
+    return config
+
+def get_kehai_r2_client():
+
+    config = (
+        get_kehai_r2_config()
+    )
+
+
+    endpoint_url = (
+        config[
+            "endpoint_url"
+        ]
+        .rstrip("/")
+    )
+
+
+    client = boto3.client(
+
+        service_name=
+            "s3",
+
+        endpoint_url=
+            endpoint_url,
+
+        aws_access_key_id=
+            config[
+                "access_key_id"
+            ],
+
+        aws_secret_access_key=
+            config[
+                "secret_access_key"
+            ],
+
+        region_name=
+            "auto",
+
+    )
+
+
+    return client
+
+def diagnosticar_kehai_r2():
+
+    config = (
+        get_kehai_r2_config()
+    )
+
+
+    client = (
+        get_kehai_r2_client()
+    )
+
+
+    bucket_name = (
+        config[
+            "bucket_name"
+        ]
+    )
+
+
+    object_key = (
+        config[
+            "object_key"
+        ]
+    )
+
+
+    resposta = (
+        client.head_object(
+
+            Bucket=
+                bucket_name,
+
+            Key=
+                object_key,
+
+        )
+    )
+
+
+    tamanho_bytes = int(
+        resposta.get(
+            "ContentLength",
+            0
+        )
+        or 0
+    )
+
+
+    tamanho_mb = (
+        tamanho_bytes
+        /
+        1024
+        /
+        1024
+    )
+
+
+    content_type = (
+        resposta.get(
+            "ContentType"
+        )
+        or
+        "não informado"
+    )
+
+
+    print(
+        "[KEHAI R2] "
+        "Conectado: SIM"
+    )
+
+
+    print(
+        "[KEHAI R2] "
+        "Arquivo encontrado: SIM"
+    )
+
+
+    print(
+        "[KEHAI R2] "
+        f"Bucket: {bucket_name}"
+    )
+
+
+    print(
+        "[KEHAI R2] "
+        f"Objeto: {object_key}"
+    )
+
+
+    print(
+        "[KEHAI R2] "
+        f"Tamanho: "
+        f"{tamanho_mb:.2f} MB "
+        f"({tamanho_bytes} bytes)"
+    )
+
+
+    print(
+        "[KEHAI R2] "
+        f"Content-Type: "
+        f"{content_type}"
+    )
+
+
+    return {
+
+        "ok":
+            True,
+
+        "bucket":
+            bucket_name,
+
+        "object_key":
+            object_key,
+
+        "size_bytes":
+            tamanho_bytes,
+
+        "size_mb":
+            round(
+                tamanho_mb,
+                2
+            ),
+
+        "content_type":
+            content_type,
+
+    }
+    
 # -----------------------------
 # KEHAI - Produto digital
 # -----------------------------
@@ -1369,6 +1607,30 @@ def atualizar_pedido_ebook_kehai(
 # Cria a estrutura automaticamente quando o app sobe no Render/Gunicorn.
 inicializar_banco_kehai()
 inicializar_banco_ebook_kehai()
+
+# =====================================================
+# KEHAI EBOOK - DIAGNÓSTICO R2
+# =====================================================
+
+try:
+
+    diagnosticar_kehai_r2()
+
+
+except Exception as erro:
+
+    print(
+        "[KEHAI R2] "
+        "Conectado: NÃO"
+    )
+
+
+    print(
+        "[KEHAI R2] "
+        f"Erro: "
+        f"{type(erro).__name__}: "
+        f"{erro}"
+    )
 
 # Logs de boot
 print(f"[BOOT] BASE_DIR={BASE_DIR}")
