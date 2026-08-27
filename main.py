@@ -6428,7 +6428,25 @@ def processar_pagamento_ebook_webhook(
 
     )
 
-
+        pedido_atualizado = (
+            buscar_pedido_ebook_kehai(
+                pedido[
+                    "order_number"
+                ]
+            )
+        )
+    
+    
+        if (
+            order_status
+            ==
+            "paid"
+        ):
+    
+            tentar_email_acesso_ebook_kehai(
+                pedido_atualizado
+            )
+    
     print(
 
         "[KEHAI EBOOK WEBHOOK] "
@@ -7121,34 +7139,52 @@ def sincronizar_pagamento_ebook_kehai(
         )
 
 
-    atualizar_pedido_ebook_kehai(
+        atualizar_pedido_ebook_kehai(
 
-        pedido[
-            "order_number"
-        ],
-
-        status=
-            order_status,
-
-        mp_payment_id=
-            payment_id,
-
-        mp_payment_status=
-            status,
-
-        payment_confirmed_at=
-            payment_confirmed_at,
-
-    )
-
-
-    return (
-        buscar_pedido_ebook_kehai(
             pedido[
                 "order_number"
-            ]
+            ],
+    
+            status=
+                order_status,
+    
+            mp_payment_id=
+                payment_id,
+    
+            mp_payment_status=
+                status,
+    
+            payment_confirmed_at=
+                payment_confirmed_at,
+    
         )
-    )
+    
+    
+        pedido_atualizado = (
+            buscar_pedido_ebook_kehai(
+                pedido[
+                    "order_number"
+                ]
+            )
+        )
+    
+    
+        if (
+            order_status
+            ==
+            "paid"
+        ):
+    
+            tentar_email_acesso_ebook_kehai(
+                pedido_atualizado
+            )
+    
+    
+        return pedido_atualizado
+
+
+# =====================================================
+# KEHAI - RETORNOS DO PAGAMENTO
 
 # =====================================================
 # KEHAI - RETORNOS DO PAGAMENTO
