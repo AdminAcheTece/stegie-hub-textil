@@ -141,6 +141,14 @@ KEHAI_EMAIL_REPLY_TO = os.environ.get(
 
 KEHAI_EMAIL_BASE_URL = "https://api.brevo.com/v3/smtp/email"
 
+KEHAI_PUBLIC_BASE_URL = (
+    os.environ.get(
+        "KEHAI_PUBLIC_BASE_URL",
+        "https://www.stegie.com.br",
+    )
+    .strip()
+    .rstrip("/")
+)
 
 # -----------------------------
 # Mercado Pago
@@ -4233,6 +4241,591 @@ def tentar_email_kehai(pedido, tipo):
             "error": str(exc),
         }
 
+# =====================================================
+# KEHAI EBOOK - E-MAIL DE ACESSO
+# =====================================================
+
+def reservar_envio_email_acesso_ebook_kehai(
+    order_number
+):
+
+    marcador = (
+        "sending:"
+        + secrets.token_hex(8)
+    )
+
+
+    with get_kehai_db() as conn:
+
+        cursor = conn.execute(
+            """
+            UPDATE kehai_ebook_orders
+
+            SET
+                email_access_sent_at = ?,
+                updated_at = ?
+
+            WHERE order_number = ?
+
+              AND (
+                    email_access_sent_at IS NULL
+                    OR email_access_sent_at = ''
+                  )
+            """,
+
+            (
+                marcador,
+                agora_iso(),
+                order_number,
+            ),
+        )
+
+
+        reservado = (
+            cursor.rowcount == 1
+        )
+
+
+    return reservado
+
+
+def url_acesso_ebook_kehai(
+    pedido
+):
+
+    token = str(
+        pedido.get(
+            "download_token"
+        )
+        or ""
+    ).strip()
+
+
+    if not token:
+
+        raise RuntimeError(
+            "Pedido do eBook não possui "
+            "token de acesso."
+        )
+
+
+    return (
+        f"{KEHAI_PUBLIC_BASE_URL}"
+        f"/kehai/ebook/acesso/{token}"
+    )
+
+
+def texto_email_acesso_ebook_kehai(
+    pedido,
+    access_url,
+):
+
+    nome = (
+        pedido.get(
+            "customer_name"
+        )
+        or
+        "Cliente"
+    )
+
+
+    order_number = (
+        pedido.get(
+            "order_number"
+        )
+        or
+        "KEHAI"
+    )
+
+
+    return (
+        f"Olá, {nome}.\n\n"
+        "Seu pagamento foi confirmado e "
+        "seu eBook KEHAI já está disponível.\n\n"
+        "Acesse seu eBook pelo link abaixo:\n\n"
+        f"{access_url}\n\n"
+        f"Pedido: {order_number}\n\n"
+        "Este é um link pessoal de acesso. "
+        "Evite compartilhá-lo.\n\n"
+        "Boa leitura.\n\n"
+        "KEHAI — A liderança que reconhece "
+        "valor antes que ele se perca."
+    )
+
+
+def enviar_email_acesso_ebook_kehai(
+    pedido
+):
+
+    if not pedido:
+
+        return {
+            "ok": False,
+            "skipped": True,
+            "reason": "pedido_inexistente",
+        }
+
+
+    if (
+        pedido.get("status")
+        !=
+        "paid"
+    ):
+
+        return {
+            "ok": False,
+            "skipped": True,
+            "reason":
+                "pagamento_nao_confirmado",
+        }
+
+
+    # ---------------------------------------------
+    # E-MAIL JÁ ENVIADO
+    # ---------------------------------------------
+
+    sent_at = str(
+        pedido.get(
+            "email_access_sent_at"
+        )
+        or ""
+    ).strip()
+
+
+    if sent_at:
+
+        print(
+            "[KEHAI EBOOK EMAIL] "
+            f"Envio ignorado: "
+            f"{pedido['order_number']} "
+            "já possui registro de envio."
+        )
+
+
+        return {
+            "ok": True,
+            "skipped": True,
+            "reason": "ja_enviado",
+        }
+
+
+    destinatario = str(
+        pedido.get(
+            "customer_email"
+        )
+        or ""
+    ).strip()
+
+
+    if (
+        not destinatario
+        or
+        "@" not in destinatario
+    ):
+
+        erro = (
+            "Pedido do eBook não possui "
+            "e-mail válido."
+        )
+
+
+        atualizar_pedido_ebook_kehai(
+
+            pedido[
+                "order_number"
+            ],
+
+            email_last_error=
+                erro,
+
+        )
+
+
+        return {
+            "ok": False,
+            "skipped": True,
+            "reason": "email_invalido",
+        }
+
+
+    if not email_kehai_configurado():
+
+        erro = (
+            "Brevo não configurado. "
+            "Verifique BREVO_API_KEY e "
+            "KEHAI_EMAIL_FROM."
+        )
+
+
+        atualizar_pedido_ebook_kehai(
+
+            pedido[
+                "order_number"
+            ],
+
+            email_last_error=
+                erro,
+
+        )
+
+
+        return {
+            "ok": False,
+            "skipped": True,
+            "reason": "nao_configurado",
+        }
+
+
+    # ---------------------------------------------
+    # RESERVA ATÔMICA
+    #
+    # Impede webhook e página de retorno
+    # de dispararem dois e-mails ao mesmo tempo.
+    # ---------------------------------------------
+
+    reservado = (
+        reservar_envio_email_acesso_ebook_kehai(
+            pedido[
+                "order_number"
+            ]
+        )
+    )
+
+
+    if not reservado:
+
+        print(
+            "[KEHAI EBOOK EMAIL] "
+            f"Envio ignorado: "
+            f"{pedido['order_number']} "
+            "já foi reservado/enviado."
+        )
+
+
+        return {
+            "ok": True,
+            "skipped": True,
+            "reason": "ja_reservado",
+        }
+
+
+    try:
+
+        access_url = (
+            url_acesso_ebook_kehai(
+                pedido
+            )
+        )
+
+
+        html_content = (
+            render_template(
+
+                "emails/"
+                "kehai_ebook_access.html",
+
+                pedido=
+                    pedido,
+
+                access_url=
+                    access_url,
+
+            )
+        )
+
+
+        subject = (
+            "Seu eBook KEHAI "
+            "está disponível"
+        )
+
+
+        payload = {
+
+            "sender": {
+
+                "name":
+                    KEHAI_EMAIL_FROM_NAME,
+
+                "email":
+                    KEHAI_EMAIL_FROM,
+
+            },
+
+
+            "to": [
+                {
+
+                    "name":
+                        pedido.get(
+                            "customer_name"
+                        )
+                        or "",
+
+                    "email":
+                        destinatario,
+
+                }
+            ],
+
+
+            "subject":
+                subject,
+
+
+            "htmlContent":
+                html_content,
+
+
+            "textContent":
+                texto_email_acesso_ebook_kehai(
+                    pedido,
+                    access_url,
+                ),
+
+
+            "tags": [
+                "kehai",
+                "kehai-ebook",
+                "kehai-ebook-access",
+            ],
+
+
+            "headers": {
+
+                "X-KEHAI-Order":
+                    str(
+                        pedido.get(
+                            "order_number"
+                        )
+                        or ""
+                    ),
+
+            },
+
+        }
+
+
+        if KEHAI_EMAIL_REPLY_TO:
+
+            payload["replyTo"] = {
+
+                "email":
+                    KEHAI_EMAIL_REPLY_TO,
+
+                "name":
+                    KEHAI_EMAIL_FROM_NAME,
+
+            }
+
+
+        response = requests.post(
+
+            KEHAI_EMAIL_BASE_URL,
+
+            headers={
+
+                "accept":
+                    "application/json",
+
+                "content-type":
+                    "application/json",
+
+                "api-key":
+                    BREVO_API_KEY,
+
+            },
+
+            json=
+                payload,
+
+            timeout=
+                20,
+
+        )
+
+
+        if not response.ok:
+
+            detalhe = (
+                response.text[:1200]
+            )
+
+
+            raise RuntimeError(
+
+                f"Brevo HTTP "
+                f"{response.status_code}: "
+                f"{detalhe}"
+
+            )
+
+
+        try:
+
+            body = (
+                response.json()
+            )
+
+        except ValueError:
+
+            body = {}
+
+
+        message_id = str(
+
+            body.get(
+                "messageId"
+            )
+
+            or
+
+            body.get(
+                "message_id"
+            )
+
+            or
+
+            ""
+
+        ).strip()
+
+
+        sent_at = agora_iso()
+
+
+        atualizar_pedido_ebook_kehai(
+
+            pedido[
+                "order_number"
+            ],
+
+            email_access_sent_at=
+                sent_at,
+
+            email_access_message_id=
+                message_id
+                or None,
+
+            email_last_error=
+                None,
+
+        )
+
+
+        print(
+
+            "[KEHAI EBOOK EMAIL] "
+            f"Enviado: "
+            f"{pedido['order_number']} "
+            f"destino={destinatario} "
+            f"message_id="
+            f"{message_id or '—'}"
+
+        )
+
+
+        return {
+
+            "ok":
+                True,
+
+            "skipped":
+                False,
+
+            "message_id":
+                message_id,
+
+            "sent_at":
+                sent_at,
+
+        }
+
+
+    except Exception as erro:
+
+        detalhe = str(
+            erro
+        )[:1600]
+
+
+        # Libera uma futura tentativa,
+        # porque o envio não foi concluído.
+        atualizar_pedido_ebook_kehai(
+
+            pedido[
+                "order_number"
+            ],
+
+            email_access_sent_at=
+                None,
+
+            email_access_message_id=
+                None,
+
+            email_last_error=
+                detalhe,
+
+        )
+
+
+        print(
+
+            "[KEHAI EBOOK EMAIL] "
+            f"Falha: "
+            f"{pedido['order_number']} "
+            f"{detalhe}"
+
+        )
+
+
+        return {
+
+            "ok":
+                False,
+
+            "skipped":
+                False,
+
+            "error":
+                detalhe,
+
+        }
+
+
+def tentar_email_acesso_ebook_kehai(
+    pedido
+):
+
+    try:
+
+        return (
+            enviar_email_acesso_ebook_kehai(
+                pedido
+            )
+        )
+
+
+    except Exception as erro:
+
+        print(
+
+            "[KEHAI EBOOK EMAIL] "
+            "Erro inesperado: "
+            f"{erro}"
+
+        )
+
+
+        return {
+
+            "ok":
+                False,
+
+            "error":
+                str(erro),
+
+        }
 
 def formatar_brl_centavos(cents):
     valor = Decimal(int(cents or 0)) / Decimal(100)
