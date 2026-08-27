@@ -6409,7 +6409,6 @@ def processar_pagamento_ebook_webhook(
 
 
     atualizar_pedido_ebook_kehai(
-
         pedido[
             "order_number"
         ],
@@ -6418,7 +6417,7 @@ def processar_pagamento_ebook_webhook(
             order_status,
 
         mp_payment_id=
-            str(payment_id),
+            payment_id,
 
         mp_payment_status=
             status,
@@ -6428,24 +6427,28 @@ def processar_pagamento_ebook_webhook(
 
     )
 
-        pedido_atualizado = (
-            buscar_pedido_ebook_kehai(
-                pedido[
-                    "order_number"
-                ]
-            )
+
+    pedido_atualizado = (
+        buscar_pedido_ebook_kehai(
+            pedido[
+                "order_number"
+            ]
         )
-    
-    
-        if (
-            order_status
-            ==
-            "paid"
-        ):
-    
-            tentar_email_acesso_ebook_kehai(
-                pedido_atualizado
-            )
+    )
+
+
+    if (
+        order_status
+        ==
+        "paid"
+    ):
+
+        tentar_email_acesso_ebook_kehai(
+            pedido_atualizado
+        )
+
+
+    return pedido_atualizado
     
     print(
 
