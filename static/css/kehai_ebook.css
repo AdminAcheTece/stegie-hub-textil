@@ -3048,3 +3048,25 @@ input.is-invalid {
   }
 
 }
+
+/* =====================================================
+   ACESSO AO EBOOK
+   ===================================================== */
+
+.kehai-ebook-status__access {
+
+  margin-top:
+    25px;
+
+}
+
+
+.kehai-ebook-status__access-note {
+
+  margin-top:
+    12px !important;
+
+  font-size:
+    12px !important;
+
+}
