@@ -73,7 +73,7 @@
 
 
         <h1>
-          Seu eBook KEHAI está quase pronto.
+          Seu eBook KEHAI está pronto.
         </h1>
 
 
@@ -83,9 +83,39 @@
 
 
         <p>
-          Na próxima etapa iremos liberar
-          automaticamente o acesso ao eBook
-          e enviá-lo ao endereço:
+
+          Seu pagamento foi confirmado
+          e o acesso ao eBook já está liberado.
+        
+        </p>
+        
+        
+        <a
+          href="{{ url_for('kehai_ebook_acesso', download_token=pedido.download_token) }}"
+          class="
+            kehai-ebook-btn
+            kehai-ebook-btn--primary
+            kehai-ebook-btn--large
+            kehai-ebook-status__access
+          "
+        >
+          Acessar meu eBook
+        </a>
+        
+        
+        <p class="kehai-ebook-status__access-note">
+        
+          O link real do arquivo é temporário
+          e protegido.
+        
+        </p>
+        
+        
+        <p>
+        
+          Na próxima etapa este mesmo acesso
+          também será enviado automaticamente para:
+        
         </p>
 
 
