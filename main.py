@@ -6968,16 +6968,12 @@ def sincronizar_pagamento_ebook_kehai(
 
     if (
         expected_order_number
-
         and
-
         str(
             external_reference
             or ""
         )
-
         !=
-
         str(
             expected_order_number
         )
@@ -7046,7 +7042,7 @@ def sincronizar_pagamento_ebook_kehai(
 
 
     # ---------------------------------------------
-    # STATUS
+    # PAGAMENTO APROVADO
     # ---------------------------------------------
 
     if status == "approved":
@@ -7066,6 +7062,10 @@ def sincronizar_pagamento_ebook_kehai(
             )
 
 
+    # ---------------------------------------------
+    # PAGAMENTO PENDENTE
+    # ---------------------------------------------
+
     elif status in {
         "pending",
         "in_process",
@@ -7083,6 +7083,10 @@ def sincronizar_pagamento_ebook_kehai(
             )
 
 
+    # ---------------------------------------------
+    # PAGAMENTO NÃO CONCLUÍDO
+    # ---------------------------------------------
+
     elif status in {
         "rejected",
         "cancelled",
@@ -7099,6 +7103,10 @@ def sincronizar_pagamento_ebook_kehai(
             )
 
 
+    # ---------------------------------------------
+    # ESTORNO / CHARGEBACK
+    # ---------------------------------------------
+
     elif status in {
         "refunded",
         "charged_back",
@@ -7106,6 +7114,10 @@ def sincronizar_pagamento_ebook_kehai(
 
         order_status = status
 
+
+    # ---------------------------------------------
+    # DATA DE CONFIRMAÇÃO
+    # ---------------------------------------------
 
     payment_confirmed_at = (
         pedido.get(
@@ -7139,48 +7151,60 @@ def sincronizar_pagamento_ebook_kehai(
         )
 
 
-        atualizar_pedido_ebook_kehai(
+    # ---------------------------------------------
+    # ATUALIZAR PEDIDO
+    # ---------------------------------------------
 
+    atualizar_pedido_ebook_kehai(
+
+        pedido[
+            "order_number"
+        ],
+
+        status=
+            order_status,
+
+        mp_payment_id=
+            payment_id,
+
+        mp_payment_status=
+            status,
+
+        payment_confirmed_at=
+            payment_confirmed_at,
+
+    )
+
+
+    # ---------------------------------------------
+    # BUSCAR PEDIDO JÁ ATUALIZADO
+    # ---------------------------------------------
+
+    pedido_atualizado = (
+        buscar_pedido_ebook_kehai(
             pedido[
                 "order_number"
-            ],
-    
-            status=
-                order_status,
-    
-            mp_payment_id=
-                payment_id,
-    
-            mp_payment_status=
-                status,
-    
-            payment_confirmed_at=
-                payment_confirmed_at,
-    
+            ]
         )
-    
-    
-        pedido_atualizado = (
-            buscar_pedido_ebook_kehai(
-                pedido[
-                    "order_number"
-                ]
-            )
+    )
+
+
+    # ---------------------------------------------
+    # ENVIAR ACESSO DO EBOOK
+    # ---------------------------------------------
+
+    if (
+        order_status
+        ==
+        "paid"
+    ):
+
+        tentar_email_acesso_ebook_kehai(
+            pedido_atualizado
         )
-    
-    
-        if (
-            order_status
-            ==
-            "paid"
-        ):
-    
-            tentar_email_acesso_ebook_kehai(
-                pedido_atualizado
-            )
-    
-    
-        return pedido_atualizado
+
+
+    return pedido_atualizado
 
 
 # =====================================================
