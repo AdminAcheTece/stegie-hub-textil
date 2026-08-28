@@ -173,6 +173,26 @@ def get_mercadopago_sdk():
     return mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
 
 # -----------------------------
+# KEHAI - Controle de venda física
+# -----------------------------
+
+KEHAI_PHYSICAL_SALES_ENABLED = (
+    os.environ.get(
+        "KEHAI_PHYSICAL_SALES_ENABLED",
+        "false"
+    )
+    .strip()
+    .lower()
+    in {
+        "1",
+        "true",
+        "yes",
+        "on",
+        "sim",
+    }
+)
+
+# -----------------------------
 # Melhor Envio - Sandbox
 # -----------------------------
 
@@ -3652,6 +3672,16 @@ def kehai_ebook_checkout():
 
 @app.route("/api/kehai/checkout", methods=["POST"])
 def kehai_checkout():
+    
+    if not KEHAI_PHYSICAL_SALES_ENABLED:
+
+        return jsonify({
+            "success": False,
+            "error":
+                "A edição física do KEHAI "
+                "ainda não está disponível para compra."
+        }), 503
+        
     try:
         dados = request.get_json(silent=True) or {}
         order_number = str(dados.get("order_number") or "").strip()
