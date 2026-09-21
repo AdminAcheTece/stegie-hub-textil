@@ -654,278 +654,149 @@ KEHAI_R2_URL_EXPIRES_SECONDS = 600
 KEHAI_EBOOK_DOWNLOAD_LIMIT = 10
 
 def get_kehai_r2_config():
+    """
+    Configuração base do Cloudflare R2 para a edição digital KEHAI.
 
+    Compatibilidade:
+    - R2_EBOOK_OBJECT_KEY continua aceito como chave antiga do PDF.
+    - R2_EBOOK_PDF_OBJECT_KEY passa a ser a variável preferencial do PDF.
+    - R2_EBOOK_EPUB_OBJECT_KEY identifica o EPUB oficial.
+    """
     config = {
-
-        "access_key_id":
-            os.environ.get(
-                "R2_ACCESS_KEY_ID",
-                ""
-            ).strip(),
-
-        "secret_access_key":
-            os.environ.get(
-                "R2_SECRET_ACCESS_KEY",
-                ""
-            ).strip(),
-
-        "endpoint_url":
-            os.environ.get(
-                "R2_ENDPOINT_URL",
-                ""
-            ).strip(),
-
-        "bucket_name":
-            os.environ.get(
-                "R2_BUCKET_NAME",
-                ""
-            ).strip(),
-
-        "object_key":
-            os.environ.get(
-                "R2_EBOOK_OBJECT_KEY",
-                ""
-            ).strip(),
-
+        "access_key_id": os.environ.get("R2_ACCESS_KEY_ID", "").strip(),
+        "secret_access_key": os.environ.get("R2_SECRET_ACCESS_KEY", "").strip(),
+        "endpoint_url": os.environ.get("R2_ENDPOINT_URL", "").strip(),
+        "bucket_name": os.environ.get("R2_BUCKET_NAME", "").strip(),
+        "pdf_object_key": (
+            os.environ.get("R2_EBOOK_PDF_OBJECT_KEY", "").strip()
+            or os.environ.get("R2_EBOOK_OBJECT_KEY", "").strip()
+        ),
+        "epub_object_key": os.environ.get("R2_EBOOK_EPUB_OBJECT_KEY", "").strip(),
     }
 
-
-    missing = [
-
-        key
-
-        for key, value
-        in config.items()
-
-        if not value
-
-    ]
-
-
-    if missing:
-
-        raise RuntimeError(
-
-            "Configuração R2 incompleta. "
-            "Variáveis ausentes: "
-            + ", ".join(missing)
-
+    required = {
+        key: config[key]
+        for key in (
+            "access_key_id",
+            "secret_access_key",
+            "endpoint_url",
+            "bucket_name",
+            "pdf_object_key",
         )
+    }
 
+    missing = [key for key, value in required.items() if not value]
+    if missing:
+        raise RuntimeError(
+            "Configuração R2 incompleta. Variáveis ausentes: "
+            + ", ".join(missing)
+        )
 
     return config
 
+
 def get_kehai_r2_client():
+    config = get_kehai_r2_config()
 
-    config = (
-        get_kehai_r2_config()
+    return boto3.client(
+        service_name="s3",
+        endpoint_url=config["endpoint_url"].rstrip("/"),
+        aws_access_key_id=config["access_key_id"],
+        aws_secret_access_key=config["secret_access_key"],
+        region_name="auto",
     )
 
 
-    endpoint_url = (
-        config[
-            "endpoint_url"
-        ]
-        .rstrip("/")
-    )
+def _kehai_r2_object_key(formato):
+    formato = str(formato or "").strip().lower()
+    config = get_kehai_r2_config()
 
+    if formato == "pdf":
+        return config["pdf_object_key"]
 
-    client = boto3.client(
+    if formato == "epub":
+        object_key = config.get("epub_object_key") or ""
+        if not object_key:
+            raise RuntimeError(
+                "R2_EBOOK_EPUB_OBJECT_KEY ainda não está configurado no servidor."
+            )
+        return object_key
 
-        service_name=
-            "s3",
+    raise ValueError("Formato digital inválido. Use PDF ou EPUB.")
 
-        endpoint_url=
-            endpoint_url,
-
-        aws_access_key_id=
-            config[
-                "access_key_id"
-            ],
-
-        aws_secret_access_key=
-            config[
-                "secret_access_key"
-            ],
-
-        region_name=
-            "auto",
-
-    )
-
-
-    return client
 
 def diagnosticar_kehai_r2():
+    config = get_kehai_r2_config()
+    client = get_kehai_r2_client()
+    bucket_name = config["bucket_name"]
 
-    config = (
-        get_kehai_r2_config()
-    )
+    resultados = {}
 
+    for formato in ("pdf", "epub"):
+        try:
+            object_key = _kehai_r2_object_key(formato)
+            resposta = client.head_object(
+                Bucket=bucket_name,
+                Key=object_key,
+            )
 
-    client = (
-        get_kehai_r2_client()
-    )
+            tamanho_bytes = int(resposta.get("ContentLength", 0) or 0)
+            tamanho_mb = tamanho_bytes / 1024 / 1024
+            content_type = resposta.get("ContentType") or "não informado"
 
+            resultados[formato] = {
+                "ok": True,
+                "object_key": object_key,
+                "size_bytes": tamanho_bytes,
+                "size_mb": round(tamanho_mb, 2),
+                "content_type": content_type,
+            }
 
-    bucket_name = (
-        config[
-            "bucket_name"
-        ]
-    )
+            print(
+                f"[KEHAI R2] {formato.upper()} encontrado: SIM | "
+                f"objeto={object_key} | tamanho={tamanho_mb:.2f} MB | "
+                f"content-type={content_type}"
+            )
 
-
-    object_key = (
-        config[
-            "object_key"
-        ]
-    )
-
-
-    resposta = (
-        client.head_object(
-
-            Bucket=
-                bucket_name,
-
-            Key=
-                object_key,
-
-        )
-    )
-
-
-    tamanho_bytes = int(
-        resposta.get(
-            "ContentLength",
-            0
-        )
-        or 0
-    )
-
-
-    tamanho_mb = (
-        tamanho_bytes
-        /
-        1024
-        /
-        1024
-    )
-
-
-    content_type = (
-        resposta.get(
-            "ContentType"
-        )
-        or
-        "não informado"
-    )
-
-
-    print(
-        "[KEHAI R2] "
-        "Conectado: SIM"
-    )
-
-
-    print(
-        "[KEHAI R2] "
-        "Arquivo encontrado: SIM"
-    )
-
-
-    print(
-        "[KEHAI R2] "
-        f"Bucket: {bucket_name}"
-    )
-
-
-    print(
-        "[KEHAI R2] "
-        f"Objeto: {object_key}"
-    )
-
-
-    print(
-        "[KEHAI R2] "
-        f"Tamanho: "
-        f"{tamanho_mb:.2f} MB "
-        f"({tamanho_bytes} bytes)"
-    )
-
-
-    print(
-        "[KEHAI R2] "
-        f"Content-Type: "
-        f"{content_type}"
-    )
-
+        except Exception as erro:
+            resultados[formato] = {
+                "ok": False,
+                "error": str(erro),
+            }
+            print(
+                f"[KEHAI R2] {formato.upper()} encontrado: NÃO | "
+                f"erro={type(erro).__name__}: {erro}"
+            )
 
     return {
-
-        "ok":
-            True,
-
-        "bucket":
-            bucket_name,
-
-        "object_key":
-            object_key,
-
-        "size_bytes":
-            tamanho_bytes,
-
-        "size_mb":
-            round(
-                tamanho_mb,
-                2
-            ),
-
-        "content_type":
-            content_type,
-
+        "ok": bool(resultados.get("pdf", {}).get("ok")),
+        "bucket": bucket_name,
+        "formats": resultados,
     }
 
-def gerar_url_temporaria_ebook_kehai():
 
-    config = (
-        get_kehai_r2_config()
+def gerar_url_temporaria_ebook_kehai(formato):
+    config = get_kehai_r2_config()
+    client = get_kehai_r2_client()
+    object_key = _kehai_r2_object_key(formato)
+
+    return client.generate_presigned_url(
+        ClientMethod="get_object",
+        Params={
+            "Bucket": config["bucket_name"],
+            "Key": object_key,
+        },
+        ExpiresIn=KEHAI_R2_URL_EXPIRES_SECONDS,
     )
 
 
-    client = (
-        get_kehai_r2_client()
-    )
-
-
-    url = (
-        client.generate_presigned_url(
-
-            ClientMethod=
-                "get_object",
-
-            Params={
-
-                "Bucket":
-                    config[
-                        "bucket_name"
-                    ],
-
-                "Key":
-                    config[
-                        "object_key"
-                    ],
-
-            },
-
-            ExpiresIn=
-                KEHAI_R2_URL_EXPIRES_SECONDS,
-
-        )
-    )
-
-
-    return url
+def formatos_digitais_kehai_disponiveis():
+    """Retorna os formatos configurados sem consultar o conteúdo do arquivo."""
+    config = get_kehai_r2_config()
+    return {
+        "pdf": bool(config.get("pdf_object_key")),
+        "epub": bool(config.get("epub_object_key")),
+    }
 
 # -----------------------------
 # KEHAI - Produto digital
@@ -933,7 +804,7 @@ def gerar_url_temporaria_ebook_kehai():
 
 KEHAI_EBOOK_PRODUCT = {
     "code": "KEHAI-EBOOK",
-    "title": "KEHAI - eBook",
+    "title": "KEHAI — Edição Digital",
     "quantity": 1,
     "unit_price_cents": 2990,
 }    
@@ -2720,166 +2591,125 @@ def kehai_ebook_compra_erro():
 @app.route(
     "/kehai/ebook/acesso/<download_token>"
 )
-def kehai_ebook_acesso(
-    download_token
-):
+def kehai_ebook_acesso(download_token):
+    """
+    Biblioteca digital do comprador.
 
-    pedido = (
-        buscar_pedido_ebook_por_token(
-            download_token
-        )
-    )
-
-
-    # ---------------------------------------------
-    # TOKEN NÃO EXISTE
-    # ---------------------------------------------
+    O link enviado por e-mail permanece estável e protegido pelo token.
+    A URL temporária do R2 só é criada quando o comprador escolhe PDF ou EPUB.
+    """
+    pedido = buscar_pedido_ebook_por_token(download_token)
 
     if not pedido:
-
         return render_template(
-
             "kehai_ebook_acesso_status.html",
-
-            access_status=
-                "invalid",
-
-            pedido=
-                None,
-
+            access_status="invalid",
+            pedido=None,
         ), 404
 
-
-    # ---------------------------------------------
-    # PEDIDO NÃO ESTÁ PAGO
-    # ---------------------------------------------
-
-    if (
-        pedido["status"]
-        !=
-        "paid"
-    ):
-
+    if pedido["status"] != "paid":
         return render_template(
-
             "kehai_ebook_acesso_status.html",
-
-            access_status=
-                "not_paid",
-
-            pedido=
-                pedido,
-
+            access_status="not_paid",
+            pedido=pedido,
         ), 403
 
+    download_count = int(pedido.get("download_count") or 0)
 
-    # ---------------------------------------------
-    # LIMITE DE DOWNLOADS
-    # ---------------------------------------------
+    if download_count >= KEHAI_EBOOK_DOWNLOAD_LIMIT:
+        return render_template(
+            "kehai_ebook_acesso_status.html",
+            access_status="limit",
+            pedido=pedido,
+        ), 429
 
-    download_count = int(
-        pedido.get(
-            "download_count"
+    try:
+        formatos = formatos_digitais_kehai_disponiveis()
+    except Exception as erro:
+        print(
+            "[KEHAI EBOOK ACESSO] "
+            f"Erro de configuração: {type(erro).__name__}: {erro}"
         )
-        or 0
+        return render_template(
+            "kehai_ebook_acesso_status.html",
+            access_status="error",
+            pedido=pedido,
+        ), 500
+
+    return render_template(
+        "kehai_ebook_acesso.html",
+        pedido=pedido,
+        download_token=download_token,
+        formatos=formatos,
+        downloads_restantes=max(
+            0,
+            KEHAI_EBOOK_DOWNLOAD_LIMIT - download_count,
+        ),
     )
 
 
-    if (
-        download_count
-        >=
-        KEHAI_EBOOK_DOWNLOAD_LIMIT
-    ):
+@app.route(
+    "/kehai/ebook/acesso/<download_token>/<formato>"
+)
+def kehai_ebook_download(download_token, formato):
+    formato = str(formato or "").strip().lower()
 
-        print(
-            "[KEHAI EBOOK DOWNLOAD] "
-            f"Limite atingido: "
-            f"{pedido['order_number']}"
-        )
+    if formato not in {"pdf", "epub"}:
+        abort(404)
 
+    pedido = buscar_pedido_ebook_por_token(download_token)
 
+    if not pedido:
+        abort(404)
+
+    if pedido["status"] != "paid":
         return render_template(
-
             "kehai_ebook_acesso_status.html",
+            access_status="not_paid",
+            pedido=pedido,
+        ), 403
 
-            access_status=
-                "limit",
+    download_count = int(pedido.get("download_count") or 0)
 
-            pedido=
-                pedido,
-
+    if download_count >= KEHAI_EBOOK_DOWNLOAD_LIMIT:
+        return render_template(
+            "kehai_ebook_acesso_status.html",
+            access_status="limit",
+            pedido=pedido,
         ), 429
 
-
-    # ---------------------------------------------
-    # GERAR URL TEMPORÁRIA
-    # ---------------------------------------------
-
     try:
-
-        download_url = (
-            gerar_url_temporaria_ebook_kehai()
-        )
-
-
-        novo_download_count = (
-            download_count
-            +
-            1
-        )
-
+        download_url = gerar_url_temporaria_ebook_kehai(formato)
+        novo_download_count = download_count + 1
 
         atualizar_pedido_ebook_kehai(
-
-            pedido[
-                "order_number"
-            ],
-
-            download_count=
-                novo_download_count,
-
-            download_last_at=
-                agora_iso(),
-
+            pedido["order_number"],
+            download_count=novo_download_count,
+            download_last_at=agora_iso(),
         )
-
 
         print(
             "[KEHAI EBOOK DOWNLOAD] "
-            f"Acesso autorizado: "
-            f"{pedido['order_number']} "
-            f"download="
-            f"{novo_download_count}/"
-            f"{KEHAI_EBOOK_DOWNLOAD_LIMIT}"
+            f"Acesso autorizado: {pedido['order_number']} "
+            f"formato={formato} "
+            f"download={novo_download_count}/{KEHAI_EBOOK_DOWNLOAD_LIMIT}"
         )
 
-
-        return redirect(
-            download_url
-        )
-
+        return redirect(download_url)
 
     except Exception as erro:
-
         print(
             "[KEHAI EBOOK DOWNLOAD] "
-            f"Erro ao gerar URL: "
-            f"{type(erro).__name__}: "
-            f"{erro}"
+            f"Erro ao gerar URL {formato}: "
+            f"{type(erro).__name__}: {erro}"
         )
 
-
         return render_template(
-
             "kehai_ebook_acesso_status.html",
-
-            access_status=
-                "error",
-
-            pedido=
-                pedido,
-
+            access_status="error",
+            pedido=pedido,
         ), 500
+
 
 # =====================================================
 # KEHAI - MELHOR ENVIO - FUNÇÕES DE FRETE
@@ -3529,6 +3359,12 @@ def kehai_ebook_checkout():
 
             "auto_return":
                 "approved",
+
+
+            # Nome curto exibido na fatura do cartão, quando suportado
+            # pela bandeira. O Mercado Pago aceita até 13 caracteres.
+            "statement_descriptor":
+                "KEHAI",
 
 
             "external_reference":
@@ -4370,16 +4206,14 @@ def texto_email_acesso_ebook_kehai(
 
     return (
         f"Olá, {nome}.\n\n"
-        "Seu pagamento foi confirmado e "
-        "seu eBook KEHAI já está disponível.\n\n"
-        "Acesse seu eBook pelo link abaixo:\n\n"
+        "Seu pagamento foi confirmado e sua edição digital KEHAI já está pronta.\n\n"
+        "Sua compra inclui as versões PDF Premium e EPUB.\n\n"
+        "Acesse sua biblioteca digital pelo link abaixo:\n\n"
         f"{access_url}\n\n"
         f"Pedido: {order_number}\n\n"
-        "Este é um link pessoal de acesso. "
-        "Evite compartilhá-lo.\n\n"
+        "Este é um link pessoal de acesso. Evite compartilhá-lo.\n\n"
         "Boa leitura.\n\n"
-        "KEHAI — A liderança que reconhece "
-        "valor antes que ele se perca."
+        "KEHAI — A liderança que reconhece valor antes que ele se perca."
     )
 
 
@@ -4564,10 +4398,7 @@ def enviar_email_acesso_ebook_kehai(
         )
 
 
-        subject = (
-            "Seu eBook KEHAI "
-            "está disponível"
-        )
+        subject = "Seu KEHAI está pronto — PDF + EPUB"
 
 
         payload = {
