@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 
 <head>
-
   <meta charset="UTF-8">
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   >
 
   <title>
-    Compra do eBook KEHAI
+    KEHAI — Status da compra
   </title>
-
 
   <link
     rel="preconnect"
@@ -32,64 +28,48 @@
     rel="stylesheet"
   >
 
-
   <link
     rel="stylesheet"
-    href="{{ url_for('static', filename='css/kehai_ebook.css') }}?v=2"
+    href="{{ url_for('static', filename='css/kehai_ebook.css') }}?v={{ config.get('ASSET_VERSION','1') }}"
   >
-
 </head>
-
 
 <body class="kehai-ebook-status-page">
 
-
   <main class="kehai-ebook-status">
 
-
     <div class="kehai-ebook-status__card">
-
 
       <a
         href="/kehai"
         class="kehai-ebook-status__logo"
+        aria-label="KEHAI"
       >
-
         <img
           src="{{ url_for('static', filename='img/kehai/logo-kehai-dark.png') }}"
           alt="KEHAI"
         >
-
       </a>
 
-
-
       {% if pedido and pedido.status == 'paid' %}
-
 
         <span class="kehai-ebook-status__eyebrow">
           PAGAMENTO CONFIRMADO
         </span>
 
-
         <h1>
-          Seu eBook KEHAI está pronto.
+          Seu KEHAI está pronto.
         </h1>
-
 
         <p>
           O Mercado Pago confirmou seu pagamento.
         </p>
 
-
         <p>
-
-          Seu pagamento foi confirmado
-          e o acesso ao eBook já está liberado.
-        
+          Sua edição digital já está liberada e inclui
+          <strong>PDF Premium + EPUB</strong>.
         </p>
-        
-        
+
         <a
           href="{{ url_for('kehai_ebook_acesso', download_token=pedido.download_token) }}"
           class="
@@ -99,77 +79,56 @@
             kehai-ebook-status__access
           "
         >
-          Acessar meu eBook
+          Acessar minha edição digital
         </a>
-        
-        
+
         <p class="kehai-ebook-status__access-note">
-        
-          O link real do arquivo é temporário
-          e protegido.
-        
-        </p>
-        
-        
-        <p>
-        
-          Enviamos este mesmo acesso
-          para o endereço:
-        
+          Este é o seu acesso pessoal à biblioteca KEHAI.
+          Os links dos arquivos são gerados de forma temporária
+          e protegida quando você escolhe PDF ou EPUB.
         </p>
 
+        <p>
+          Também enviamos este acesso para o endereço:
+        </p>
 
         <strong class="kehai-ebook-status__email">
-
           {{ pedido.customer_email }}
-
         </strong>
 
-
-
       {% elif pedido and pedido.status == 'payment_pending' %}
-
 
         <span class="kehai-ebook-status__eyebrow">
           PAGAMENTO EM PROCESSAMENTO
         </span>
 
-
         <h1>
           Estamos aguardando a confirmação.
         </h1>
-
 
         <p>
           Seu pagamento ainda está sendo processado
           pelo Mercado Pago.
         </p>
 
-
         <p>
           Assim que a aprovação for confirmada,
-          o pedido será atualizado automaticamente.
+          sua edição digital KEHAI será liberada automaticamente.
         </p>
 
-
-
       {% elif pedido and pedido.status == 'payment_failed' %}
-
 
         <span class="kehai-ebook-status__eyebrow">
           PAGAMENTO NÃO CONCLUÍDO
         </span>
 
-
         <h1>
           A compra não foi concluída.
         </h1>
 
-
         <p>
           O Mercado Pago não confirmou este pagamento.
         </p>
-
 
         <a
           href="/kehai/ebook#comprar"
@@ -182,34 +141,25 @@
           Tentar novamente
         </a>
 
-
-
       {% else %}
-
 
         <span class="kehai-ebook-status__eyebrow">
           PEDIDO KEHAI
         </span>
 
-
         <h1>
           Estamos verificando seu pagamento.
         </h1>
-
 
         <p>
           A confirmação pode levar alguns instantes.
         </p>
 
-
       {% endif %}
-
-
 
       {% if pedido %}
 
         <div class="kehai-ebook-status__order">
-
           <span>
             Pedido
           </span>
@@ -217,12 +167,9 @@
           <strong>
             {{ pedido.order_number }}
           </strong>
-
         </div>
 
       {% endif %}
-
-
 
       <a
         href="/kehai/ebook"
@@ -231,12 +178,9 @@
         Voltar ao KEHAI
       </a>
 
-
     </div>
 
   </main>
 
-
 </body>
-
 </html>
