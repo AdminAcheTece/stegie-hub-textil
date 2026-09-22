@@ -66,6 +66,24 @@
 <body>
 
 
+  {# =====================================================
+     CANAIS EXTERNOS KEHAI
+     Cada canal só é renderizado quando sua URL estiver
+     configurada no Flask. Se ausente, o botão não aparece.
+     ===================================================== #}
+
+  {% set kehai_amazon_url = config.get('KEHAI_AMAZON_URL') %}
+  {% set kehai_google_books_url = config.get('KEHAI_GOOGLE_BOOKS_URL') %}
+  {% set kehai_apple_books_url = config.get('KEHAI_APPLE_BOOKS_URL') %}
+  {% set kehai_kobo_url = config.get('KEHAI_KOBO_URL') %}
+  {% set kehai_has_external_channels =
+    kehai_amazon_url or
+    kehai_google_books_url or
+    kehai_apple_books_url or
+    kehai_kobo_url
+  %}
+
+
   <!-- =====================================================
        HEADER
        ===================================================== -->
@@ -934,7 +952,7 @@
 
             KEHAI — Edição Digital Direta
             <br>
-            <strong>Experiência oficial KEHAI</strong>
+            <strong>STEGIE · Experiência oficial KEHAI</strong>
 
           </p>
 
@@ -964,11 +982,6 @@
           </div>
 
 
-          <!--
-            Na ETAPA 3 este botão será conectado
-            ao checkout digital.
-          -->
-
           <button
             type="button"
             class="kehai-ebook-btn kehai-ebook-btn--ivory kehai-ebook-btn--large kehai-ebook-btn--full"
@@ -985,6 +998,66 @@
             Formatos digitais disponibilizados: PDF Premium + EPUB.
 
           </p>
+
+
+          {% if kehai_has_external_channels %}
+
+          <div
+            class="kehai-ebook-offer__channels"
+            aria-label="Outras formas de leitura do KEHAI"
+          >
+
+            <p class="kehai-ebook-offer__channels-title">
+              <strong>Prefere utilizar a livraria em que já costuma ler?</strong>
+            </p>
+
+            <div class="kehai-ebook-offer__channels-list">
+
+              {% if kehai_amazon_url %}
+              <a
+                href="{{ kehai_amazon_url }}"
+                class="kehai-ebook-offer__channel-link"
+                data-kehai-channel="amazon"
+              >
+                Ler no Kindle
+              </a>
+              {% endif %}
+
+              {% if kehai_google_books_url %}
+              <a
+                href="{{ kehai_google_books_url }}"
+                class="kehai-ebook-offer__channel-link"
+                data-kehai-channel="google_books"
+              >
+                Ler no Google Play
+              </a>
+              {% endif %}
+
+              {% if kehai_apple_books_url %}
+              <a
+                href="{{ kehai_apple_books_url }}"
+                class="kehai-ebook-offer__channel-link"
+                data-kehai-channel="apple_books"
+              >
+                Ler no Apple Books
+              </a>
+              {% endif %}
+
+              {% if kehai_kobo_url %}
+              <a
+                href="{{ kehai_kobo_url }}"
+                class="kehai-ebook-offer__channel-link"
+                data-kehai-channel="kobo"
+              >
+                Ler no Kobo
+              </a>
+              {% endif %}
+
+            </div>
+
+          </div>
+
+          {% endif %}
 
         </div>
 
