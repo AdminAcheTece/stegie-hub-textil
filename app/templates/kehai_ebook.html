@@ -16,18 +16,133 @@
   >
 
   <title>
-    KEHAI — Edição Digital em PDF + EPUB | Vandré Stein
+    KEHAI — A liderança que reconhece valor antes que ele se perca | Vandré Stein
   </title>
 
   <meta
     name="description"
-    content="Conheça a edição digital oficial do KEHAI, de Vandré Stein, com acesso em PDF Premium e EPUB. Uma filosofia de liderança para perceber, discernir, preservar e potencializar valor antes que ele se perca."
+    content="Conheça KEHAI, uma filosofia de liderança sobre percepção, discernimento, preservação e potencialização do valor. Edição digital de Vandré Stein."
+  >
+
+  <meta
+    name="author"
+    content="Vandré Stein"
+  >
+
+  <meta
+    name="robots"
+    content="index,follow,max-image-preview:large"
   >
 
   <link
     rel="canonical"
     href="https://www.stegie.com.br/kehai/ebook"
   >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="{{ url_for('static', filename='img/kehai/logo-kehai-dark.png') }}"
+  >
+
+
+  <!-- =====================================================
+       OPEN GRAPH / COMPARTILHAMENTO
+       ===================================================== -->
+
+  <meta
+    property="og:locale"
+    content="pt_BR"
+  >
+
+  <meta
+    property="og:type"
+    content="website"
+  >
+
+  <meta
+    property="og:site_name"
+    content="KEHAI"
+  >
+
+  <meta
+    property="og:title"
+    content="KEHAI — A liderança que reconhece valor antes que ele se perca"
+  >
+
+  <meta
+    property="og:description"
+    content="O valor não se perde de repente. Primeiro, deixa de ser percebido. Conheça o livro KEHAI, de Vandré Stein."
+  >
+
+  <meta
+    property="og:url"
+    content="https://www.stegie.com.br/kehai/ebook"
+  >
+
+  <meta
+    property="og:image"
+    content="{{ url_for('static', filename='img/kehai/mockup-kehai.png', _external=True) }}"
+  >
+
+  <meta
+    property="og:image:alt"
+    content="Capa do livro KEHAI, de Vandré Stein"
+  >
+
+
+  <!-- =====================================================
+       TWITTER / X CARD
+       ===================================================== -->
+
+  <meta
+    name="twitter:card"
+    content="summary_large_image"
+  >
+
+  <meta
+    name="twitter:title"
+    content="KEHAI — A liderança que reconhece valor antes que ele se perca"
+  >
+
+  <meta
+    name="twitter:description"
+    content="O valor não se perde de repente. Primeiro, deixa de ser percebido. Conheça o livro KEHAI, de Vandré Stein."
+  >
+
+  <meta
+    name="twitter:image"
+    content="{{ url_for('static', filename='img/kehai/mockup-kehai.png', _external=True) }}"
+  >
+
+
+  <!-- =====================================================
+       DADOS ESTRUTURADOS — LIVRO / OFERTA
+       ===================================================== -->
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "KEHAI — A liderança que reconhece valor antes que ele se perca",
+    "author": {
+      "@type": "Person",
+      "name": "Vandré Stein"
+    },
+    "url": "https://www.stegie.com.br/kehai/ebook",
+    "image": "{{ url_for('static', filename='img/kehai/mockup-kehai.png', _external=True) }}",
+    "inLanguage": "pt-BR",
+    "bookFormat": "https://schema.org/EBook",
+    "description": "Uma filosofia de liderança sobre percepção, discernimento, preservação e potencialização do valor.",
+    "offers": {
+      "@type": "Offer",
+      "price": "29.90",
+      "priceCurrency": "BRL",
+      "availability": "https://schema.org/InStock",
+      "url": "https://www.stegie.com.br/kehai/ebook"
+    }
+  }
+  </script>
 
 
   <!-- =====================================================
