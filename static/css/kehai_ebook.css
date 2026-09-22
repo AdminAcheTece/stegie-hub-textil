@@ -1263,6 +1263,17 @@ span:last-child {
 }
 
 
+/* Quatro benefícios da seção "Depois da leitura": 4 colunas no desktop.
+   O bloco "Por dentro" continua com 3 colunas. */
+.kehai-ebook-section--paper
+.kehai-ebook-benefits {
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+}
+
+
 .kehai-ebook-benefits article {
 
   padding:
@@ -1668,6 +1679,115 @@ span:last-child {
 
 
 /* =====================================================
+   CANAIS EXTERNOS — OFERTA MULTICANAL
+   ===================================================== */
+
+.kehai-ebook-offer__channels {
+
+  margin-top:
+    34px;
+
+  padding-top:
+    30px;
+
+  border-top:
+    1px solid rgba(245, 242, 232, .15);
+
+}
+
+
+.kehai-ebook-offer__channels-title {
+
+  margin:
+    0 0 16px;
+
+  color:
+    rgba(245, 242, 232, .78);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    17px;
+
+  line-height:
+    1.45;
+
+}
+
+
+.kehai-ebook-offer__channels-list {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap:
+    10px;
+
+}
+
+
+.kehai-ebook-offer__channel-link {
+
+  display:
+    inline-flex;
+
+  min-height:
+    48px;
+
+  padding:
+    10px 16px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    1px solid rgba(245, 242, 232, .24);
+
+  border-radius:
+    3px;
+
+  color:
+    var(--kehai-ivory);
+
+  font-size:
+    13px;
+
+  font-weight:
+    700;
+
+  text-align:
+    center;
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .18s ease;
+
+}
+
+
+.kehai-ebook-offer__channel-link:hover {
+
+  transform:
+    translateY(-1px);
+
+  background:
+    rgba(245, 242, 232, .07);
+
+  border-color:
+    rgba(245, 242, 232, .42);
+
+}
+
+
+/* =====================================================
    FAQ
    ===================================================== */
 
@@ -2013,6 +2133,15 @@ span:last-child {
 
   }
 
+
+  .kehai-ebook-section--paper
+  .kehai-ebook-benefits {
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+  }
+
 }
 
 
@@ -2241,6 +2370,14 @@ span:last-child {
 
     border-bottom:
       1px solid rgba(245, 242, 232, .10);
+
+  }
+
+
+  .kehai-ebook-offer__channels-list {
+
+    grid-template-columns:
+      1fr;
 
   }
 
