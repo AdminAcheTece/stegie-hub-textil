@@ -63,7 +63,7 @@
 </head>
 
 
-<body>
+<body data-kehai-page-version="hub_v2">
 
 
   {# =====================================================
@@ -141,6 +141,8 @@
       <a
         href="#como-ler"
         class="kehai-ebook-btn kehai-ebook-btn--primary kehai-ebook-header__cta"
+        data-kehai-event="click_primary_cta"
+        data-kehai-placement="header"
       >
         Ler KEHAI
       </a>
@@ -192,6 +194,8 @@
       <a
         href="#como-ler"
         class="kehai-ebook-btn kehai-ebook-btn--primary"
+        data-kehai-event="click_primary_cta"
+        data-kehai-placement="header"
       >
         Ler KEHAI
       </a>
@@ -258,6 +262,8 @@
             <a
               href="#como-ler"
               class="kehai-ebook-btn kehai-ebook-btn--primary kehai-ebook-btn--large"
+              data-kehai-event="click_primary_cta"
+              data-kehai-placement="hero"
             >
               Quero ler KEHAI
             </a>
@@ -986,6 +992,9 @@
             type="button"
             class="kehai-ebook-btn kehai-ebook-btn--ivory kehai-ebook-btn--large kehai-ebook-btn--full"
             id="kehaiEbookBuyButton"
+            data-kehai-event="click_buy_stegie"
+            data-kehai-placement="offer"
+            data-kehai-channel="stegie"
           >
             Comprar edição digital — R$ 29,90
           </button>
@@ -1018,6 +1027,7 @@
                 href="{{ kehai_amazon_url }}"
                 class="kehai-ebook-offer__channel-link"
                 data-kehai-channel="amazon"
+                data-kehai-placement="offer"
               >
                 Ler no Kindle
               </a>
@@ -1028,6 +1038,7 @@
                 href="{{ kehai_google_books_url }}"
                 class="kehai-ebook-offer__channel-link"
                 data-kehai-channel="google_books"
+                data-kehai-placement="offer"
               >
                 Ler no Google Play
               </a>
@@ -1038,6 +1049,7 @@
                 href="{{ kehai_apple_books_url }}"
                 class="kehai-ebook-offer__channel-link"
                 data-kehai-channel="apple_books"
+                data-kehai-placement="offer"
               >
                 Ler no Apple Books
               </a>
@@ -1048,6 +1060,7 @@
                 href="{{ kehai_kobo_url }}"
                 class="kehai-ebook-offer__channel-link"
                 data-kehai-channel="kobo"
+                data-kehai-placement="offer"
               >
                 Ler no Kobo
               </a>
@@ -1257,6 +1270,8 @@
         <a
           href="#como-ler"
           class="kehai-ebook-btn kehai-ebook-btn--primary kehai-ebook-btn--large"
+          data-kehai-event="click_primary_cta"
+          data-kehai-placement="final"
         >
           Quero ler KEHAI
         </a>
@@ -1584,6 +1599,239 @@
     src="{{ url_for('static', filename='js/kehai_ebook.js') }}?v={{ config.get('ASSET_VERSION','1') }}"
     defer
   ></script>
+
+
+  <!-- =====================================================
+       INSTRUMENTAÇÃO COMERCIAL KEHAI V2
+       Camada independente da ferramenta de analytics.
+       Não envia dados pessoais e nunca bloqueia o checkout.
+       ===================================================== -->
+
+  <script>
+    (function () {
+      "use strict";
+
+      const PAGE_VERSION = "hub_v2";
+      const PRODUCT = "kehai_digital";
+      const PRICE = 29.90;
+      const CURRENCY = "BRL";
+      const ATTRIBUTION_KEY = "kehai_attribution_v1";
+      const ATTRIBUTION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+      const UTM_KEYS = [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content"
+      ];
+
+      function safeReferrer() {
+        if (!document.referrer) return "";
+
+        try {
+          const url = new URL(document.referrer);
+          return url.origin + url.pathname;
+        } catch (error) {
+          return "";
+        }
+      }
+
+      function readStoredAttribution() {
+        try {
+          const raw = window.localStorage.getItem(ATTRIBUTION_KEY);
+          if (!raw) return {};
+
+          const parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed !== "object") return {};
+
+          if (parsed.expires_at && Date.now() > parsed.expires_at) {
+            window.localStorage.removeItem(ATTRIBUTION_KEY);
+            return {};
+          }
+
+          return parsed;
+        } catch (error) {
+          return {};
+        }
+      }
+
+      function captureAttribution() {
+        const params = new URLSearchParams(window.location.search);
+        const incoming = {};
+        let hasIncomingUtm = false;
+
+        UTM_KEYS.forEach(function (key) {
+          const value = params.get(key);
+          if (value) {
+            incoming[key] = value.substring(0, 200);
+            hasIncomingUtm = true;
+          }
+        });
+
+        if (!hasIncomingUtm) {
+          return readStoredAttribution();
+        }
+
+        const attribution = Object.assign({}, incoming, {
+          landing_page: window.location.pathname,
+          referrer: safeReferrer(),
+          captured_at: new Date().toISOString(),
+          expires_at: Date.now() + ATTRIBUTION_TTL_MS
+        });
+
+        try {
+          window.localStorage.setItem(
+            ATTRIBUTION_KEY,
+            JSON.stringify(attribution)
+          );
+        } catch (error) {
+          // A compra deve continuar normalmente mesmo sem armazenamento.
+        }
+
+        return attribution;
+      }
+
+      const attribution = captureAttribution();
+
+      function buildPayload(name, extra) {
+        const payload = Object.assign(
+          {
+            event: name,
+            page_version: PAGE_VERSION,
+            product: PRODUCT,
+            page_path: window.location.pathname
+          },
+          attribution || {},
+          extra || {}
+        );
+
+        // Nunca transportar parâmetros inexistentes como undefined.
+        Object.keys(payload).forEach(function (key) {
+          if (payload[key] === undefined || payload[key] === null || payload[key] === "") {
+            delete payload[key];
+          }
+        });
+
+        return payload;
+      }
+
+      function track(name, extra) {
+        try {
+          const payload = buildPayload(name, extra);
+
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(payload);
+
+          window.dispatchEvent(
+            new CustomEvent("kehai:analytics", {
+              detail: payload
+            })
+          );
+        } catch (error) {
+          // Analytics nunca deve interferir na experiência de compra.
+        }
+      }
+
+      window.KEHAI_ANALYTICS = Object.freeze({
+        track: track,
+        getAttribution: function () {
+          return Object.assign({}, attribution || {});
+        },
+        pageVersion: PAGE_VERSION
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        track("view_hub");
+
+        document
+          .querySelectorAll('[data-kehai-event="click_primary_cta"]')
+          .forEach(function (element) {
+            element.addEventListener("click", function () {
+              track("click_primary_cta", {
+                placement: element.dataset.kehaiPlacement || "unknown"
+              });
+            });
+          });
+
+        const buyButton = document.getElementById("kehaiEbookBuyButton");
+        if (buyButton) {
+          buyButton.addEventListener("click", function () {
+            track("click_buy_stegie", {
+              placement: buyButton.dataset.kehaiPlacement || "offer",
+              channel: "stegie",
+              price: PRICE,
+              currency: CURRENCY
+            });
+          });
+        }
+
+        const channelEventMap = {
+          amazon: "click_amazon",
+          google_books: "click_google_books",
+          apple_books: "click_apple_books",
+          kobo: "click_kobo"
+        };
+
+        document
+          .querySelectorAll("[data-kehai-channel]")
+          .forEach(function (element) {
+            const channel = element.dataset.kehaiChannel;
+            const eventName = channelEventMap[channel];
+
+            if (!eventName || channel === "stegie") return;
+
+            element.addEventListener("click", function () {
+              track(eventName, {
+                placement: element.dataset.kehaiPlacement || "offer",
+                channel: channel
+              });
+            });
+          });
+
+        const offer = document.getElementById("como-ler");
+        if (offer && "IntersectionObserver" in window) {
+          let offerViewed = false;
+
+          const offerObserver = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (!offerViewed && entry.isIntersecting) {
+                  offerViewed = true;
+                  track("view_offer");
+                  offerObserver.disconnect();
+                }
+              });
+            },
+            { threshold: 0.35 }
+          );
+
+          offerObserver.observe(offer);
+        }
+
+        const checkoutForm = document.getElementById("kehaiEbookCheckoutForm");
+        if (checkoutForm) {
+          let checkoutStarted = false;
+
+          checkoutForm.addEventListener("submit", function () {
+            if (checkoutStarted) return;
+            checkoutStarted = true;
+
+            track("begin_checkout", {
+              channel: "stegie",
+              price: PRICE,
+              currency: CURRENCY
+            });
+          });
+        }
+      });
+
+      /*
+       * IMPORTANTE:
+       * O evento "purchase" NÃO é disparado nesta página.
+       * Ele deverá ser registrado somente quando o backend confirmar
+       * pagamento aprovado, preservando a fonte de verdade e a idempotência.
+       */
+    })();
+  </script>
 
 
 </body>
