@@ -1481,6 +1481,222 @@ span:last-child {
 }
 
 
+
+/* =====================================================
+   EXPERIÊNCIA DE LEITURA — GRID RESPONSIVO
+   Cada imagem permanece vinculada ao seu texto.
+   ===================================================== */
+
+.kehai-ebook-reading-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap:
+    28px;
+
+  align-items:
+    stretch;
+
+}
+
+
+.kehai-ebook-reading-item {
+
+  min-width:
+    0;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+}
+
+
+.kehai-ebook-reading-item__image {
+
+  padding:
+    13px;
+
+  background:
+    var(--kehai-white);
+
+  box-shadow:
+    0 20px 45px
+    rgba(13, 37, 34, .10);
+
+}
+
+
+.kehai-ebook-reading-item__image img {
+
+  width:
+    100%;
+
+  height:
+    auto;
+
+}
+
+
+.kehai-ebook-reading-item__body {
+
+  flex:
+    1;
+
+  padding:
+    36px 24px 10px;
+
+}
+
+
+.kehai-ebook-reading-item__body h3 {
+
+  margin:
+    0 0 18px;
+
+  color:
+    var(--kehai-green-deep);
+
+  font-family:
+    var(--font-serif);
+
+  font-size:
+    28px;
+
+  font-weight:
+    500;
+
+  line-height:
+    1.28;
+
+  overflow-wrap:
+    normal;
+
+  word-break:
+    normal;
+
+  -webkit-hyphens:
+    none;
+
+  hyphens:
+    none;
+
+}
+
+
+.kehai-ebook-reading-item__body p {
+
+  margin:
+    0;
+
+  color:
+    var(--kehai-muted);
+
+}
+
+
+/* Tablet: mantém boa leitura sem comprimir os textos. */
+@media (max-width: 1050px) {
+
+  .kehai-ebook-reading-grid {
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+  }
+
+}
+
+
+/* Mobile: imagem + texto ficam juntos, um conjunto por linha. */
+@media (max-width: 800px) {
+
+  .kehai-ebook-reading-grid {
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      42px;
+
+    max-width:
+      560px;
+
+    margin-inline:
+      auto;
+
+  }
+
+
+  .kehai-ebook-reading-item__body {
+
+    padding:
+      24px 4px 0;
+
+  }
+
+
+  .kehai-ebook-reading-item__body h3 {
+
+    margin-bottom:
+      12px;
+
+    font-size:
+      28px;
+
+    line-height:
+      1.2;
+
+  }
+
+
+  .kehai-ebook-reading-item__body p {
+
+    font-size:
+      16px;
+
+    line-height:
+      1.65;
+
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .kehai-ebook-reading-grid {
+
+    gap:
+      36px;
+
+  }
+
+
+  .kehai-ebook-reading-item__image {
+
+    padding:
+      10px;
+
+  }
+
+
+  .kehai-ebook-reading-item__body h3 {
+
+    font-size:
+      26px;
+
+  }
+
+}
+
+
 /* =====================================================
    AUTOR
    ===================================================== */
