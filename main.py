@@ -809,6 +809,13 @@ KEHAI_EBOOK_PRODUCT = {
     "unit_price_cents": 2990,
 }    
 
+# =====================================================
+# KEHAI EBOOK - ANALYTICS FINANCEIRO
+# =====================================================
+
+KEHAI_ANALYTICS_TIMEZONE = "America/Sao_Paulo"
+KEHAI_ANALYTICS_D0 = "2026-09-23"
+
 def agora_iso():
     return datetime.now(timezone.utc).isoformat()
 
@@ -1264,6 +1271,11 @@ def inicializar_banco_ebook_kehai():
                 mp_payment_status TEXT,
                 payment_confirmed_at TEXT,
 
+                analytics_excluded INTEGER NOT NULL
+                    DEFAULT 0,
+                analytics_exclusion_reason TEXT,
+                reversal_at TEXT,
+
                 download_token TEXT UNIQUE,
                 download_count INTEGER NOT NULL
                     DEFAULT 0,
@@ -1275,6 +1287,47 @@ def inicializar_banco_ebook_kehai():
                 email_last_error TEXT
 
             )
+            """
+        )
+
+
+        # Migração segura para bancos digitais criados
+        # antes da camada financeira de analytics.
+        existing_columns = {
+            row["name"]
+            for row in conn.execute(
+                "PRAGMA table_info(kehai_ebook_orders)"
+            ).fetchall()
+        }
+
+        migrations = {
+            "analytics_excluded": (
+                "ALTER TABLE kehai_ebook_orders "
+                "ADD COLUMN analytics_excluded INTEGER NOT NULL DEFAULT 0"
+            ),
+            "analytics_exclusion_reason": (
+                "ALTER TABLE kehai_ebook_orders "
+                "ADD COLUMN analytics_exclusion_reason TEXT"
+            ),
+            "reversal_at": (
+                "ALTER TABLE kehai_ebook_orders "
+                "ADD COLUMN reversal_at TEXT"
+            ),
+        }
+
+        for column_name, statement in migrations.items():
+            if column_name not in existing_columns:
+                conn.execute(statement)
+
+
+        # Para reversões já existentes no momento da migração,
+        # updated_at é usado apenas como aproximação histórica.
+        conn.execute(
+            """
+            UPDATE kehai_ebook_orders
+            SET reversal_at = updated_at
+            WHERE status IN ('refunded', 'charged_back')
+              AND (reversal_at IS NULL OR reversal_at = '')
             """
         )
 
@@ -1299,11 +1352,40 @@ def inicializar_banco_ebook_kehai():
         )
 
 
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS
+            idx_kehai_ebook_orders_payment_confirmed
+
+            ON kehai_ebook_orders(payment_confirmed_at)
+            """
+        )
+
+
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS
+            idx_kehai_ebook_orders_reversal
+
+            ON kehai_ebook_orders(reversal_at)
+            """
+        )
+
+
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS
+            idx_kehai_ebook_orders_analytics_excluded
+
+            ON kehai_ebook_orders(analytics_excluded)
+            """
+        )
+
+
     print(
         "[KEHAI EBOOK DB] "
         "Tabela de pedidos digitais pronta."
     )
-
 
 def criar_pedido_ebook_kehai(
     customer_name,
@@ -1537,6 +1619,10 @@ def atualizar_pedido_ebook_kehai(
 
         "payment_confirmed_at",
 
+        "analytics_excluded",
+        "analytics_exclusion_reason",
+        "reversal_at",
+
         "download_count",
         "download_last_at",
 
@@ -1589,6 +1675,282 @@ def atualizar_pedido_ebook_kehai(
 
             values,
         )
+
+
+# =====================================================
+# KEHAI EBOOK - CAMADA FINANCEIRA DE RELATÓRIO
+# =====================================================
+
+def _kehai_analytics_parse_date(value, *, default=None):
+    text = str(value or "").strip()
+    if not text:
+        return default
+
+    try:
+        return datetime.strptime(text, "%Y-%m-%d").date()
+    except ValueError as exc:
+        raise ValueError(
+            "Data inválida. Use o formato YYYY-MM-DD."
+        ) from exc
+
+
+def _kehai_analytics_local_date(value):
+    text = str(value or "").strip()
+    if not text:
+        return None
+
+    try:
+        dt = datetime.fromisoformat(
+            text.replace("Z", "+00:00")
+        )
+    except (ValueError, TypeError):
+        return None
+
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+
+    return dt.astimezone(
+        ZoneInfo(KEHAI_ANALYTICS_TIMEZONE)
+    ).date()
+
+
+def _kehai_analytics_in_period(day, start_date, end_date):
+    return bool(
+        day
+        and
+        start_date <= day <= end_date
+    )
+
+
+def obter_relatorio_financeiro_ebook_kehai(
+    data_inicio=None,
+    data_fim=None,
+):
+    tz = ZoneInfo(KEHAI_ANALYTICS_TIMEZONE)
+    hoje_local = datetime.now(tz).date()
+    d0 = datetime.strptime(
+        KEHAI_ANALYTICS_D0,
+        "%Y-%m-%d",
+    ).date()
+
+    start_date = _kehai_analytics_parse_date(
+        data_inicio,
+        default=d0,
+    )
+    end_date = _kehai_analytics_parse_date(
+        data_fim,
+        default=hoje_local,
+    )
+
+    # Esta saída representa o baseline comercial oficial KEHAI.
+    if start_date < d0:
+        start_date = d0
+
+    if end_date < start_date:
+        raise ValueError(
+            "A data final não pode ser anterior à data inicial."
+        )
+
+    pending_statuses = {
+        "awaiting_payment",
+        "checkout_created",
+        "payment_pending",
+    }
+    failed_statuses = {
+        "payment_failed",
+        "checkout_error",
+    }
+    reversal_statuses = {
+        "refunded",
+        "charged_back",
+    }
+
+    with get_kehai_db() as conn:
+        rows = conn.execute(
+            """
+            SELECT
+                order_number,
+                created_at,
+                updated_at,
+                status,
+                product_code,
+                quantity,
+                unit_price_cents,
+                subtotal_cents,
+                total_cents,
+                mp_payment_status,
+                payment_confirmed_at,
+                analytics_excluded,
+                analytics_exclusion_reason,
+                reversal_at
+            FROM kehai_ebook_orders
+            WHERE COALESCE(analytics_excluded, 0) = 0
+            ORDER BY id ASC
+            """
+        ).fetchall()
+
+    summary = {
+        "orders_created": 0,
+        "gross_approved_orders": 0,
+        "orders_paid": 0,
+        "units_sold": 0,
+        "revenue_paid_cents": 0,
+        "gross_approved_cents": 0,
+        "refunded_orders": 0,
+        "refunded_cents": 0,
+        "chargeback_orders": 0,
+        "chargeback_cents": 0,
+        "net_commercial_revenue_cents": 0,
+        "pending_orders": 0,
+        "payment_failed_orders": 0,
+        "financial_exceptions": 0,
+    }
+
+    status_counts = {
+        "awaiting_payment": 0,
+        "checkout_created": 0,
+        "payment_pending": 0,
+        "paid": 0,
+        "payment_failed": 0,
+        "checkout_error": 0,
+        "refunded": 0,
+        "charged_back": 0,
+        "payment_amount_mismatch": 0,
+    }
+
+    daily_map = {}
+    cursor = start_date
+    while cursor <= end_date:
+        daily_map[cursor.isoformat()] = {
+            "date": cursor.isoformat(),
+            "orders_created": 0,
+            "gross_approved_orders": 0,
+            "orders_paid": 0,
+            "units_sold": 0,
+            "revenue_paid_cents": 0,
+            "gross_approved_cents": 0,
+            "refunded_orders": 0,
+            "refunded_cents": 0,
+            "chargeback_orders": 0,
+            "chargeback_cents": 0,
+            "net_commercial_revenue_cents": 0,
+        }
+        cursor += timedelta(days=1)
+
+    for raw_row in rows:
+        row = dict(raw_row)
+        status = str(row.get("status") or "").strip()
+        quantity = int(row.get("quantity") or 0)
+        total_cents = int(row.get("total_cents") or 0)
+
+        created_day = _kehai_analytics_local_date(
+            row.get("created_at")
+        )
+        payment_day = _kehai_analytics_local_date(
+            row.get("payment_confirmed_at")
+        )
+        reversal_day = _kehai_analytics_local_date(
+            row.get("reversal_at")
+            or row.get("updated_at")
+        )
+
+        if _kehai_analytics_in_period(
+            created_day,
+            start_date,
+            end_date,
+        ):
+            summary["orders_created"] += 1
+            daily_map[created_day.isoformat()][
+                "orders_created"
+            ] += 1
+
+            status_counts.setdefault(status, 0)
+            status_counts[status] += 1
+
+            if status in pending_statuses:
+                summary["pending_orders"] += 1
+
+            if status in failed_statuses:
+                summary["payment_failed_orders"] += 1
+
+            if status == "payment_amount_mismatch":
+                summary["financial_exceptions"] += 1
+
+        if _kehai_analytics_in_period(
+            payment_day,
+            start_date,
+            end_date,
+        ):
+            summary["gross_approved_orders"] += 1
+            summary["gross_approved_cents"] += total_cents
+
+            daily_item = daily_map[payment_day.isoformat()]
+            daily_item["gross_approved_orders"] += 1
+            daily_item["gross_approved_cents"] += total_cents
+
+            if status == "paid":
+                summary["orders_paid"] += 1
+                summary["units_sold"] += quantity
+                summary["revenue_paid_cents"] += total_cents
+
+                daily_item["orders_paid"] += 1
+                daily_item["units_sold"] += quantity
+                daily_item["revenue_paid_cents"] += total_cents
+
+        if (
+            status in reversal_statuses
+            and
+            _kehai_analytics_in_period(
+                reversal_day,
+                start_date,
+                end_date,
+            )
+        ):
+            daily_item = daily_map[reversal_day.isoformat()]
+
+            if status == "refunded":
+                summary["refunded_orders"] += 1
+                summary["refunded_cents"] += total_cents
+                daily_item["refunded_orders"] += 1
+                daily_item["refunded_cents"] += total_cents
+
+            elif status == "charged_back":
+                summary["chargeback_orders"] += 1
+                summary["chargeback_cents"] += total_cents
+                daily_item["chargeback_orders"] += 1
+                daily_item["chargeback_cents"] += total_cents
+
+    summary["net_commercial_revenue_cents"] = (
+        summary["gross_approved_cents"]
+        - summary["refunded_cents"]
+        - summary["chargeback_cents"]
+    )
+
+    for daily_item in daily_map.values():
+        daily_item["net_commercial_revenue_cents"] = (
+            daily_item["gross_approved_cents"]
+            - daily_item["refunded_cents"]
+            - daily_item["chargeback_cents"]
+        )
+
+    return {
+        "schema_version": "finance_v1",
+        "source": "kehai_ebook_orders",
+        "currency": "BRL",
+        "generated_at": agora_iso(),
+        "baseline": {
+            "d0": KEHAI_ANALYTICS_D0,
+            "timezone": KEHAI_ANALYTICS_TIMEZONE,
+        },
+        "period": {
+            "from": start_date.isoformat(),
+            "to": end_date.isoformat(),
+            "timezone": KEHAI_ANALYTICS_TIMEZONE,
+        },
+        "summary": summary,
+        "status_counts": status_counts,
+        "daily": list(daily_map.values()),
+    }
 
 
 # Cria a estrutura automaticamente quando o app sobe no Render/Gunicorn.
@@ -5692,6 +6054,38 @@ def kehai_admin_orders():
     )
 
 
+@app.route("/kehai/admin/analytics/financeiro.json")
+@kehai_admin_required
+def kehai_admin_financeiro_json():
+    data_inicio = str(
+        request.args.get("from")
+        or ""
+    ).strip()
+
+    data_fim = str(
+        request.args.get("to")
+        or ""
+    ).strip()
+
+    try:
+        payload = obter_relatorio_financeiro_ebook_kehai(
+            data_inicio=data_inicio or None,
+            data_fim=data_fim or None,
+        )
+    except ValueError as erro:
+        return jsonify({
+            "success": False,
+            "error": str(erro),
+        }), 400
+
+    response = jsonify(payload)
+    response.headers["Cache-Control"] = (
+        "no-store, no-cache, must-revalidate, max-age=0"
+    )
+    response.headers["Pragma"] = "no-cache"
+    return response
+
+
 @app.route("/kehai/admin/pedidos/<order_number>")
 @kehai_admin_required
 def kehai_admin_order_detail(order_number):
@@ -6269,6 +6663,19 @@ def processar_pagamento_ebook_webhook(
         )
 
 
+    reversal_at = pedido.get("reversal_at")
+
+    if (
+        order_status in {"refunded", "charged_back"}
+        and
+        not reversal_at
+    ):
+        reversal_at = (
+            pagamento.get("date_last_updated")
+            or agora_iso()
+        )
+
+
     atualizar_pedido_ebook_kehai(
         pedido[
             "order_number"
@@ -6285,6 +6692,9 @@ def processar_pagamento_ebook_webhook(
 
         payment_confirmed_at=
             payment_confirmed_at,
+
+        reversal_at=
+            reversal_at,
 
     )
 
@@ -7015,6 +7425,19 @@ def sincronizar_pagamento_ebook_kehai(
         )
 
 
+    reversal_at = pedido.get("reversal_at")
+
+    if (
+        order_status in {"refunded", "charged_back"}
+        and
+        not reversal_at
+    ):
+        reversal_at = (
+            pagamento.get("date_last_updated")
+            or agora_iso()
+        )
+
+
     # ---------------------------------------------
     # ATUALIZAR PEDIDO
     # ---------------------------------------------
@@ -7036,6 +7459,9 @@ def sincronizar_pagamento_ebook_kehai(
 
         payment_confirmed_at=
             payment_confirmed_at,
+
+        reversal_at=
+            reversal_at,
 
     )
 
